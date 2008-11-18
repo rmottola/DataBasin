@@ -29,14 +29,14 @@
 
 - (void)login :(NSString *)userName :(NSString *)password
 {
-  GWSSOAPCoder *coder;
+  GWSSOAPCoder          *coder;
   NSUserDefaults        *defs;
   NSMutableArray        *orderArray;
   NSMutableDictionary   *parmsDict;
-  NSMutableArray        *norder;
-  NSMutableDictionary   *nparams;
   NSURL                 *url;
-  NSDictionary   *resultDict;
+  NSDictionary          *resultDict;
+  NSEnumerator          *enumerator;
+  NSString              *key;
 
 
   defs = [NSUserDefaults standardUserDefaults];
@@ -70,6 +70,13 @@
 		timeout : 30];
 
   NSLog(@"dict is %d big", [resultDict count]);
+  
+  enumerator = [resultDict keyEnumerator];
+  while (key = [enumerator nextObject])
+  {
+    NSLog(@"%@ - %@", key, [resultDict objectForKey:key]); 
+  }
+  
   [coder release];
 }
 

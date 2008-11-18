@@ -1,0 +1,22 @@
+{
+    "## Comment" = "Do NOT change this file, Gorm maintains it";
+    AppController = {
+	Actions = (
+	    "showPrefPanel:",
+	    "doLogin:"
+	);
+	Outlets = (
+	    fieldUserName,
+	    fieldPassword
+	);
+	Super = NSObject;
+    };
+    FirstResponder = {
+	Actions = (
+	    "doLogin:",
+	    "orderFrontFontPanel:",
+	    "showPrefPanel:"
+	);
+	Super = NSObject;
+    };
+}

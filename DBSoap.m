@@ -3,7 +3,7 @@
 
    Copyright (C) 2008 Free Software Foundation
 
-   Author: Riccardo Mottola,,,
+   Author: Riccardo Mottola
 
    Created: 2008-11-13 22:44:45 +0100 by multix
 
@@ -24,6 +24,8 @@
 
 #import "DBSoap.h"
 
+#import <AppKit/AppKit.h>
+
 
 @implementation DBSoap
 
@@ -33,6 +35,7 @@
   NSUserDefaults        *defs;
   NSMutableArray        *orderArray;
   NSMutableDictionary   *parmsDict;
+  NSMutableDictionary   *loginParmDict;
   NSURL                 *url;
   NSDictionary          *resultDict;
   NSEnumerator          *enumerator;
@@ -46,28 +49,42 @@
       nil]
     ];
     
-    NSLog(@"init service");
-    service = [[GWSService alloc] init];
-    
-    NSLog(@"init coder");
-    coder = [GWSSOAPCoder new];
+  NSLog(@"init service");
 
+  /* initialize the coder */
+  coder = [GWSSOAPCoder new];
+  
+  /* salesforce WSDL specifies it to be literal */
+  [coder setUseLiteral:YES];
 
+  /* init our service */
+  service = [[GWSService alloc] init];
+  
   [service setCoder:coder];
   
-  parmsDict = [NSMutableDictionary dictionaryWithCapacity: 2];
-  [parmsDict setObject: userName forKey: @"username"];
-  [parmsDict setObject: password forKey: @"password"];
+  /* set the SOAP action to an empty string, salesforce likes that more */
+  [service setSOAPAction:@"\"\""];
 
-  orderArray = [NSMutableArray arrayWithCapacity: 1];
-  [orderArray addObject: @"login"];
-  
-  url = [NSURL URLWithString:@"https://www.salesforce.com/services/Soap/c/14.0"];
+  url = [NSURL URLWithString:@"http://www.salesforce.com/services/Soap/c/14.0"];
   [service setURL:url];
+  
+  [service setDebug:YES];
+  
+  
+  /* prepare the parameters */
+  loginParmDict = [NSMutableDictionary dictionaryWithCapacity: 2];
+  [loginParmDict setObject: userName forKey: @"username"];
+  [loginParmDict setObject: password forKey: @"password"];
+
+  parmsDict = [NSMutableDictionary dictionaryWithCapacity: 1];
+  [parmsDict setObject: loginParmDict forKey: @"login"];
+
+  
+  /* invoke the login */  
   resultDict = [service invokeMethod: @"login"
                 parameters : parmsDict
 		order : nil
-		timeout : 30];
+		timeout : 60];
 
   NSLog(@"dict is %d big", [resultDict count]);
   
@@ -77,7 +94,17 @@
     NSLog(@"%@ - %@", key, [resultDict objectForKey:key]); 
   }
   
+
+  NSLog(@"request: %@", [[NSString alloc] initWithData:
+    	[resultDict objectForKey:@"GWSCoderRequestData"] encoding: NSUTF8StringEncoding]);
+  
   [coder release];
+}
+
+- (void)dealloc
+{
+    NSLog(@"dealloc service");
+    [service release];
 }
 
 @end

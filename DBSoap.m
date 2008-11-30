@@ -109,8 +109,9 @@
 
 - (void)dealloc
 {
-    NSLog(@"dealloc service");
-    [service release];
+  NSLog(@"dealloc service");
+  [service release];
+  [super dealloc];
 }
 
 @end

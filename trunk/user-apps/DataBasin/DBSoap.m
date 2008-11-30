@@ -72,7 +72,8 @@
   
   
   /* prepare the parameters */
-  loginParmDict = [NSMutableDictionary dictionaryWithCapacity: 2];
+  loginParmDict = [NSMutableDictionary dictionaryWithCapacity: 3];
+  [loginParmDict setObject: @"urn:partner.soap.sforce.com" forKey: GWSSOAPNamespaceURIKey];
   [loginParmDict setObject: userName forKey: @"username"];
   [loginParmDict setObject: password forKey: @"password"];
 

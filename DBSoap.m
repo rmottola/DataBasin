@@ -65,7 +65,7 @@
   /* set the SOAP action to an empty string, salesforce likes that more */
   [service setSOAPAction:@"\"\""];
 
-  url = [NSURL URLWithString:@"http://www.salesforce.com/services/Soap/c/14.0"];
+  url = [NSURL URLWithString:@"http://www.salesforce.com/services/Soap/u/8.0"];
   [service setURL:url];
   
   [service setDebug:YES];
@@ -77,6 +77,11 @@
   [loginParmDict setObject: userName forKey: @"username"];
   [loginParmDict setObject: password forKey: @"password"];
 
+  orderArray = [NSMutableArray arrayWithCapacity: 2];
+  [orderArray addObject: @"username"];
+  [orderArray addObject: @"password"];
+  [loginParmDict setObject: orderArray forKey: GWSOrderKey];
+  
   parmsDict = [NSMutableDictionary dictionaryWithCapacity: 1];
   [parmsDict setObject: loginParmDict forKey: @"login"];
 

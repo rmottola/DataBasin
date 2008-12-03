@@ -40,6 +40,8 @@
   NSDictionary          *resultDict;
   NSEnumerator          *enumerator;
   NSString              *key;
+  NSDictionary          *loginResult;
+  NSDictionary          *loginResult2;
 
 
   defs = [NSUserDefaults standardUserDefaults];
@@ -95,7 +97,7 @@
   NSLog(@"dict is %d big", [resultDict count]);
   
   enumerator = [resultDict keyEnumerator];
-  while (key = [enumerator nextObject])
+  while ((key = [enumerator nextObject]))
   {
     NSLog(@"%@ - %@", key, [resultDict objectForKey:key]); 
   }
@@ -104,7 +106,103 @@
   NSLog(@"request: %@", [[NSString alloc] initWithData:
     	[resultDict objectForKey:@"GWSCoderRequestData"] encoding: NSUTF8StringEncoding]);
   
+  loginResult = [resultDict objectForKey:@"GWSCoderParameters"];
+  NSLog(@"coder parameters is %@", loginResult);
+  
+  enumerator = [loginResult keyEnumerator];
+  while ((key = [enumerator nextObject]))
+  {
+    NSLog(@"%@ - %@", key, [loginResult objectForKey:key]); 
+  }
+  
+  
+  NSLog(@"loginResult is %d big", [loginResult count]);
+  sessionId = [loginResult objectForKey:@"sessionId"];
+  
+  loginResult2 = [loginResult objectForKey:@"result"];
+  NSLog(@"result in login dict is %@", loginResult2);
+  
+  enumerator = [loginResult2 keyEnumerator];
+  while ((key = [enumerator nextObject]))
+  {
+    NSLog(@"%@ - %@", key, [loginResult2 objectForKey:key]); 
+  }
+  
+  
+  NSLog(@"loginResult2 is %d big", [loginResult2 count]);
+  sessionId = [loginResult2 objectForKey:@"sessionId"];
+  serverUrl = [loginResult2 objectForKey:@"serverUrl"];
+  
   [coder release];
+  
+  NSLog(@"sessionId: %@", sessionId);
+  NSLog(@"serverUrl: %@", serverUrl);
+  
+  [service setURL:serverUrl];
+}
+
+- (void)query :(NSString *)queryString
+{
+  NSMutableArray        *orderArray;
+  NSMutableDictionary   *headerDict;
+  NSMutableDictionary   *sessionHeaderDict;
+  NSMutableDictionary   *bodyDict;
+  NSMutableDictionary   *parmsDict;
+  NSMutableDictionary   *queryParmDict;
+  NSDictionary          *resultDict;
+  NSEnumerator          *enumerator;
+  NSString              *key;
+  NSDictionary          *loginResult;
+  NSDictionary          *loginResult2;
+
+  /* prepare the header */
+  sessionHeaderDict = [NSMutableDictionary dictionaryWithCapacity: 2];
+  [sessionHeaderDict setObject: @"SessionHeader" forKey: GWSSOAPNamespaceURIKey];
+  [sessionHeaderDict setObject: sessionId forKey: @"SessionId"];
+  
+  headerDict = [NSMutableDictionary dictionaryWithCapacity: 1];
+  [headerDict setObject: sessionHeaderDict forKey: @"Header"];
+  
+  /* prepare the parameters */
+  queryParmDict = [NSMutableDictionary dictionaryWithCapacity: 1];
+  [queryParmDict setObject: @"urn:partner.soap.sforce.com" forKey: GWSSOAPNamespaceURIKey];
+  [queryParmDict setObject: queryString forKey: @"queryString"];
+  
+  bodyDict = [NSMutableDictionary dictionaryWithCapacity: 1];
+  [bodyDict setObject: queryParmDict forKey: @"Body"];
+
+
+  
+  parmsDict = [NSMutableDictionary dictionaryWithCapacity: 1];
+  [parmsDict setObject: headerDict forKey: @"Header"];
+  [parmsDict setObject: bodyDict forKey: @"Body"];
+
+  orderArray = [NSMutableArray arrayWithCapacity: 2];
+  [orderArray addObject: @"Header"];
+  [orderArray addObject: @"Body"];
+  [parmsDict setObject: orderArray forKey: GWSOrderKey];
+  
+  /* invoke the login */  
+  resultDict = [service invokeMethod: @"query"
+                parameters : parmsDict
+		order : nil
+		timeout : 90];
+
+  NSLog(@"dict is %d big", [resultDict count]);
+  
+  enumerator = [resultDict keyEnumerator];
+  while ((key = [enumerator nextObject]))
+  {
+    NSLog(@"%@ - %@", key, [resultDict objectForKey:key]); 
+  }
+  
+
+  NSLog(@"request: %@", [[NSString alloc] initWithData:
+    	[resultDict objectForKey:@"GWSCoderRequestData"] encoding: NSUTF8StringEncoding]);
+  
+  loginResult = [resultDict objectForKey:@"GWSCoderParameters"];
+  NSLog(@"coder parameters is %@", loginResult);
+
 }
 
 - (void)dealloc

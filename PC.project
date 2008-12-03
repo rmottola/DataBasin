@@ -24,7 +24,7 @@
 	DataBasin.gorm
     );
     LANGUAGE = English;
-    LAST_EDITING = "2008-11-28 19:08:26 +0100";
+    LAST_EDITING = "2008-12-03 01:43:04 +0100";
     LIBRARIES = (
 	"gnustep-base",
 	"gnustep-gui",
@@ -42,7 +42,7 @@
 	main.m
     );
     PC_WINDOWS = {
-	ProjectBrowser = "{x = 0; y = 0; width = 544; height = 169.76}";
+	ProjectBrowser = "{x = 0; y = 0; width = 661; height = 169.76}";
 	ProjectWindow = "120 107 679 635 0 0  1024 768 ";
 	ShowToolbar = YES;
     };

@@ -29,9 +29,14 @@
 @interface DBSoap : NSObject
 {
     GWSService *service;
+    
+    /* salesforce.com session variables */
+    NSString  *sessionId;
+    NSString  *serverUrl;
 }
 
 - (void)login :(NSString *)userName :(NSString *)password;
+- (void)query :(NSString *)queryString;
 
 @end
 

@@ -131,7 +131,7 @@
   
   NSLog(@"loginResult2 is %d big", [loginResult2 count]);
   sessionId = [loginResult2 objectForKey:@"sessionId"];
-  serverUrl = [loginResult2 objectForKey:@"serverUrl"];
+  serverUrl = [[loginResult2 objectForKey:@"serverUrl"] stringByReplacingString:@"https:" withString:@"http:"];
   
   [coder release];
   
@@ -157,11 +157,11 @@
 
   /* prepare the header */
   sessionHeaderDict = [NSMutableDictionary dictionaryWithCapacity: 2];
-  [sessionHeaderDict setObject: @"SessionHeader" forKey: GWSSOAPNamespaceURIKey];
+//  [sessionHeaderDict setObject: @"SessionHeader" forKey: GWSSOAPNamespaceURIKey];
   [sessionHeaderDict setObject: sessionId forKey: @"SessionId"];
   
   headerDict = [NSMutableDictionary dictionaryWithCapacity: 1];
-  [headerDict setObject: sessionHeaderDict forKey: @"Header"];
+  [headerDict setObject: sessionHeaderDict forKey: @"SessionHeader"];
   
   /* prepare the parameters */
   queryParmDict = [NSMutableDictionary dictionaryWithCapacity: 1];
@@ -169,7 +169,7 @@
   [queryParmDict setObject: queryString forKey: @"queryString"];
   
   bodyDict = [NSMutableDictionary dictionaryWithCapacity: 1];
-  [bodyDict setObject: queryParmDict forKey: @"Body"];
+  [bodyDict setObject: queryParmDict forKey: @"query"];
 
 
   

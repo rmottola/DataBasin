@@ -78,6 +78,7 @@
 
 - (BOOL)application:(NSApplication *)application openFile:(NSString *)fileName
 {
+  return NO;
 }
 
 - (void)showPrefPanel:(id)sender
@@ -95,6 +96,7 @@
   
   db =[[DBSoap alloc] init];
   [db login :userName :password];
+  [db query :@"select FirstName, LastName from Contact"];
 }
 
 @end

@@ -135,52 +135,40 @@
   
   [coder release];
   
-  NSLog(@"sessionId: %@", sessionId);
-  NSLog(@"serverUrl: %@", serverUrl);
+  if (sessionId != nil)
+  {
+    NSLog(@"sessionId: %@", sessionId);
+    NSLog(@"serverUrl: %@", serverUrl);
+  }
   
   [service setURL:serverUrl];
 }
 
 - (void)query :(NSString *)queryString
 {
-  NSMutableArray        *orderArray;
-  NSMutableDictionary   *headerDict;
   NSMutableDictionary   *sessionHeaderDict;
-  NSMutableDictionary   *bodyDict;
   NSMutableDictionary   *parmsDict;
   NSMutableDictionary   *queryParmDict;
   NSDictionary          *resultDict;
   NSEnumerator          *enumerator;
   NSString              *key;
   NSDictionary          *loginResult;
-  NSDictionary          *loginResult2;
 
   /* prepare the header */
   sessionHeaderDict = [NSMutableDictionary dictionaryWithCapacity: 2];
-//  [sessionHeaderDict setObject: @"SessionHeader" forKey: GWSSOAPNamespaceURIKey];
+  [sessionHeaderDict setObject: @"SessionHeader" forKey: GWSSOAPHeaderUseKey];
   [sessionHeaderDict setObject: sessionId forKey: @"SessionId"];
-  
-  headerDict = [NSMutableDictionary dictionaryWithCapacity: 1];
-  [headerDict setObject: sessionHeaderDict forKey: @"SessionHeader"];
   
   /* prepare the parameters */
   queryParmDict = [NSMutableDictionary dictionaryWithCapacity: 1];
   [queryParmDict setObject: @"urn:partner.soap.sforce.com" forKey: GWSSOAPNamespaceURIKey];
   [queryParmDict setObject: queryString forKey: @"queryString"];
   
-  bodyDict = [NSMutableDictionary dictionaryWithCapacity: 1];
-  [bodyDict setObject: queryParmDict forKey: @"query"];
-
-
   
   parmsDict = [NSMutableDictionary dictionaryWithCapacity: 1];
-  [parmsDict setObject: headerDict forKey: @"Header"];
-  [parmsDict setObject: bodyDict forKey: @"Body"];
+  [parmsDict setObject: queryParmDict forKey: @"query"];
+  [parmsDict setObject: sessionHeaderDict forKey: @"SessionHeader"];
 
-  orderArray = [NSMutableArray arrayWithCapacity: 2];
-  [orderArray addObject: @"Header"];
-  [orderArray addObject: @"Body"];
-  [parmsDict setObject: orderArray forKey: GWSOrderKey];
   
   /* invoke the login */  
   resultDict = [service invokeMethod: @"query"

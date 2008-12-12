@@ -131,7 +131,9 @@
   
   NSLog(@"loginResult2 is %d big", [loginResult2 count]);
   sessionId = [loginResult2 objectForKey:@"sessionId"];
-  serverUrl = [[loginResult2 objectForKey:@"serverUrl"] stringByReplacingString:@"https:" withString:@"http:"];
+  serverUrl = [loginResult2 objectForKey:@"serverUrl"];
+ // [serverUrl autorelease];
+ //serverUrl = [serverUrl stringByReplacingString:@"https:" withString:@"http:"];
   
   [coder release];
   
@@ -146,6 +148,7 @@
 
 - (void)query :(NSString *)queryString
 {
+  NSMutableDictionary   *headerDict;
   NSMutableDictionary   *sessionHeaderDict;
   NSMutableDictionary   *parmsDict;
   NSMutableDictionary   *queryParmDict;
@@ -156,18 +159,22 @@
 
   /* prepare the header */
   sessionHeaderDict = [NSMutableDictionary dictionaryWithCapacity: 2];
-  [sessionHeaderDict setObject: @"SessionHeader" forKey: GWSSOAPHeaderUseKey];
   [sessionHeaderDict setObject: sessionId forKey: @"SessionId"];
+  [sessionHeaderDict setObject: @"urn:partner.soap.sforce.com" forKey: GWSSOAPNamespaceURIKey];
+
+  headerDict = [NSMutableDictionary dictionaryWithCapacity: 2];
+  [headerDict setObject: sessionHeaderDict forKey: @"SessionHeader"];
+  [headerDict setObject: GWSSOAPUseLiteral forKey: GWSSOAPUseKey];
   
   /* prepare the parameters */
-  queryParmDict = [NSMutableDictionary dictionaryWithCapacity: 1];
+  queryParmDict = [NSMutableDictionary dictionaryWithCapacity: 2];
   [queryParmDict setObject: @"urn:partner.soap.sforce.com" forKey: GWSSOAPNamespaceURIKey];
   [queryParmDict setObject: queryString forKey: @"queryString"];
   
   
   parmsDict = [NSMutableDictionary dictionaryWithCapacity: 1];
   [parmsDict setObject: queryParmDict forKey: @"query"];
-  [parmsDict setObject: sessionHeaderDict forKey: @"SessionHeader"];
+  [parmsDict setObject: headerDict forKey:GWSSOAPMessageHeadersKey];
 
   
   /* invoke the login */  

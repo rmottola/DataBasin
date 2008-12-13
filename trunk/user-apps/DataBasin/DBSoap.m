@@ -155,7 +155,8 @@
   NSDictionary          *resultDict;
   NSEnumerator          *enumerator;
   NSString              *key;
-  NSDictionary          *loginResult;
+  NSDictionary          *queryResult;
+  NSDictionary          *result;
 
   /* prepare the header */
   sessionHeaderDict = [NSMutableDictionary dictionaryWithCapacity: 2];
@@ -195,8 +196,11 @@
   NSLog(@"request: %@", [[NSString alloc] initWithData:
     	[resultDict objectForKey:@"GWSCoderRequestData"] encoding: NSUTF8StringEncoding]);
   
-  loginResult = [resultDict objectForKey:@"GWSCoderParameters"];
-  NSLog(@"coder parameters is %@", loginResult);
+  queryResult = [resultDict objectForKey:@"GWSCoderParameters"];
+  NSLog(@"coder parameters is %@", queryResult);
+  
+  result = [queryResult objectForKey:@"result"];
+  NSLog(@"result: %@", result); 
 
 }
 

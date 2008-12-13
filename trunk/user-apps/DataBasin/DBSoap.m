@@ -159,7 +159,7 @@
 
   /* prepare the header */
   sessionHeaderDict = [NSMutableDictionary dictionaryWithCapacity: 2];
-  [sessionHeaderDict setObject: sessionId forKey: @"SessionId"];
+  [sessionHeaderDict setObject: sessionId forKey: @"sessionId"];
   [sessionHeaderDict setObject: @"urn:partner.soap.sforce.com" forKey: GWSSOAPNamespaceURIKey];
 
   headerDict = [NSMutableDictionary dictionaryWithCapacity: 2];

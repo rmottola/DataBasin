@@ -117,8 +117,7 @@
   
   
   NSLog(@"loginResult is %d big", [loginResult count]);
-  sessionId = [loginResult objectForKey:@"sessionId"];
-  
+
   loginResult2 = [loginResult objectForKey:@"result"];
   NSLog(@"result in login dict is %@", loginResult2);
   
@@ -156,7 +155,13 @@
   NSEnumerator          *enumerator;
   NSString              *key;
   NSDictionary          *queryResult;
-  NSDictionary          *result;
+  NSArray               *result;
+  NSString              *doneStr;
+  BOOL                  done;
+  NSString              *querylocator;
+  NSDictionary          *record;
+  NSString              *sizeStr;
+  int                   size;
 
   /* prepare the header */
   sessionHeaderDict = [NSMutableDictionary dictionaryWithCapacity: 2];
@@ -200,8 +205,41 @@
   NSLog(@"coder parameters is %@", queryResult);
   
   result = [queryResult objectForKey:@"result"];
-  NSLog(@"result: %@", result); 
+  NSLog(@"result: %@", result);
+  
+  doneStr = [result objectAtIndex:0];
+  querylocator = [result objectAtIndex:1];
+  
+  sizeStr = [result lastObject];
+  
+  NSLog(@"done - %@ : %@", [doneStr className], doneStr);
+  NSLog(@"querylocator - %@ : %@", [querylocator className], querylocator);
+//  NSLog(@"records - %@ : %@", [records className], records);
+  NSLog(@"size - %@ : %@", [sizeStr className], sizeStr);
+  
+  if (doneStr != nil)
+    {
+      done = NO;
+      if ([doneStr isEqualToString:@"done"])
+        done = YES;
+    }
+  else
+    {
+      NSLog(@"error, doneStr is nil: unexpected");
+      return;
+    }
 
+  if (sizeStr != nil)
+    {
+      int i;
+      
+      size = [sizeStr intValue];
+      for (i = 2; i < size+2; i++)
+        {
+	  record = [result objectAtIndex:i];
+	  NSLog(@"%d: %@", i-1, record);
+	} 
+    }
 }
 
 - (void)dealloc

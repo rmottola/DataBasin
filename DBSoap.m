@@ -131,8 +131,8 @@
   NSLog(@"loginResult2 is %d big", [loginResult2 count]);
   sessionId = [loginResult2 objectForKey:@"sessionId"];
   serverUrl = [loginResult2 objectForKey:@"serverUrl"];
- // [serverUrl autorelease];
- //serverUrl = [serverUrl stringByReplacingString:@"https:" withString:@"http:"];
+  [serverUrl autorelease];
+  serverUrl = [serverUrl stringByReplacingString:@"https:" withString:@"http:"];
   
   [coder release];
   
@@ -155,10 +155,11 @@
   NSEnumerator          *enumerator;
   NSString              *key;
   NSDictionary          *queryResult;
-  NSArray               *result;
+  NSDictionary          *result;
   NSString              *doneStr;
   BOOL                  done;
   NSString              *querylocator;
+  NSArray               *records;
   NSDictionary          *record;
   NSString              *sizeStr;
   int                   size;
@@ -183,7 +184,7 @@
   [parmsDict setObject: headerDict forKey:GWSSOAPMessageHeadersKey];
 
   
-  /* invoke the login */  
+  /* make the query */  
   resultDict = [service invokeMethod: @"query"
                 parameters : parmsDict
 		order : nil
@@ -197,25 +198,15 @@
     NSLog(@"%@ - %@", key, [resultDict objectForKey:key]); 
   }
   
-
-  NSLog(@"request: %@", [[NSString alloc] initWithData:
-    	[resultDict objectForKey:@"GWSCoderRequestData"] encoding: NSUTF8StringEncoding]);
-  
   queryResult = [resultDict objectForKey:@"GWSCoderParameters"];
-  NSLog(@"coder parameters is %@", queryResult);
-  
   result = [queryResult objectForKey:@"result"];
   NSLog(@"result: %@", result);
   
-  doneStr = [result objectAtIndex:0];
-  querylocator = [result objectAtIndex:1];
-  
-  sizeStr = [result lastObject];
-  
-  NSLog(@"done - %@ : %@", [doneStr className], doneStr);
-  NSLog(@"querylocator - %@ : %@", [querylocator className], querylocator);
-//  NSLog(@"records - %@ : %@", [records className], records);
-  NSLog(@"size - %@ : %@", [sizeStr className], sizeStr);
+  doneStr = [result objectForKey:@"done"];
+  querylocator = [result objectForKey:@"queryLocator"];
+  records = [result objectForKey:@"records"];
+  sizeStr = [result objectForKey:@"size"];
+
   
   if (doneStr != nil)
     {
@@ -234,10 +225,10 @@
       int i;
       
       size = [sizeStr intValue];
-      for (i = 2; i < size+2; i++)
+      for (i = 0; i < size; i++)
         {
-	  record = [result objectAtIndex:i];
-	  NSLog(@"%d: %@", i-1, record);
+	  record = [records objectAtIndex:i];
+	  NSLog(@"%d: %@", i, record);
 	} 
     }
 }

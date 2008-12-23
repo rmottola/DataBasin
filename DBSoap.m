@@ -222,13 +222,35 @@
 
   if (sizeStr != nil)
     {
-      int i;
+      int            i;
+      int            j;
+      NSMutableArray *keys;
+
       
       size = [sizeStr intValue];
+      
+      /* let's get the fields from the keys of the first record */
+      record = [records objectAtIndex:0];
+      keys = [NSMutableArray arrayWithArray:[record allKeys]];
+      [keys removeObject:@"GWSCoderOrder"];
+
+      NSLog(@"keys: %@", keys);      
+      
+      /* now cycle all the records and read out the fields */
       for (i = 0; i < size; i++)
         {
+	  NSMutableArray *values;
+	  
 	  record = [records objectAtIndex:i];
-	  NSLog(@"%d: %@", i, record);
+	  values = [NSMutableArray arrayWithCapacity:[keys count]];
+	  for (j = 0; j < [keys count]; j++)
+	    {
+	      NSString *value;
+	      
+	      value = [record objectForKey:[keys objectAtIndex:j]];
+	      [values addObject:value];
+	    }
+	  NSLog(@"%d: %@", i, values);
 	} 
     }
 }

@@ -30,6 +30,7 @@
 {
   IBOutlet NSTextField *fieldUserName;
   IBOutlet NSTextField *fieldPassword;
+  IBOutlet NSTextField *fieldToken;
 }
 
 + (void)initialize;

@@ -22,9 +22,11 @@
    Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111 USA.
 */
 
-#import "DBSoap.h"
-
 #import <AppKit/AppKit.h>
+
+#import "DBSoap.h"
+#import "DBCVSWriter.h"
+
 
 
 @implementation DBSoap
@@ -163,6 +165,7 @@
   NSDictionary          *record;
   NSString              *sizeStr;
   int                   size;
+  DBCVSWriter           *cvsWriter;
 
   /* prepare the header */
   sessionHeaderDict = [NSMutableDictionary dictionaryWithCapacity: 2];
@@ -191,7 +194,7 @@
 		timeout : 90];
 
   NSLog(@"dict is %d big", [resultDict count]);
-  
+
   enumerator = [resultDict keyEnumerator];
   while ((key = [enumerator nextObject]))
   {
@@ -201,13 +204,12 @@
   queryResult = [resultDict objectForKey:@"GWSCoderParameters"];
   result = [queryResult objectForKey:@"result"];
   NSLog(@"result: %@", result);
-  
+
   doneStr = [result objectForKey:@"done"];
   querylocator = [result objectForKey:@"queryLocator"];
   records = [result objectForKey:@"records"];
   sizeStr = [result objectForKey:@"size"];
-
-  
+ 
   if (doneStr != nil)
     {
       done = NO;
@@ -225,33 +227,36 @@
       int            i;
       int            j;
       NSMutableArray *keys;
-
+      
       
       size = [sizeStr intValue];
+      cvsWriter = [[DBCVSWriter alloc] init];
       
       /* let's get the fields from the keys of the first record */
       record = [records objectAtIndex:0];
       keys = [NSMutableArray arrayWithArray:[record allKeys]];
       [keys removeObject:@"GWSCoderOrder"];
 
-      NSLog(@"keys: %@", keys);      
+      NSLog(@"keys: %@", keys);
+      
+      [cvsWriter setFieldNames:[NSArray arrayWithArray:keys] andWriteIt:YES];
       
       /* now cycle all the records and read out the fields */
       for (i = 0; i < size; i++)
         {
-	  NSMutableArray *values;
+  	      NSMutableArray *values;
 	  
-	  record = [records objectAtIndex:i];
-	  values = [NSMutableArray arrayWithCapacity:[keys count]];
-	  for (j = 0; j < [keys count]; j++)
-	    {
-	      NSString *value;
+	      record = [records objectAtIndex:i];
+	      values = [NSMutableArray arrayWithCapacity:[keys count]];
+	      for (j = 0; j < [keys count]; j++)
+	        {
+	          NSString *value;
 	      
-	      value = [record objectForKey:[keys objectAtIndex:j]];
-	      [values addObject:value];
-	    }
-	  NSLog(@"%d: %@", i, values);
-	} 
+	          value = [record objectForKey:[keys objectAtIndex:j]];
+	          [values addObject:value];
+	        }
+	    NSLog(@"%d: %@", i, values);
+	  } 
     }
 }
 

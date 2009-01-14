@@ -95,7 +95,7 @@
   userName = [fieldUserName stringValue];
   password = [fieldPassword stringValue];
   token = [fieldToken stringValue];
-  NSLog(@"token: %@", token);
+
   /* if present, we append the security token to the password */
   if (token != nil)
     password = [password stringByAppendingString:token];

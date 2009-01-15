@@ -1,0 +1,17 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {doLogin = id; showPrefPanel = id; }; 
+            CLASS = AppController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                fieldPassword = NSTextField; 
+                fieldToken = NSTextField; 
+                fieldUserName = NSTextField; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+    ); 
+    IBVersion = 1; 
+}

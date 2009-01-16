@@ -133,7 +133,6 @@
   NSLog(@"loginResult2 is %d big", [loginResult2 count]);
   sessionId = [loginResult2 objectForKey:@"sessionId"];
   serverUrl = [loginResult2 objectForKey:@"serverUrl"];
-  [serverUrl autorelease];
   serverUrl = [serverUrl stringByReplacingString:@"https:" withString:@"http:"];
   
   [coder release];

@@ -26,11 +26,21 @@
  
 #import <AppKit/AppKit.h>
 
+#import "DBSoap.h"
+
 @interface AppController : NSObject
 {
+  DBSoap   *db;
+
+  /* login*/
   IBOutlet NSTextField *fieldUserName;
   IBOutlet NSTextField *fieldPassword;
   IBOutlet NSTextField *fieldToken;
+  
+  /* query */
+  IBOutlet NSWindow    *winSelect;
+  IBOutlet NSTextView  *fieldQuerySelect;
+  IBOutlet NSTextField *fieldFileSelect;
 }
 
 + (void)initialize;
@@ -47,5 +57,9 @@
 
 - (IBAction)showPrefPanel:(id)sender;
 - (IBAction)doLogin:(id)sender;
+
+- (IBAction)showSelect:(id)sender;
+- (IBAction)browseFileSelect:(id)sender;
+- (IBAction)executeSelect:(id)sender;
 
 @end

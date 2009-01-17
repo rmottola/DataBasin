@@ -26,7 +26,7 @@
 	DataBasin.gorm
     );
     LANGUAGE = English;
-    LAST_EDITING = "2009-01-15 00:52:26 +0100";
+    LAST_EDITING = "2009-01-17 23:48:24 +0100";
     LIBRARIES = (
 	"gnustep-base",
 	"gnustep-gui",
@@ -45,7 +45,7 @@
     );
     PC_WINDOWS = {
 	ProjectBrowser = "{x = 0; y = 0; width = 661; height = 183}";
-	ProjectWindow = "96 117 848 635 0 0  1024 768 ";
+	ProjectWindow = "112 127 848 635 0 0  1024 768 ";
 	ShowToolbar = YES;
     };
     PRINCIPAL_CLASS = NSApplication;

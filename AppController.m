@@ -85,9 +85,10 @@
 {
 }
 
+/* LOGIN */
+
 - (IBAction)doLogin:(id)sender
 {
-  DBSoap   *db;
   NSString *userName;
   NSString *password;
   NSString *token;
@@ -102,6 +103,25 @@
     
   db =[[DBSoap alloc] init];
   [db login :userName :password];
+}
+
+/*  SELECT */
+
+- (IBAction)showSelect:(id)sender
+{
+  [winSelect makeKeyAndOrderFront:self];
+}
+
+- (IBAction)browseFileSelect:(id)sender
+{
+}
+
+- (IBAction)executeSelect:(id)sender
+{
+  NSString *statement;
+  
+  statement = [fieldQuerySelect string];
+  NSLog(@"%@", statement);
   [db query :@"select FirstName, LastName from Contact"];
 }
 

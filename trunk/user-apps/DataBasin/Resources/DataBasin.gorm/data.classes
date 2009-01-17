@@ -3,20 +3,31 @@
     AppController = {
 	Actions = (
 	    "showPrefPanel:",
-	    "doLogin:"
+	    "doLogin:",
+	    "showSelect:",
+	    "browseFileSelect:",
+	    "executeSelect:"
 	);
 	Outlets = (
 	    fieldUserName,
 	    fieldPassword,
-	    fieldToken
+	    fieldToken,
+	    winSelect,
+	    fieldQuerySelect,
+	    fieldFileSelect
 	);
 	Super = NSObject;
     };
     FirstResponder = {
 	Actions = (
+	    "browseFile:",
+	    "browseFileSelect:",
 	    "doLogin:",
+	    "executeQuery:",
+	    "executeSelect:",
 	    "orderFrontFontPanel:",
-	    "showPrefPanel:"
+	    "showPrefPanel:",
+	    "showSelect:"
 	);
 	Super = NSObject;
     };

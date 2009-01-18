@@ -36,7 +36,7 @@
 }
 
 - (void)login :(NSString *)userName :(NSString *)password;
-- (void)query :(NSString *)queryString;
+- (void)query :(NSString *)queryString toFile:(NSFileHandle *)handle;
 
 @end
 

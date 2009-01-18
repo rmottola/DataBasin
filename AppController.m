@@ -119,10 +119,13 @@
 - (IBAction)executeSelect:(id)sender
 {
   NSString *statement;
+  NSString *filePath;
   
   statement = [fieldQuerySelect string];
   NSLog(@"%@", statement);
-  [db query :@"select FirstName, LastName from Contact"];
+  filePath = [fieldFileSelect stringValue];
+  NSLog(@"%@", filePath);
+  [db query :statement];
 }
 
 @end

@@ -26,12 +26,19 @@
 
 @interface DBCVSWriter : NSObject
 {
-  NSArray *fieldNames;
-  NSArray *fieldTypes;
+  NSArray      *fieldNames;
+  NSArray      *fieldTypes;
+  NSFileHandle *file;
+  NSString     *separator;
+  BOOL         isQualified;
+  NSString     *qualifier;
+  NSString     *newLine;
 }
 
+- (id)initWithHandle:(NSFileHandle *)fileHandle;
 - (void)setFieldNames:(NSArray *)array andWriteIt:(BOOL)flag;
 - (void)writeDataSet:(NSArray *)array;
+- (NSString *)formatOneLine:(NSArray *)values;
 
 @end
 

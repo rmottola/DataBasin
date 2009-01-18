@@ -120,12 +120,30 @@
 {
   NSString *statement;
   NSString *filePath;
+  NSFileHandle *fileHandle;
+  NSFileManager *fileManager;
   
   statement = [fieldQuerySelect string];
   NSLog(@"%@", statement);
   filePath = [fieldFileSelect stringValue];
   NSLog(@"%@", filePath);
-  [db query :statement];
+  
+  fileManager = [NSFileManager defaultManager];
+  if ([fileManager createFileAtPath:filePath contents:nil attributes:nil] == NO)
+    {
+      NSRunAlertPanel(@"Attention", @"Could not create File.", @"Ok", nil, nil);
+      return;
+    }  
+
+  fileHandle = [NSFileHandle fileHandleForWritingAtPath:filePath];
+  if (fileHandle == nil)
+    {
+      NSRunAlertPanel(@"Attention", @"Cannot create File.", @"Ok", nil, nil);
+    }  
+  
+  [db query :statement toFile:fileHandle];
+  
+  [fileHandle closeFile];
 }
 
 @end

@@ -146,7 +146,7 @@
   [service setURL:serverUrl];
 }
 
-- (void)query :(NSString *)queryString
+- (void)query :(NSString *)queryString toFile:(NSFileHandle *)handle
 {
   NSMutableDictionary   *headerDict;
   NSMutableDictionary   *sessionHeaderDict;
@@ -226,10 +226,11 @@
       int            i;
       int            j;
       NSMutableArray *keys;
+      NSMutableArray *set;
       
       
       size = [sizeStr intValue];
-      cvsWriter = [[DBCVSWriter alloc] init];
+      cvsWriter = [[DBCVSWriter alloc] initWithHandle:handle];
       
       /* let's get the fields from the keys of the first record */
       record = [records objectAtIndex:0];
@@ -239,6 +240,8 @@
       NSLog(@"keys: %@", keys);
       
       [cvsWriter setFieldNames:[NSArray arrayWithArray:keys] andWriteIt:YES];
+      
+      set = [[NSMutableArray alloc] init];
       
       /* now cycle all the records and read out the fields */
       for (i = 0; i < size; i++)
@@ -255,7 +258,9 @@
 	          [values addObject:value];
 	        }
 	    NSLog(@"%d: %@", i, values);
-	  } 
+        [set addObject:values];
+	  }
+      [cvsWriter writeDataSet:set];
     }
 }
 

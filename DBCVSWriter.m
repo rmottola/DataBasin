@@ -26,16 +26,71 @@
 
 @implementation DBCVSWriter
 
+- (id)initWithHandle:(NSFileHandle *)fileHandle
+{
+  if ((self = [super init]))
+    {
+      file = fileHandle;
+      isQualified = NO;
+      qualifier = @"\"";
+      separator = @",";
+      newLine = @"\n";
+   }
+  return self;
+}
+
 - (void)setFieldNames:(NSArray *)array andWriteIt:(BOOL)flag
 {
   if (flag == YES)
     {
+      NSString *theLine;
+      const char *cStr;
+      
       NSLog(@"should write out field names to file");
+      theLine = [self formatOneLine:array];
+      cStr = [theLine cString];
+      NSLog(@"cString: %s", cStr);
+      [file writeData:[NSData dataWithBytes:cStr length:strlen(cStr)]];
     }
 }
 
 - (void)writeDataSet:(NSArray *)array
 {
+  int i;
+  int setCount;
+
+  setCount = [array count];
+  for (i = 0; i < setCount; i++)
+    {
+      const char *cStr;
+      NSString *oneLine;
+      
+      oneLine = [self formatOneLine:[array objectAtIndex:i]];
+      cStr = [oneLine cString];
+      [file writeData:[NSData dataWithBytes:cStr length:strlen(cStr)]];
+    }
+}
+
+- (NSString *)formatOneLine:(NSArray *)values
+{
+  NSMutableString *theLine;
+  int      size;
+  int      i;
+  
+  theLine = [[NSMutableString alloc] initWithCapacity:64];
+  size = [values count];
+
+  if (size == 0)
+    return nil;
+    
+  for (i = 0; i < size-1; i++)
+    {
+      [theLine appendString:[values objectAtIndex:i]];
+      [theLine appendString:separator];
+    }
+  [theLine appendString:[values objectAtIndex:i]];
+  [theLine appendString:newLine];
+  return theLine;
 }
 
 @end

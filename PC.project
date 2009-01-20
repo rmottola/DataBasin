@@ -26,7 +26,7 @@
 	DataBasin.gorm
     );
     LANGUAGE = English;
-    LAST_EDITING = "2009-01-19 00:44:52 +0100";
+    LAST_EDITING = "2009-01-20 01:30:01 +0100";
     LIBRARIES = (
 	"gnustep-base",
 	"gnustep-gui",
@@ -45,14 +45,14 @@
     );
     PC_WINDOWS = {
 	ProjectBrowser = "{x = 0; y = 0; width = 712.171; height = 183}";
-	ProjectWindow = "156 113 948 872 0 0  1280 1024 ";
+	ProjectWindow = "110 93 819 610 0 0  1024 768 ";
 	ShowToolbar = YES;
     };
     PRINCIPAL_CLASS = NSApplication;
     PROJECT_AUTHORS = (
 	"Riccardo Mottola"
     );
-    PROJECT_COPYRIGHT = "Copyright (C) 2008";
+    PROJECT_COPYRIGHT = "Copyright (C) 2008-2009";
     PROJECT_COPYRIGHT_DESC = "Released under GPL";
     PROJECT_CREATOR = "Riccardo Mottola,,,";
     PROJECT_DESCRIPTION = "SOAP Data Access Tool";
@@ -80,7 +80,6 @@
 	DataBasinInfo.plist
     );
     USER_LANGUAGES = (
-	AmericanEnglish,
 	English
     );
 }

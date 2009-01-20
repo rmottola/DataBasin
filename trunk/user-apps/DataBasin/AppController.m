@@ -114,6 +114,17 @@
 
 - (IBAction)browseFileSelect:(id)sender
 {
+  NSSavePanel *savePanel;
+  
+  savePanel = [NSSavePanel savePanel];
+  [savePanel setRequiredFileType:@"csv"];
+  if ([savePanel runModal] == NSOKButton)
+    {
+      NSString *fileName;
+      
+      fileName = [savePanel filename];
+      [fieldFileSelect setStringValue:fileName];
+    }
 }
 
 - (IBAction)executeSelect:(id)sender

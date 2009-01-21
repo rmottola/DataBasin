@@ -133,7 +133,13 @@
   NSLog(@"loginResult2 is %d big", [loginResult2 count]);
   sessionId = [loginResult2 objectForKey:@"sessionId"];
   serverUrl = [loginResult2 objectForKey:@"serverUrl"];
-  serverUrl = [serverUrl stringByReplacingString:@"https:" withString:@"http:"];
+  
+  /* since Salesforce seems to be stubborn and returns an https connection
+     even if we initiate a non-secure one, we force it to http */
+  if ([[serverUrl substringToIndex:6] isEqualToString:@"https"])
+  {
+      serverUrl = [@"http://" stringByAppendingString:[serverUrl substringFromIndex:6]];
+  }
   
   [coder release];
   

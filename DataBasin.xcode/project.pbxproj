@@ -66,7 +66,7 @@
 		};
 		1058C7A2FEA54F0111CA2CBB = {
 			children = (
-				858D8E620F1EA36E00CC8F4A,
+				85F6CF070F223D8F00918601,
 				29B97325FDCFA39411CA2CEA,
 				29B97324FDCFA39411CA2CEA,
 			);
@@ -249,20 +249,6 @@
 //852
 //853
 //854
-		858D8E620F1EA36E00CC8F4A = {
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.framework;
-			name = webservices.framework;
-			path = /Library/Frameworks/webservices.framework;
-			refType = 0;
-			sourceTree = "<absolute>";
-		};
-		858D8E630F1EA36E00CC8F4A = {
-			fileRef = 858D8E620F1EA36E00CC8F4A;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		858D8E640F1EA3BD00CC8F4A = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -343,6 +329,20 @@
 		};
 		858D8E6F0F1EA3BD00CC8F4A = {
 			fileRef = 858D8E690F1EA3BD00CC8F4A;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		85F6CF070F223D8F00918601 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = WebServices.framework;
+			path = /Library/Frameworks/WebServices.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		85F6CF080F223D8F00918601 = {
+			fileRef = 85F6CF070F223D8F00918601;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -433,7 +433,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D11072F0486CEB800E47090,
-				858D8E630F1EA36E00CC8F4A,
+				85F6CF080F223D8F00918601,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

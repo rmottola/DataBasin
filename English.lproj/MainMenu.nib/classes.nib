@@ -1,13 +1,22 @@
 {
     IBClasses = (
         {
-            ACTIONS = {doLogin = id; showPrefPanel = id; }; 
+            ACTIONS = {
+                browseFileSelect = id; 
+                doLogin = id; 
+                executeSelect = id; 
+                showPrefPanel = id; 
+                showSelect = id; 
+            }; 
             CLASS = AppController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
+                fieldFileSelect = NSTextField; 
                 fieldPassword = NSTextField; 
+                fieldQuerySelect = NSTextView; 
                 fieldToken = NSTextField; 
                 fieldUserName = NSTextField; 
+                winSelect = NSWindow; 
             }; 
             SUPERCLASS = NSObject; 
         }, 

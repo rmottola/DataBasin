@@ -24,7 +24,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import <webservices/WebServices.h>
+#import <WebServices/WebServices.h>
 
 @interface DBSoap : NSObject
 {

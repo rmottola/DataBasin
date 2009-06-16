@@ -32,11 +32,17 @@
 {
   DBSoap   *db;
 
-  /* login*/
+  /* login */
+  IBOutlet NSWindow      *winLogin;
   IBOutlet NSTextField   *fieldUserName;
   IBOutlet NSTextField   *fieldPassword;
   IBOutlet NSTextField   *fieldToken;
   IBOutlet NSPopUpButton *popupEnvironment;
+  
+  /* session status */
+  IBOutlet NSWindow    *winSessionInspector;
+  IBOutlet NSTextField *fieldSessionId;
+  IBOutlet NSTextField *fieldServerUrl;
   
   /* query */
   IBOutlet NSWindow    *winSelect;
@@ -57,7 +63,11 @@
 - (BOOL)application:(NSApplication *)application openFile:(NSString *)fileName;
 
 - (IBAction)showPrefPanel:(id)sender;
+
+- (IBAction)showLogin:(id)sender;
 - (IBAction)doLogin:(id)sender;
+
+- (IBAction)showSessionInspector:(id)sender;
 
 - (IBAction)showSelect:(id)sender;
 - (IBAction)browseFileSelect:(id)sender;

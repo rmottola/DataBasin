@@ -38,6 +38,9 @@
 - (void)login :(NSURL *)url :(NSString *)userName :(NSString *)password;
 - (void)query :(NSString *)queryString toFile:(NSFileHandle *)handle;
 
+- (NSString *) sessionId;
+- (NSString *) serverUrl;
+
 @end
 
 

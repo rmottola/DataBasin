@@ -1,7 +1,7 @@
 /* 
    Project: DataBasin
 
-   Copyright (C) 2008 Free Software Foundation
+   Copyright (C) 2008-2009 Free Software Foundation
 
    Author: Riccardo Mottola,,,
 
@@ -33,9 +33,10 @@
   DBSoap   *db;
 
   /* login*/
-  IBOutlet NSTextField *fieldUserName;
-  IBOutlet NSTextField *fieldPassword;
-  IBOutlet NSTextField *fieldToken;
+  IBOutlet NSTextField   *fieldUserName;
+  IBOutlet NSTextField   *fieldPassword;
+  IBOutlet NSTextField   *fieldToken;
+  IBOutlet NSPopUpButton *popupEnvironment;
   
   /* query */
   IBOutlet NSWindow    *winSelect;

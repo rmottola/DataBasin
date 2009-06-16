@@ -1,7 +1,7 @@
 /*
    Project: DataBasin
 
-   Copyright (C) 2008 Free Software Foundation
+   Copyright (C) 2008-2009 Free Software Foundation
 
    Author: Riccardo Mottola
 
@@ -31,14 +31,13 @@
 
 @implementation DBSoap
 
-- (void)login :(NSString *)userName :(NSString *)password
+- (void)login :(NSURL *)url :(NSString *)userName :(NSString *)password
 {
   GWSSOAPCoder          *coder;
   NSUserDefaults        *defs;
   NSMutableArray        *orderArray;
   NSMutableDictionary   *parmsDict;
   NSMutableDictionary   *loginParmDict;
-  NSURL                 *url;
   NSDictionary          *resultDict;
   NSEnumerator          *enumerator;
   NSString              *key;
@@ -69,7 +68,6 @@
   /* set the SOAP action to an empty string, salesforce likes that more */
   [service setSOAPAction:@"\"\""];
 
-  url = [NSURL URLWithString:@"http://www.salesforce.com/services/Soap/u/8.0"];
   [service setURL:url];
   
   [service setDebug:YES];

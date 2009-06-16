@@ -12,6 +12,7 @@
 	    fieldUserName,
 	    fieldPassword,
 	    fieldToken,
+	    popupEnvironment,
 	    winSelect,
 	    fieldQuerySelect,
 	    fieldFileSelect

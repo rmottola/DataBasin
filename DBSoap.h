@@ -1,7 +1,7 @@
 /*
    Project: DataBasin
 
-   Copyright (C) 2008 Free Software Foundation
+   Copyright (C) 2008-2009 Free Software Foundation
 
    Author: Riccardo Mottola,,,
 
@@ -35,7 +35,7 @@
     NSString  *serverUrl;
 }
 
-- (void)login :(NSString *)userName :(NSString *)password;
+- (void)login :(NSURL *)url :(NSString *)userName :(NSString *)password;
 - (void)query :(NSString *)queryString toFile:(NSFileHandle *)handle;
 
 @end

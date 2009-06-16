@@ -1,7 +1,7 @@
 /* 
    Project: DataBasin
 
-   Copyright (C) 2008 Free Software Foundation
+   Copyright (C) 2008-2009 Free Software Foundation
 
    Author: Riccardo Mottola,,,
 
@@ -26,6 +26,10 @@
 
 #import "AppController.h"
 #import "DBSoap.h"
+
+#define DB_ENVIRONMENT_PRODUCTION 0
+#define DB_ENVIRONMENT_SANDBOX    1
+
 
 @implementation AppController
 
@@ -92,6 +96,8 @@
   NSString *userName;
   NSString *password;
   NSString *token;
+  NSString *urlStr;
+  NSURL    *url;
   
   userName = [fieldUserName stringValue];
   password = [fieldPassword stringValue];
@@ -101,8 +107,15 @@
   if (token != nil)
     password = [password stringByAppendingString:token];
     
-  db =[[DBSoap alloc] init];
-  [db login :userName :password];
+  db = [[DBSoap alloc] init];
+  
+  if ([popupEnvironment indexOfSelectedItem] == DB_ENVIRONMENT_PRODUCTION)
+    urlStr = @"http://www.salesforce.com/services/Soap/u/8.0";
+  else if ([popupEnvironment indexOfSelectedItem] == DB_ENVIRONMENT_SANDBOX)
+    urlStr = @"http://test.salesforce.com/services/Soap/u/8.0";
+  NSLog(@"Url: %@", urlStr);  
+  url = [NSURL URLWithString:urlStr];
+  [db login :url :userName :password];
 }
 
 /*  SELECT */

@@ -268,6 +268,18 @@
     }
 }
 
+
+/* accessors*/
+- (NSString *) sessionId
+{
+  return sessionId;
+}
+
+- (NSString *) serverUrl
+{
+  return serverUrl;
+}
+
 - (void)dealloc
 {
   NSLog(@"dealloc service");

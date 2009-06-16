@@ -7,10 +7,11 @@
 	"Riccardo Mottola"
     );
     Copyright = "Copyright (C) 2008-2009";
-    CopyrightDescription = "Released under GPL";
+    CopyrightDescription = "Released under GPL v2 or later";
     FullVersionID = 0.1;
     NSExecutable = DataBasin;
     NSMainNibFile = DataBasin.gorm;
     NSPrincipalClass = NSApplication;
     NSRole = Application;
+    URL = "http://gap.nongnu.org";
 }

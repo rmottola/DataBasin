@@ -3,7 +3,7 @@
 
    Copyright (C) 2008-2009 Free Software Foundation
 
-   Author: Riccardo Mottola,,,
+   Author: Riccardo Mottola
 
    Created: 2008-11-13 22:44:02 +0100 by multix
    
@@ -89,7 +89,19 @@
 {
 }
 
+/* SESSION INSPECTOR */
+
+- (IBAction)showSessionInspector:(id)sender
+{
+  [winSessionInspector makeKeyAndOrderFront:self];
+}
+
 /* LOGIN */
+
+- (IBAction)showLogin:(id)sender
+{
+  [winLogin makeKeyAndOrderFront:self];
+}
 
 - (IBAction)doLogin:(id)sender
 {
@@ -116,6 +128,9 @@
   NSLog(@"Url: %@", urlStr);  
   url = [NSURL URLWithString:urlStr];
   [db login :url :userName :password];
+  
+  [fieldSessionId setStringValue:[db sessionId]];
+  [fieldServerUrl setStringValue:[db serverUrl]];
 }
 
 /*  SELECT */

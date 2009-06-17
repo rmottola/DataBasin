@@ -3,16 +3,22 @@
     AppController = {
 	Actions = (
 	    "showPrefPanel:",
+	    "showLogin:",
 	    "doLogin:",
+	    "showSessionInspector:",
 	    "showSelect:",
 	    "browseFileSelect:",
 	    "executeSelect:"
 	);
 	Outlets = (
+	    winLogin,
 	    fieldUserName,
 	    fieldPassword,
 	    fieldToken,
 	    popupEnvironment,
+	    winSessionInspector,
+	    fieldSessionId,
+	    fieldServerUrl,
 	    winSelect,
 	    fieldQuerySelect,
 	    fieldFileSelect
@@ -27,8 +33,10 @@
 	    "executeQuery:",
 	    "executeSelect:",
 	    "orderFrontFontPanel:",
+	    "showLogin:",
 	    "showPrefPanel:",
-	    "showSelect:"
+	    "showSelect:",
+	    "showSessionInspector:"
 	);
 	Super = NSObject;
     };

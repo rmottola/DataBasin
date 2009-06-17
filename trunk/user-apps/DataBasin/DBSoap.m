@@ -201,12 +201,12 @@
   enumerator = [resultDict keyEnumerator];
   while ((key = [enumerator nextObject]))
   {
-    NSLog(@"%@ - %@", key, [resultDict objectForKey:key]); 
+//    NSLog(@"%@ - %@", key, [resultDict objectForKey:key]); 
   }
   
   queryResult = [resultDict objectForKey:@"GWSCoderParameters"];
   result = [queryResult objectForKey:@"result"];
-  NSLog(@"result: %@", result);
+//  NSLog(@"result: %@", result);
 
   doneStr = [result objectForKey:@"done"];
   querylocator = [result objectForKey:@"queryLocator"];
@@ -215,9 +215,14 @@
  
   if (doneStr != nil)
     {
+      NSLog(@"done: %@", doneStr);
       done = NO;
-      if ([doneStr isEqualToString:@"done"])
+      if ([doneStr isEqualToString:@"true"])
         done = YES;
+      else if ([doneStr isEqualToString:@"false"])
+        done = NO;
+      else
+        NSLog(@"Done, unexpected value: %@", doneStr);
     }
   else
     {
@@ -229,11 +234,15 @@
     {
       int            i;
       int            j;
+      int    batchSize;
       NSMutableArray *keys;
       NSMutableArray *set;
       
       
       size = [sizeStr intValue];
+      batchSize = [records count];
+      NSLog(@"Declared size is: %d", size);
+      NSLog(@"records size is: %d", batchSize);
       cvsWriter = [[DBCVSWriter alloc] initWithHandle:handle];
       
       /* let's get the fields from the keys of the first record */
@@ -248,7 +257,7 @@
       set = [[NSMutableArray alloc] init];
       
       /* now cycle all the records and read out the fields */
-      for (i = 0; i < size; i++)
+      for (i = 0; i < batchSize; i++)
         {
   	      NSMutableArray *values;
 	  
@@ -266,6 +275,8 @@
 	  }
       [cvsWriter writeDataSet:set];
     }
+  if (!done)
+      NSLog(@"should do query more");
 }
 
 

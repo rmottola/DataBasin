@@ -5,8 +5,10 @@
                 browseFileSelect = id; 
                 doLogin = id; 
                 executeSelect = id; 
+                showLogin = id; 
                 showPrefPanel = id; 
                 showSelect = id; 
+                showSessionInspector = id; 
             }; 
             CLASS = AppController; 
             LANGUAGE = ObjC; 
@@ -14,9 +16,14 @@
                 fieldFileSelect = NSTextField; 
                 fieldPassword = NSTextField; 
                 fieldQuerySelect = NSTextView; 
+                fieldServerUrl = NSTextField; 
+                fieldSessionId = NSTextField; 
                 fieldToken = NSTextField; 
                 fieldUserName = NSTextField; 
+                popupEnvironment = NSPopUpButton; 
+                winLogin = NSWindow; 
                 winSelect = NSWindow; 
+                winSessionInspector = NSWindow; 
             }; 
             SUPERCLASS = NSObject; 
         }, 

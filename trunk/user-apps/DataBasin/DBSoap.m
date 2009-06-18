@@ -276,7 +276,7 @@
       [cvsWriter writeDataSet:set];
     }
   if (!done)
-      NSLog(@"should do query more");
+      NSLog(@"should do query more, queryLocator: %@", querylocator);
 }
 
 

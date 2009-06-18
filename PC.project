@@ -26,7 +26,7 @@
 	DataBasin.gorm
     );
     LANGUAGE = English;
-    LAST_EDITING = "2009-01-20 01:30:01 +0100";
+    LAST_EDITING = "2009-06-12 00:00:07 +0200";
     LIBRARIES = (
 	"gnustep-base",
 	"gnustep-gui",

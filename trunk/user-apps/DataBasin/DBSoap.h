@@ -3,7 +3,7 @@
 
    Copyright (C) 2008-2009 Free Software Foundation
 
-   Author: Riccardo Mottola,,,
+   Author: Riccardo Mottola
 
    Created: 2008-11-13 22:44:45 +0100 by multix
 
@@ -25,6 +25,7 @@
 #import <Foundation/Foundation.h>
 
 #import <WebServices/WebServices.h>
+#import "DBCVSWriter.h"
 
 @interface DBSoap : NSObject
 {
@@ -37,6 +38,7 @@
 
 - (void)login :(NSURL *)url :(NSString *)userName :(NSString *)password;
 - (void)query :(NSString *)queryString toFile:(NSFileHandle *)handle;
+- (void)queryMore :(NSString *)queryLocator toWriter:(DBCVSWriter *)writer;
 
 - (NSString *) sessionId;
 - (NSString *) serverUrl;

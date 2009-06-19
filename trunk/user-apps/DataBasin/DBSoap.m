@@ -148,6 +148,7 @@
   }
   
   [service setURL:serverUrl];
+  [service setDebug:YES];
 }
 
 - (void)query :(NSString *)queryString toFile:(NSFileHandle *)handle
@@ -166,6 +167,7 @@
   NSString              *queryLocator;
   NSArray               *records;
   NSDictionary          *record;
+  NSDictionary          *queryFault;
   NSString              *sizeStr;
   int                   size;
   DBCVSWriter           *cvsWriter;
@@ -201,12 +203,25 @@
   enumerator = [resultDict keyEnumerator];
   while ((key = [enumerator nextObject]))
   {
-//    NSLog(@"%@ - %@", key, [resultDict objectForKey:key]); 
+    NSLog(@"%@ - %@", key, [resultDict objectForKey:key]); 
   }
   
+  queryFault = [resultDict objectForKey:@"GWSCoderFault"];
+  if (queryFault != nil)
+    {
+      NSDictionary *fault;
+      NSDictionary *faultDetail;
+
+      faultDetail = [queryFault objectForKey:@"detail"];
+      fault = [faultDetail objectForKey:@"fault"];
+      NSLog(@"fault: %@", fault);
+      NSLog(@"exception code: %@", [fault objectForKey:@"exceptionCode"]);
+      NSLog(@"exception code: %@", [fault objectForKey:@"exceptionMessage"]);
+    }
+
   queryResult = [resultDict objectForKey:@"GWSCoderParameters"];
   result = [queryResult objectForKey:@"result"];
-//  NSLog(@"result: %@", result);
+  NSLog(@"result: %@", result);
 
   doneStr = [result objectForKey:@"done"];
   queryLocator = [result objectForKey:@"queryLocator"];

@@ -151,7 +151,7 @@
   [service setDebug:YES];
 }
 
-- (void)query :(NSString *)queryString toFile:(NSFileHandle *)handle
+- (void)query :(NSString *)queryString toWriter:(DBCVSWriter *)writer
 {
   NSMutableDictionary   *headerDict;
   NSMutableDictionary   *sessionHeaderDict;
@@ -170,7 +170,6 @@
   NSDictionary          *queryFault;
   NSString              *sizeStr;
   int                   size;
-  DBCVSWriter           *cvsWriter;
 
   /* prepare the header */
   sessionHeaderDict = [NSMutableDictionary dictionaryWithCapacity: 2];
@@ -258,7 +257,6 @@
       batchSize = [records count];
       NSLog(@"Declared size is: %d", size);
       NSLog(@"records size is: %d", batchSize);
-      cvsWriter = [[DBCVSWriter alloc] initWithHandle:handle];
       
       /* let's get the fields from the keys of the first record */
       record = [records objectAtIndex:0];
@@ -267,7 +265,7 @@
 
       NSLog(@"keys: %@", keys);
       
-      [cvsWriter setFieldNames:[NSArray arrayWithArray:keys] andWriteIt:YES];
+      [writer setFieldNames:[NSArray arrayWithArray:keys] andWriteIt:YES];
       
       set = [[NSMutableArray alloc] init];
       
@@ -288,14 +286,13 @@
 	    NSLog(@"%d: %@", i, values);
         [set addObject:values];
 	  }
-      [cvsWriter writeDataSet:set];
+      [writer writeDataSet:set];
     }
   if (!done)
     {
       NSLog(@"should do query more, queryLocator: %@", queryLocator);
-      [self queryMore :queryLocator toWriter:cvsWriter];
+      [self queryMore :queryLocator toWriter:writer];
     }
-  [cvsWriter release];
 }
 
 - (void)queryMore :(NSString *)queryLocator toWriter:(DBCVSWriter *)writer

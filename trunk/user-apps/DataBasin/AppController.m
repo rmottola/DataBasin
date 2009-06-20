@@ -161,6 +161,7 @@
   NSString *filePath;
   NSFileHandle *fileHandle;
   NSFileManager *fileManager;
+  DBCVSWriter           *cvsWriter;
   
   statement = [fieldQuerySelect string];
   NSLog(@"%@", statement);
@@ -178,10 +179,13 @@
   if (fileHandle == nil)
     {
       NSRunAlertPanel(@"Attention", @"Cannot create File.", @"Ok", nil, nil);
-    }  
+    }
   
-  [db query :statement toFile:fileHandle];
+  cvsWriter = [[DBCVSWriter alloc] initWithHandle:fileHandle];
   
+  [db query :statement toWriter:cvsWriter];
+  
+  [cvsWriter release];
   [fileHandle closeFile];
 }
 

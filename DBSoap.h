@@ -37,7 +37,7 @@
 }
 
 - (void)login :(NSURL *)url :(NSString *)userName :(NSString *)password;
-- (void)query :(NSString *)queryString toFile:(NSFileHandle *)handle;
+- (void)query :(NSString *)queryString toWriter:(DBCVSWriter *)writer;
 - (void)queryMore :(NSString *)queryLocator toWriter:(DBCVSWriter *)writer;
 
 - (NSString *) sessionId;

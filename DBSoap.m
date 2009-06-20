@@ -203,7 +203,7 @@
   enumerator = [resultDict keyEnumerator];
   while ((key = [enumerator nextObject]))
   {
-    NSLog(@"%@ - %@", key, [resultDict objectForKey:key]); 
+//    NSLog(@"%@ - %@", key, [resultDict objectForKey:key]); 
   }
   
   queryFault = [resultDict objectForKey:@"GWSCoderFault"];
@@ -295,6 +295,7 @@
       NSLog(@"should do query more, queryLocator: %@", queryLocator);
       [self queryMore :queryLocator toWriter:cvsWriter];
     }
+  [cvsWriter release];
 }
 
 - (void)queryMore :(NSString *)queryLocator toWriter:(DBCVSWriter *)writer
@@ -339,15 +340,15 @@
   /* make the query */  
   resultDict = [service invokeMethod: @"queryMore"
                 parameters : parmsDict
-		order : nil
-		timeout : 90];
+                order : nil
+              timeout : 90];
 
   NSLog(@"dict is %d big", [resultDict count]);
 
   enumerator = [resultDict keyEnumerator];
   while ((key = [enumerator nextObject]))
   {
-//    NSLog(@"%@ - %@", key, [resultDict objectForKey:key]); 
+    NSLog(@"%@ - %@", key, [resultDict objectForKey:key]); 
   }
   
   queryResult = [resultDict objectForKey:@"GWSCoderParameters"];
@@ -422,7 +423,7 @@
   if (!done)
     {
       NSLog(@"should do query more, nextQueryLocator: %@", nextQueryLocator);
-      //      [self queryMore :nextQueryLocator toFile:handle];
+      [self queryMore :nextQueryLocator toWriter:writer];
     }
 
 }

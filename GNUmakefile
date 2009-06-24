@@ -31,7 +31,8 @@ Resources/DataBasin.gorm \
 DataBasin_HEADER_FILES = \
 AppController.h \
 DBSoap.h \
-DBCVSWriter.h
+DBCVSWriter.h \
+DBCVSReader.h
 
 #
 # Class files
@@ -39,7 +40,8 @@ DBCVSWriter.h
 DataBasin_OBJC_FILES = \
 AppController.m \
 DBSoap.m \
-DBCVSWriter.m
+DBCVSWriter.m \
+DBCVSReader.m
 
 #
 # Other sources

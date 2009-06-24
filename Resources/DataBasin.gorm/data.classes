@@ -8,7 +8,10 @@
 	    "showSessionInspector:",
 	    "showSelect:",
 	    "browseFileSelect:",
-	    "executeSelect:"
+	    "executeSelect:",
+	    "showInsert:",
+	    "browseFileInsert:",
+	    "executeInsert:"
 	);
 	Outlets = (
 	    winLogin,
@@ -21,18 +24,24 @@
 	    fieldServerUrl,
 	    winSelect,
 	    fieldQuerySelect,
-	    fieldFileSelect
+	    fieldFileSelect,
+	    winInsert,
+	    fieldQueryInsert,
+	    fieldFileInsert
 	);
 	Super = NSObject;
     };
     FirstResponder = {
 	Actions = (
 	    "browseFile:",
+	    "browseFileInsert:",
 	    "browseFileSelect:",
 	    "doLogin:",
+	    "executeInsert:",
 	    "executeQuery:",
 	    "executeSelect:",
 	    "orderFrontFontPanel:",
+	    "showInsert:",
 	    "showLogin:",
 	    "showPrefPanel:",
 	    "showSelect:",

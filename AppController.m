@@ -26,6 +26,8 @@
 
 #import "AppController.h"
 #import "DBSoap.h"
+#import "DBCVSWriter.h"
+#import "DBCVSReader.h"
 
 #define DB_ENVIRONMENT_PRODUCTION 0
 #define DB_ENVIRONMENT_SANDBOX    1
@@ -157,11 +159,11 @@
 
 - (IBAction)executeSelect:(id)sender
 {
-  NSString *statement;
-  NSString *filePath;
-  NSFileHandle *fileHandle;
+  NSString      *statement;
+  NSString      *filePath;
+  NSFileHandle  *fileHandle;
   NSFileManager *fileManager;
-  DBCVSWriter           *cvsWriter;
+  DBCVSWriter   *cvsWriter;
   
   statement = [fieldQuerySelect string];
   NSLog(@"%@", statement);
@@ -187,6 +189,48 @@
   
   [cvsWriter release];
   [fileHandle closeFile];
+}
+
+/* INSERT */
+
+
+- (IBAction)showInsert:(id)sender
+{
+  [winInsert makeKeyAndOrderFront:self];
+}
+
+- (IBAction)browseFileInsert:(id)sender
+{
+  NSOpenPanel *openPanel;
+  
+  openPanel = [NSOpenPanel openPanel];
+//  [openPanel setRequiredFileType:@"csv"];
+  if ([openPanel runModal] == NSOKButton)
+    {
+      NSString *fileName;
+      
+      fileName = [openPanel filename];
+      [fieldFileInsert setStringValue:fileName];
+    }
+}
+
+- (IBAction)executeInsert:(id)sender
+{
+  NSString      *filePath;
+  NSFileHandle  *fileHandle;
+  NSFileManager *fileManager;
+  DBCVSReader   *reader;
+  
+  filePath = [fieldFileInsert stringValue];
+  NSLog(@"%@", filePath);
+   
+  
+  reader = [[DBCVSReader alloc] initWithPath:filePath];
+  
+  [reader getFieldNames:[reader readLine]];
+  [reader readDataSet: [reader readLine]];
+
+  [reader release];
 }
 
 @end

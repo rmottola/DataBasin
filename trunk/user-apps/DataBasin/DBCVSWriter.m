@@ -3,7 +3,7 @@
 
    Copyright (C) 2009 Free Software Foundation
 
-   Author: Riccardo Mottola,,,
+   Author: Riccardo Mottola
 
    Created: 2009-01-13 00:36:45 +0100 by multix
 

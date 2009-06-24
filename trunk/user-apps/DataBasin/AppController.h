@@ -3,7 +3,7 @@
 
    Copyright (C) 2008-2009 Free Software Foundation
 
-   Author: Riccardo Mottola,,,
+   Author: Riccardo Mottola
 
    Created: 2008-11-13 22:44:02 +0100 by multix
    
@@ -48,6 +48,11 @@
   IBOutlet NSWindow    *winSelect;
   IBOutlet NSTextView  *fieldQuerySelect;
   IBOutlet NSTextField *fieldFileSelect;
+  
+  /* insert */
+  IBOutlet NSWindow    *winInsert;
+  IBOutlet NSTextView  *fieldQueryInsert;
+  IBOutlet NSTextField *fieldFileInsert;
 }
 
 + (void)initialize;
@@ -72,5 +77,9 @@
 - (IBAction)showSelect:(id)sender;
 - (IBAction)browseFileSelect:(id)sender;
 - (IBAction)executeSelect:(id)sender;
+
+- (IBAction)showInsert:(id)sender;
+- (IBAction)browseFileInsert:(id)sender;
+- (IBAction)executeInsert:(id)sender;
 
 @end

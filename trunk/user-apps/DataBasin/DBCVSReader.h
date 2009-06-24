@@ -5,7 +5,7 @@
 
    Author: Riccardo Mottola
 
-   Created: 2009-01-13 00:36:45 +0100 by multix
+   Created: 2009-06-24 22:34:06 +0200 by multix
 
    This application is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -22,23 +22,26 @@
    Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111 USA.
 */
 
+
 #import <Foundation/Foundation.h>
 
-@interface DBCVSWriter : NSObject
+@interface DBCVSReader : NSObject
 {
   NSArray      *fieldNames;
   NSArray      *fieldTypes;
-  NSFileHandle *file;
   NSString     *separator;
   BOOL         isQualified;
   NSString     *qualifier;
   NSString     *newLine;
+  NSArray      *linesArray;
+  int          currentLine;
 }
 
-- (id)initWithHandle:(NSFileHandle *)fileHandle;
-- (void)setFieldNames:(NSArray *)array andWriteIt:(BOOL)flag;
-- (void)writeDataSet:(NSArray *)array;
-- (NSString *)formatOneLine:(NSArray *)values;
+- (id)initWithPath:(NSString *)filePath;
+- (NSArray *)getFieldNames:(NSString *)firstLine;
+- (NSArray *)readDataSet:(NSString *)string;
+- (NSArray *)decodeOneLine:(NSString *)line;
+- (NSString *)readLine;
 
 @end
 

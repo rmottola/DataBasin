@@ -2,9 +2,12 @@
     IBClasses = (
         {
             ACTIONS = {
+                browseFileInsert = id; 
                 browseFileSelect = id; 
                 doLogin = id; 
+                executeInsert = id; 
                 executeSelect = id; 
+                showInsert = id; 
                 showLogin = id; 
                 showPrefPanel = id; 
                 showSelect = id; 
@@ -13,14 +16,17 @@
             CLASS = AppController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
+                fieldFileInsert = NSTextField; 
                 fieldFileSelect = NSTextField; 
                 fieldPassword = NSTextField; 
+                fieldQueryInsert = NSTextView; 
                 fieldQuerySelect = NSTextView; 
                 fieldServerUrl = NSTextField; 
                 fieldSessionId = NSTextField; 
                 fieldToken = NSTextField; 
                 fieldUserName = NSTextField; 
                 popupEnvironment = NSPopUpButton; 
+                winInsert = NSWindow; 
                 winLogin = NSWindow; 
                 winSelect = NSWindow; 
                 winSessionInspector = NSWindow; 

@@ -228,7 +228,7 @@
   reader = [[DBCVSReader alloc] initWithPath:filePath];
   
   [reader getFieldNames:[reader readLine]];
-  [reader readDataSet: [reader readLine]];
+  [reader readDataSet];
 
   [reader release];
 }

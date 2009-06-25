@@ -57,14 +57,15 @@
   
   scanner = [NSScanner scannerWithString:firstLine];
   record = [NSMutableArray arrayWithCapacity:1];
-  NSLog(@"title line: %@", firstLine);
 
   while([scanner scanUpToString:separator intoString:&field] == YES)
     {
       NSLog(@"field: %@", field);
       [record addObject:field];
+      [scanner scanString:separator intoString:nil];
     }
-  if([scanner scanUpToString:nil intoString:&field] == YES)
+  field = [firstLine substringFromIndex:[scanner scanLocation]];
+  if (field != nil)
     {
       NSLog(@"field: %@", field);
       [record addObject:field];
@@ -74,8 +75,20 @@
   return record;
 }
 
-- (NSArray *)readDataSet:(NSString *)string
+- (NSArray *)readDataSet
 {
+  NSMutableArray *set;
+  NSString       *line;
+  
+  set = [NSMutableArray arrayWithCapacity:1];
+  while ((line = [self readLine]) != nil)
+    {
+      NSArray *record;
+      
+      record = [self decodeOneLine:line];
+      NSLog(@"record %@", record);
+      [set addObject:record];
+    }
   return nil;
 }
 
@@ -87,28 +100,27 @@
   
   scanner = [NSScanner scannerWithString:line];
   record = [NSMutableArray arrayWithCapacity:1];
-  NSLog(@"data line: %@", line);
   
   while([scanner scanUpToString:separator intoString:&field] == YES)
     {
       NSLog(@"field: %@", field);
       [record addObject:field];
+      [scanner scanString:separator intoString:nil];
     }
-  if([scanner scanUpToString:nil intoString:&field] == YES)
+  field = [line substringFromIndex:[scanner scanLocation]];
+  if (field != nil)
     {
       NSLog(@"field: %@", field);
       [record addObject:field];
-    }
-  
-  NSLog(@"line %@", record);
+    }  
   return record;
 }
 
 - (NSString *)readLine
 {
-  if (currentLine <= [linesArray count])
+  if (currentLine < [linesArray count])
     {
-      NSLog(@"line %@", [linesArray objectAtIndex:currentLine++]);
+      NSLog(@"line %@", [linesArray objectAtIndex:currentLine]);
       return [linesArray objectAtIndex:currentLine++];
     }
   return nil;

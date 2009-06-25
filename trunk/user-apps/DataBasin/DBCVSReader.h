@@ -39,7 +39,7 @@
 
 - (id)initWithPath:(NSString *)filePath;
 - (NSArray *)getFieldNames:(NSString *)firstLine;
-- (NSArray *)readDataSet:(NSString *)string;
+- (NSArray *)readDataSet;
 - (NSArray *)decodeOneLine:(NSString *)line;
 - (NSString *)readLine;
 

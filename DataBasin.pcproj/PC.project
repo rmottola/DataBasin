@@ -1,0 +1,89 @@
+{
+    APPLICATIONICON = "";
+    APP_DOCUMENT_BASED = NO;
+    APP_TYPE = GORM;
+    BUILDER_TARGETS = (
+	all,
+	install,
+	uninstall,
+	clean,
+	distclean,
+	dist
+    );
+    CLASS_FILES = (
+	AppController.m,
+	DBSoap.m,
+	DBCVSWriter.m,
+	DBCVSReader.m
+    );
+    COMPILEROPTIONS = "";
+    CPPOPTIONS = "";
+    CREATION_DATE = "2008-11-13 22:44:02 +0100";
+    DOCU_FILES = (
+    );
+    FRAMEWORKS = (
+    );
+    HEADER_FILES = (
+	AppController.h,
+	DBSoap.h,
+	DBCVSWriter.h,
+	DBCVSReader.h
+    );
+    IMAGES = (
+    );
+    INSTALLDIR = "$(HOME)/GNUstep";
+    INTERFACES = (
+	DataBasin.gorm
+    );
+    LANGUAGE = English;
+    LIBRARIES = (
+	"gnustep-base",
+	"gnustep-gui",
+	WebServices
+    );
+    LINKEROPTIONS = "";
+    LOCALIZED_RESOURCES = (
+    );
+    MAININTERFACE = DataBasin.gorm;
+    MAKEFILEDIR = "$(GNUSTEP_MAKEFILES)";
+    OBJC_COMPILEROPTIONS = "";
+    OTHER_RESOURCES = (
+    );
+    OTHER_SOURCES = (
+	main.m
+    );
+    PRINCIPAL_CLASS = NSApplication;
+    PROJECT_AUTHORS = (
+	"Riccardo Mottola"
+    );
+    PROJECT_COPYRIGHT = "Copyright (C) 2008-2009";
+    PROJECT_COPYRIGHT_DESC = "Released under GPL";
+    PROJECT_CREATOR = "Riccardo Mottola,,,";
+    PROJECT_DESCRIPTION = "SOAP Data Access Tool";
+    PROJECT_DOCUMENTTYPES = (
+    );
+    PROJECT_GROUP = "No group avaliable!";
+    PROJECT_MAINTAINER = "Riccardo Mottola,,,";
+    PROJECT_NAME = DataBasin;
+    PROJECT_RELEASE = 0.1;
+    PROJECT_SUMMARY = "No summary avaliable!";
+    PROJECT_TYPE = Application;
+    PROJECT_URL = "";
+    SEARCH_HEADER_DIRS = (
+	"$(GNUSTEP_LOCAL_ROOT)/Library/Headers/WebServices"
+    );
+    SEARCH_LIB_DIRS = (
+	"/usr/GNUstep/Local/Library/Libraries"
+    );
+    SUBPROJECTS = (
+    );
+    SUPPORTING_FILES = (
+	GNUmakefile.preamble,
+	GNUmakefile,
+	GNUmakefile.postamble,
+	DataBasinInfo.plist
+    );
+    USER_LANGUAGES = (
+	English
+    );
+}

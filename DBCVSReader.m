@@ -57,10 +57,19 @@
   
   scanner = [NSScanner scannerWithString:firstLine];
   record = [NSMutableArray arrayWithCapacity:1];
-  
-  while([scanner scanString:separator intoString:&field] == YES)
-    [record addObject:field];
-  
+  NSLog(@"title line: %@", firstLine);
+
+  while([scanner scanUpToString:separator intoString:&field] == YES)
+    {
+      NSLog(@"field: %@", field);
+      [record addObject:field];
+    }
+  if([scanner scanUpToString:nil intoString:&field] == YES)
+    {
+      NSLog(@"field: %@", field);
+      [record addObject:field];
+    }
+    
   NSLog(@"header %@", record);
   return record;
 }
@@ -78,9 +87,18 @@
   
   scanner = [NSScanner scannerWithString:line];
   record = [NSMutableArray arrayWithCapacity:1];
+  NSLog(@"data line: %@", line);
   
-  while([scanner scanString:separator intoString:&field] == YES)
-    [record addObject:field];
+  while([scanner scanUpToString:separator intoString:&field] == YES)
+    {
+      NSLog(@"field: %@", field);
+      [record addObject:field];
+    }
+  if([scanner scanUpToString:nil intoString:&field] == YES)
+    {
+      NSLog(@"field: %@", field);
+      [record addObject:field];
+    }
   
   NSLog(@"line %@", record);
   return record;

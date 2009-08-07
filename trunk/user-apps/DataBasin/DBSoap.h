@@ -26,7 +26,7 @@
 
 #import <WebServices/WebServices.h>
 #import "DBCVSWriter.h"
-#import "DBCVSReader.H"
+#import "DBCVSReader.h"
 
 @interface DBSoap : NSObject
 {

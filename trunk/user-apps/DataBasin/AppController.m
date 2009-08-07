@@ -196,7 +196,10 @@
 
 - (IBAction)showInsert:(id)sender
 {
-  [db describeGlobal];
+  NSArray *objectsArray;
+
+  objectsArray = [db describeGlobal];
+  NSLog(@"objectsArray: %@", objectsArray);
   [winInsert makeKeyAndOrderFront:self];
 }
 

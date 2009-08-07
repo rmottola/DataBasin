@@ -587,7 +587,7 @@
 
 - (NSArray *)describeGlobal
 {
-    NSMutableDictionary   *headerDict;
+  NSMutableDictionary   *headerDict;
   NSMutableDictionary   *sessionHeaderDict;
   NSMutableDictionary   *parmsDict;
   NSMutableDictionary   *queryParmDict;
@@ -596,14 +596,10 @@
   NSString              *key;
   NSDictionary          *queryResult;
   NSDictionary          *result;
-  NSString              *doneStr;
-  BOOL                  done;
-  NSString              *queryLocator;
-  NSArray               *records;
-  NSDictionary          *record;
+  NSString              *encoding;
   NSDictionary          *queryFault;
-  NSString              *sizeStr;
-  int                   size;
+  NSString              *maxBatchSizeStr;
+  NSArray               *types;
 
   /* prepare the header */
   sessionHeaderDict = [NSMutableDictionary dictionaryWithCapacity: 2];
@@ -615,21 +611,24 @@
   [headerDict setObject: GWSSOAPUseLiteral forKey: GWSSOAPUseKey];
   
   /* prepare the parameters */
-//  queryParmDict = [NSMutableDictionary dictionaryWithCapacity: 2];
-//  [queryParmDict setObject: @"urn:partner.soap.sforce.com" forKey: GWSSOAPNamespaceURIKey];
-//  [queryParmDict setObject: queryString forKey: @"queryString"];
+  queryParmDict = [NSMutableDictionary dictionaryWithCapacity: 2];
+  [queryParmDict setObject: @"urn:partner.soap.sforce.com" forKey: GWSSOAPNamespaceURIKey];
+  //  [queryParmDict setObject: queryString forKey: @"queryString"];
   
   
   parmsDict = [NSMutableDictionary dictionaryWithCapacity: 1];
-  [parmsDict setObject: @"" forKey: @"describeGlobal"];
+  [parmsDict setObject: queryParmDict forKey: @"describeGlobal"];
   [parmsDict setObject: headerDict forKey:GWSSOAPMessageHeadersKey];
 
   
   /* make the query */  
-  resultDict = [service invokeMethod: @"query"
+  resultDict = [service invokeMethod: @"describeGlobal"
                 parameters : parmsDict
 		order : nil
 		timeout : 90];
+
+  //  NSLog(@"request: %@", [[NSString alloc] initWithData:
+  //    	[resultDict objectForKey:@"GWSCoderRequestData"] encoding: NSUTF8StringEncoding]);
 
   NSLog(@"dict is %d big", [resultDict count]);
 
@@ -656,77 +655,11 @@
   result = [queryResult objectForKey:@"result"];
   NSLog(@"result: %@", result);
 
-  doneStr = [result objectForKey:@"done"];
-  queryLocator = [result objectForKey:@"queryLocator"];
-  records = [result objectForKey:@"records"];
-  sizeStr = [result objectForKey:@"size"];
- 
-  if (doneStr != nil)
-    {
-      NSLog(@"done: %@", doneStr);
-      done = NO;
-      if ([doneStr isEqualToString:@"true"])
-        done = YES;
-      else if ([doneStr isEqualToString:@"false"])
-        done = NO;
-      else
-        NSLog(@"Done, unexpected value: %@", doneStr);
-    }
-  else
-    {
-      NSLog(@"error, doneStr is nil: unexpected");
-      return;
-    }
+  encoding = [result objectForKey:@"encoding"];
+  maxBatchSizeStr = [result objectForKey:@"maxBatchSize"];
+  types = [result objectForKey:@"types"];
 
-  if (sizeStr != nil)
-    {
-      int            i;
-      int            j;
-      int    batchSize;
-      NSMutableArray *keys;
-      NSMutableArray *set;
-      
-      
-      size = [sizeStr intValue];
-      batchSize = [records count];
-      NSLog(@"Declared size is: %d", size);
-      NSLog(@"records size is: %d", batchSize);
-      
-      /* let's get the fields from the keys of the first record */
-      record = [records objectAtIndex:0];
-      keys = [NSMutableArray arrayWithArray:[record allKeys]];
-      [keys removeObject:@"GWSCoderOrder"];
-
-      NSLog(@"keys: %@", keys);
-      
-//      [writer setFieldNames:[NSArray arrayWithArray:keys] andWriteIt:YES];
-      
-      set = [[NSMutableArray alloc] init];
-      
-      /* now cycle all the records and read out the fields */
-      for (i = 0; i < batchSize; i++)
-        {
-  	      NSMutableArray *values;
-	  
-	      record = [records objectAtIndex:i];
-	      values = [NSMutableArray arrayWithCapacity:[keys count]];
-	      for (j = 0; j < [keys count]; j++)
-	        {
-	          NSString *value;
-	      
-	          value = [record objectForKey:[keys objectAtIndex:j]];
-	          [values addObject:value];
-	        }
-	    NSLog(@"%d: %@", i, values);
-        [set addObject:values];
-	  }
-//      [writer writeDataSet:set];
-    }
-  if (!done)
-    {
-      NSLog(@"should do query more, queryLocator: %@", queryLocator);
-//      [self queryMore :queryLocator toWriter:writer];
-    } 
+  return types;
 }
 
 /* accessors*/

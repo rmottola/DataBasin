@@ -50,9 +50,10 @@
   IBOutlet NSTextField *fieldFileSelect;
   
   /* insert */
-  IBOutlet NSWindow    *winInsert;
-  IBOutlet NSTextView  *fieldQueryInsert;
-  IBOutlet NSTextField *fieldFileInsert;
+  IBOutlet NSWindow      *winInsert;
+  IBOutlet NSTextView    *fieldQueryInsert;
+  IBOutlet NSTextField   *fieldFileInsert;
+  IBOutlet NSPopUpButton *popupObjects;
 }
 
 + (void)initialize;

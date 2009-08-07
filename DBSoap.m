@@ -425,6 +425,310 @@
 
 }
 
+- (void)create :(NSString *)objectName fromReader:(DBCVSReader *)reader
+{
+  NSMutableDictionary   *headerDict;
+  NSMutableDictionary   *sessionHeaderDict;
+  NSMutableDictionary   *parmsDict;
+  NSMutableDictionary   *queryParmDict;
+  NSDictionary          *resultDict;
+  NSEnumerator          *enumerator;
+  NSString              *key;
+  NSDictionary          *queryResult;
+  NSDictionary          *result;
+  NSString              *doneStr;
+  BOOL                  done;
+  NSString              *queryLocator;
+  NSArray               *records;
+  NSDictionary          *record;
+  NSDictionary          *queryFault;
+  NSString              *sizeStr;
+  int                   size;
+  NSMutableDictionary   *objectsDict;
+  NSMutableDictionary   *object;
+  NSMutableArray        *objectsArray;
+  NSArray               *objectArray;
+
+
+  /* retrieve objects to create */
+  objectsDict = [NSMutableDictionary dictionaryWithCapacity: 2];
+  objectsArray = [reader readDataSet];
+  enumerator = [objectsArray objectEnumerator];
+  while ((key = [enumerator nextObject]))
+  {
+//    NSLog(@"%@ - %@", key, [resultDict objectForKey:key]); 
+  }
+
+  
+  
+  /* prepare the header */
+  sessionHeaderDict = [NSMutableDictionary dictionaryWithCapacity: 2];
+  [sessionHeaderDict setObject: sessionId forKey: @"sessionId"];
+  [sessionHeaderDict setObject: @"urn:partner.soap.sforce.com" forKey: GWSSOAPNamespaceURIKey];
+
+  headerDict = [NSMutableDictionary dictionaryWithCapacity: 2];
+  [headerDict setObject: sessionHeaderDict forKey: @"SessionHeader"];
+  [headerDict setObject: GWSSOAPUseLiteral forKey: GWSSOAPUseKey];
+  
+  /* prepare the parameters */
+  queryParmDict = [NSMutableDictionary dictionaryWithCapacity: 2];
+  [queryParmDict setObject: @"urn:partner.soap.sforce.com" forKey: GWSSOAPNamespaceURIKey];
+//  [queryParmDict setObject: queryString forKey: @"queryString"];
+  
+  
+  parmsDict = [NSMutableDictionary dictionaryWithCapacity: 1];
+  [parmsDict setObject: queryParmDict forKey: @"create"];
+  [parmsDict setObject: headerDict forKey:GWSSOAPMessageHeadersKey];
+
+  
+  /* make the query */  
+  resultDict = [service invokeMethod: @"create"
+                parameters : parmsDict
+		order : nil
+		timeout : 90];
+
+  NSLog(@"dict is %d big", [resultDict count]);
+
+  enumerator = [resultDict keyEnumerator];
+  while ((key = [enumerator nextObject]))
+  {
+//    NSLog(@"%@ - %@", key, [resultDict objectForKey:key]); 
+  }
+  
+  queryFault = [resultDict objectForKey:@"GWSCoderFault"];
+  if (queryFault != nil)
+    {
+      NSDictionary *fault;
+      NSDictionary *faultDetail;
+
+      faultDetail = [queryFault objectForKey:@"detail"];
+      fault = [faultDetail objectForKey:@"fault"];
+      NSLog(@"fault: %@", fault);
+      NSLog(@"exception code: %@", [fault objectForKey:@"exceptionCode"]);
+      NSLog(@"exception code: %@", [fault objectForKey:@"exceptionMessage"]);
+    }
+
+  queryResult = [resultDict objectForKey:@"GWSCoderParameters"];
+  result = [queryResult objectForKey:@"result"];
+  NSLog(@"result: %@", result);
+
+  doneStr = [result objectForKey:@"done"];
+  queryLocator = [result objectForKey:@"queryLocator"];
+  records = [result objectForKey:@"records"];
+  sizeStr = [result objectForKey:@"size"];
+ 
+  if (doneStr != nil)
+    {
+      NSLog(@"done: %@", doneStr);
+      done = NO;
+      if ([doneStr isEqualToString:@"true"])
+        done = YES;
+      else if ([doneStr isEqualToString:@"false"])
+        done = NO;
+      else
+        NSLog(@"Done, unexpected value: %@", doneStr);
+    }
+  else
+    {
+      NSLog(@"error, doneStr is nil: unexpected");
+      return;
+    }
+
+  if (sizeStr != nil)
+    {
+      int            i;
+      int            j;
+      int    batchSize;
+      NSMutableArray *keys;
+      NSMutableArray *set;
+      
+      
+      size = [sizeStr intValue];
+      batchSize = [records count];
+      NSLog(@"Declared size is: %d", size);
+      NSLog(@"records size is: %d", batchSize);
+      
+      /* let's get the fields from the keys of the first record */
+      record = [records objectAtIndex:0];
+      keys = [NSMutableArray arrayWithArray:[record allKeys]];
+      [keys removeObject:@"GWSCoderOrder"];
+
+      NSLog(@"keys: %@", keys);
+      
+//      [writer setFieldNames:[NSArray arrayWithArray:keys] andWriteIt:YES];
+      
+      set = [[NSMutableArray alloc] init];
+      
+      /* now cycle all the records and read out the fields */
+      for (i = 0; i < batchSize; i++)
+        {
+  	      NSMutableArray *values;
+	  
+	      record = [records objectAtIndex:i];
+	      values = [NSMutableArray arrayWithCapacity:[keys count]];
+	      for (j = 0; j < [keys count]; j++)
+	        {
+	          NSString *value;
+	      
+	          value = [record objectForKey:[keys objectAtIndex:j]];
+	          [values addObject:value];
+	        }
+	    NSLog(@"%d: %@", i, values);
+        [set addObject:values];
+	  }
+//      [writer writeDataSet:set];
+    }
+  if (!done)
+    {
+      NSLog(@"should do query more, queryLocator: %@", queryLocator);
+//      [self queryMore :queryLocator toWriter:writer];
+    }
+}
+
+- (NSArray *)describeGlobal
+{
+    NSMutableDictionary   *headerDict;
+  NSMutableDictionary   *sessionHeaderDict;
+  NSMutableDictionary   *parmsDict;
+  NSMutableDictionary   *queryParmDict;
+  NSDictionary          *resultDict;
+  NSEnumerator          *enumerator;
+  NSString              *key;
+  NSDictionary          *queryResult;
+  NSDictionary          *result;
+  NSString              *doneStr;
+  BOOL                  done;
+  NSString              *queryLocator;
+  NSArray               *records;
+  NSDictionary          *record;
+  NSDictionary          *queryFault;
+  NSString              *sizeStr;
+  int                   size;
+
+  /* prepare the header */
+  sessionHeaderDict = [NSMutableDictionary dictionaryWithCapacity: 2];
+  [sessionHeaderDict setObject: sessionId forKey: @"sessionId"];
+  [sessionHeaderDict setObject: @"urn:partner.soap.sforce.com" forKey: GWSSOAPNamespaceURIKey];
+
+  headerDict = [NSMutableDictionary dictionaryWithCapacity: 2];
+  [headerDict setObject: sessionHeaderDict forKey: @"SessionHeader"];
+  [headerDict setObject: GWSSOAPUseLiteral forKey: GWSSOAPUseKey];
+  
+  /* prepare the parameters */
+//  queryParmDict = [NSMutableDictionary dictionaryWithCapacity: 2];
+//  [queryParmDict setObject: @"urn:partner.soap.sforce.com" forKey: GWSSOAPNamespaceURIKey];
+//  [queryParmDict setObject: queryString forKey: @"queryString"];
+  
+  
+  parmsDict = [NSMutableDictionary dictionaryWithCapacity: 1];
+  [parmsDict setObject: @"" forKey: @"describeGlobal"];
+  [parmsDict setObject: headerDict forKey:GWSSOAPMessageHeadersKey];
+
+  
+  /* make the query */  
+  resultDict = [service invokeMethod: @"query"
+                parameters : parmsDict
+		order : nil
+		timeout : 90];
+
+  NSLog(@"dict is %d big", [resultDict count]);
+
+  enumerator = [resultDict keyEnumerator];
+  while ((key = [enumerator nextObject]))
+  {
+//    NSLog(@"%@ - %@", key, [resultDict objectForKey:key]); 
+  }
+  
+  queryFault = [resultDict objectForKey:@"GWSCoderFault"];
+  if (queryFault != nil)
+    {
+      NSDictionary *fault;
+      NSDictionary *faultDetail;
+
+      faultDetail = [queryFault objectForKey:@"detail"];
+      fault = [faultDetail objectForKey:@"fault"];
+      NSLog(@"fault: %@", fault);
+      NSLog(@"exception code: %@", [fault objectForKey:@"exceptionCode"]);
+      NSLog(@"exception code: %@", [fault objectForKey:@"exceptionMessage"]);
+    }
+
+  queryResult = [resultDict objectForKey:@"GWSCoderParameters"];
+  result = [queryResult objectForKey:@"result"];
+  NSLog(@"result: %@", result);
+
+  doneStr = [result objectForKey:@"done"];
+  queryLocator = [result objectForKey:@"queryLocator"];
+  records = [result objectForKey:@"records"];
+  sizeStr = [result objectForKey:@"size"];
+ 
+  if (doneStr != nil)
+    {
+      NSLog(@"done: %@", doneStr);
+      done = NO;
+      if ([doneStr isEqualToString:@"true"])
+        done = YES;
+      else if ([doneStr isEqualToString:@"false"])
+        done = NO;
+      else
+        NSLog(@"Done, unexpected value: %@", doneStr);
+    }
+  else
+    {
+      NSLog(@"error, doneStr is nil: unexpected");
+      return;
+    }
+
+  if (sizeStr != nil)
+    {
+      int            i;
+      int            j;
+      int    batchSize;
+      NSMutableArray *keys;
+      NSMutableArray *set;
+      
+      
+      size = [sizeStr intValue];
+      batchSize = [records count];
+      NSLog(@"Declared size is: %d", size);
+      NSLog(@"records size is: %d", batchSize);
+      
+      /* let's get the fields from the keys of the first record */
+      record = [records objectAtIndex:0];
+      keys = [NSMutableArray arrayWithArray:[record allKeys]];
+      [keys removeObject:@"GWSCoderOrder"];
+
+      NSLog(@"keys: %@", keys);
+      
+//      [writer setFieldNames:[NSArray arrayWithArray:keys] andWriteIt:YES];
+      
+      set = [[NSMutableArray alloc] init];
+      
+      /* now cycle all the records and read out the fields */
+      for (i = 0; i < batchSize; i++)
+        {
+  	      NSMutableArray *values;
+	  
+	      record = [records objectAtIndex:i];
+	      values = [NSMutableArray arrayWithCapacity:[keys count]];
+	      for (j = 0; j < [keys count]; j++)
+	        {
+	          NSString *value;
+	      
+	          value = [record objectForKey:[keys objectAtIndex:j]];
+	          [values addObject:value];
+	        }
+	    NSLog(@"%d: %@", i, values);
+        [set addObject:values];
+	  }
+//      [writer writeDataSet:set];
+    }
+  if (!done)
+    {
+      NSLog(@"should do query more, queryLocator: %@", queryLocator);
+//      [self queryMore :queryLocator toWriter:writer];
+    } 
+}
+
 /* accessors*/
 - (NSString *) sessionId
 {

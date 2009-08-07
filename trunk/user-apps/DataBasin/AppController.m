@@ -196,10 +196,13 @@
 
 - (IBAction)showInsert:(id)sender
 {
-  NSArray *objectsArray;
+  NSArray      *objectsArray;
 
   objectsArray = [db describeGlobal];
-  NSLog(@"objectsArray: %@", objectsArray);
+
+  [popupObjects removeAllItems];
+  [popupObjects addItemsWithTitles: objectsArray];
+
   [winInsert makeKeyAndOrderFront:self];
 }
 

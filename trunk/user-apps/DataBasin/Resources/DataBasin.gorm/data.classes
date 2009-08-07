@@ -27,7 +27,8 @@
 	    fieldFileSelect,
 	    winInsert,
 	    fieldQueryInsert,
-	    fieldFileInsert
+	    fieldFileInsert,
+	    popupObjects
 	);
 	Super = NSObject;
     };

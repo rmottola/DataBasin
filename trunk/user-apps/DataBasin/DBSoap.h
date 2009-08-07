@@ -26,6 +26,7 @@
 
 #import <WebServices/WebServices.h>
 #import "DBCVSWriter.h"
+#import "DBCVSReader.H"
 
 @interface DBSoap : NSObject
 {
@@ -39,6 +40,8 @@
 - (void)login :(NSURL *)url :(NSString *)userName :(NSString *)password;
 - (void)query :(NSString *)queryString toWriter:(DBCVSWriter *)writer;
 - (void)queryMore :(NSString *)queryLocator toWriter:(DBCVSWriter *)writer;
+- (void)create :(NSString *)objectName fromReader:(DBCVSReader *)reader;
+- (NSArray *)describeGlobal;
 
 - (NSString *) sessionId;
 - (NSString *) serverUrl;

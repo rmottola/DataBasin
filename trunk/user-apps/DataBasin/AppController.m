@@ -196,6 +196,7 @@
 
 - (IBAction)showInsert:(id)sender
 {
+  [db describeGlobal];
   [winInsert makeKeyAndOrderFront:self];
 }
 

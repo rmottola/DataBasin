@@ -26,6 +26,7 @@
                 fieldToken = NSTextField; 
                 fieldUserName = NSTextField; 
                 popupEnvironment = NSPopUpButton; 
+                popupObjects = NSPopUpButton; 
                 winInsert = NSWindow; 
                 winLogin = NSWindow; 
                 winSelect = NSWindow; 

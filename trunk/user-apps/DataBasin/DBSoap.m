@@ -445,20 +445,23 @@
   NSString              *sizeStr;
   int                   size;
   NSMutableDictionary   *objectsDict;
-  NSMutableDictionary   *object;
-  NSMutableArray        *objectsArray;
+  NSMutableDictionary   *objectDict;
+  NSArray               *objectsArray;
   NSArray               *objectArray;
+  NSArray               *fieldValues;
+  NSArray               *fieldNames;
+  int                   fieldCount;
+  NSMutableArray        *queryObjectsArray;
 
 
   /* retrieve objects to create */
+  
+  /* first the fields */
+  fieldNames = [reader fieldNames];
+  fieldCount = [fieldNames count];
   objectsDict = [NSMutableDictionary dictionaryWithCapacity: 2];
   objectsArray = [reader readDataSet];
-  enumerator = [objectsArray objectEnumerator];
-  while ((key = [enumerator nextObject]))
-  {
-//    NSLog(@"%@ - %@", key, [resultDict objectForKey:key]); 
-  }
-
+  
   
   
   /* prepare the header */
@@ -473,8 +476,29 @@
   /* prepare the parameters */
   queryParmDict = [NSMutableDictionary dictionaryWithCapacity: 2];
   [queryParmDict setObject: @"urn:partner.soap.sforce.com" forKey: GWSSOAPNamespaceURIKey];
-//  [queryParmDict setObject: queryString forKey: @"queryString"];
   
+  NSLog(@"objectsArray: %@", objectsArray);
+  queryObjectsArray = [NSMutableArray arrayWithCapacity: [objectsArray count]]; /* maybe a static array could be used here */
+  enumerator = [objectsArray objectEnumerator];
+  while ((fieldValues = [enumerator nextObject]))
+  {
+    unsigned int i;
+    NSMutableDictionary *sObj;
+    NSMutableDictionary *sObjType;
+    
+    sObj = [NSMutableDictionary dictionaryWithCapacity: 2];
+    [sObj setObject: @"urn:partner.soap.sforce.com" forKey: GWSSOAPNamespaceURIKey];
+    sObjType = [NSMutableDictionary dictionaryWithCapacity: 2];
+    [sObjType setObject: @"urn:sobject.partner.soap.sforce.com" forKey: GWSSOAPNamespaceURIKey];
+    [sObj setObject: objectName forKey:@"type"];
+    for (i = 0; i < fieldCount; i++)
+      {
+        NSLog(@"%@: %@ - %@", objectName, [fieldNames objectAtIndex:i], [fieldValues objectAtIndex:i]);
+        [sObj setObject: [fieldValues objectAtIndex:i] forKey: [fieldNames objectAtIndex:i]];
+      }
+    [queryObjectsArray addObject: sObj];
+  }
+  [queryParmDict setObject: queryObjectsArray forKey: @"sObjects"];
   
   parmsDict = [NSMutableDictionary dictionaryWithCapacity: 1];
   [parmsDict setObject: queryParmDict forKey: @"create"];
@@ -486,13 +510,17 @@
                 parameters : parmsDict
 		order : nil
 		timeout : 90];
+  
+  NSLog(@"request: %@", [[NSString alloc] initWithData:
+    	[resultDict objectForKey:@"GWSCoderRequestData"] encoding: NSUTF8StringEncoding]);
+  
 
   NSLog(@"dict is %d big", [resultDict count]);
 
   enumerator = [resultDict keyEnumerator];
   while ((key = [enumerator nextObject]))
   {
-//    NSLog(@"%@ - %@", key, [resultDict objectForKey:key]); 
+    NSLog(@"%@ - %@", key, [resultDict objectForKey:key]); 
   }
   
   queryFault = [resultDict objectForKey:@"GWSCoderFault"];
@@ -513,26 +541,10 @@
   NSLog(@"result: %@", result);
 
   doneStr = [result objectForKey:@"done"];
-  queryLocator = [result objectForKey:@"queryLocator"];
   records = [result objectForKey:@"records"];
   sizeStr = [result objectForKey:@"size"];
  
-  if (doneStr != nil)
-    {
-      NSLog(@"done: %@", doneStr);
-      done = NO;
-      if ([doneStr isEqualToString:@"true"])
-        done = YES;
-      else if ([doneStr isEqualToString:@"false"])
-        done = NO;
-      else
-        NSLog(@"Done, unexpected value: %@", doneStr);
-    }
-  else
-    {
-      NSLog(@"error, doneStr is nil: unexpected");
-      return;
-    }
+
 
   if (sizeStr != nil)
     {

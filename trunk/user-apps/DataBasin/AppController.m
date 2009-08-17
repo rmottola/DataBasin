@@ -227,17 +227,20 @@
   NSFileHandle  *fileHandle;
   NSFileManager *fileManager;
   DBCVSReader   *reader;
+  NSString      *intoWhichObject;
   
   filePath = [fieldFileInsert stringValue];
   NSLog(@"%@", filePath);
-   
+  
+  intoWhichObject = [[[popupObjects selectedItem] title] retain];
+  NSLog(@"object: %@", intoWhichObject);
   
   reader = [[DBCVSReader alloc] initWithPath:filePath];
   
-  [reader getFieldNames:[reader readLine]];
-  [reader readDataSet];
+  [db create:intoWhichObject fromReader:reader];
 
   [reader release];
+  [intoWhichObject release];
 }
 
 @end

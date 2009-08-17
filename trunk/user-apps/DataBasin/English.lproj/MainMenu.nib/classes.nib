@@ -16,6 +16,8 @@
             CLASS = AppController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
+                faultPanel = NSPanel; 
+                faultTextView = NSTextView; 
                 fieldFileInsert = NSTextField; 
                 fieldFileSelect = NSTextField; 
                 fieldPassword = NSTextField; 

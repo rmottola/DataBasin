@@ -32,6 +32,9 @@
 {
   DBSoap   *db;
 
+  /* fault panel */
+  IBOutlet NSPanel    *faultPanel;
+  IBOutlet NSTextView *faultTextView;
   /* login */
   IBOutlet NSWindow      *winLogin;
   IBOutlet NSTextField   *fieldUserName;

@@ -237,8 +237,16 @@
   
   reader = [[DBCVSReader alloc] initWithPath:filePath];
   
-  [db create:intoWhichObject fromReader:reader];
-
+  NS_DURING
+    [db create:intoWhichObject fromReader:reader];
+  NS_HANDLER
+    if ([[localException name] hasPrefix:@"DB"])
+      {
+        [faultTextView setString:[localException reason]];
+        [faultPanel makeKeyAndOrderFront:nil];
+      }
+  NS_ENDHANDLER
+  
   [reader release];
   [intoWhichObject release];
 }

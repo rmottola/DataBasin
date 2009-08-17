@@ -526,14 +526,15 @@
   queryFault = [resultDict objectForKey:@"GWSCoderFault"];
   if (queryFault != nil)
     {
-      NSDictionary *fault;
-      NSDictionary *faultDetail;
+      NSString *faultCode;
+      NSString *faultString;
 
-      faultDetail = [queryFault objectForKey:@"detail"];
-      fault = [faultDetail objectForKey:@"fault"];
-      NSLog(@"fault: %@", fault);
-      NSLog(@"exception code: %@", [fault objectForKey:@"exceptionCode"]);
-      NSLog(@"exception code: %@", [fault objectForKey:@"exceptionMessage"]);
+
+      faultCode = [queryFault objectForKey:@"faultcode"];
+      faultString = [queryFault objectForKey:@"faultstring"];
+      NSLog(@"fault code: %@", faultCode);
+      NSLog(@"fault String: %@", faultString);
+      [[NSException exceptionWithName:@"DBException" reason:faultString userInfo:nil] raise];
     }
 
   queryResult = [resultDict objectForKey:@"GWSCoderParameters"];
@@ -589,11 +590,6 @@
         [set addObject:values];
 	  }
 //      [writer writeDataSet:set];
-    }
-  if (!done)
-    {
-      NSLog(@"should do query more, queryLocator: %@", queryLocator);
-//      [self queryMore :queryLocator toWriter:writer];
     }
 }
 

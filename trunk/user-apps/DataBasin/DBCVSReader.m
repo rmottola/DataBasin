@@ -39,6 +39,7 @@
       fileContentString = [NSString stringWithContentsOfFile:filePath];
       linesArray = [[fileContentString componentsSeparatedByString:newLine] retain];
       currentLine = 0;
+      fieldNames = [[NSArray arrayWithArray:[self getFieldNames:[self readLine]]] retain];
    }
   return self;
 }
@@ -46,7 +47,13 @@
 - (void)dealloc
 {
   [linesArray release];
+  [fieldNames release];
   [super dealloc];
+}
+
+- (NSArray *)fieldNames
+{
+  return fieldNames;
 }
 
 - (NSArray *)getFieldNames:(NSString *)firstLine
@@ -64,12 +71,12 @@
       [record addObject:field];
       [scanner scanString:separator intoString:nil];
     }
-  field = [firstLine substringFromIndex:[scanner scanLocation]];
+/*  field = [firstLine substringFromIndex:[scanner scanLocation]];
   if (field != nil)
     {
       NSLog(@"field: %@", field);
       [record addObject:field];
-    }
+    } */
     
   NSLog(@"header %@", record);
   return record;
@@ -86,10 +93,11 @@
       NSArray *record;
       
       record = [self decodeOneLine:line];
-      NSLog(@"record %@", record);
-      [set addObject:record];
+//      NSLog(@"record %@", record);
+      if (record != nil)
+        [set addObject:record];
     }
-  return nil;
+  return set;
 }
 
 - (NSArray *)decodeOneLine:(NSString *)line
@@ -97,6 +105,9 @@
   NSScanner      *scanner;
   NSMutableArray *record;
   NSString       *field;
+  
+  if ([line length] == 0)
+    return nil;
   
   scanner = [NSScanner scannerWithString:line];
   record = [NSMutableArray arrayWithCapacity:1];
@@ -107,12 +118,12 @@
       [record addObject:field];
       [scanner scanString:separator intoString:nil];
     }
-  field = [line substringFromIndex:[scanner scanLocation]];
+/*  field = [line substringFromIndex:[scanner scanLocation]];
   if (field != nil)
     {
       NSLog(@"field: %@", field);
       [record addObject:field];
-    }  
+    }  */
   return record;
 }
 

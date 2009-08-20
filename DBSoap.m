@@ -452,6 +452,7 @@
   NSArray               *fieldNames;
   int                   fieldCount;
   NSMutableArray        *queryObjectsArray;
+  NSMutableArray        *queryObjectsDict;
 
 
   /* retrieve objects to create */
@@ -498,7 +499,8 @@
       }
     [queryObjectsArray addObject: sObj];
   }
-  [queryParmDict setObject: queryObjectsArray forKey: @"sObjects"];
+  queryObjectsDict = [NSDictionary dictionaryWithObjectsAndKeys: queryObjectsArray, GWSSOAPValueKey, @"YES", GWSSOAPRepeatedKey, nil];
+  [queryParmDict setObject: queryObjectsDict forKey: @"sObjects"];
   
   parmsDict = [NSMutableDictionary dictionaryWithCapacity: 1];
   [parmsDict setObject: queryParmDict forKey: @"create"];

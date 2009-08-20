@@ -129,10 +129,19 @@
     urlStr = @"http://test.salesforce.com/services/Soap/u/8.0";
   NSLog(@"Url: %@", urlStr);  
   url = [NSURL URLWithString:urlStr];
-  [db login :url :userName :password];
   
-  [fieldSessionId setStringValue:[db sessionId]];
-  [fieldServerUrl setStringValue:[db serverUrl]];
+  NS_DURING
+    [db login :url :userName :password];
+    [fieldSessionId setStringValue:[db sessionId]];
+    [fieldServerUrl setStringValue:[db serverUrl]];
+  NS_HANDLER
+    if ([[localException name] hasPrefix:@"DB"])
+      {
+        [faultTextView setString:[localException reason]];
+        [faultPanel makeKeyAndOrderFront:nil];
+      }
+  NS_ENDHANDLER
+    
 }
 
 /*  SELECT */
@@ -198,8 +207,15 @@
 {
   NSArray      *objectsArray;
 
-  objectsArray = [db describeGlobal];
-
+  NS_DURING
+    objectsArray = [db describeGlobal];
+  NS_HANDLER
+    if ([[localException name] hasPrefix:@"DB"])
+      {
+        [faultTextView setString:[localException reason]];
+        [faultPanel makeKeyAndOrderFront:nil];
+      }
+  NS_ENDHANDLER
   [popupObjects removeAllItems];
   [popupObjects addItemsWithTitles: objectsArray];
 

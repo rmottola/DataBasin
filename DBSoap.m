@@ -517,7 +517,7 @@
       }
     [queryObjectsArray addObject: sObj];
   }
-  queryObjectsDict = [NSDictionary dictionaryWithObjectsAndKeys: queryObjectsArray, GWSSOAPValueKey, @"YES", GWSSOAPRepeatedKey, nil];
+  queryObjectsDict = [NSDictionary dictionaryWithObjectsAndKeys: queryObjectsArray, GWSSOAPValueKey, @"YES", GWSSOAPSequenceKey, nil];
   [queryParmDict setObject: queryObjectsDict forKey: @"sObjects"];
   
   parmsDict = [NSMutableDictionary dictionaryWithCapacity: 1];

@@ -14,6 +14,8 @@
 	    "executeInsert:"
 	);
 	Outlets = (
+	    faultPanel,
+	    faultTextView,
 	    winLogin,
 	    fieldUserName,
 	    fieldPassword,

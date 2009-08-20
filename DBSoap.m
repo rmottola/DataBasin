@@ -43,6 +43,7 @@
   NSString              *key;
   NSDictionary          *loginResult;
   NSDictionary          *loginResult2;
+  NSDictionary          *queryFault;
 
 
   defs = [NSUserDefaults standardUserDefaults];
@@ -106,6 +107,20 @@
   NSLog(@"request: %@", [[NSString alloc] initWithData:
     	[resultDict objectForKey:@"GWSCoderRequestData"] encoding: NSUTF8StringEncoding]);
   
+  queryFault = [resultDict objectForKey:@"GWSCoderFault"];
+  if (queryFault != nil)
+  {
+    NSString *faultCode;
+    NSString *faultString;
+    
+    
+    faultCode = [queryFault objectForKey:@"faultcode"];
+    faultString = [queryFault objectForKey:@"faultstring"];
+    NSLog(@"fault code: %@", faultCode);
+    NSLog(@"fault String: %@", faultString);
+    [[NSException exceptionWithName:@"DBException" reason:faultString userInfo:nil] raise];
+  }
+  
   loginResult = [resultDict objectForKey:@"GWSCoderParameters"];
   NSLog(@"coder parameters is %@", loginResult);
   
@@ -141,7 +156,10 @@
   
   [coder release];
   
-  if (sessionId != nil)
+  if (sessionId == nil)
+  {
+    [[NSException exceptionWithName:@"DBException" reason:@"No Session information returned." userInfo:nil] raise];
+  }
   {
     NSLog(@"sessionId: %@", sessionId);
     NSLog(@"serverUrl: %@", serverUrl);
@@ -659,6 +677,7 @@
       NSLog(@"fault: %@", fault);
       NSLog(@"exception code: %@", [fault objectForKey:@"exceptionCode"]);
       NSLog(@"exception code: %@", [fault objectForKey:@"exceptionMessage"]);
+      [[NSException exceptionWithName:@"DBException" reason:[fault objectForKey:@"exceptionMessage"] userInfo:nil] raise];
     }
 
   queryResult = [resultDict objectForKey:@"GWSCoderParameters"];

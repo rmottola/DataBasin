@@ -472,7 +472,6 @@
   NSMutableArray        *queryObjectsArray;
   NSMutableArray        *queryObjectsDict;
 
-
   /* retrieve objects to create */
   
   /* first the fields */
@@ -498,26 +497,39 @@
   
   NSLog(@"objectsArray: %@", objectsArray);
   queryObjectsArray = [NSMutableArray arrayWithCapacity: [objectsArray count]]; /* maybe a static array could be used here */
+  
   enumerator = [objectsArray objectEnumerator];
   while ((fieldValues = [enumerator nextObject]))
   {
     unsigned int i;
     NSMutableDictionary *sObj;
     NSMutableDictionary *sObjType;
+    NSMutableArray      *sObjKeyOrder;
     
     sObj = [NSMutableDictionary dictionaryWithCapacity: 2];
     [sObj setObject: @"urn:partner.soap.sforce.com" forKey: GWSSOAPNamespaceURIKey];
+    sObjKeyOrder = [NSMutableArray arrayWithCapacity: 2];
+
+    /* each objects needs its type specifier which has its own namespace */
     sObjType = [NSMutableDictionary dictionaryWithCapacity: 2];
     [sObjType setObject: @"urn:sobject.partner.soap.sforce.com" forKey: GWSSOAPNamespaceURIKey];
-    [sObj setObject: objectName forKey:@"type"];
+    [sObjType setObject: objectName forKey:GWSSOAPValueKey];
+    [sObj setObject: sObjType forKey:@"type"];
+    [sObjKeyOrder addObject:@"type"];
+
     for (i = 0; i < fieldCount; i++)
       {
         NSLog(@"%@: %@ - %@", objectName, [fieldNames objectAtIndex:i], [fieldValues objectAtIndex:i]);
         [sObj setObject: [fieldValues objectAtIndex:i] forKey: [fieldNames objectAtIndex:i]];
+        [sObjKeyOrder addObject:[fieldNames objectAtIndex:i]];
       }
+    [sObj setObject: sObjKeyOrder forKey: GWSOrderKey];
     [queryObjectsArray addObject: sObj];
   }
+
+
   queryObjectsDict = [NSDictionary dictionaryWithObjectsAndKeys: queryObjectsArray, GWSSOAPValueKey, @"YES", GWSSOAPSequenceKey, nil];
+
   [queryParmDict setObject: queryObjectsDict forKey: @"sObjects"];
   
   parmsDict = [NSMutableDictionary dictionaryWithCapacity: 1];

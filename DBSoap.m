@@ -528,7 +528,8 @@
   }
 
 
-  queryObjectsDict = [NSDictionary dictionaryWithObjectsAndKeys: queryObjectsArray, GWSSOAPValueKey, @"YES", GWSSOAPSequenceKey, nil];
+//  queryObjectsDict = [NSDictionary dictionaryWithObjectsAndKeys: queryObjectsArray, GWSSOAPValueKey, @"S_ITEM", GWSSOAPArrayKey, nil];
+  queryObjectsDict = [NSDictionary dictionaryWithObjectsAndKeys: queryObjectsArray, GWSSOAPValueKey, nil];
 
   [queryParmDict setObject: queryObjectsDict forKey: @"sObjects"];
   

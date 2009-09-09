@@ -57,6 +57,10 @@
   IBOutlet NSTextView    *fieldQueryInsert;
   IBOutlet NSTextField   *fieldFileInsert;
   IBOutlet NSPopUpButton *popupObjects;
+  
+  /* quick delete */
+  IBOutlet NSWindow    *winQuickDelete;
+  IBOutlet NSTextField *fieldObjectIdQd;
 }
 
 + (void)initialize;
@@ -81,6 +85,9 @@
 - (IBAction)showSelect:(id)sender;
 - (IBAction)browseFileSelect:(id)sender;
 - (IBAction)executeSelect:(id)sender;
+
+- (IBAction)showQuickDelete:(id)sender;
+- (IBAction)quickDelete:(id)sender;
 
 - (IBAction)showInsert:(id)sender;
 - (IBAction)browseFileInsert:(id)sender;

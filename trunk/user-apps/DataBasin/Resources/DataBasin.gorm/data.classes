@@ -9,6 +9,8 @@
 	    "showSelect:",
 	    "browseFileSelect:",
 	    "executeSelect:",
+	    "showQuickDelete:",
+	    "quickDelete:",
 	    "showInsert:",
 	    "browseFileInsert:",
 	    "executeInsert:"
@@ -30,7 +32,9 @@
 	    winInsert,
 	    fieldQueryInsert,
 	    fieldFileInsert,
-	    popupObjects
+	    popupObjects,
+	    winQuickDelete,
+	    fieldObjectIdQd
 	);
 	Super = NSObject;
     };
@@ -44,9 +48,11 @@
 	    "executeQuery:",
 	    "executeSelect:",
 	    "orderFrontFontPanel:",
+	    "quickDelete:",
 	    "showInsert:",
 	    "showLogin:",
 	    "showPrefPanel:",
+	    "showQuickDelete:",
 	    "showSelect:",
 	    "showSessionInspector:"
 	);

@@ -2,6 +2,8 @@
     APPLICATIONICON = "";
     APP_DOCUMENT_BASED = NO;
     APP_TYPE = GORM;
+    BUILDER_ARGS = (
+    );
     BUILDER_TARGETS = (
 	all,
 	install,
@@ -10,6 +12,7 @@
 	distclean,
 	dist
     );
+    BUILDER_VERBOSE = NO;
     CLASS_FILES = (
 	AppController.m,
 	DBSoap.m,

@@ -455,22 +455,18 @@
   NSDictionary          *queryResult;
   NSDictionary          *result;
   NSString              *doneStr;
-  BOOL                  done;
-  NSString              *queryLocator;
   NSArray               *records;
   NSDictionary          *record;
   NSDictionary          *queryFault;
   NSString              *sizeStr;
   int                   size;
   NSMutableDictionary   *objectsDict;
-  NSMutableDictionary   *objectDict;
   NSArray               *objectsArray;
-  NSArray               *objectArray;
   NSArray               *fieldValues;
   NSArray               *fieldNames;
   int                   fieldCount;
   NSMutableArray        *queryObjectsArray;
-  NSMutableArray        *queryObjectsDict;
+  NSMutableDictionary   *queryObjectsDict;
 
   /* retrieve objects to create */
   
@@ -717,21 +713,11 @@
   NSDictionary          *queryResult;
   NSDictionary          *result;
   NSString              *doneStr;
-  BOOL                  done;
-  NSString              *queryLocator;
   NSArray               *records;
   NSDictionary          *record;
   NSDictionary          *queryFault;
   NSString              *sizeStr;
   int                   size;
-  NSMutableDictionary   *objectsDict;
-  NSMutableDictionary   *objectDict;
-  NSArray               *objectsArray;
-  NSArray               *objectArray;
-  NSArray               *fieldValues;
-  NSArray               *fieldNames;
-  int                   fieldCount;
-  NSMutableArray        *queryObjectsArray;
   NSMutableArray        *queryObjectsDict;
   
   /* prepare the header */
@@ -747,8 +733,6 @@
   queryParmDict = [NSMutableDictionary dictionaryWithCapacity: 2];
   [queryParmDict setObject: @"urn:partner.soap.sforce.com" forKey: GWSSOAPNamespaceURIKey];
   
-  NSLog(@"objectsArray: %@", objectsArray);
-//  queryObjectsArray = [NSMutableArray arrayWithCapacity: [objectIdArray count]]; /* maybe a static array could be used here */
 #if 0  
   enumerator = [objectIdArray objectEnumerator];
   while ((fieldValues = [enumerator nextObject]))

@@ -241,8 +241,6 @@
 - (IBAction)executeInsert:(id)sender
 {
   NSString      *filePath;
-  NSFileHandle  *fileHandle;
-  NSFileManager *fileManager;
   DBCVSReader   *reader;
   NSString      *intoWhichObject;
   

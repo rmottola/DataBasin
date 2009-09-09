@@ -207,6 +207,7 @@
 {
   NSArray      *objectsArray;
 
+  objectsArray  = nil;
   NS_DURING
     objectsArray = [db describeGlobal];
   NS_HANDLER
@@ -265,6 +266,37 @@
   
   [reader release];
   [intoWhichObject release];
+}
+
+/* QUICK DELETE */
+
+- (IBAction)showQuickDelete:(id)sender
+{
+  [winQuickDelete makeKeyAndOrderFront:self];
+}
+
+
+- (IBAction)quickDelete:(id)sender
+{
+  NSString  *objectId;
+  NSArray   *idArray;
+  
+  objectId = [fieldObjectIdQd stringValue];
+  
+  if (objectId == nil)
+    return;
+  
+  idArray = [NSArray arrayWithObject:objectId];
+  
+  NS_DURING
+    [db delete: idArray];
+  NS_HANDLER
+    if ([[localException name] hasPrefix:@"DB"])
+      {
+        [faultTextView setString:[localException reason]];
+        [faultPanel makeKeyAndOrderFront:nil];
+      }
+  NS_ENDHANDLER
 }
 
 @end

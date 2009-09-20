@@ -719,6 +719,7 @@
   NSString              *sizeStr;
   int                   size;
   NSMutableArray        *queryObjectsDict;
+  NSString              *errorStr;
   
   /* prepare the header */
   sessionHeaderDict = [NSMutableDictionary dictionaryWithCapacity: 2];
@@ -810,52 +811,32 @@
   result = [queryResult objectForKey:@"result"];
   NSLog(@"result: %@", result);
 
-  doneStr = [result objectForKey:@"done"];
-  records = [result objectForKey:@"records"];
-  sizeStr = [result objectForKey:@"size"];
- 
+  id message = [result objectForKey:@"message"];
+  id success = [result objectForKey:@"success"];
+  id errors = [result objectForKey:@"errors"];
 
+  NSLog(@"errors: %@", errors);
+  NSLog(@"success: %@", success);
+  NSLog(@"message: %@", message);
 
-  if (sizeStr != nil)
+  if (errors != nil)
     {
-      int            i;
-      int            j;
-      int    batchSize;
       NSMutableArray *keys;
-      NSMutableArray *set;
+      id *error;
+      NSEnumerator   *objEnu;
       
-      
-      size = [sizeStr intValue];
-      batchSize = [records count];
-      NSLog(@"Declared size is: %d", size);
-      NSLog(@"records size is: %d", batchSize);
-      
-      /* let's get the fields from the keys of the first record */
-      record = [records objectAtIndex:0];
-      keys = [NSMutableArray arrayWithArray:[record allKeys]];
-      [keys removeObject:@"GWSCoderOrder"];
-
-      NSLog(@"keys: %@", keys);
-      
-      set = [[NSMutableArray alloc] init];
-      
-      /* now cycle all the records and read out the fields */
-      for (i = 0; i < batchSize; i++)
+      objEnu = [errors objectEnumerator];
+      while ((error = [objEnu nextObject]))
         {
-  	      NSMutableArray *values;
-	  
-	      record = [records objectAtIndex:i];
-	      values = [NSMutableArray arrayWithCapacity:[keys count]];
-	      for (j = 0; j < [keys count]; j++)
-	        {
-	          NSString *value;
-	      
-	          value = [record objectForKey:[keys objectAtIndex:j]];
-	          [values addObject:value];
-	        }
-	    NSLog(@"%d: %@", i, values);
-        [set addObject:values];
-	  }
+          NSLog(@"error: %@", error);
+//        NSLog(@"%@ - %@", key, [resultDict objectForKey:key]); 
+        }
+      
+//      keys = [NSMutableArray arrayWithArray:[error allKeys]];
+//      [keys removeObject:@"GWSCoderOrder"];
+
+//      NSLog(@"keys: %@", keys);
+      
     }
 }
 

@@ -7,9 +7,11 @@
                 doLogin = id; 
                 executeInsert = id; 
                 executeSelect = id; 
+                quickDelete = id; 
                 showInsert = id; 
                 showLogin = id; 
                 showPrefPanel = id; 
+                showQuickDelete = id; 
                 showSelect = id; 
                 showSessionInspector = id; 
             }; 
@@ -20,6 +22,7 @@
                 faultTextView = NSTextView; 
                 fieldFileInsert = NSTextField; 
                 fieldFileSelect = NSTextField; 
+                fieldObjectIdQd = NSTextField; 
                 fieldPassword = NSTextField; 
                 fieldQueryInsert = NSTextView; 
                 fieldQuerySelect = NSTextView; 
@@ -31,6 +34,7 @@
                 popupObjects = NSPopUpButton; 
                 winInsert = NSWindow; 
                 winLogin = NSWindow; 
+                winQuickDelete = NSWindow; 
                 winSelect = NSWindow; 
                 winSessionInspector = NSWindow; 
             }; 

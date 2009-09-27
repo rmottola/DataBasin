@@ -297,4 +297,51 @@
   NS_ENDHANDLER
 }
 
+/* QUICK DELETE */
+
+- (IBAction)showDelete:(id)sender
+{
+  [winDelete makeKeyAndOrderFront:self];
+}
+
+- (IBAction)browseFileDelete:(id)sender
+{
+  NSOpenPanel *openPanel;
+  
+  openPanel = [NSOpenPanel openPanel];
+//  [openPanel setRequiredFileType:@"csv"];
+  if ([openPanel runModal] == NSOKButton)
+    {
+      NSString *fileName;
+      
+      fileName = [openPanel filename];
+      [fieldFileDelete setStringValue:fileName];
+    }
+}
+
+- (IBAction)executeDelete:(id)sender
+{
+  NSString  *objectId;
+  NSArray   *idArray;
+  NSString      *filePath;
+  DBCVSReader   *reader;
+  NSString      *intoWhichObject;
+  
+  filePath = [fieldFileDelete stringValue];
+  NSLog(@"%@", filePath);
+    
+  reader = [[DBCVSReader alloc] initWithPath:filePath byParsingHeaders:([checkSkipFirstLine state]==NSOnState)];  
+  
+  NS_DURING
+    [db deleteFromReader:reader];
+  NS_HANDLER
+    if ([[localException name] hasPrefix:@"DB"])
+      {
+        [faultTextView setString:[localException reason]];
+        [faultPanel makeKeyAndOrderFront:nil];
+      }
+  NS_ENDHANDLER
+}
+
+
 @end

@@ -13,7 +13,10 @@
 	    "quickDelete:",
 	    "showInsert:",
 	    "browseFileInsert:",
-	    "executeInsert:"
+	    "executeInsert:",
+	    "showDelete:",
+	    "browseFileDelete:",
+	    "executeDelete:"
 	);
 	Outlets = (
 	    faultPanel,
@@ -34,21 +37,28 @@
 	    fieldFileInsert,
 	    popupObjects,
 	    winQuickDelete,
-	    fieldObjectIdQd
+	    fieldObjectIdQd,
+	    winDelete,
+	    fieldQueryDelete,
+	    fieldFileDelete,
+	    checkSkipFirstLine
 	);
 	Super = NSObject;
     };
     FirstResponder = {
 	Actions = (
 	    "browseFile:",
+	    "browseFileDelete:",
 	    "browseFileInsert:",
 	    "browseFileSelect:",
 	    "doLogin:",
+	    "executeDelete:",
 	    "executeInsert:",
 	    "executeQuery:",
 	    "executeSelect:",
 	    "orderFrontFontPanel:",
 	    "quickDelete:",
+	    "showDelete:",
 	    "showInsert:",
 	    "showLogin:",
 	    "showPrefPanel:",

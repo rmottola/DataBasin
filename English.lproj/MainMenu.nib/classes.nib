@@ -2,12 +2,15 @@
     IBClasses = (
         {
             ACTIONS = {
+                browseFileDelete = id; 
                 browseFileInsert = id; 
                 browseFileSelect = id; 
                 doLogin = id; 
+                executeDelete = id; 
                 executeInsert = id; 
                 executeSelect = id; 
                 quickDelete = id; 
+                showDelete = id; 
                 showInsert = id; 
                 showLogin = id; 
                 showPrefPanel = id; 
@@ -18,12 +21,15 @@
             CLASS = AppController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
+                checkSkipFirstLine = NSButton; 
                 faultPanel = NSPanel; 
                 faultTextView = NSTextView; 
+                fieldFileDelete = NSTextField; 
                 fieldFileInsert = NSTextField; 
                 fieldFileSelect = NSTextField; 
                 fieldObjectIdQd = NSTextField; 
                 fieldPassword = NSTextField; 
+                fieldQueryDelete = NSTextView; 
                 fieldQueryInsert = NSTextView; 
                 fieldQuerySelect = NSTextView; 
                 fieldServerUrl = NSTextField; 
@@ -32,6 +38,7 @@
                 fieldUserName = NSTextField; 
                 popupEnvironment = NSPopUpButton; 
                 popupObjects = NSPopUpButton; 
+                winDelete = NSWindow; 
                 winInsert = NSWindow; 
                 winLogin = NSWindow; 
                 winQuickDelete = NSWindow; 

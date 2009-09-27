@@ -42,6 +42,7 @@
 - (void)queryMore :(NSString *)queryLocator toWriter:(DBCVSWriter *)writer;
 - (void)create :(NSString *)objectName fromReader:(DBCVSReader *)reader;
 - (void)delete :(NSArray *)objectIdArray;
+- (void)deleteFromReader:(DBCVSReader *)reader;
 - (NSArray *)describeGlobal;
 
 - (NSString *) sessionId;

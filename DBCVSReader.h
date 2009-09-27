@@ -38,6 +38,7 @@
 }
 
 - (id)initWithPath:(NSString *)filePath;
+- (id)initWithPath:(NSString *)filePath byParsingHeaders:(BOOL)parseHeader;
 - (NSArray *)getFieldNames:(NSString *)firstLine;
 - (NSArray *)fieldNames;
 - (NSArray *)readDataSet;

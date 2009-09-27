@@ -43,14 +43,14 @@
   IBOutlet NSPopUpButton *popupEnvironment;
   
   /* session status */
-  IBOutlet NSWindow    *winSessionInspector;
-  IBOutlet NSTextField *fieldSessionId;
-  IBOutlet NSTextField *fieldServerUrl;
+  IBOutlet NSWindow      *winSessionInspector;
+  IBOutlet NSTextField   *fieldSessionId;
+  IBOutlet NSTextField   *fieldServerUrl;
   
   /* query */
-  IBOutlet NSWindow    *winSelect;
-  IBOutlet NSTextView  *fieldQuerySelect;
-  IBOutlet NSTextField *fieldFileSelect;
+  IBOutlet NSWindow      *winSelect;
+  IBOutlet NSTextView    *fieldQuerySelect;
+  IBOutlet NSTextField   *fieldFileSelect;
   
   /* insert */
   IBOutlet NSWindow      *winInsert;
@@ -59,8 +59,14 @@
   IBOutlet NSPopUpButton *popupObjects;
   
   /* quick delete */
-  IBOutlet NSWindow    *winQuickDelete;
-  IBOutlet NSTextField *fieldObjectIdQd;
+  IBOutlet NSWindow      *winQuickDelete;
+  IBOutlet NSTextField   *fieldObjectIdQd;
+  
+  /* mass delete */
+  IBOutlet NSWindow      *winDelete;
+  IBOutlet NSTextView    *fieldQueryDelete;
+  IBOutlet NSTextField   *fieldFileDelete;
+  IBOutlet NSButton      *checkSkipFirstLine;
 }
 
 + (void)initialize;
@@ -92,5 +98,9 @@
 - (IBAction)showInsert:(id)sender;
 - (IBAction)browseFileInsert:(id)sender;
 - (IBAction)executeInsert:(id)sender;
+
+- (IBAction)showDelete:(id)sender;
+- (IBAction)browseFileDelete:(id)sender;
+- (IBAction)executeDelete:(id)sender;
 
 @end

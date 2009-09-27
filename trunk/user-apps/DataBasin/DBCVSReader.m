@@ -31,6 +31,15 @@
 {
   if ((self = [super init]))
     {
+      [self initWithPath:filePath byParsingHeaders:YES];
+    }
+  return self;
+}
+
+- (id)initWithPath:(NSString *)filePath byParsingHeaders:(BOOL)parseHeader
+{
+  if ((self = [super init]))
+    {
       NSString *fileContentString;
       isQualified = NO;
       qualifier = @"\"";
@@ -39,7 +48,8 @@
       fileContentString = [NSString stringWithContentsOfFile:filePath];
       linesArray = [[fileContentString componentsSeparatedByString:newLine] retain];
       currentLine = 0;
-      fieldNames = [[NSArray arrayWithArray:[self getFieldNames:[self readLine]]] retain];
+      if(parseHeader)
+        fieldNames = [[NSArray arrayWithArray:[self getFieldNames:[self readLine]]] retain];
    }
   return self;
 }
@@ -69,7 +79,7 @@
     {
       NSLog(@"field: %@", field);
       [record addObject:field];
-      [scanner scanString:separator intoString:nil];
+      [scanner scanString:separator intoString:(NSString **)nil];
     }
 /*  field = [firstLine substringFromIndex:[scanner scanLocation]];
   if (field != nil)
@@ -116,7 +126,7 @@
     {
       NSLog(@"field: %@", field);
       [record addObject:field];
-      [scanner scanString:separator intoString:nil];
+      [scanner scanString:separator intoString:(NSString **)nil];
     }
 /*  field = [line substringFromIndex:[scanner scanLocation]];
   if (field != nil)

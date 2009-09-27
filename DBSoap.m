@@ -822,7 +822,7 @@
   if (errors != nil)
     {
       NSMutableArray *keys;
-      id *error;
+      id error;
       NSEnumerator   *objEnu;
       
       objEnu = [errors objectEnumerator];
@@ -842,30 +842,10 @@
 
 - (void)deleteFromReader:(DBCVSReader *)reader
 {
-  NSMutableDictionary   *headerDict;
-  NSMutableDictionary   *sessionHeaderDict;
-  NSMutableDictionary   *parmsDict;
-  NSMutableDictionary   *queryParmDict;
-  NSDictionary          *resultDict;
-  NSEnumerator          *enumerator;
-  NSString              *key;
-  NSDictionary          *queryResult;
-  NSDictionary          *result;
-  NSString              *doneStr;
-  NSArray               *records;
-  NSDictionary          *record;
-  NSDictionary          *queryFault;
-  NSString              *sizeStr;
-  int                   size;
-  NSMutableDictionary   *objectsDict;
   NSMutableArray        *objectsArray;
-  NSArray               *fieldValues;
-  NSArray               *fieldNames;
-  int                   fieldCount;
-  NSMutableArray        *queryObjectsArray;
-  NSMutableDictionary   *queryObjectsDict;
 
   /* retrieve objects to delete */
+  // FIXME perhaps this copy is useless
   objectsArray = [NSMutableArray arrayWithArray:[reader readDataSet]];
   NSLog(@"objects to delete: %@", objectsArray);
   NSLog(@"count of objects to delete: %d", [objectsArray count]);

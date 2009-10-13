@@ -701,7 +701,7 @@
 }
 
 
-- (void)delete :(NSArray *)objectIdArray
+- (NSMutableArray *)delete :(NSArray *)objectIdArray
 {
   NSMutableDictionary   *headerDict;
   NSMutableDictionary   *sessionHeaderDict;
@@ -720,6 +720,7 @@
   int                   size;
   NSMutableArray        *queryObjectsDict;
   NSString              *errorStr;
+  NSMutableArray        *resultArray;
   
   /* prepare the header */
   sessionHeaderDict = [NSMutableDictionary dictionaryWithCapacity: 2];
@@ -734,38 +735,6 @@
   queryParmDict = [NSMutableDictionary dictionaryWithCapacity: 2];
   [queryParmDict setObject: @"urn:partner.soap.sforce.com" forKey: GWSSOAPNamespaceURIKey];
   
-#if 0  
-  enumerator = [objectIdArray objectEnumerator];
-  while ((fieldValues = [enumerator nextObject]))
-  {
-    unsigned int i;
-    NSMutableDictionary *sObj;
-    NSMutableDictionary *sObjType;
-    NSMutableArray      *sObjKeyOrder;
-    
-    sObj = [NSMutableDictionary dictionaryWithCapacity: 2];
-    [sObj setObject: @"urn:partner.soap.sforce.com" forKey: GWSSOAPNamespaceURIKey];
-    sObjKeyOrder = [NSMutableArray arrayWithCapacity: 2];
-
-    /* each objects needs its type specifier which has its own namespace */
-    sObjType = [NSMutableDictionary dictionaryWithCapacity: 2];
-    [sObjType setObject: @"urn:sobject.partner.soap.sforce.com" forKey: GWSSOAPNamespaceURIKey];
-    [sObjType setObject: objectName forKey:GWSSOAPValueKey];
-    [sObj setObject: sObjType forKey:@"type"];
-    [sObjKeyOrder addObject:@"type"];
-
-    for (i = 0; i < fieldCount; i++)
-      {
-        NSLog(@"%@: %@ - %@", objectName, [fieldNames objectAtIndex:i], [fieldValues objectAtIndex:i]);
-        [sObj setObject: [fieldValues objectAtIndex:i] forKey: [fieldNames objectAtIndex:i]];
-        [sObjKeyOrder addObject:[fieldNames objectAtIndex:i]];
-      }
-    [sObj setObject: sObjKeyOrder forKey: GWSOrderKey];
-    [queryObjectsArray addObject: sObj];
-  }
-#endif
-
-//  queryObjectsDict = [NSDictionary dictionaryWithObjectsAndKeys: queryObjectsArray, GWSSOAPValueKey, @"S_ITEM", GWSSOAPArrayKey, nil];
   queryObjectsDict = [NSDictionary dictionaryWithObjectsAndKeys: objectIdArray, GWSSOAPValueKey, nil];
 
   [queryParmDict setObject: queryObjectsDict forKey: @"ids"];
@@ -811,38 +780,52 @@
   result = [queryResult objectForKey:@"result"];
   NSLog(@"result: %@", result);
 
-  id message = [result objectForKey:@"message"];
-  id success = [result objectForKey:@"success"];
-  id errors = [result objectForKey:@"errors"];
+  resultArray = nil;
 
-  NSLog(@"errors: %@", errors);
-  NSLog(@"success: %@", success);
-  NSLog(@"message: %@", message);
-
-  if (errors != nil)
+  if (result != nil)
     {
       NSMutableArray *keys;
-      id error;
+      id resultRow;
       NSEnumerator   *objEnu;
-      
-      objEnu = [errors objectEnumerator];
-      while ((error = [objEnu nextObject]))
-        {
-          NSLog(@"error: %@", error);
-//        NSLog(@"%@ - %@", key, [resultDict objectForKey:key]); 
-        }
-      
-//      keys = [NSMutableArray arrayWithArray:[error allKeys]];
-//      [keys removeObject:@"GWSCoderOrder"];
+      NSDictionary   *rowDict;
 
-//      NSLog(@"keys: %@", keys);
-      
+      resultArray = [NSMutableArray arrayWithCapacity:1];
+      objEnu = [result objectEnumerator];
+      while ((resultRow = [objEnu nextObject]))
+        {
+          id message;
+          id success;
+          id errors;
+	  id statusCode;
+          id sfId;
+
+	  errors = [resultRow objectForKey:@"errors"];
+	  message  = [errors objectForKey:@"message"];          
+	  statusCode = [errors objectForKey:@"statusCode"]; 
+	  success = [resultRow objectForKey:@"success"];
+	  sfId = [resultRow objectForKey:@"id"];
+
+          NSLog(@"resultRow: %@", resultRow);
+          NSLog(@"errors: %@", errors);
+          NSLog(@"success: %@", success);
+          NSLog(@"message: %@", message);
+	  NSLog(@"statusCode: %@", statusCode);
+	  NSLog(@"id: %@", sfId);
+
+          rowDict = [NSDictionary dictionaryWithObjectsAndKeys:
+				    message, @"message",
+				  nil];
+	  [resultArray addObject:rowDict];
+	}
     }
+  NSLog(@"result array: %@", resultArray);
+  return resultArray;
 }
 
-- (void)deleteFromReader:(DBCVSReader *)reader
+- (NSMutableArray *)deleteFromReader:(DBCVSReader *)reader
 {
-  NSMutableArray        *objectsArray;
+  NSMutableArray *objectsArray;
+  NSMutableArray *resultArray;
 
   /* retrieve objects to delete */
   // FIXME perhaps this copy is useless
@@ -850,8 +833,9 @@
   NSLog(@"objects to delete: %@", objectsArray);
   NSLog(@"count of objects to delete: %d", [objectsArray count]);
 
-  [self delete:objectsArray];
+  resultArray = [self delete:objectsArray];
   [objectsArray release];
+  return resultArray;
 }
 
 /* accessors*/

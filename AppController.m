@@ -278,6 +278,7 @@
 {
   NSString  *objectId;
   NSArray   *idArray;
+  NSMutableArray *resultArray;
   
   objectId = [fieldObjectIdQd stringValue];
   
@@ -287,7 +288,7 @@
   idArray = [NSArray arrayWithObject:objectId];
   
   NS_DURING
-    [db delete: idArray];
+    resultArray = [db delete: idArray];
   NS_HANDLER
     if ([[localException name] hasPrefix:@"DB"])
       {
@@ -295,9 +296,21 @@
         [faultPanel makeKeyAndOrderFront:nil];
       }
   NS_ENDHANDLER
+
+    if ([resultArray count] > 0)
+      {
+	NSDictionary *resultDict;
+	NSString     *resultMsgStr;
+
+	resultDict = [resultArray objectAtIndex:0];
+	resultMsgStr = [resultDict objectForKey:@"message"];
+
+        [faultTextView setString:resultMsgStr];
+        [faultPanel makeKeyAndOrderFront:nil];
+      }
 }
 
-/* QUICK DELETE */
+/* DELETE */
 
 - (IBAction)showDelete:(id)sender
 {

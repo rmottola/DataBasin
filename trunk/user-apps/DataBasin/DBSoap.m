@@ -775,11 +775,11 @@
       NSLog(@"fault String: %@", faultString);
       [[NSException exceptionWithName:@"DBException" reason:faultString userInfo:nil] raise];
     }
-
+  
   queryResult = [resultDict objectForKey:@"GWSCoderParameters"];
   result = [queryResult objectForKey:@"result"];
   NSLog(@"result: %@", result);
-
+  
   resultArray = nil;
 
   if (result != nil)
@@ -789,7 +789,7 @@
       NSEnumerator   *objEnu;
       NSDictionary   *rowDict;
 
-      resultArray = [NSMutableArray arrayWithCapacity:1];
+      resultArray = [[NSMutableArray arrayWithCapacity:1] retain];
       objEnu = [result objectEnumerator];
       while ((resultRow = [objEnu nextObject]))
         {
@@ -819,7 +819,7 @@
 	}
     }
   NSLog(@"result array: %@", resultArray);
-  return resultArray;
+  return [resultArray autorelease];
 }
 
 - (NSMutableArray *)deleteFromReader:(DBCVSReader *)reader
@@ -829,7 +829,7 @@
 
   /* retrieve objects to delete */
   // FIXME perhaps this copy is useless
-  objectsArray = [NSMutableArray arrayWithArray:[reader readDataSet]];
+  objectsArray = [[NSMutableArray arrayWithArray:[reader readDataSet]] retain];
   NSLog(@"objects to delete: %@", objectsArray);
   NSLog(@"count of objects to delete: %d", [objectsArray count]);
 

@@ -354,6 +354,8 @@
         [faultPanel makeKeyAndOrderFront:nil];
       }
   NS_ENDHANDLER
+
+  [reader release];
 }
 
 

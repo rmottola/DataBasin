@@ -650,7 +650,7 @@
   
   /* prepare the parameters */
   queryParmDict = [NSMutableDictionary dictionaryWithCapacity: 2];
-  [queryParmDict setObject: @"urn:partner.soap.sforce.com" forKey: GWSSOAPNamespaceURIKey]
+  [queryParmDict setObject: @"urn:partner.soap.sforce.com" forKey: GWSSOAPNamespaceURIKey];
   
   parmsDict = [NSMutableDictionary dictionaryWithCapacity: 1];
   [parmsDict setObject: queryParmDict forKey: @"describeGlobal"];

@@ -71,7 +71,7 @@
 
   [service setURL:url];
   
-  [service setDebug:YES];
+//  [service setDebug:YES];
   
   
   /* prepare the parameters */
@@ -149,9 +149,10 @@
   
   /* since Salesforce seems to be stubborn and returns an https connection
      even if we initiate a non-secure one, we force it to http */
-  if ([[serverUrl substringToIndex:6] isEqualToString:@"https"])
+  if ([[serverUrl substringToIndex:5] isEqualToString:@"https"])
   {
-      serverUrl = [@"http://" stringByAppendingString:[serverUrl substringFromIndex:6]];
+    NSLog(@"we have https....");
+      serverUrl = [@"http" stringByAppendingString:[serverUrl substringFromIndex:5]];
   }
   
   [coder release];
@@ -166,7 +167,7 @@
   }
   
   [service setURL:serverUrl];
-  [service setDebug:YES];
+//  [service setDebug:YES];
 }
 
 - (void)query :(NSString *)queryString toWriter:(DBCVSWriter *)writer
@@ -649,9 +650,7 @@
   
   /* prepare the parameters */
   queryParmDict = [NSMutableDictionary dictionaryWithCapacity: 2];
-  [queryParmDict setObject: @"urn:partner.soap.sforce.com" forKey: GWSSOAPNamespaceURIKey];
-  //  [queryParmDict setObject: queryString forKey: @"queryString"];
-  
+  [queryParmDict setObject: @"urn:partner.soap.sforce.com" forKey: GWSSOAPNamespaceURIKey]
   
   parmsDict = [NSMutableDictionary dictionaryWithCapacity: 1];
   [parmsDict setObject: queryParmDict forKey: @"describeGlobal"];
@@ -664,16 +663,8 @@
 		order : nil
 		timeout : 90];
 
-  //  NSLog(@"request: %@", [[NSString alloc] initWithData:
-  //    	[resultDict objectForKey:@"GWSCoderRequestData"] encoding: NSUTF8StringEncoding]);
 
   NSLog(@"dict is %d big", [resultDict count]);
-
-  enumerator = [resultDict keyEnumerator];
-  while ((key = [enumerator nextObject]))
-  {
-//    NSLog(@"%@ - %@", key, [resultDict objectForKey:key]); 
-  }
   
   queryFault = [resultDict objectForKey:@"GWSCoderFault"];
   if (queryFault != nil)
@@ -685,7 +676,7 @@
       fault = [faultDetail objectForKey:@"fault"];
       NSLog(@"fault: %@", fault);
       NSLog(@"exception code: %@", [fault objectForKey:@"exceptionCode"]);
-      NSLog(@"exception code: %@", [fault objectForKey:@"exceptionMessage"]);
+      NSLog(@"exception message: %@", [fault objectForKey:@"exceptionMessage"]);
       [[NSException exceptionWithName:@"DBException" reason:[fault objectForKey:@"exceptionMessage"] userInfo:nil] raise];
     }
 
@@ -756,18 +747,11 @@
 
   NSLog(@"dict is %d big", [resultDict count]);
 
-  enumerator = [resultDict keyEnumerator];
-  while ((key = [enumerator nextObject]))
-  {
-    NSLog(@"%@ - %@", key, [resultDict objectForKey:key]); 
-  }
-  
   queryFault = [resultDict objectForKey:@"GWSCoderFault"];
   if (queryFault != nil)
     {
       NSString *faultCode;
       NSString *faultString;
-
 
       faultCode = [queryFault objectForKey:@"faultcode"];
       faultString = [queryFault objectForKey:@"faultstring"];
@@ -789,6 +773,10 @@
       NSEnumerator   *objEnu;
       NSDictionary   *rowDict;
 
+      /* if only one element gets returned, GWS can't interpret it as an array */
+      if (!([result isKindOfClass: [NSArray class]]))
+         result = [NSArray arrayWithObject: result];
+         
       resultArray = [[NSMutableArray arrayWithCapacity:1] retain];
       objEnu = [result objectEnumerator];
       while ((resultRow = [objEnu nextObject]))
@@ -796,28 +784,28 @@
           id message;
           id success;
           id errors;
-	  id statusCode;
+          id statusCode;
           id sfId;
 
-	  errors = [resultRow objectForKey:@"errors"];
-	  message  = [errors objectForKey:@"message"];          
-	  statusCode = [errors objectForKey:@"statusCode"]; 
-	  success = [resultRow objectForKey:@"success"];
-	  sfId = [resultRow objectForKey:@"id"];
+          errors = [resultRow objectForKey:@"errors"];
+          message  = [errors objectForKey:@"message"];          
+          statusCode = [errors objectForKey:@"statusCode"]; 
+          success = [resultRow objectForKey:@"success"];
+          sfId = [resultRow objectForKey:@"id"];
 
           NSLog(@"resultRow: %@", resultRow);
           NSLog(@"errors: %@", errors);
           NSLog(@"success: %@", success);
           NSLog(@"message: %@", message);
-	  NSLog(@"statusCode: %@", statusCode);
-	  NSLog(@"id: %@", sfId);
+          NSLog(@"statusCode: %@", statusCode);
+          NSLog(@"id: %@", sfId);
 
           rowDict = [NSDictionary dictionaryWithObjectsAndKeys:
 				    message, @"message",
 				  nil];
 	  [resultArray addObject:rowDict];
 	}
-    }
+  }
   NSLog(@"result array: %@", resultArray);
   return [resultArray autorelease];
 }

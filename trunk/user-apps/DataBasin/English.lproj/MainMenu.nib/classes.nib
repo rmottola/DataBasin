@@ -34,6 +34,7 @@
                 fieldQuerySelect = NSTextView; 
                 fieldServerUrl = NSTextField; 
                 fieldSessionId = NSTextField; 
+                fieldStatusQd = NSTextField; 
                 fieldToken = NSTextField; 
                 fieldUserName = NSTextField; 
                 popupEnvironment = NSPopUpButton; 

@@ -304,10 +304,11 @@
       
         resultDict = [resultArray objectAtIndex:0];
         if ([[resultDict objectForKey:@"success"] isEqualToString:@"true"])
-          NSLog(@"Item successfully deleted");
+          [fieldStatusQd setStringValue:@"Deletion completed."];
         else
           {
             resultMsgStr = [resultDict objectForKey:@"message"];
+            [fieldStatusQd setStringValue:[resultDict objectForKey:@"statusCode"]];
             [faultTextView setString:resultMsgStr];
             [faultPanel makeKeyAndOrderFront:nil];
           }
@@ -319,7 +320,7 @@
 
 	resultDict = [resultArray objectAtIndex:0];
 	resultMsgStr = [resultDict objectForKey:@"message"];
-
+        [fieldStatusQd setStringValue:[resultDict objectForKey:@"statusCode"]];
         [faultTextView setString:resultMsgStr];
         [faultPanel makeKeyAndOrderFront:nil];
       }

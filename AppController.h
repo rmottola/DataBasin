@@ -61,6 +61,7 @@
   /* quick delete */
   IBOutlet NSWindow      *winQuickDelete;
   IBOutlet NSTextField   *fieldObjectIdQd;
+  IBOutlet NSTextField   *fieldStatusQd;
   
   /* mass delete */
   IBOutlet NSWindow      *winDelete;

@@ -800,9 +800,21 @@
           NSLog(@"statusCode: %@", statusCode);
           NSLog(@"id: %@", sfId);
 
-          rowDict = [NSDictionary dictionaryWithObjectsAndKeys:
-				    message, @"message",
-				  nil];
+          if ([success isEqualToString:@"true"])
+            {
+              rowDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                success, @"success",
+                sfId, @"id",
+                nil];            
+            }
+          else
+            {
+              rowDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                success, @"success",
+                message, @"message",
+                statusCode, @"statusCode",
+                nil];
+            }
 	  [resultArray addObject:rowDict];
 	}
   }

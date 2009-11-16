@@ -299,6 +299,21 @@
 
     if ([resultArray count] > 0)
       {
+        NSDictionary *resultDict;
+        NSString     *resultMsgStr;
+      
+        resultDict = [resultArray objectAtIndex:0];
+        if ([[resultDict objectForKey:@"success"] isEqualToString:@"true"])
+          NSLog(@"Item successfully deleted");
+        else
+          {
+            resultMsgStr = [resultDict objectForKey:@"message"];
+            [faultTextView setString:resultMsgStr];
+            [faultPanel makeKeyAndOrderFront:nil];
+          }
+      }
+    else
+      {
 	NSDictionary *resultDict;
 	NSString     *resultMsgStr;
 

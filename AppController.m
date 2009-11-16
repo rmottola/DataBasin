@@ -279,15 +279,17 @@
   NSString  *objectId;
   NSArray   *idArray;
   NSMutableArray *resultArray;
-  
+
+  [fieldStatusQd setStringValue:@""];
   objectId = [fieldObjectIdQd stringValue];
   
-  if (objectId == nil)
+  if (objectId == nil || [objectId length] == 0)
     return;
   
   idArray = [NSArray arrayWithObject:objectId];
   
   NS_DURING
+    [fieldStatusQd setStringValue:@"Working..."];
     resultArray = [db delete: idArray];
   NS_HANDLER
     if ([[localException name] hasPrefix:@"DB"])

@@ -38,6 +38,7 @@
 	    popupObjects,
 	    winQuickDelete,
 	    fieldObjectIdQd,
+	    fieldStatusQd,
 	    winDelete,
 	    fieldQueryDelete,
 	    fieldFileDelete,

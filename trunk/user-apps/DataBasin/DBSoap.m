@@ -1,7 +1,7 @@
 /*
    Project: DataBasin
 
-   Copyright (C) 2008-2009 Free Software Foundation
+   Copyright (C) 2008-2010 Free Software Foundation
 
    Author: Riccardo Mottola
 
@@ -98,14 +98,14 @@
   NSLog(@"dict is %d big", [resultDict count]);
   
   enumerator = [resultDict keyEnumerator];
-  while ((key = [enumerator nextObject]))
+/*  while ((key = [enumerator nextObject]))
   {
     NSLog(@"%@ - %@", key, [resultDict objectForKey:key]); 
-  }
+  } */
   
 
-  NSLog(@"request: %@", [[NSString alloc] initWithData:
-    	[resultDict objectForKey:@"GWSCoderRequestData"] encoding: NSUTF8StringEncoding]);
+//  NSLog(@"request: %@", [[NSString alloc] initWithData:
+//    	[resultDict objectForKey:@"GWSCoderRequestData"] encoding: NSUTF8StringEncoding]);
   
   queryFault = [resultDict objectForKey:@"GWSCoderFault"];
   if (queryFault != nil)
@@ -167,7 +167,6 @@
   }
   
   [service setURL:serverUrl];
-//  [service setDebug:YES];
 }
 
 - (void)query :(NSString *)queryString toWriter:(DBCVSWriter *)writer
@@ -221,7 +220,7 @@
   enumerator = [resultDict keyEnumerator];
   while ((key = [enumerator nextObject]))
   {
-//    NSLog(@"%@ - %@", key, [resultDict objectForKey:key]); 
+    NSLog(@"%@ - %@", key, [resultDict objectForKey:key]); 
   }
   
   queryFault = [resultDict objectForKey:@"GWSCoderFault"];
@@ -282,6 +281,14 @@
       keys = [NSMutableArray arrayWithArray:[record allKeys]];
       [keys removeObject:@"GWSCoderOrder"];
 
+      /* remove some fields which get added automatically by salesforce even if not asked for */
+      [keys removeObject:@"type"];
+      
+      /* remove Id only if it is null, else an array of two populated Id is returned by SF */
+      if (![[record objectForKey:@"Id"] isKindOfClass: [NSArray class]])
+          [keys removeObject:@"Id"];
+
+
       NSLog(@"keys: %@", keys);
       
       [writer setFieldNames:[NSArray arrayWithArray:keys] andWriteIt:YES];
@@ -291,20 +298,27 @@
       /* now cycle all the records and read out the fields */
       for (i = 0; i < batchSize; i++)
         {
-  	      NSMutableArray *values;
+          NSMutableArray *values;
 	  
-	      record = [records objectAtIndex:i];
-	      values = [NSMutableArray arrayWithCapacity:[keys count]];
-	      for (j = 0; j < [keys count]; j++)
-	        {
-	          NSString *value;
-	      
-	          value = [record objectForKey:[keys objectAtIndex:j]];
-	          [values addObject:value];
-	        }
-	    NSLog(@"%d: %@", i, values);
-        [set addObject:values];
-	  }
+          record = [records objectAtIndex:i];
+          values = [NSMutableArray arrayWithCapacity:[keys count]];
+          for (j = 0; j < [keys count]; j++)
+            {
+              id       obj;
+              id       value;
+              NSString *key;
+              
+              key = [keys objectAtIndex:j];
+              obj = [record objectForKey: key];
+              if ([key isEqualToString:@"Id"])
+                  value = [(NSArray *)obj objectAtIndex: 0];
+              else
+                  value = obj;
+              [values addObject:value];
+            }
+          NSLog(@"%d: %@", i, values);
+          [set addObject:values];
+        }
       [writer writeDataSet:set];
     }
   if (!done)
@@ -420,20 +434,27 @@
       /* now cycle all the records and read out the fields */
       for (i = 0; i < batchSize; i++)
         {
-  	      NSMutableArray *values;
+          NSMutableArray *values;
 	  
-	      record = [records objectAtIndex:i];
-	      values = [NSMutableArray arrayWithCapacity:[keys count]];
-	      for (j = 0; j < [keys count]; j++)
-	        {
-	          NSString *value;
-	      
-	          value = [record objectForKey:[keys objectAtIndex:j]];
-	          [values addObject:value];
-	        }
-	    NSLog(@"%d: %@", i, values);
-        [set addObject:values];
-	  }
+          record = [records objectAtIndex:i];
+          values = [NSMutableArray arrayWithCapacity:[keys count]];
+          for (j = 0; j < [keys count]; j++)
+          {
+              id       obj;
+              id       value;
+              NSString *key;
+              
+              key = [keys objectAtIndex:j];
+              obj = [record objectForKey: key];
+              if ([key isEqualToString:@"Id"])
+                  value = [(NSArray *)obj objectAtIndex: 0];
+              else
+                  value = obj;
+              [values addObject:value];
+          }
+          NSLog(@"%d: %@", i, values);
+          [set addObject:values];
+        }
       [writer writeDataSet:set];
     }
   if (!done)

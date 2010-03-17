@@ -17,6 +17,7 @@
                 showQuickDelete = id; 
                 showSelect = id; 
                 showSessionInspector = id; 
+                showUserInspector = id; 
             }; 
             CLASS = AppController; 
             LANGUAGE = ObjC; 
@@ -28,15 +29,22 @@
                 fieldFileInsert = NSTextField; 
                 fieldFileSelect = NSTextField; 
                 fieldObjectIdQd = NSTextField; 
+                fieldOrgId = NSTextField; 
+                fieldOrgName = NSTextField; 
                 fieldPassword = NSTextField; 
-                fieldQueryDelete = NSTextView; 
-                fieldQueryInsert = NSTextView; 
+                fieldProfileId = NSTextField; 
+                fieldPwdExpired = NSTextField; 
                 fieldQuerySelect = NSTextView; 
+                fieldRoleId = NSTextField; 
                 fieldServerUrl = NSTextField; 
                 fieldSessionId = NSTextField; 
                 fieldStatusQd = NSTextField; 
                 fieldToken = NSTextField; 
+                fieldUserEmail = NSTextField; 
+                fieldUserFullName = NSTextField; 
+                fieldUserId = NSTextField; 
                 fieldUserName = NSTextField; 
+                fieldUserNameInsp = NSTextField; 
                 popupEnvironment = NSPopUpButton; 
                 popupObjects = NSPopUpButton; 
                 winDelete = NSWindow; 
@@ -45,6 +53,7 @@
                 winQuickDelete = NSWindow; 
                 winSelect = NSWindow; 
                 winSessionInspector = NSWindow; 
+                winUserInspector = NSWindow; 
             }; 
             SUPERCLASS = NSObject; 
         }, 

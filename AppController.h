@@ -35,6 +35,7 @@
   /* fault panel */
   IBOutlet NSPanel    *faultPanel;
   IBOutlet NSTextView *faultTextView;
+  
   /* login */
   IBOutlet NSWindow      *winLogin;
   IBOutlet NSTextField   *fieldUserName;
@@ -46,7 +47,20 @@
   IBOutlet NSWindow      *winSessionInspector;
   IBOutlet NSTextField   *fieldSessionId;
   IBOutlet NSTextField   *fieldServerUrl;
+  IBOutlet NSTextField   *fieldPwdExpired;
+
+  /* user and environment */
+  IBOutlet NSWindow      *winUserInspector;
+  IBOutlet NSTextField   *fieldOrgId;
+  IBOutlet NSTextField   *fieldOrgName;
+  IBOutlet NSTextField   *fieldUserNameInsp;
+  IBOutlet NSTextField   *fieldUserFullName;
+  IBOutlet NSTextField   *fieldUserEmail;
+  IBOutlet NSTextField   *fieldUserId;
+  IBOutlet NSTextField   *fieldProfileId;
+  IBOutlet NSTextField   *fieldRoleId;
   
+
   /* query */
   IBOutlet NSWindow      *winSelect;
   IBOutlet NSTextView    *fieldQuerySelect;
@@ -54,7 +68,6 @@
   
   /* insert */
   IBOutlet NSWindow      *winInsert;
-  IBOutlet NSTextView    *fieldQueryInsert;
   IBOutlet NSTextField   *fieldFileInsert;
   IBOutlet NSPopUpButton *popupObjects;
   
@@ -65,7 +78,6 @@
   
   /* mass delete */
   IBOutlet NSWindow      *winDelete;
-  IBOutlet NSTextView    *fieldQueryDelete;
   IBOutlet NSTextField   *fieldFileDelete;
   IBOutlet NSButton      *checkSkipFirstLine;
 }
@@ -88,6 +100,7 @@
 - (IBAction)doLogin:(id)sender;
 
 - (IBAction)showSessionInspector:(id)sender;
+- (IBAction)showUserInspector:(id)sender;
 
 - (IBAction)showSelect:(id)sender;
 - (IBAction)browseFileSelect:(id)sender;

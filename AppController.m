@@ -98,6 +98,14 @@
   [winSessionInspector makeKeyAndOrderFront:self];
 }
 
+/* USER INSPECTOR */
+
+- (IBAction)showUserInspector:(id)sender
+{
+  [winUserInspector makeKeyAndOrderFront:self];
+}
+
+
 /* LOGIN */
 
 - (IBAction)showLogin:(id)sender
@@ -112,6 +120,7 @@
   NSString *token;
   NSString *urlStr;
   NSURL    *url;
+  NSDictionary *uInfo;
   
   userName = [fieldUserName stringValue];
   password = [fieldPassword stringValue];
@@ -132,8 +141,26 @@
   
   NS_DURING
     [db login :url :userName :password];
+    
+    /* session inspector fields */
     [fieldSessionId setStringValue:[db sessionId]];
     [fieldServerUrl setStringValue:[db serverUrl]];
+    if ([db passwordExpired])
+      [fieldPwdExpired setStringValue: @"YES"];
+    else
+      [fieldPwdExpired setStringValue: @"NO"];
+    
+    /* user inspector fields */
+    uInfo = [db userInfo];
+    [fieldOrgName setStringValue: [uInfo valueForKey:@"organizationName"]];
+    [fieldOrgId setStringValue: [uInfo valueForKey:@"organizationId"]];
+    [fieldUserNameInsp setStringValue: [uInfo valueForKey:@"userName"]];
+    [fieldUserFullName setStringValue: [uInfo valueForKey:@"userFullName"]];
+    [fieldUserEmail setStringValue: [uInfo valueForKey:@"userEmail"]];
+    [fieldUserId setStringValue: [uInfo valueForKey:@"userId"]];
+    [fieldProfileId setStringValue: [uInfo valueForKey:@"profileId"]];
+    [fieldRoleId setStringValue: [uInfo valueForKey:@"roleId"]];
+
   NS_HANDLER
     if ([[localException name] hasPrefix:@"DB"])
       {

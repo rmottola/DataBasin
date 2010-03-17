@@ -546,7 +546,6 @@
   }
 
 
-//  queryObjectsDict = [NSDictionary dictionaryWithObjectsAndKeys: queryObjectsArray, GWSSOAPValueKey, @"S_ITEM", GWSSOAPArrayKey, nil];
   queryObjectsDict = [NSDictionary dictionaryWithObjectsAndKeys: queryObjectsArray, GWSSOAPValueKey, nil];
 
   [queryParmDict setObject: queryObjectsDict forKey: @"sObjects"];
@@ -619,28 +618,25 @@
 
       NSLog(@"keys: %@", keys);
       
-//      [writer setFieldNames:[NSArray arrayWithArray:keys] andWriteIt:YES];
-      
       set = [[NSMutableArray alloc] init];
       
       /* now cycle all the records and read out the fields */
       for (i = 0; i < batchSize; i++)
         {
-  	      NSMutableArray *values;
+          NSMutableArray *values;
 	  
-	      record = [records objectAtIndex:i];
-	      values = [NSMutableArray arrayWithCapacity:[keys count]];
-	      for (j = 0; j < [keys count]; j++)
-	        {
-	          NSString *value;
+          record = [records objectAtIndex:i];
+          values = [NSMutableArray arrayWithCapacity:[keys count]];
+          for (j = 0; j < [keys count]; j++)
+            {
+              NSString *value;
 	      
-	          value = [record objectForKey:[keys objectAtIndex:j]];
-	          [values addObject:value];
-	        }
-	    NSLog(@"%d: %@", i, values);
-        [set addObject:values];
-	  }
-//      [writer writeDataSet:set];
+              value = [record objectForKey:[keys objectAtIndex:j]];
+              [values addObject:value];
+            }
+          NSLog(@"%d: %@", i, values);
+          [set addObject:values];
+        }
     }
 }
 
@@ -872,7 +868,6 @@
 
 - (void)dealloc
 {
-  NSLog(@"dealloc service");
   [service release];
   [super dealloc];
 }

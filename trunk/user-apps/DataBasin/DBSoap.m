@@ -43,6 +43,7 @@
   NSString              *key;
   NSDictionary          *loginResult;
   NSDictionary          *loginResult2;
+  NSDictionary          *userInfoResult;
   NSDictionary          *queryFault;
 
 
@@ -141,12 +142,26 @@
   {
     NSLog(@"%@ - %@", key, [loginResult2 objectForKey:key]); 
   }
-  
-  
-  NSLog(@"loginResult2 is %d big", [loginResult2 count]);
+    
   sessionId = [loginResult2 objectForKey:@"sessionId"];
   serverUrl = [loginResult2 objectForKey:@"serverUrl"];
   
+  passwordExpired = NO;
+  if ([[loginResult2 objectForKey:@"serverUrl"] isEqualToString:@"true"])
+      passwordExpired = YES;
+  
+  userInfoResult = [loginResult2 objectForKey:@"userInfo"];
+  userInfo = [[NSMutableDictionary dictionaryWithCapacity:5] retain];
+  [userInfo setValue:[userInfoResult objectForKey:@"organizationId"] forKey:@"organizationId"];
+  [userInfo setValue:[userInfoResult objectForKey:@"organizationName"] forKey:@"organizationName"];
+  [userInfo setValue:[userInfoResult objectForKey:@"profileId"] forKey:@"profileId"];
+  [userInfo setValue:[userInfoResult objectForKey:@"roleId"] forKey:@"roleId"];
+  [userInfo setValue:[userInfoResult objectForKey:@"userId"] forKey:@"userId"];
+  [userInfo setValue:[userInfoResult objectForKey:@"userEmail"] forKey:@"userEmail"];
+  [userInfo setValue:[userInfoResult objectForKey:@"userFullName"] forKey:@"userFullName"];
+  [userInfo setValue:[userInfoResult objectForKey:@"userName"] forKey:@"userName"];
+  
+
   /* since Salesforce seems to be stubborn and returns an https connection
      even if we initiate a non-secure one, we force it to http */
   if ([[serverUrl substringToIndex:5] isEqualToString:@"https"])
@@ -866,8 +881,19 @@
   return serverUrl;
 }
 
+- (BOOL) passwordExpired
+{
+  return passwordExpired;
+}
+
+- (NSDictionary *) userInfo
+{
+  return userInfo;
+}
+
 - (void)dealloc
 {
+  [userInfo release];
   [service release];
   [super dealloc];
 }

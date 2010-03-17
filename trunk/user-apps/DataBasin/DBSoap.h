@@ -1,7 +1,7 @@
 /*
    Project: DataBasin
 
-   Copyright (C) 2008-2009 Free Software Foundation
+   Copyright (C) 2008-2010 Free Software Foundation
 
    Author: Riccardo Mottola
 
@@ -33,8 +33,10 @@
     GWSService *service;
     
     /* salesforce.com session variables */
-    NSString  *sessionId;
-    NSString  *serverUrl;
+    NSString     *sessionId;
+    NSString     *serverUrl;
+    BOOL         passwordExpired;
+    NSDictionary *userInfo;
 }
 
 - (void)login :(NSURL *)url :(NSString *)userName :(NSString *)password;
@@ -47,6 +49,8 @@
 
 - (NSString *) sessionId;
 - (NSString *) serverUrl;
+- (BOOL) passwordExpired;
+- (NSDictionary *) userInfo;
 
 @end
 

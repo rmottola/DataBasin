@@ -6,6 +6,7 @@
 	    "showLogin:",
 	    "doLogin:",
 	    "showSessionInspector:",
+	    "showUserInspector:",
 	    "showSelect:",
 	    "browseFileSelect:",
 	    "executeSelect:",
@@ -29,18 +30,26 @@
 	    winSessionInspector,
 	    fieldSessionId,
 	    fieldServerUrl,
+	    fieldPwdExpired,
+	    winUserInspector,
+	    fieldOrgId,
+	    fieldOrgName,
+	    fieldUserNameInsp,
+	    fieldUserFullName,
+	    fieldUserEmail,
+	    fieldUserId,
+	    fieldProfileId,
+	    fieldRoleId,
 	    winSelect,
 	    fieldQuerySelect,
 	    fieldFileSelect,
 	    winInsert,
-	    fieldQueryInsert,
 	    fieldFileInsert,
 	    popupObjects,
 	    winQuickDelete,
 	    fieldObjectIdQd,
 	    fieldStatusQd,
 	    winDelete,
-	    fieldQueryDelete,
 	    fieldFileDelete,
 	    checkSkipFirstLine
 	);
@@ -65,7 +74,8 @@
 	    "showPrefPanel:",
 	    "showQuickDelete:",
 	    "showSelect:",
-	    "showSessionInspector:"
+	    "showSessionInspector:",
+	    "showUserInspector:"
 	);
 	Super = NSObject;
     };

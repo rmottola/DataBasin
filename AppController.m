@@ -1,7 +1,7 @@
 /* 
    Project: DataBasin
 
-   Copyright (C) 2008-2009 Free Software Foundation
+   Copyright (C) 2008-2010 Free Software Foundation
 
    Author: Riccardo Mottola
 
@@ -133,9 +133,9 @@
   db = [[DBSoap alloc] init];
   
   if ([popupEnvironment indexOfSelectedItem] == DB_ENVIRONMENT_PRODUCTION)
-    urlStr = @"http://www.salesforce.com/services/Soap/u/8.0";
+    urlStr = @"http://www.salesforce.com/services/Soap/u/16.0";
   else if ([popupEnvironment indexOfSelectedItem] == DB_ENVIRONMENT_SANDBOX)
-    urlStr = @"http://test.salesforce.com/services/Soap/u/8.0";
+    urlStr = @"http://test.salesforce.com/services/Soap/u/16.0";
   NSLog(@"Url: %@", urlStr);  
   url = [NSURL URLWithString:urlStr];
   
@@ -244,8 +244,8 @@
         [faultPanel makeKeyAndOrderFront:nil];
       }
   NS_ENDHANDLER
-  [popupObjects removeAllItems];
-  [popupObjects addItemsWithTitles: objectsArray];
+  [popupObjectsInsert removeAllItems];
+  [popupObjectsInsert addItemsWithTitles: objectsArray];
 
   [winInsert makeKeyAndOrderFront:self];
 }
@@ -274,7 +274,7 @@
   filePath = [fieldFileInsert stringValue];
   NSLog(@"%@", filePath);
   
-  intoWhichObject = [[[popupObjects selectedItem] title] retain];
+  intoWhichObject = [[[popupObjectsInsert selectedItem] title] retain];
   NSLog(@"object: %@", intoWhichObject);
   
   reader = [[DBCVSReader alloc] initWithPath:filePath];
@@ -292,6 +292,73 @@
   [reader release];
   [intoWhichObject release];
 }
+
+/* UPDATE */
+
+
+- (IBAction)showUpdate:(id)sender
+{
+  NSArray      *objectsArray;
+  
+  objectsArray  = nil;
+  NS_DURING
+    objectsArray = [db describeGlobal];
+  NS_HANDLER
+    if ([[localException name] hasPrefix:@"DB"])
+      {
+        [faultTextView setString:[localException reason]];
+        [faultPanel makeKeyAndOrderFront:nil];
+      }
+  NS_ENDHANDLER
+  [popupObjectsUpdate removeAllItems];
+  [popupObjectsUpdate addItemsWithTitles: objectsArray];
+    
+  [winUpdate makeKeyAndOrderFront:self];
+}
+
+- (IBAction)browseFileUpdate:(id)sender
+{
+  NSOpenPanel *openPanel;
+  
+  openPanel = [NSOpenPanel openPanel];
+  //  [openPanel setRequiredFileType:@"csv"];
+  if ([openPanel runModal] == NSOKButton)
+    {
+    NSString *fileName;
+    
+    fileName = [openPanel filename];
+    [fieldFileUpdate setStringValue:fileName];
+    }
+}
+
+- (IBAction)executeUpdate:(id)sender
+{
+  NSString      *filePath;
+  DBCVSReader   *reader;
+  NSString      *whichObject;
+  
+  filePath = [fieldFileUpdate stringValue];
+  NSLog(@"%@", filePath);
+  
+  whichObject = [[[popupObjectsUpdate selectedItem] title] retain];
+  NSLog(@"object: %@", whichObject);
+  
+  reader = [[DBCVSReader alloc] initWithPath:filePath];
+  
+  NS_DURING
+    [db update:whichObject fromReader:reader];
+  NS_HANDLER
+    if ([[localException name] hasPrefix:@"DB"])
+      {
+        [faultTextView setString:[localException reason]];
+        [faultPanel makeKeyAndOrderFront:nil];
+      }
+  NS_ENDHANDLER
+    
+  [reader release];
+  [whichObject release];
+}
+
 
 /* QUICK DELETE */
 

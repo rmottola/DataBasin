@@ -1,7 +1,7 @@
 /* 
    Project: DataBasin
 
-   Copyright (C) 2008-2009 Free Software Foundation
+   Copyright (C) 2008-2010 Free Software Foundation
 
    Author: Riccardo Mottola
 
@@ -69,7 +69,12 @@
   /* insert */
   IBOutlet NSWindow      *winInsert;
   IBOutlet NSTextField   *fieldFileInsert;
-  IBOutlet NSPopUpButton *popupObjects;
+  IBOutlet NSPopUpButton *popupObjectsInsert;
+
+  /* update */
+  IBOutlet NSWindow      *winUpdate;
+  IBOutlet NSTextField   *fieldFileUpdate;
+  IBOutlet NSPopUpButton *popupObjectsUpdate;
   
   /* quick delete */
   IBOutlet NSWindow      *winQuickDelete;
@@ -112,6 +117,10 @@
 - (IBAction)showInsert:(id)sender;
 - (IBAction)browseFileInsert:(id)sender;
 - (IBAction)executeInsert:(id)sender;
+
+- (IBAction)showUpdate:(id)sender;
+- (IBAction)browseFileUpdate:(id)sender;
+- (IBAction)executeUpdate:(id)sender;
 
 - (IBAction)showDelete:(id)sender;
 - (IBAction)browseFileDelete:(id)sender;

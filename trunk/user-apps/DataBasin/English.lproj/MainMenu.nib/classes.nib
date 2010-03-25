@@ -5,10 +5,12 @@
                 browseFileDelete = id; 
                 browseFileInsert = id; 
                 browseFileSelect = id; 
+                browseFileUpdate = id; 
                 doLogin = id; 
                 executeDelete = id; 
                 executeInsert = id; 
                 executeSelect = id; 
+                executeUpdate = id; 
                 quickDelete = id; 
                 showDelete = id; 
                 showInsert = id; 
@@ -17,6 +19,7 @@
                 showQuickDelete = id; 
                 showSelect = id; 
                 showSessionInspector = id; 
+                showUpdate = id; 
                 showUserInspector = id; 
             }; 
             CLASS = AppController; 
@@ -28,6 +31,7 @@
                 fieldFileDelete = NSTextField; 
                 fieldFileInsert = NSTextField; 
                 fieldFileSelect = NSTextField; 
+                fieldFileUpdate = NSTextField; 
                 fieldObjectIdQd = NSTextField; 
                 fieldOrgId = NSTextField; 
                 fieldOrgName = NSTextField; 
@@ -46,13 +50,15 @@
                 fieldUserName = NSTextField; 
                 fieldUserNameInsp = NSTextField; 
                 popupEnvironment = NSPopUpButton; 
-                popupObjects = NSPopUpButton; 
+                popupObjectsInsert = NSPopUpButton; 
+                popupObjectsUpdate = NSPopUpButton; 
                 winDelete = NSWindow; 
                 winInsert = NSWindow; 
                 winLogin = NSWindow; 
                 winQuickDelete = NSWindow; 
                 winSelect = NSWindow; 
                 winSessionInspector = NSWindow; 
+                winUpdate = NSWindow; 
                 winUserInspector = NSWindow; 
             }; 
             SUPERCLASS = NSObject; 

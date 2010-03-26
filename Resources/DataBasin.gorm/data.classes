@@ -15,6 +15,9 @@
 	    "showInsert:",
 	    "browseFileInsert:",
 	    "executeInsert:",
+	    "showUpdate:",
+	    "browseFileUpdate:",
+	    "executeUpdate:",
 	    "showDelete:",
 	    "browseFileDelete:",
 	    "executeDelete:"
@@ -45,7 +48,10 @@
 	    fieldFileSelect,
 	    winInsert,
 	    fieldFileInsert,
-	    popupObjects,
+	    popupObjectsInsert,
+	    winUpdate,
+	    fieldFileUpdate,
+	    popupObjectsUpdate,
 	    winQuickDelete,
 	    fieldObjectIdQd,
 	    fieldStatusQd,
@@ -61,11 +67,13 @@
 	    "browseFileDelete:",
 	    "browseFileInsert:",
 	    "browseFileSelect:",
+	    "browseFileUpdate:",
 	    "doLogin:",
 	    "executeDelete:",
 	    "executeInsert:",
 	    "executeQuery:",
 	    "executeSelect:",
+	    "executeUpdate:",
 	    "orderFrontFontPanel:",
 	    "quickDelete:",
 	    "showDelete:",
@@ -75,6 +83,7 @@
 	    "showQuickDelete:",
 	    "showSelect:",
 	    "showSessionInspector:",
+	    "showUpdate:",
 	    "showUserInspector:"
 	);
 	Super = NSObject;

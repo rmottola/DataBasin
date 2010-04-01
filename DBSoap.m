@@ -233,6 +233,7 @@
   NSLog(@"dict is %d big", [resultDict count]);
 
   enumerator = [resultDict keyEnumerator];
+  NSLog(@"before cleaning");
   while ((key = [enumerator nextObject]))
   {
     NSLog(@"%@ - %@", key, [resultDict objectForKey:key]); 
@@ -253,7 +254,7 @@
 
   queryResult = [resultDict objectForKey:@"GWSCoderParameters"];
   result = [queryResult objectForKey:@"result"];
-  NSLog(@"result: %@", result);
+//  NSLog(@"result: %@", result);
 
   doneStr = [result objectForKey:@"done"];
   queryLocator = [result objectForKey:@"queryLocator"];
@@ -287,12 +288,20 @@
       
       
       size = [sizeStr intValue];
-      batchSize = [records count];
       NSLog(@"Declared size is: %d", size);
+      
+      /* if we have only one element, put it in an array */
+      if (size == 1)
+        {
+          records = [NSArray arrayWithObject:records];
+          batchSize = 1;
+        }
+      record = [records objectAtIndex:0];
+      batchSize = [records count];        
+      
       NSLog(@"records size is: %d", batchSize);
       
       /* let's get the fields from the keys of the first record */
-      record = [records objectAtIndex:0];
       keys = [NSMutableArray arrayWithArray:[record allKeys]];
       [keys removeObject:@"GWSCoderOrder"];
 
@@ -331,7 +340,7 @@
                   value = obj;
               [values addObject:value];
             }
-          NSLog(@"%d: %@", i, values);
+//          NSLog(@"%d: %@", i, values);
           [set addObject:values];
         }
       [writer writeDataSet:set];
@@ -398,7 +407,6 @@
   
   queryResult = [resultDict objectForKey:@"GWSCoderParameters"];
   result = [queryResult objectForKey:@"result"];
-//  NSLog(@"result: %@", result);
 
   doneStr = [result objectForKey:@"done"];
   nextQueryLocator = [result objectForKey:@"queryLocator"];
@@ -432,15 +440,30 @@
       
       
       size = [sizeStr intValue];
-      batchSize = [records count];
       NSLog(@"Declared size is: %d", size);
-      NSLog(@"records size is: %d", batchSize);
-
-      /* let's get the fields from the keys of the first record */
+      
+      /* if we have only one element, put it in an array */
+      if (size == 1)
+        {
+          records = [NSArray arrayWithObject:records];
+          batchSize = 1;
+        }
       record = [records objectAtIndex:0];
+      batchSize = [records count];        
+      
+      NSLog(@"records size is: %d", batchSize);
+      
+      /* let's get the fields from the keys of the first record */
       keys = [NSMutableArray arrayWithArray:[record allKeys]];
       [keys removeObject:@"GWSCoderOrder"];
 
+      /* remove some fields which get added automatically by salesforce even if not asked for */
+      [keys removeObject:@"type"];
+      
+      /* remove Id only if it is null, else an array of two populated Id is returned by SF */
+      if (![[record objectForKey:@"Id"] isKindOfClass: [NSArray class]])
+        [keys removeObject:@"Id"];
+      
       NSLog(@"keys: %@", keys);
       
 
@@ -467,7 +490,7 @@
                   value = obj;
               [values addObject:value];
           }
-          NSLog(@"%d: %@", i, values);
+//          NSLog(@"%d: %@", i, values);
           [set addObject:values];
         }
       [writer writeDataSet:set];

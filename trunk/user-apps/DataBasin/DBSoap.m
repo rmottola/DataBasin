@@ -922,6 +922,81 @@
   return types;
 }
 
+- (void)describeSObject: (NSString *)objectType toWriter:(DBCVSWriter *)writer
+
+{
+  NSMutableDictionary   *headerDict;
+  NSMutableDictionary   *sessionHeaderDict;
+  NSMutableDictionary   *parmsDict;
+  NSMutableDictionary   *queryParmDict;
+  NSDictionary          *resultDict;
+  NSEnumerator          *enumerator;
+  NSString              *key;
+  NSDictionary          *queryResult;
+  NSDictionary          *result;
+  NSString              *encoding;
+  NSDictionary          *queryFault;
+  NSString              *maxBatchSizeStr;
+  NSArray               *types;
+  NSMutableDictionary   *queryObjectsDict;
+
+  /* prepare the header */
+  sessionHeaderDict = [NSMutableDictionary dictionaryWithCapacity: 2];
+  [sessionHeaderDict setObject: sessionId forKey: @"sessionId"];
+  [sessionHeaderDict setObject: @"urn:partner.soap.sforce.com" forKey: GWSSOAPNamespaceURIKey];
+
+  headerDict = [NSMutableDictionary dictionaryWithCapacity: 2];
+  [headerDict setObject: sessionHeaderDict forKey: @"SessionHeader"];
+  [headerDict setObject: GWSSOAPUseLiteral forKey: GWSSOAPUseKey];
+  
+  /* prepare the parameters */
+  queryParmDict = [NSMutableDictionary dictionaryWithCapacity: 2];
+  [queryParmDict setObject: @"urn:partner.soap.sforce.com" forKey: GWSSOAPNamespaceURIKey];
+
+//  queryObjectsDict = [NSDictionary dictionaryWithObjectsAndKeys: objectIdArray, GWSSOAPValueKey, nil];
+
+  [queryParmDict setObject: objectType forKey: @"sObjectType"];
+
+  
+  parmsDict = [NSMutableDictionary dictionaryWithCapacity: 1];
+  [parmsDict setObject: queryParmDict forKey: @"describeSObject"];
+  [parmsDict setObject: headerDict forKey:GWSSOAPMessageHeadersKey];
+
+  
+  /* make the query */  
+  resultDict = [service invokeMethod: @"describeGlobal"
+                parameters : parmsDict
+		order : nil
+		timeout : 90];
+
+
+  NSLog(@"dict is %d big", [resultDict count]);
+  
+  queryFault = [resultDict objectForKey:@"GWSCoderFault"];
+  if (queryFault != nil)
+    {
+      NSDictionary *fault;
+      NSDictionary *faultDetail;
+
+      faultDetail = [queryFault objectForKey:@"detail"];
+      fault = [faultDetail objectForKey:@"fault"];
+      NSLog(@"fault: %@", fault);
+      NSLog(@"exception code: %@", [fault objectForKey:@"exceptionCode"]);
+      NSLog(@"exception message: %@", [fault objectForKey:@"exceptionMessage"]);
+      [[NSException exceptionWithName:@"DBException" reason:[fault objectForKey:@"exceptionMessage"] userInfo:nil] raise];
+    }
+
+  queryResult = [resultDict objectForKey:@"GWSCoderParameters"];
+  result = [queryResult objectForKey:@"result"];
+  NSLog(@"result: %@", result);
+
+  encoding = [result objectForKey:@"encoding"];
+  maxBatchSizeStr = [result objectForKey:@"maxBatchSize"];
+  types = [result objectForKey:@"types"];
+
+  return types;
+}
+
 
 - (NSMutableArray *)delete :(NSArray *)objectIdArray
 {

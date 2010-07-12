@@ -360,6 +360,73 @@
 }
 
 
+
+/* DESCRIBE */
+
+- (IBAction)showDescribe:(id)sender
+{
+  NSArray      *objectsArray;
+  
+  objectsArray  = nil;
+  NS_DURING
+    objectsArray = [db describeGlobal];
+  NS_HANDLER
+    if ([[localException name] hasPrefix:@"DB"])
+      {
+        [faultTextView setString:[localException reason]];
+        [faultPanel makeKeyAndOrderFront:nil];
+      }
+  NS_ENDHANDLER
+  [popupObjectsDescribe removeAllItems];
+  [popupObjectsDescribe addItemsWithTitles: objectsArray];
+    
+  [winDescribe makeKeyAndOrderFront:self];
+}
+
+- (IBAction)browseFileDescribe:(id)sender
+{
+  NSOpenPanel *openPanel;
+  
+  openPanel = [NSOpenPanel openPanel];
+  //  [openPanel setRequiredFileType:@"csv"];
+  if ([openPanel runModal] == NSOKButton)
+    {
+    NSString *fileName;
+    
+    fileName = [openPanel filename];
+    [fieldFileDescribe setStringValue:fileName];
+    }
+}
+
+- (IBAction)executeDescribe:(id)sender
+{
+  NSString      *filePath;
+  DBCVSReader   *reader;
+  NSString      *whichObject;
+  
+  filePath = [fieldFileUpdate stringValue];
+  NSLog(@"%@", filePath);
+  
+  whichObject = [[[popupObjectsUpdate selectedItem] title] retain];
+  NSLog(@"object: %@", whichObject);
+  
+  reader = [[DBCVSReader alloc] initWithPath:filePath];
+  
+  NS_DURING
+    [db update:whichObject fromReader:reader];
+  NS_HANDLER
+    if ([[localException name] hasPrefix:@"DB"])
+      {
+        [faultTextView setString:[localException reason]];
+        [faultPanel makeKeyAndOrderFront:nil];
+      }
+  NS_ENDHANDLER
+    
+  [reader release];
+  [whichObject release];
+}
+
+
 /* QUICK DELETE */
 
 - (IBAction)showQuickDelete:(id)sender

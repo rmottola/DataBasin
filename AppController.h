@@ -75,6 +75,11 @@
   IBOutlet NSWindow      *winUpdate;
   IBOutlet NSTextField   *fieldFileUpdate;
   IBOutlet NSPopUpButton *popupObjectsUpdate;
+
+  /* describe */
+  IBOutlet NSWindow      *winDescribe;
+  IBOutlet NSTextField   *fieldFileDescribe;
+  IBOutlet NSPopUpButton *popupObjectsDescribe;
   
   /* quick delete */
   IBOutlet NSWindow      *winQuickDelete;
@@ -121,6 +126,10 @@
 - (IBAction)showUpdate:(id)sender;
 - (IBAction)browseFileUpdate:(id)sender;
 - (IBAction)executeUpdate:(id)sender;
+
+- (IBAction)showDescribe:(id)sender;
+- (IBAction)browseFileDescribe:(id)sender;
+- (IBAction)executeDescribe:(id)sender;
 
 - (IBAction)showDelete:(id)sender;
 - (IBAction)browseFileDelete:(id)sender;

@@ -402,7 +402,7 @@
 - (IBAction)executeDescribe:(id)sender
 {
   NSString      *filePath;
-  DBCVSReader   *writer;
+  DBCVSWriter   *writer;
   NSString      *whichObject;
   NSFileManager *fileManager;
   NSFileHandle  *fileHandle;

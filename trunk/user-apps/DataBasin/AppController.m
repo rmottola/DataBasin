@@ -385,15 +385,16 @@
 
 - (IBAction)browseFileDescribe:(id)sender
 {
-  NSOpenPanel *openPanel;
+  NSSavePanel *savePanel;
   
-  openPanel = [NSOpenPanel openPanel];
-  //  [openPanel setRequiredFileType:@"csv"];
-  if ([openPanel runModal] == NSOKButton)
+  savePanel = [NSSavePanel savePanel];
+  [savePanel setRequiredFileType:@"csv"];
+
+  if ([savePanel runModal] == NSOKButton)
     {
     NSString *fileName;
     
-    fileName = [openPanel filename];
+    fileName = [savePanel filename];
     [fieldFileDescribe setStringValue:fileName];
     }
 }
@@ -401,19 +402,34 @@
 - (IBAction)executeDescribe:(id)sender
 {
   NSString      *filePath;
-  DBCVSReader   *reader;
+  DBCVSReader   *writer;
   NSString      *whichObject;
+  NSFileManager *fileManager;
+  NSFileHandle  *fileHandle;
   
-  filePath = [fieldFileUpdate stringValue];
+  filePath = [fieldFileDescribe stringValue];
   NSLog(@"%@", filePath);
+
+  fileManager = [NSFileManager defaultManager];
+  if ([fileManager createFileAtPath:filePath contents:nil attributes:nil] == NO)
+    {
+      NSRunAlertPanel(@"Attention", @"Could not create File.", @"Ok", nil, nil);
+      return;
+    }  
+
+  fileHandle = [NSFileHandle fileHandleForWritingAtPath:filePath];
+  if (fileHandle == nil)
+    {
+      NSRunAlertPanel(@"Attention", @"Cannot create File.", @"Ok", nil, nil);
+    }
   
-  whichObject = [[[popupObjectsUpdate selectedItem] title] retain];
+  writer = [[DBCVSWriter alloc] initWithHandle:fileHandle];
+  
+  whichObject = [[[popupObjectsDescribe selectedItem] title] retain];
   NSLog(@"object: %@", whichObject);
   
-  reader = [[DBCVSReader alloc] initWithPath:filePath];
-  
   NS_DURING
-    [db update:whichObject fromReader:reader];
+    [db describeSObject:whichObject toWriter:writer];
   NS_HANDLER
     if ([[localException name] hasPrefix:@"DB"])
       {
@@ -422,7 +438,7 @@
       }
   NS_ENDHANDLER
     
-  [reader release];
+  [writer release];
   [whichObject release];
 }
 

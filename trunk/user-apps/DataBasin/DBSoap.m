@@ -961,10 +961,9 @@
   parmsDict = [NSMutableDictionary dictionaryWithCapacity: 1];
   [parmsDict setObject: queryParmDict forKey: @"describeSObject"];
   [parmsDict setObject: headerDict forKey:GWSSOAPMessageHeadersKey];
-
   
   /* make the query */  
-  resultDict = [service invokeMethod: @"describeGlobal"
+  resultDict = [service invokeMethod: @"describeSObject"
                 parameters : parmsDict
 		order : nil
 		timeout : 90];

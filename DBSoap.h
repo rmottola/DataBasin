@@ -47,6 +47,7 @@
 - (NSMutableArray *)delete :(NSArray *)objectIdArray;
 - (NSMutableArray *)deleteFromReader:(DBCVSReader *)reader;
 - (NSArray *)describeGlobal;
+- (void)describeSObject: (NSString *)objectType toWriter:(DBCVSWriter *)writer;
 
 - (NSString *) sessionId;
 - (NSString *) serverUrl;

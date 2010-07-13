@@ -3,16 +3,19 @@
         {
             ACTIONS = {
                 browseFileDelete = id; 
+                browseFileDescribe = id; 
                 browseFileInsert = id; 
                 browseFileSelect = id; 
                 browseFileUpdate = id; 
                 doLogin = id; 
                 executeDelete = id; 
+                executeDescribe = id; 
                 executeInsert = id; 
                 executeSelect = id; 
                 executeUpdate = id; 
                 quickDelete = id; 
                 showDelete = id; 
+                showDescribe = id; 
                 showInsert = id; 
                 showLogin = id; 
                 showPrefPanel = id; 
@@ -29,6 +32,7 @@
                 faultPanel = NSPanel; 
                 faultTextView = NSTextView; 
                 fieldFileDelete = NSTextField; 
+                fieldFileDescribe = NSTextField; 
                 fieldFileInsert = NSTextField; 
                 fieldFileSelect = NSTextField; 
                 fieldFileUpdate = NSTextField; 
@@ -50,9 +54,11 @@
                 fieldUserName = NSTextField; 
                 fieldUserNameInsp = NSTextField; 
                 popupEnvironment = NSPopUpButton; 
+                popupObjectsDescribe = NSPopUpButton; 
                 popupObjectsInsert = NSPopUpButton; 
                 popupObjectsUpdate = NSPopUpButton; 
                 winDelete = NSWindow; 
+                winDescribe = NSWindow; 
                 winInsert = NSWindow; 
                 winLogin = NSWindow; 
                 winQuickDelete = NSWindow; 

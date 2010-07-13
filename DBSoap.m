@@ -930,15 +930,16 @@
   NSMutableDictionary   *parmsDict;
   NSMutableDictionary   *queryParmDict;
   NSDictionary          *resultDict;
-  NSEnumerator          *enumerator;
-  NSString              *key;
   NSDictionary          *queryResult;
   NSDictionary          *result;
-  NSString              *encoding;
   NSDictionary          *queryFault;
-  NSString              *maxBatchSizeStr;
-  NSArray               *types;
-  NSMutableDictionary   *queryObjectsDict;
+  NSArray               *records;
+  NSDictionary          *record;
+  int                   i;
+  int                   size;
+  NSMutableArray        *keys;
+  NSMutableArray        *set;
+
 
   /* prepare the header */
   sessionHeaderDict = [NSMutableDictionary dictionaryWithCapacity: 2];
@@ -987,13 +988,50 @@
 
   queryResult = [resultDict objectForKey:@"GWSCoderParameters"];
   result = [queryResult objectForKey:@"result"];
-  NSLog(@"result: %@", result);
 
-  encoding = [result objectForKey:@"encoding"];
-  maxBatchSizeStr = [result objectForKey:@"maxBatchSize"];
-  types = [result objectForKey:@"types"];
+  records = [result objectForKey:@"fields"];
+  size = [records count];
 
-  return types;
+  /* if we have only one element, put it in an array */
+  if (size == 1)
+    {
+      records = [NSArray arrayWithObject:records];
+    }
+  record = [records objectAtIndex:0];    
+ 
+
+  keys = [NSMutableArray arrayWithArray:[record allKeys]];
+  [keys removeObject:@"GWSCoderOrder"];
+  //  NSLog(@"keys: %@", keys);
+
+  [writer setFieldNames:[NSArray arrayWithArray:keys] andWriteIt:YES];
+      
+  set = [[NSMutableArray alloc] init];
+
+  for (i = 0; i < size; i++)
+    {
+      NSMutableArray *values;
+      int j;
+	  
+      record = [records objectAtIndex:i];
+
+      values = [NSMutableArray arrayWithCapacity:[keys count]];
+      for (j = 0; j < [keys count]; j++)
+	{
+	  id       obj;
+	  id       value;
+	  NSString *key;
+              
+	  key = [keys objectAtIndex:j];
+	  obj = [record objectForKey: key];
+
+	  value = obj;
+	  [values addObject:value];
+	}
+      //      NSLog(@"%d: %@", i, values);
+      [set addObject:values];
+    }
+  [writer writeDataSet:set];
 }
 
 

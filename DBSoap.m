@@ -923,7 +923,6 @@
 }
 
 - (void)describeSObject: (NSString *)objectType toWriter:(DBCVSWriter *)writer
-
 {
   NSMutableDictionary   *headerDict;
   NSMutableDictionary   *sessionHeaderDict;

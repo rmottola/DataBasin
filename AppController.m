@@ -529,11 +529,8 @@
 
 - (IBAction)executeDelete:(id)sender
 {
-  NSString  *objectId;
-  NSArray   *idArray;
   NSString      *filePath;
   DBCVSReader   *reader;
-  NSString      *intoWhichObject;
   
   filePath = [fieldFileDelete stringValue];
   NSLog(@"%@", filePath);

@@ -924,6 +924,58 @@
 
 - (void)describeSObject: (NSString *)objectType toWriter:(DBCVSWriter *)writer
 {
+  int i;
+  int size;
+  DBSObject *object;
+  NSDictionary *properties;
+  NSArray *fields;
+  NSArray *keys;
+  NSMutableArray *set;
+
+  
+  object = [self describeSObject: objectType];
+  fields = [object fieldNames];
+  size = [fields count];
+  
+  if (size < 1)
+    return;
+  
+  keys = [[object propertiesOfField: [fields objectAtIndex: 0]] allKeys];
+  [writer setFieldNames:[NSArray arrayWithArray:keys] andWriteIt:YES];
+  
+  set = [[NSMutableArray alloc] init];
+  
+  for (i = 0; i < size; i++)
+    {
+      NSMutableArray *values;
+      int j;
+      NSString *field;
+      field = [fields objectAtIndex: i];
+    
+      properties = [object propertiesOfField: field];
+    
+    
+      values = [NSMutableArray arrayWithCapacity:[keys count]];
+      for (j = 0; j < [keys count]; j++)
+        {
+          id       obj;
+          id       value;
+          NSString *key;
+      
+          key = [keys objectAtIndex:j];
+          obj = [properties objectForKey: key];
+      
+          value = obj;
+          [values addObject:value];
+        }
+    //      NSLog(@"%d: %@", i, values);
+      [set addObject:values];
+    }
+  [writer writeDataSet:set];
+}
+
+- (DBSObject *)describeSObject: (NSString *)objectType
+{
   NSMutableDictionary   *headerDict;
   NSMutableDictionary   *sessionHeaderDict;
   NSMutableDictionary   *parmsDict;
@@ -938,6 +990,7 @@
   int                   size;
   NSMutableArray        *keys;
   NSMutableArray        *set;
+  DBSObject             *object;
 
 
   /* prepare the header */
@@ -952,8 +1005,6 @@
   /* prepare the parameters */
   queryParmDict = [NSMutableDictionary dictionaryWithCapacity: 2];
   [queryParmDict setObject: @"urn:partner.soap.sforce.com" forKey: GWSSOAPNamespaceURIKey];
-
-//  queryObjectsDict = [NSDictionary dictionaryWithObjectsAndKeys: objectIdArray, GWSSOAPValueKey, nil];
 
   [queryParmDict setObject: objectType forKey: @"sObjectType"];
 
@@ -1001,36 +1052,25 @@
 
   keys = [NSMutableArray arrayWithArray:[record allKeys]];
   [keys removeObject:@"GWSCoderOrder"];
-  //  NSLog(@"keys: %@", keys);
 
-  [writer setFieldNames:[NSArray arrayWithArray:keys] andWriteIt:YES];
-      
   set = [[NSMutableArray alloc] init];
+  object = [[DBSObject alloc] init];
 
   for (i = 0; i < size; i++)
     {
       NSMutableArray *values;
       int j;
-	  
+      NSMutableDictionary *props;
+      NSString *fieldName;
+      
       record = [records objectAtIndex:i];
-
-      values = [NSMutableArray arrayWithCapacity:[keys count]];
-      for (j = 0; j < [keys count]; j++)
-	{
-	  id       obj;
-	  id       value;
-	  NSString *key;
-              
-	  key = [keys objectAtIndex:j];
-	  obj = [record objectForKey: key];
-
-	  value = obj;
-	  [values addObject:value];
-	}
-      //      NSLog(@"%d: %@", i, values);
-      [set addObject:values];
+      props = [NSMutableDictionary dictionaryWithDictionary: record];
+      [props removeObjectForKey:@"GWSCoderOrder"];
+      fieldName = [props objectForKey: @"name"];
+      NSLog(@"describing %@ : %@", fieldName, props);     
+      [object setProperties:[NSDictionary dictionaryWithDictionary: props] forField: fieldName];
     }
-  [writer writeDataSet:set];
+  return object;
 }
 
 

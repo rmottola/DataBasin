@@ -63,6 +63,7 @@
     {
       fieldNames = [[NSMutableArray arrayWithCapacity: 1] retain];
       fieldProperties = [[NSMutableDictionary dictionaryWithCapacity: 1] retain];
+      recordValues = [[NSMutableDictionary dictionaryWithCapacity: 1] retain];
     }
   return self;
 }
@@ -71,12 +72,47 @@
 {
   [fieldNames release];
   [fieldProperties release];
+  [recordValues release];
   [super dealloc];
 }
 
 - (NSString *)sfId
 {
   return [recordValues objectForKey: @"Id"];
+}
+
+- (NSString *)sfId15
+{
+  NSString *sfid;
+  
+  sfid = [recordValues objectForKey: @"Id"];
+  if ([sfid length] == 18)
+    sfid = [sfid substringToIndex: 15];
+  
+  if ([sfid length] != 15)
+    {
+      NSLog(@"Invalid ID: %@", sfid);
+      return nil;
+    }
+  
+  return sfid;
+}
+
+- (NSString *)sfId18
+{
+  NSString *sfid;
+  
+  sfid = [recordValues objectForKey: @"Id"];
+  if ([sfid length] == 15)
+    sfid = [DBSObject idTo18: sfid];
+  
+  if ([sfid length] != 18)
+    {
+      NSLog(@"Invalid ID: %@", sfid);
+      return nil;
+    }
+  
+  return sfid;
 }
 
 - (void)setProperties: (NSDictionary *)properties forField: (NSString *)field

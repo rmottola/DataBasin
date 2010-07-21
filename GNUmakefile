@@ -38,7 +38,8 @@ DataBasin_HEADER_FILES = \
 AppController.h \
 DBSoap.h \
 DBCVSWriter.h \
-DBCVSReader.h
+DBCVSReader.h \
+DBSObject.h
 
 #
 # Class files
@@ -47,7 +48,8 @@ DataBasin_OBJC_FILES = \
 AppController.m \
 DBSoap.m \
 DBCVSWriter.m \
-DBCVSReader.m
+DBCVSReader.m \
+DBSObject.m
 
 #
 # Other sources

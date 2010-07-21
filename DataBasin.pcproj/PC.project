@@ -17,7 +17,8 @@
 	AppController.m,
 	DBSoap.m,
 	DBCVSWriter.m,
-	DBCVSReader.m
+	DBCVSReader.m,
+	DBSObject.m
     );
     COMPILEROPTIONS = "";
     CPPOPTIONS = "";
@@ -30,7 +31,8 @@
 	AppController.h,
 	DBSoap.h,
 	DBCVSWriter.h,
-	DBCVSReader.h
+	DBCVSReader.h,
+	DBSObject.h
     );
     IMAGES = (
     );

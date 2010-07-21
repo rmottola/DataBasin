@@ -924,12 +924,12 @@
 
 - (void)describeSObject: (NSString *)objectType toWriter:(DBCVSWriter *)writer
 {
-  int i;
-  int size;
-  DBSObject *object;
-  NSDictionary *properties;
-  NSArray *fields;
-  NSArray *keys;
+  int            i;
+  int            size;
+  DBSObject      *object;
+  NSDictionary   *properties;
+  NSArray        *fields;
+  NSArray        *keys;
   NSMutableArray *set;
 
   
@@ -948,13 +948,11 @@
   for (i = 0; i < size; i++)
     {
       NSMutableArray *values;
-      int j;
-      NSString *field;
+      int            j;
+      NSString       *field;
+      
       field = [fields objectAtIndex: i];
-    
       properties = [object propertiesOfField: field];
-    
-    
       values = [NSMutableArray arrayWithCapacity:[keys count]];
       for (j = 0; j < [keys count]; j++)
         {
@@ -968,7 +966,6 @@
           value = obj;
           [values addObject:value];
         }
-    //      NSLog(@"%d: %@", i, values);
       [set addObject:values];
     }
   [writer writeDataSet:set];
@@ -1018,9 +1015,6 @@
                 parameters : parmsDict
 		order : nil
 		timeout : 90];
-
-
-  NSLog(@"dict is %d big", [resultDict count]);
   
   queryFault = [resultDict objectForKey:@"GWSCoderFault"];
   if (queryFault != nil)
@@ -1044,9 +1038,7 @@
 
   /* if we have only one element, put it in an array */
   if (size == 1)
-    {
-      records = [NSArray arrayWithObject:records];
-    }
+    records = [NSArray arrayWithObject:records];
   record = [records objectAtIndex:0];    
  
 
@@ -1067,7 +1059,6 @@
       props = [NSMutableDictionary dictionaryWithDictionary: record];
       [props removeObjectForKey:@"GWSCoderOrder"];
       fieldName = [props objectForKey: @"name"];
-      NSLog(@"describing %@ : %@", fieldName, props);     
       [object setProperties:[NSDictionary dictionaryWithDictionary: props] forField: fieldName];
     }
   return object;

@@ -32,7 +32,6 @@
 #define DB_ENVIRONMENT_PRODUCTION 0
 #define DB_ENVIRONMENT_SANDBOX    1
 
-
 @implementation AppController
 
 + (void)initialize

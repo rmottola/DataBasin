@@ -861,8 +861,6 @@
   NSMutableDictionary   *parmsDict;
   NSMutableDictionary   *queryParmDict;
   NSDictionary          *resultDict;
-  NSEnumerator          *enumerator;
-  NSString              *key;
   NSDictionary          *queryResult;
   NSDictionary          *result;
   NSString              *encoding;
@@ -1050,8 +1048,6 @@
 
   for (i = 0; i < size; i++)
     {
-      NSMutableArray *values;
-      int j;
       NSMutableDictionary *props;
       NSString *fieldName;
       
@@ -1076,7 +1072,6 @@
   NSString              *key;
   NSDictionary          *queryResult;
   NSDictionary          *result;
-  NSString              *doneStr;
   NSArray               *records;
   NSDictionary          *record;
   NSDictionary          *queryFault;
@@ -1141,7 +1136,6 @@
 
   if (result != nil)
     {
-      NSMutableArray *keys;
       id resultRow;
       NSEnumerator   *objEnu;
       NSDictionary   *rowDict;

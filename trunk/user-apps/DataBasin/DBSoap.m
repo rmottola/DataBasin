@@ -28,7 +28,6 @@
 
 
 
-
 @implementation DBSoap
 
 - (void)login :(NSURL *)url :(NSString *)userName :(NSString *)password
@@ -53,8 +52,6 @@
       @"80", @"Port",
       nil]
     ];
-    
-  NSLog(@"init service");
 
   /* initialize the coder */
   coder = [GWSSOAPCoder new];
@@ -97,16 +94,6 @@
 		timeout : 60];
 
   NSLog(@"dict is %d big", [resultDict count]);
-  
-  enumerator = [resultDict keyEnumerator];
-/*  while ((key = [enumerator nextObject]))
-  {
-    NSLog(@"%@ - %@", key, [resultDict objectForKey:key]); 
-  } */
-  
-
-//  NSLog(@"request: %@", [[NSString alloc] initWithData:
-//    	[resultDict objectForKey:@"GWSCoderRequestData"] encoding: NSUTF8StringEncoding]);
   
   queryFault = [resultDict objectForKey:@"GWSCoderFault"];
   if (queryFault != nil)
@@ -167,7 +154,7 @@
   if ([[serverUrl substringToIndex:5] isEqualToString:@"https"])
   {
     NSLog(@"we have https....");
-      serverUrl = [@"http" stringByAppendingString:[serverUrl substringFromIndex:5]];
+    serverUrl = [@"http" stringByAppendingString:[serverUrl substringFromIndex:5]];
   }
   
   [coder release];
@@ -229,8 +216,6 @@
                 parameters : parmsDict
 		order : nil
 		timeout : 90];
-
-  NSLog(@"dict is %d big", [resultDict count]);
 
   enumerator = [resultDict keyEnumerator];
   NSLog(@"before cleaning");
@@ -340,7 +325,6 @@
                   value = obj;
               [values addObject:value];
             }
-//          NSLog(@"%d: %@", i, values);
           [set addObject:values];
         }
       [writer writeDataSet:set];

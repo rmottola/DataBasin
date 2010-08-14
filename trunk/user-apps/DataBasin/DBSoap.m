@@ -171,6 +171,172 @@
   [service setURL:serverUrl];
 }
 
+- (void)query :(NSString *)queryString toArray:(NSMutableArray *)objects queryLocator:(NSString *)locator
+{
+  NSMutableDictionary   *headerDict;
+  NSMutableDictionary   *sessionHeaderDict;
+  NSMutableDictionary   *parmsDict;
+  NSMutableDictionary   *queryParmDict;
+  NSDictionary          *resultDict;
+  NSEnumerator          *enumerator;
+  NSString              *key;
+  NSDictionary          *queryResult;
+  NSDictionary          *result;
+  NSString              *doneStr;
+  BOOL                  done;
+  NSString              *queryLocator;
+  NSArray               *records;
+  NSDictionary          *record;
+  NSDictionary          *queryFault;
+  NSString              *sizeStr;
+  int                   size;
+
+  /* prepare the header */
+  sessionHeaderDict = [NSMutableDictionary dictionaryWithCapacity: 2];
+  [sessionHeaderDict setObject: sessionId forKey: @"sessionId"];
+  [sessionHeaderDict setObject: @"urn:partner.soap.sforce.com" forKey: GWSSOAPNamespaceURIKey];
+
+  headerDict = [NSMutableDictionary dictionaryWithCapacity: 2];
+  [headerDict setObject: sessionHeaderDict forKey: @"SessionHeader"];
+  [headerDict setObject: GWSSOAPUseLiteral forKey: GWSSOAPUseKey];
+  
+  /* prepare the parameters */
+  queryParmDict = [NSMutableDictionary dictionaryWithCapacity: 2];
+  [queryParmDict setObject: @"urn:partner.soap.sforce.com" forKey: GWSSOAPNamespaceURIKey];
+  [queryParmDict setObject: queryString forKey: @"queryString"];
+  
+  
+  parmsDict = [NSMutableDictionary dictionaryWithCapacity: 1];
+  [parmsDict setObject: queryParmDict forKey: @"query"];
+  [parmsDict setObject: headerDict forKey:GWSSOAPMessageHeadersKey];
+
+  
+  /* make the query */  
+  resultDict = [service invokeMethod: @"query"
+                parameters : parmsDict
+		order : nil
+		timeout : 90];
+
+  enumerator = [resultDict keyEnumerator];
+  NSLog(@"before cleaning");
+  while ((key = [enumerator nextObject]))
+  {
+    NSLog(@"%@ - %@", key, [resultDict objectForKey:key]); 
+  }
+  
+  queryFault = [resultDict objectForKey:@"GWSCoderFault"];
+  if (queryFault != nil)
+    {
+      NSDictionary *fault;
+      NSDictionary *faultDetail;
+
+      faultDetail = [queryFault objectForKey:@"detail"];
+      fault = [faultDetail objectForKey:@"fault"];
+      NSLog(@"fault: %@", fault);
+      NSLog(@"exception code: %@", [fault objectForKey:@"exceptionCode"]);
+      NSLog(@"exception code: %@", [fault objectForKey:@"exceptionMessage"]);
+    }
+
+  queryResult = [resultDict objectForKey:@"GWSCoderParameters"];
+  result = [queryResult objectForKey:@"result"];
+//  NSLog(@"result: %@", result);
+
+  doneStr = [result objectForKey:@"done"];
+  queryLocator = [result objectForKey:@"queryLocator"];
+  records = [result objectForKey:@"records"];
+  sizeStr = [result objectForKey:@"size"];
+ 
+  if (doneStr != nil)
+    {
+      NSLog(@"done: %@", doneStr);
+      done = NO;
+      if ([doneStr isEqualToString:@"true"])
+        done = YES;
+      else if ([doneStr isEqualToString:@"false"])
+        done = NO;
+      else
+        NSLog(@"Done, unexpected value: %@", doneStr);
+    }
+  else
+    {
+      NSLog(@"error, doneStr is nil: unexpected");
+      return;
+    }
+
+  if (sizeStr != nil)
+    {
+      int            i;
+      int            j;
+      int    batchSize;
+      NSMutableArray *keys;
+      NSMutableArray *set;
+      
+      
+      size = [sizeStr intValue];
+      NSLog(@"Declared size is: %d", size);
+      
+      /* if we have only one element, put it in an array */
+      if (size == 1)
+        {
+          records = [NSArray arrayWithObject:records];
+          batchSize = 1;
+        }
+      record = [records objectAtIndex:0];
+      batchSize = [records count];        
+      
+      NSLog(@"records size is: %d", batchSize);
+      
+      /* let's get the fields from the keys of the first record */
+      keys = [NSMutableArray arrayWithArray:[record allKeys]];
+      [keys removeObject:@"GWSCoderOrder"];
+
+      /* remove some fields which get added automatically by salesforce even if not asked for */
+      [keys removeObject:@"type"];
+      
+      /* remove Id only if it is null, else an array of two populated Id is returned by SF */
+      if (![[record objectForKey:@"Id"] isKindOfClass: [NSArray class]])
+          [keys removeObject:@"Id"];
+
+
+      NSLog(@"keys: %@", keys);
+      
+// ####      [writer setFieldNames:[NSArray arrayWithArray:keys] andWriteIt:YES];
+      
+      set = [[NSMutableArray alloc] init];
+      
+      /* now cycle all the records and read out the fields */
+      for (i = 0; i < batchSize; i++)
+        {
+          NSMutableArray *values;
+	  
+          record = [records objectAtIndex:i];
+          values = [NSMutableArray arrayWithCapacity:[keys count]];
+          for (j = 0; j < [keys count]; j++)
+            {
+              id       obj;
+              id       value;
+              NSString *key;
+              
+              key = [keys objectAtIndex:j];
+              obj = [record objectForKey: key];
+              if ([key isEqualToString:@"Id"])
+                  value = [(NSArray *)obj objectAtIndex: 0];
+              else
+                  value = obj;
+              [values addObject:value];
+            }
+          [set addObject:values];
+        }
+// ####      [writer writeDataSet:set];
+    }
+  if (!done)
+    {
+      NSLog(@"should do query more, queryLocator: %@", queryLocator);
+// ###      [self queryMore :queryLocator toWriter:writer];
+    }
+
+}
+
 - (void)query :(NSString *)queryString toWriter:(DBCVSWriter *)writer
 {
   NSMutableDictionary   *headerDict;

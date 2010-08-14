@@ -41,6 +41,7 @@
 }
 
 - (void)login :(NSURL *)url :(NSString *)userName :(NSString *)password;
+- (void)query :(NSString *)queryString toArray:(NSMutableArray *)objects queryLocator:(NSString *)locator;
 - (void)query :(NSString *)queryString toWriter:(DBCVSWriter *)writer;
 - (void)queryMore :(NSString *)queryLocator toWriter:(DBCVSWriter *)writer;
 - (void)create :(NSString *)objectName fromReader:(DBCVSReader *)reader;

@@ -41,9 +41,13 @@
 }
 
 - (void)login :(NSURL *)url :(NSString *)userName :(NSString *)password;
-- (void)query :(NSString *)queryString toArray:(NSMutableArray *)objects queryLocator:(NSString *)locator;
+
+- (NSMutableArray *)queryAll :(NSString *)queryString;
+- (NSString *)query :(NSString *)queryString toArray:(NSMutableArray *)objects;
+- (NSString *)queryMore :(NSString *)locator toArray:(NSMutableArray *)objects;
 - (void)query :(NSString *)queryString toWriter:(DBCVSWriter *)writer;
 - (void)queryMore :(NSString *)queryLocator toWriter:(DBCVSWriter *)writer;
+
 - (void)create :(NSString *)objectName fromReader:(DBCVSReader *)reader;
 - (void)update :(NSString *)objectName fromReader:(DBCVSReader *)reader;
 - (NSMutableArray *)delete :(NSArray *)objectIdArray;

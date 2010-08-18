@@ -51,6 +51,6 @@
 
 - (NSArray *)fieldNames;
 - (NSString *)fieldValue: (NSString *)field;
-
+- (void)setValue: (NSString *)value forField:(NSString *)field;
 
 @end

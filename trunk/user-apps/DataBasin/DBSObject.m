@@ -29,6 +29,9 @@
 
 @implementation DBSObject
 
+/** <p>Returns the corresponding 18-character case-insensitive
+    salesforce Id given the 15-character version <i>id15</i>
+*/
 + (NSString *)idTo18: (NSString *) id15
 {
   NSMutableString *suffix;
@@ -76,11 +79,16 @@
   [super dealloc];
 }
 
+/** <p>returns the current salesforce id, in whichever format it is currently stored.</p>
+*/
 - (NSString *)sfId
 {
   return [recordValues objectForKey: @"Id"];
 }
 
+/** <p>Returns the current salesforce Id, always in the 15-character case-sensitive format,
+    converting it if necessary.</p>
+*/
 - (NSString *)sfId15
 {
   NSString *sfid;
@@ -98,6 +106,9 @@
   return sfid;
 }
 
+/** <p>Returns the current salesforce Id, always in the 18-character case-insensitive format,
+converting it if necessary.</p>
+*/
 - (NSString *)sfId18
 {
   NSString *sfid;
@@ -127,14 +138,29 @@
   return [fieldProperties objectForKey: field];
 }
 
+/** <p>Returns a list of all known field names.</p>
+*/
 - (NSArray *)fieldNames
 {
   return fieldNames;
 }
 
+/** <p>Returns the value of field <i>field</i><p>
+*/
 - (NSString *)fieldValue: (NSString *)field
 {
   return [recordValues objectForKey: field];
+}
+
+/** <p>Sets the value of the given field of the record and adds it
+    to the list if field names if it was not already present.</p>
+*/
+- (void)setValue: (NSString *)value forField: (NSString*)field
+{
+  if (![fieldNames containsObject: field])
+    [fieldNames addObject: field];
+  
+  [recordValues setObject: value forKey: field];
 }
 
 @end

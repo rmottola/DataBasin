@@ -221,7 +221,7 @@
   cvsWriter = [[DBCVSWriter alloc] initWithHandle:fileHandle];
   
   [db query :statement toWriter:cvsWriter];
-  
+    
   [cvsWriter release];
   [fileHandle closeFile];
 }

@@ -456,6 +456,7 @@
   NSArray   *idArray;
   NSMutableArray *resultArray;
 
+  resultArray = nil;
   [fieldStatusQd setStringValue:@""];
   objectId = [fieldObjectIdQd stringValue];
   

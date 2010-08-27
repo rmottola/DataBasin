@@ -373,7 +373,6 @@
   NSMutableDictionary   *queryParmDict;
   NSDictionary          *resultDict;
   NSEnumerator          *enumerator;
-  NSString              *key;
   NSDictionary          *queryResult;
   NSDictionary          *result;
   NSString              *doneStr;
@@ -1165,17 +1164,10 @@
   NSMutableDictionary   *parmsDict;
   NSMutableDictionary   *queryParmDict;
   NSDictionary          *resultDict;
-  NSEnumerator          *enumerator;
-  NSString              *key;
   NSDictionary          *queryResult;
   NSDictionary          *result;
-  NSArray               *records;
-  NSDictionary          *record;
   NSDictionary          *queryFault;
-  NSString              *sizeStr;
-  int                   size;
   NSMutableArray        *queryObjectsDict;
-  NSString              *errorStr;
   NSMutableArray        *resultArray;
   
   /* prepare the header */
@@ -1205,12 +1197,6 @@
                 parameters : parmsDict
 		order : nil
 		timeout : 90];
-  
-  NSLog(@"request: %@", [[NSString alloc] initWithData:
-    	[resultDict objectForKey:@"GWSCoderRequestData"] encoding: NSUTF8StringEncoding]);
-  
-
-  NSLog(@"dict is %d big", [resultDict count]);
 
   queryFault = [resultDict objectForKey:@"GWSCoderFault"];
   if (queryFault != nil)

@@ -89,6 +89,7 @@
 	DataBasinInfo.plist
     );
     USER_LANGUAGES = (
+	AmericanEnglish,
 	English
     );
 }

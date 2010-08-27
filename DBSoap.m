@@ -245,11 +245,6 @@
                             timeout : 90];
   
   enumerator = [resultDict keyEnumerator];
-  NSLog(@"before cleaning");
-  while ((key = [enumerator nextObject]))
-    {
-      NSLog(@"%@ - %@", key, [resultDict objectForKey:key]); 
-    }
   
   queryFault = [resultDict objectForKey:@"GWSCoderFault"];
   if (queryFault != nil)

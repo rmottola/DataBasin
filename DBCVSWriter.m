@@ -1,7 +1,7 @@
 /*
    Project: DataBasin
 
-   Copyright (C) 2009 Free Software Foundation
+   Copyright (C) 2009-2010 Free Software Foundation
 
    Author: Riccardo Mottola
 
@@ -35,6 +35,7 @@
       qualifier = @"\"";
       separator = @",";
       newLine = @"\n";
+      encoding = NSUTF8StringEncoding;
    }
   return self;
 }
@@ -44,13 +45,10 @@
   if (flag == YES)
     {
       NSString *theLine;
-      const char *cStr;
       
       NSLog(@"should write out field names to file");
       theLine = [self formatOneLine:array];
-      cStr = [theLine cString];
-      NSLog(@"cString: %s", cStr);
-      [file writeData:[NSData dataWithBytes:cStr length:strlen(cStr)]];
+      [file writeData: [theLine dataUsingEncoding: encoding]];
     }
 }
 
@@ -62,12 +60,10 @@
   setCount = [array count];
   for (i = 0; i < setCount; i++)
     {
-      const char *cStr;
       NSString *oneLine;
       
       oneLine = [self formatOneLine:[array objectAtIndex:i]];
-      cStr = [oneLine cString];
-      [file writeData:[NSData dataWithBytes:cStr length:strlen(cStr)]];
+      [file writeData: [oneLine dataUsingEncoding: encoding]];
     }
 }
 

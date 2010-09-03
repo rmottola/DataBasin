@@ -86,9 +86,21 @@
   return NO;
 }
 
-- (void)showPrefPanel:(id)sender
+- (IBAction)showPrefPanel:(id)sender
 {
+  [prefPanel makeKeyAndOrderFront: sender];
 }
+
+- (IBAction)prefPanelCancel:(id)sender
+{
+  [prefPanel performClose: nil];
+}
+
+- (IBAction)prefPanelOk:(id)sender
+{
+  [prefPanel performClose: nil];
+}
+
 
 /* SESSION INSPECTOR */
 

@@ -3,6 +3,8 @@
     AppController = {
 	Actions = (
 	    "showPrefPanel:",
+	    "prefPanelCancel:",
+	    "prefPanelOk:",
 	    "showLogin:",
 	    "doLogin:",
 	    "showSessionInspector:",
@@ -28,6 +30,10 @@
 	Outlets = (
 	    faultPanel,
 	    faultTextView,
+	    prefPanel,
+	    popupStrEncoding,
+	    buttPrefCancel,
+	    buttPrefOk,
 	    winLogin,
 	    fieldUserName,
 	    fieldPassword,
@@ -83,6 +89,8 @@
 	    "executeSelect:",
 	    "executeUpdate:",
 	    "orderFrontFontPanel:",
+	    "prefPanelCancel:",
+	    "prefPanelOk:",
 	    "quickDelete:",
 	    "showDelete:",
 	    "showDescribe:",

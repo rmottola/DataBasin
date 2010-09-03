@@ -36,6 +36,12 @@
   IBOutlet NSPanel    *faultPanel;
   IBOutlet NSTextView *faultTextView;
   
+  /* preferences */
+  IBOutlet NSPanel       *prefPanel;
+  IBOutlet NSPopUpButton *popupStrEncoding;
+  IBOutlet NSButton      *buttPrefCancel;
+  IBOutlet NSButton      *buttPrefOk;
+  
   /* login */
   IBOutlet NSWindow      *winLogin;
   IBOutlet NSTextField   *fieldUserName;
@@ -105,6 +111,8 @@
 - (BOOL)application:(NSApplication *)application openFile:(NSString *)fileName;
 
 - (IBAction)showPrefPanel:(id)sender;
+- (IBAction)prefPanelCancel:(id)sender;
+- (IBAction)prefPanelOk:(id)sender;
 
 - (IBAction)showLogin:(id)sender;
 - (IBAction)doLogin:(id)sender;

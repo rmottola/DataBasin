@@ -40,6 +40,11 @@
   return self;
 }
 
+- (void)setStringEncoding: (NSStringEncoding) enc
+{
+  encoding = enc;
+}
+
 - (void)setFieldNames:(NSArray *)array andWriteIt:(BOOL)flag
 {
   if (flag == YES)

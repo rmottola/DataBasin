@@ -40,6 +40,7 @@
 - (void)setFieldNames:(NSArray *)array andWriteIt:(BOOL)flag;
 - (void)writeDataSet:(NSArray *)array;
 - (NSString *)formatOneLine:(NSArray *)values;
+- (void)setStringEncoding: (NSStringEncoding) enc;
 
 @end
 

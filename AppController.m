@@ -98,6 +98,20 @@
 
 - (IBAction)prefPanelOk:(id)sender
 {
+  NSStringEncoding selectedEncoding;
+  
+  selectedEncoding = NSUTF8StringEncoding;
+  switch([popupStrEncoding indexOfSelectedItem])
+    {
+      case 0: selectedEncoding = NSUTF8StringEncoding;
+        break;
+      case 1: selectedEncoding = NSUTF16StringEncoding;
+        break;
+      case 2: selectedEncoding = NSISOLatin1StringEncoding;
+        break;
+      case 3: selectedEncoding = NSWindowsCP1252StringEncoding;
+        break;
+    }
   [prefPanel performClose: nil];
 }
 

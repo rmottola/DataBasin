@@ -88,6 +88,28 @@
 
 - (IBAction)showPrefPanel:(id)sender
 {
+  NSUserDefaults *defaults;
+  int index;
+
+  defaults = [NSUserDefaults standardUserDefaults];
+  
+  index = 0;
+  switch([[defaults valueForKey: @"StringEncoding"] intValue])
+    {
+      case NSUTF8StringEncoding:
+        index = 0;
+        break;
+      case NSUTF16StringEncoding:
+        index = 1;
+        break;
+      case NSISOLatin1StringEncoding:
+        index = 2;
+        break;
+      case NSWindowsCP1252StringEncoding:
+        index = 3;
+        break;
+    }
+  [popupStrEncoding selectItemAtIndex: index];
   [prefPanel makeKeyAndOrderFront: sender];
 }
 
@@ -99,6 +121,9 @@
 - (IBAction)prefPanelOk:(id)sender
 {
   NSStringEncoding selectedEncoding;
+  NSUserDefaults *defaults;
+
+  defaults = [NSUserDefaults standardUserDefaults];
   
   selectedEncoding = NSUTF8StringEncoding;
   switch([popupStrEncoding indexOfSelectedItem])
@@ -112,6 +137,8 @@
       case 3: selectedEncoding = NSWindowsCP1252StringEncoding;
         break;
     }
+    
+  [defaults setObject:[NSNumber numberWithInt: selectedEncoding] forKey: @"StringEncoding"];
   [prefPanel performClose: nil];
 }
 
@@ -431,7 +458,10 @@
   NSString      *whichObject;
   NSFileManager *fileManager;
   NSFileHandle  *fileHandle;
-  
+  NSUserDefaults *defaults;
+
+  defaults = [NSUserDefaults standardUserDefaults];
+    
   filePath = [fieldFileDescribe stringValue];
   NSLog(@"%@", filePath);
 
@@ -449,6 +479,7 @@
     }
   
   writer = [[DBCVSWriter alloc] initWithHandle:fileHandle];
+  [writer setStringEncoding: [[defaults valueForKey: @"StringEncoding"] intValue]];
   
   whichObject = [[[popupObjectsDescribe selectedItem] title] retain];
   NSLog(@"object: %@", whichObject);

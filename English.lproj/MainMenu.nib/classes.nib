@@ -13,6 +13,8 @@
                 executeInsert = id; 
                 executeSelect = id; 
                 executeUpdate = id; 
+                prefPanelCancel = id; 
+                prefPanelOk = id; 
                 quickDelete = id; 
                 showDelete = id; 
                 showDescribe = id; 
@@ -28,6 +30,8 @@
             CLASS = AppController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
+                buttPrefCancel = NSButton; 
+                buttPrefOk = NSButton; 
                 checkSkipFirstLine = NSButton; 
                 faultPanel = NSPanel; 
                 faultTextView = NSTextView; 
@@ -57,6 +61,8 @@
                 popupObjectsDescribe = NSPopUpButton; 
                 popupObjectsInsert = NSPopUpButton; 
                 popupObjectsUpdate = NSPopUpButton; 
+                popupStrEncoding = NSPopUpButton; 
+                prefPanel = NSPanel; 
                 winDelete = NSWindow; 
                 winDescribe = NSWindow; 
                 winInsert = NSWindow; 

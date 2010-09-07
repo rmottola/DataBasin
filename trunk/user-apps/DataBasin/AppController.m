@@ -32,6 +32,10 @@
 #define DB_ENVIRONMENT_PRODUCTION 0
 #define DB_ENVIRONMENT_SANDBOX    1
 
+#if (MAC_OS_X_VERSION_MAX_ALLOWED <= MAC_OS_X_VERSION_10_3)
+#define NSUTF16StringEncoding 999
+#endif
+
 @implementation AppController
 
 + (void)initialize
@@ -66,6 +70,11 @@
 - (void)awakeFromNib
 {
   [[NSApp mainMenu] setTitle:@"DataBasin"];
+
+#if (MAC_OS_X_VERSION_MAX_ALLOWED <= MAC_OS_X_VERSION_10_3)
+  [popupStrEncoding setAutoenablesItems: NO];
+  [[popupStrEncoding itemAtIndex: 1] setEnabled: NO];
+#endif
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotif

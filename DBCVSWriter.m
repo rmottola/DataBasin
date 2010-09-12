@@ -78,11 +78,12 @@
   int      size;
   int      i;
   
-  theLine = [[NSMutableString alloc] initWithCapacity:64];
   size = [values count];
 
   if (size == 0)
     return nil;
+
+  theLine = [[NSMutableString alloc] initWithCapacity:64];
     
   for (i = 0; i < size-1; i++)
     {

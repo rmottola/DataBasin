@@ -244,8 +244,6 @@
                               order : nil
                             timeout : 90];
   
-  enumerator = [resultDict keyEnumerator];
-  
   queryFault = [resultDict objectForKey:@"GWSCoderFault"];
   if (queryFault != nil)
     {
@@ -299,7 +297,6 @@
       if (size == 1)
         {
           records = [NSArray arrayWithObject:records];
-          batchSize = 1;
         }
       record = [records objectAtIndex:0];
       batchSize = [records count];        
@@ -320,8 +317,6 @@
       
       NSLog(@"keys: %@", keys);
       
-      set = [[NSMutableArray alloc] init];
-      
       /* now cycle all the records and read out the fields */
       for (i = 0; i < batchSize; i++)
         {
@@ -330,7 +325,7 @@
         
           sObj = [[DBSObject alloc] init];
           record = [records objectAtIndex:i];
-          values = [NSMutableArray arrayWithCapacity:[keys count]];
+
           for (j = 0; j < [keys count]; j++)
             {
               id       obj;
@@ -408,8 +403,6 @@
                             timeout : 90];
   
 
-  enumerator = [resultDict keyEnumerator];
-
   queryLocator = nil;
   queryFault = [resultDict objectForKey:@"GWSCoderFault"];
   if (queryFault != nil)
@@ -464,7 +457,6 @@
       if (size == 1)
         {
           records = [NSArray arrayWithObject:records];
-          batchSize = 1;
         }
       record = [records objectAtIndex:0];
       batchSize = [records count];        
@@ -485,8 +477,6 @@
 
       NSLog(@"keys: %@", keys);
       
-      set = [[NSMutableArray alloc] init];
-      
       /* now cycle all the records and read out the fields */
       for (i = 0; i < batchSize; i++)
         {
@@ -495,7 +485,7 @@
 	  
           sObj = [[DBSObject alloc] init];
           record = [records objectAtIndex:i];
-          values = [NSMutableArray arrayWithCapacity:[keys count]];
+ 
           for (j = 0; j < [keys count]; j++)
             {
               id       obj;
@@ -1134,7 +1124,6 @@
   keys = [NSMutableArray arrayWithArray:[record allKeys]];
   [keys removeObject:@"GWSCoderOrder"];
 
-  set = [[NSMutableArray alloc] init];
   object = [[DBSObject alloc] init];
 
   for (i = 0; i < size; i++)

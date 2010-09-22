@@ -200,8 +200,6 @@
   NSMutableDictionary   *parmsDict;
   NSMutableDictionary   *queryParmDict;
   NSDictionary          *resultDict;
-  NSEnumerator          *enumerator;
-  NSString              *key;
   NSDictionary          *queryResult;
   NSDictionary          *result;
   NSString              *doneStr;
@@ -287,7 +285,6 @@
       int            j;
       int    batchSize;
       NSMutableArray *keys;
-      NSMutableArray *set;
     
     
       size = [sizeStr intValue];
@@ -320,7 +317,6 @@
       /* now cycle all the records and read out the fields */
       for (i = 0; i < batchSize; i++)
         {
-          NSMutableArray *values;
           DBSObject *sObj;
         
           sObj = [[DBSObject alloc] init];
@@ -362,7 +358,6 @@
   NSMutableDictionary   *parmsDict;
   NSMutableDictionary   *queryParmDict;
   NSDictionary          *resultDict;
-  NSEnumerator          *enumerator;
   NSDictionary          *queryResult;
   NSDictionary          *result;
   NSString              *doneStr;
@@ -447,7 +442,6 @@
       int            j;
       int    batchSize;
       NSMutableArray *keys;
-      NSMutableArray *set;
       
       
       size = [sizeStr intValue];
@@ -480,7 +474,6 @@
       /* now cycle all the records and read out the fields */
       for (i = 0; i < batchSize; i++)
         {
-          NSMutableArray *values;
           DBSObject *sObj;
 	  
           sObj = [[DBSObject alloc] init];
@@ -595,13 +588,11 @@
   NSString              *key;
   NSDictionary          *queryResult;
   NSDictionary          *result;
-  NSString              *doneStr;
   NSArray               *records;
   NSDictionary          *record;
   NSDictionary          *queryFault;
   NSString              *sizeStr;
   int                   size;
-  NSMutableDictionary   *objectsDict;
   NSArray               *objectsArray;
   NSArray               *fieldValues;
   NSArray               *fieldNames;
@@ -614,7 +605,6 @@
   /* first the fields */
   fieldNames = [reader fieldNames];
   fieldCount = [fieldNames count];
-  objectsDict = [NSMutableDictionary dictionaryWithCapacity: 2];
   objectsArray = [reader readDataSet];
   
   
@@ -710,7 +700,6 @@
   result = [queryResult objectForKey:@"result"];
   NSLog(@"result: %@", result);
 
-  doneStr = [result objectForKey:@"done"];
   records = [result objectForKey:@"records"];
   sizeStr = [result objectForKey:@"size"];
  
@@ -770,13 +759,11 @@
   NSString              *key;
   NSDictionary          *queryResult;
   NSDictionary          *result;
-  NSString              *doneStr;
   NSArray               *records;
   NSDictionary          *record;
   NSDictionary          *queryFault;
   NSString              *sizeStr;
   int                   size;
-  NSMutableDictionary   *objectsDict;
   NSArray               *objectsArray;
   NSArray               *fieldValues;
   NSArray               *fieldNames;
@@ -789,7 +776,6 @@
   /* first the fields */
   fieldNames = [reader fieldNames];
   fieldCount = [fieldNames count];
-  objectsDict = [NSMutableDictionary dictionaryWithCapacity: 2];
   objectsArray = [reader readDataSet];
   
   
@@ -885,7 +871,6 @@
   result = [queryResult objectForKey:@"result"];
   NSLog(@"result: %@", result);
   
-  doneStr = [result objectForKey:@"done"];
   records = [result objectForKey:@"records"];
   sizeStr = [result objectForKey:@"size"];
   
@@ -944,9 +929,7 @@
   NSDictionary          *resultDict;
   NSDictionary          *queryResult;
   NSDictionary          *result;
-  NSString              *encoding;
   NSDictionary          *queryFault;
-  NSString              *maxBatchSizeStr;
   NSArray               *types;
 
   /* prepare the header */
@@ -994,8 +977,6 @@
   result = [queryResult objectForKey:@"result"];
   NSLog(@"result: %@", result);
 
-  encoding = [result objectForKey:@"encoding"];
-  maxBatchSizeStr = [result objectForKey:@"maxBatchSize"];
   types = [result objectForKey:@"types"];
 
   return types;
@@ -1065,7 +1046,6 @@
   int                   i;
   int                   size;
   NSMutableArray        *keys;
-  NSMutableArray        *set;
   DBSObject             *object;
 
 

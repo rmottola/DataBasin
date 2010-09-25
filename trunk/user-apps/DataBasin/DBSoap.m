@@ -337,6 +337,7 @@
               [sObj setValue: value forField: key];
             }
           [objects addObject:sObj];
+          [sObj release];
         }
     }
   if (!done)
@@ -494,6 +495,7 @@
               [sObj setValue: value forField: key];
             }
           [objects addObject:sObj];
+          [sObj release];
         }
     }
   if (!done)
@@ -670,8 +672,7 @@
 		order : nil
 		timeout : 90];
   
-  NSLog(@"request: %@", [[NSString alloc] initWithData:
-    	[resultDict objectForKey:@"GWSCoderRequestData"] encoding: NSUTF8StringEncoding]);
+//  NSLog(@"request: %@", [[NSString alloc] initWithData: [resultDict objectForKey:@"GWSCoderRequestData"] encoding: NSUTF8StringEncoding]);
   
 
   NSLog(@"dict is %d big", [resultDict count]);

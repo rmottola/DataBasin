@@ -1034,6 +1034,7 @@
       [set addObject:values];
     }
   [writer writeDataSet:set];
+  [set release];
 }
 
 - (DBSObject *)describeSObject: (NSString *)objectType
@@ -1122,7 +1123,7 @@
       fieldName = [props objectForKey: @"name"];
       [object setProperties:[NSDictionary dictionaryWithDictionary: props] forField: fieldName];
     }
-  return object;
+    return [object autorelease];
 }
 
 

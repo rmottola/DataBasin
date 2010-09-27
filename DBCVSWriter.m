@@ -92,7 +92,7 @@
     }
   [theLine appendString:[values objectAtIndex:i]];
   [theLine appendString:newLine];
-  return theLine;
+  return [theLine autorelease];
 }
 
 @end

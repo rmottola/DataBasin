@@ -746,6 +746,8 @@
           NSLog(@"%d: %@", i, values);
           [set addObject:values];
         }
+      /* we don't do yet anything useful with the results... */
+      [set release];
     }
 }
 
@@ -842,8 +844,8 @@
                               order : nil
                             timeout : 90];
   
-  NSLog(@"request: %@", [[NSString alloc] initWithData:
-    	[resultDict objectForKey:@"GWSCoderRequestData"] encoding: NSUTF8StringEncoding]);
+//  NSLog(@"request: %@", [[NSString alloc] initWithData:
+//    	[resultDict objectForKey:@"GWSCoderRequestData"] encoding: NSUTF8StringEncoding]);
   
   
   NSLog(@"dict is %d big", [resultDict count]);
@@ -917,6 +919,8 @@
       NSLog(@"%d: %@", i, values);
       [set addObject:values];
       }
+      /* we don't do yet anything useful with the results... */
+      [set release];
     }
 }
 

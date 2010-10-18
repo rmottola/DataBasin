@@ -42,7 +42,7 @@
 
 - (void)login :(NSURL *)url :(NSString *)userName :(NSString *)password;
 
-- (NSMutableArray *)queryAll :(NSString *)queryString;
+- (NSMutableArray *)queryFull :(NSString *)queryString;
 - (NSString *)query :(NSString *)queryString toArray:(NSMutableArray *)objects;
 - (NSString *)queryMore :(NSString *)locator toArray:(NSMutableArray *)objects;
 - (void)query :(NSString *)queryString toWriter:(DBCVSWriter *)writer;

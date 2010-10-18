@@ -171,10 +171,10 @@
   [service setURL:serverUrl];
 }
 
-/** <p>Execute SOQL query <i>queryString</i> and returns the resulting DBSObjectes as an array.</p>
-  <p>This method will query all objects, repeatedly querying again if necessary depending on the batch size.</p>
+/** <p>Execute SOQL query <i>queryString</i> and returns the resulting DBSObjects as an array.</p>
+  <p>This method will query all resultinng objects of the query, repeatedly querying again if necessary depending on the batch size.</p>
 */
-- (NSMutableArray *)queryAll :(NSString *)queryString
+- (NSMutableArray *)queryFull :(NSString *)queryString
 {
   NSString       *qLoc;
   NSMutableArray *sObjects;

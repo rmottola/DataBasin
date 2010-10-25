@@ -42,10 +42,10 @@
 
 - (void)login :(NSURL *)url :(NSString *)userName :(NSString *)password;
 
-- (NSMutableArray *)queryFull :(NSString *)queryString;
-- (NSString *)query :(NSString *)queryString toArray:(NSMutableArray *)objects;
+- (NSMutableArray *)queryFull :(NSString *)queryString queryAll:(BOOL)all;
+- (NSString *)query :(NSString *)queryString queryAll:(BOOL)all toArray:(NSMutableArray *)objects;
 - (NSString *)queryMore :(NSString *)locator toArray:(NSMutableArray *)objects;
-- (void)query :(NSString *)queryString toWriter:(DBCVSWriter *)writer;
+- (void)query :(NSString *)queryString queryAll:(BOOL)all toWriter:(DBCVSWriter *)writer;
 
 - (void)create :(NSString *)objectName fromReader:(DBCVSReader *)reader;
 - (void)update :(NSString *)objectName fromReader:(DBCVSReader *)reader;

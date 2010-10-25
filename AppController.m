@@ -282,7 +282,7 @@
   
   cvsWriter = [[DBCVSWriter alloc] initWithHandle:fileHandle];
   
-  [db query :statement toWriter:cvsWriter];
+  [db query :statement queryAll:([queryAllSelect state] == NSOnState) toWriter:cvsWriter];
     
   [cvsWriter release];
   [fileHandle closeFile];

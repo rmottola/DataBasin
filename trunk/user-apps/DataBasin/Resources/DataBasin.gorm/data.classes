@@ -55,6 +55,7 @@
 	    winSelect,
 	    fieldQuerySelect,
 	    fieldFileSelect,
+	    queryAllSelect,
 	    winInsert,
 	    fieldFileInsert,
 	    popupObjectsInsert,

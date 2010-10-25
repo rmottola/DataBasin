@@ -71,6 +71,7 @@
   IBOutlet NSWindow      *winSelect;
   IBOutlet NSTextView    *fieldQuerySelect;
   IBOutlet NSTextField   *fieldFileSelect;
+  IBOutlet NSButton      *queryAllSelect;
   
   /* insert */
   IBOutlet NSWindow      *winInsert;

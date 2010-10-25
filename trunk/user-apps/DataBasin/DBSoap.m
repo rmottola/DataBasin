@@ -174,14 +174,14 @@
 /** <p>Execute SOQL query <i>queryString</i> and returns the resulting DBSObjects as an array.</p>
   <p>This method will query all resultinng objects of the query, repeatedly querying again if necessary depending on the batch size.</p>
 */
-- (NSMutableArray *)queryFull :(NSString *)queryString
+- (NSMutableArray *)queryFull :(NSString *)queryString queryAll:(BOOL)all
 {
   NSString       *qLoc;
   NSMutableArray *sObjects;
   
   sObjects = [[NSMutableArray alloc] init];
 
-  qLoc = [self query: queryString toArray: sObjects];
+  qLoc = [self query: queryString queryAll:all toArray: sObjects];
   NSLog(@"query loc after first query: %@", qLoc);
   while (qLoc != nil)
     qLoc = [self queryMore: qLoc toArray: sObjects];
@@ -193,7 +193,7 @@
   which must be valid and allocated. </p>
   <p>If the query locator is returned,  a query more has to be executed.</p>
 */
-- (NSString *)query :(NSString *)queryString toArray:(NSMutableArray *)objects
+- (NSString *)query :(NSString *)queryString queryAll:(BOOL)all toArray:(NSMutableArray *)objects
 {
   NSMutableDictionary   *headerDict;
   NSMutableDictionary   *sessionHeaderDict;
@@ -216,7 +216,7 @@
     return nil;
   
   queryLocator = nil;
-  
+ 
   /* prepare the header */
   sessionHeaderDict = [NSMutableDictionary dictionaryWithCapacity: 2];
   [sessionHeaderDict setObject: sessionId forKey: @"sessionId"];
@@ -232,16 +232,28 @@
   [queryParmDict setObject: queryString forKey: @"queryString"];
   
   parmsDict = [NSMutableDictionary dictionaryWithCapacity: 1];
-  [parmsDict setObject: queryParmDict forKey: @"query"];
-  [parmsDict setObject: headerDict forKey:GWSSOAPMessageHeadersKey];
   
   
   /* make the query */  
-  resultDict = [service invokeMethod: @"query"
-                         parameters : parmsDict
-                              order : nil
-                            timeout : 90];
-  
+  if (all)
+    {
+      [parmsDict setObject: queryParmDict forKey: @"queryAll"];
+      [parmsDict setObject: headerDict forKey:GWSSOAPMessageHeadersKey];
+      resultDict = [service invokeMethod: @"queryAll"
+			     parameters : parmsDict
+				  order : nil
+				timeout : 90];
+    }
+  else
+    {
+      [parmsDict setObject: queryParmDict forKey: @"query"];
+      [parmsDict setObject: headerDict forKey:GWSSOAPMessageHeadersKey];
+      resultDict = [service invokeMethod: @"query"
+			     parameters : parmsDict
+				  order : nil
+				timeout : 90];
+    }
+
   queryFault = [resultDict objectForKey:@"GWSCoderFault"];
   if (queryFault != nil)
     {
@@ -506,7 +518,7 @@
   return queryLocator;
 }
 
-- (void)query :(NSString *)queryString toWriter:(DBCVSWriter *)writer
+- (void)query :(NSString *)queryString queryAll:(BOOL)all toWriter:(DBCVSWriter *)writer
 {
   int            i;
   int            j;
@@ -519,7 +531,7 @@
   
   sObjects = [[NSMutableArray alloc] init];
 
-  qLoc = [self query: queryString toArray: sObjects];
+  qLoc = [self query: queryString queryAll: all toArray: sObjects];
 
   keys = nil;
   batchSize = [sObjects count];

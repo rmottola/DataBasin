@@ -87,8 +87,21 @@
     
   for (i = 0; i < size-1; i++)
     {
-      [theLine appendString:[values objectAtIndex:i]];
-      [theLine appendString:separator];
+      id obj;
+      
+      obj = [values objectAtIndex:i];
+      if ([obj isKindOfClass: [NSDictionary class]])
+        {
+          [theLine appendString: @""];
+          NSLog(@"Dictionary");
+        }
+      else if ([obj isKindOfClass: [NSString class]])
+        {
+          [theLine appendString: obj];
+        }
+      else
+        NSLog(@"unknown class of value: %@", [obj class]);
+      [theLine appendString: separator];
     }
   [theLine appendString:[values objectAtIndex:i]];
   [theLine appendString:newLine];

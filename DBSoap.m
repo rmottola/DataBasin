@@ -333,7 +333,7 @@
         
           sObj = [[DBSObject alloc] init];
           record = [records objectAtIndex:i];
-
+          NSLog(@"record :%@", record);
           for (j = 0; j < [keys count]; j++)
             {
               id       obj;

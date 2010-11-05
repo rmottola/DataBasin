@@ -311,7 +311,6 @@
       batchSize = [records count];        
       
       NSLog(@"records size is: %d", batchSize);
-      
       /* let's get the fields from the keys of the first record */
       keys = [NSMutableArray arrayWithArray:[record allKeys]];
       [keys removeObject:@"GWSCoderOrder"];

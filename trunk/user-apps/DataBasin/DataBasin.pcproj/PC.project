@@ -70,10 +70,10 @@
     PROJECT_GROUP = "No group avaliable!";
     PROJECT_MAINTAINER = "Riccardo Mottola,,,";
     PROJECT_NAME = DataBasin;
-    PROJECT_RELEASE = 0.1;
+    PROJECT_RELEASE = 0.2;
     PROJECT_SUMMARY = "No summary avaliable!";
     PROJECT_TYPE = Application;
-    PROJECT_URL = "";
+    PROJECT_URL = "http://gap.nongnu.org/DataBasin/";
     SEARCH_HEADER_DIRS = (
 	"$(GNUSTEP_LOCAL_ROOT)/Library/Headers/WebServices"
     );
@@ -89,7 +89,6 @@
 	DataBasinInfo.plist
     );
     USER_LANGUAGES = (
-	AmericanEnglish,
 	English
     );
 }

@@ -4,14 +4,17 @@ README
 Data Basin
 Data Access Tool for Salesforce
 
+DBSoap: classes to interact with Salesforce
 
-Current Version: 0.1
+
+Current Version: 0.2
 --------------------
 
 
 LIMITATIONS
 - CVS Reading and Writing does not support full quoting properly
-- no field matching: crete column names must match exactly salesforce field names
+- no field matching: create column names must match exactly salesforce field names
+- semi-joins not supported
 
 MISSING FEATURES
 - Upsert

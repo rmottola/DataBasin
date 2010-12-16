@@ -946,7 +946,9 @@
   NSDictionary          *queryResult;
   NSDictionary          *result;
   NSDictionary          *queryFault;
-  NSArray               *types;
+  NSArray               *sobjects;
+  NSMutableArray        *objectNames; // FIXME temporary, we should return full objects
+  int                   i;
 
   /* prepare the header */
   sessionHeaderDict = [NSMutableDictionary dictionaryWithCapacity: 2];
@@ -993,9 +995,19 @@
   result = [queryResult objectForKey:@"result"];
   NSLog(@"result: %@", result);
 
-  types = [result objectForKey:@"types"];
+  objectNames = [NSMutableArray arrayWithCapacity:1];
+  sobjects = [result objectForKey:@"sobjects"];
+  for (i = 0; i < [sobjects count]; i++)
+    {
+      NSMutableDictionary *sObj;
+      NSArray *propertiesArray;
+    
+      sObj = [sobjects objectAtIndex: i];
+      propertiesArray = [sObj objectForKey: @"GWSCoderOrder"];
+      [objectNames addObject: [sObj objectForKey: @"name"]];
+    }
 
-  return types;
+  return [NSArray arrayWithArray: objectNames];
 }
 
 - (void)describeSObject: (NSString *)objectType toWriter:(DBCVSWriter *)writer

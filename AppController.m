@@ -194,9 +194,9 @@
   db = [[DBSoap alloc] init];
   
   if ([popupEnvironment indexOfSelectedItem] == DB_ENVIRONMENT_PRODUCTION)
-    urlStr = @"http://www.salesforce.com/services/Soap/u/16.0";
+    urlStr = @"http://www.salesforce.com/services/Soap/u/20.0";
   else if ([popupEnvironment indexOfSelectedItem] == DB_ENVIRONMENT_SANDBOX)
-    urlStr = @"http://test.salesforce.com/services/Soap/u/16.0";
+    urlStr = @"http://test.salesforce.com/services/Soap/u/20.0";
   NSLog(@"Url: %@", urlStr);  
   url = [NSURL URLWithString:urlStr];
   

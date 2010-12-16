@@ -32,6 +32,7 @@
   NSMutableDictionary *recordValues;
   NSMutableArray      *fieldNames;
   NSMutableDictionary *fieldProperties;
+  NSMutableDictionary *objectProperties;
 }
 
 /** returns the 18-char version of the 15-char id */
@@ -45,6 +46,15 @@
 
 /** returns the salesforce Id of the object, always in the 18-char case-insensitive version */
 - (NSString *)sfId18;
+
+/** sets the properties of the object itself */
+- (void)setObjectProperties: (NSDictionary *)properties;
+
+/** returns the properties of the object itself, like its name */
+- (NSDictionary *)objectProperties;
+
+/** shortcut to return the property "name" */
+- (NSString *)name;
 
 - (void)setProperties: (NSDictionary *)properties forField: (NSString *)field;
 - (NSDictionary *)propertiesOfField: (NSString *)field;

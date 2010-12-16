@@ -67,6 +67,7 @@
       fieldNames = [[NSMutableArray arrayWithCapacity: 1] retain];
       fieldProperties = [[NSMutableDictionary dictionaryWithCapacity: 1] retain];
       recordValues = [[NSMutableDictionary dictionaryWithCapacity: 1] retain];
+	  objectProperties = [[NSMutableDictionary dictionaryWithCapacity: 1] retain];
     }
   return self;
 }
@@ -76,6 +77,7 @@
   [fieldNames release];
   [fieldProperties release];
   [recordValues release];
+  [objectProperties release];
   [super dealloc];
 }
 
@@ -124,6 +126,22 @@ converting it if necessary.</p>
     }
   
   return sfid;
+}
+
+- (void)setObjectProperties: (NSDictionary *)properties
+{
+  [objectProperties release];
+  objectProperties = [[NSMutableDictionary dictionaryWithDictionary: properties] retain];
+}
+
+- (NSDictionary *)objectProperties
+{
+  return [NSDictionary dictionaryWithDictionary: objectProperties];
+}
+
+- (NSString *)name
+{
+  return [objectProperties objectForKey: @"name"];
 }
 
 - (void)setProperties: (NSDictionary *)properties forField: (NSString *)field

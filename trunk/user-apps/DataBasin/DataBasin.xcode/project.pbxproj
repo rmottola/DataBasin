@@ -7,14 +7,13 @@
 	objects = {
 		080E96DDFE201D6D7F000001 = {
 			children = (
+				858A152A12BA9599001783B6,
 				85ACAA8C0FF4292200CB151F,
 				85ACAA8D0FF4292200CB151F,
 				858D8E640F1EA3BD00CC8F4A,
 				858D8E650F1EA3BD00CC8F4A,
 				858D8E660F1EA3BD00CC8F4A,
 				858D8E670F1EA3BD00CC8F4A,
-				858D8E680F1EA3BD00CC8F4A,
-				858D8E690F1EA3BD00CC8F4A,
 			);
 			isa = PBXGroup;
 			name = Classes;
@@ -251,6 +250,46 @@
 //852
 //853
 //854
+		858A152612BA9588001783B6 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = DBSObject.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		858A152712BA9588001783B6 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = DBSObject.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		858A152812BA9588001783B6 = {
+			fileRef = 858A152612BA9588001783B6;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		858A152912BA9588001783B6 = {
+			fileRef = 858A152712BA9588001783B6;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		858A152A12BA9599001783B6 = {
+			children = (
+				858D8E680F1EA3BD00CC8F4A,
+				858D8E690F1EA3BD00CC8F4A,
+				858A152612BA9588001783B6,
+				858A152712BA9588001783B6,
+			);
+			isa = PBXGroup;
+			name = "DB Soap Core";
+			refType = 4;
+			sourceTree = "<group>";
+		};
 		858D8E640F1EA3BD00CC8F4A = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -425,6 +464,7 @@
 				858D8E6C0F1EA3BD00CC8F4A,
 				858D8E6E0F1EA3BD00CC8F4A,
 				85ACAA8E0FF4292200CB151F,
+				858A152812BA9588001783B6,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -449,6 +489,7 @@
 				858D8E6D0F1EA3BD00CC8F4A,
 				858D8E6F0F1EA3BD00CC8F4A,
 				85ACAA8F0FF4292200CB151F,
+				858A152912BA9588001783B6,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

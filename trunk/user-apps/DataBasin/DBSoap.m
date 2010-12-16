@@ -993,7 +993,7 @@
 
   queryResult = [resultDict objectForKey:@"GWSCoderParameters"];
   result = [queryResult objectForKey:@"result"];
-  NSLog(@"result: %@", result);
+//  NSLog(@"result: %@", result);
 
   objectNames = [NSMutableArray arrayWithCapacity:1];
   sobjects = [result objectForKey:@"sobjects"];
@@ -1001,10 +1001,23 @@
     {
       NSMutableDictionary *sObj;
       NSArray *propertiesArray;
+      NSMutableDictionary *propertiesDict;
+      DBSObject *dbObj;
+      int j;
     
       sObj = [sobjects objectAtIndex: i];
       propertiesArray = [sObj objectForKey: @"GWSCoderOrder"];
-      [objectNames addObject: [sObj objectForKey: @"name"]];
+	  propertiesDict = [NSMutableDictionary dictionaryWithCapacity: [propertiesArray count]];
+      for (j = 0; j < [propertiesArray count]; j++)
+		{
+		  NSString *key;
+	  
+		  key = [propertiesArray objectAtIndex:j];
+		  [propertiesDict setObject: [sObj objectForKey: key] forKey: key];
+		}
+	  dbObj = [[DBSObject alloc] init];
+	  [dbObj setObjectProperties: propertiesDict];
+	  [objectNames addObject: [dbObj name]];
     }
 
   return [NSArray arrayWithArray: objectNames];

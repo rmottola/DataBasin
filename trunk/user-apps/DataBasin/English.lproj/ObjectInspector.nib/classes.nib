@@ -1,0 +1,12 @@
+{
+    IBClasses = (
+        {
+            CLASS = DBObjectInspector; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {fieldScrollView = NSScrollView; winObjInspector = NSWindow; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+    ); 
+    IBVersion = 1; 
+}

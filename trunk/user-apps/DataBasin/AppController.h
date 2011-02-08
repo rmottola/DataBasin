@@ -27,6 +27,7 @@
 #import <AppKit/AppKit.h>
 
 #import "DBSoap.h"
+#import "DBObjectInspector.h"
 
 @interface AppController : NSObject
 {
@@ -97,6 +98,9 @@
   IBOutlet NSWindow      *winDelete;
   IBOutlet NSTextField   *fieldFileDelete;
   IBOutlet NSButton      *checkSkipFirstLine;
+  
+  /* object inspector */
+  DBObjectInspector *objInspector;
 }
 
 + (void)initialize;
@@ -143,5 +147,7 @@
 - (IBAction)showDelete:(id)sender;
 - (IBAction)browseFileDelete:(id)sender;
 - (IBAction)executeDelete:(id)sender;
+
+- (IBAction)showObjectInspector:(id)sender;
 
 @end

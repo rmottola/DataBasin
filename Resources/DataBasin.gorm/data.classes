@@ -25,7 +25,8 @@
 	    "executeDescribe:",
 	    "showDelete:",
 	    "browseFileDelete:",
-	    "executeDelete:"
+	    "executeDelete:",
+	    "showObjectInspector:"
 	);
 	Outlets = (
 	    faultPanel,
@@ -97,6 +98,7 @@
 	    "showDescribe:",
 	    "showInsert:",
 	    "showLogin:",
+	    "showObjectInspector:",
 	    "showPrefPanel:",
 	    "showQuickDelete:",
 	    "showSelect:",

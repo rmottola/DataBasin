@@ -13,7 +13,7 @@ include $(GNUSTEP_MAKEFILES)/common.make
 #
 # Application
 #
-VERSION = 0.2
+VERSION = 0.3
 PACKAGE_NAME = DataBasin
 APP_NAME = DataBasin
 DataBasin_APPLICATION_ICON = 
@@ -29,6 +29,7 @@ DataBasin_LIBRARIES_DEPEND_UPON += -lWebServices
 #
 DataBasin_RESOURCE_FILES = \
 Resources/DataBasin.gorm \
+Resources/ObjectInspector.gorm 
 
 
 #
@@ -39,7 +40,9 @@ AppController.h \
 DBSoap.h \
 DBCVSWriter.h \
 DBCVSReader.h \
-DBSObject.h
+DBSObject.h \
+DBFieldCell.h \
+DBObjectInspector.h
 
 #
 # Class files
@@ -49,7 +52,9 @@ AppController.m \
 DBSoap.m \
 DBCVSWriter.m \
 DBCVSReader.m \
-DBSObject.m
+DBSObject.m \
+DBFieldCell.m \
+DBObjectInspector.m
 
 #
 # Other sources

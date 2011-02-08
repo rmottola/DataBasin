@@ -1,10 +1,10 @@
 {
     APPLICATIONICON = "";
-    APP_DOCUMENT_BASED = NO;
-    APP_TYPE = GORM;
-    BUILDER_ARGS = (
+    "APP_DOCUMENT_BASED" = NO;
+    "APP_TYPE" = GORM;
+    "BUILDER_ARGS" = (
     );
-    BUILDER_TARGETS = (
+    "BUILDER_TARGETS" = (
 	all,
 	install,
 	uninstall,
@@ -12,33 +12,38 @@
 	distclean,
 	dist
     );
-    BUILDER_VERBOSE = NO;
-    CLASS_FILES = (
-	AppController.m,
-	DBSoap.m,
-	DBCVSWriter.m,
-	DBCVSReader.m,
-	DBSObject.m
+    "BUILDER_VERBOSE" = NO;
+    "CLASS_FILES" = (
+	"AppController.m",
+	"DBSoap.m",
+	"DBCVSWriter.m",
+	"DBCVSReader.m",
+	"DBSObject.m",
+	"DBFieldCell.m",
+	"DBObjectInspector.m"
     );
     COMPILEROPTIONS = "";
     CPPOPTIONS = "";
-    CREATION_DATE = "2008-11-13 22:44:02 +0100";
-    DOCU_FILES = (
+    "CREATION_DATE" = "2008-11-13 22:44:02 +0100";
+    "DOCU_FILES" = (
     );
     FRAMEWORKS = (
     );
-    HEADER_FILES = (
-	AppController.h,
-	DBSoap.h,
-	DBCVSWriter.h,
-	DBCVSReader.h,
-	DBSObject.h
+    "HEADER_FILES" = (
+	"AppController.h",
+	"DBSoap.h",
+	"DBCVSWriter.h",
+	"DBCVSReader.h",
+	"DBSObject.h",
+	"DBFieldCell.h",
+	"DBObjectInspector.h"
     );
     IMAGES = (
     );
     INSTALLDIR = "$(HOME)/GNUstep";
     INTERFACES = (
-	DataBasin.gorm
+	"DataBasin.gorm",
+	"ObjectInspector.gorm"
     );
     LANGUAGE = English;
     LIBRARIES = (
@@ -47,48 +52,48 @@
 	WebServices
     );
     LINKEROPTIONS = "";
-    LOCALIZED_RESOURCES = (
+    "LOCALIZED_RESOURCES" = (
     );
-    MAININTERFACE = DataBasin.gorm;
+    MAININTERFACE = "DataBasin.gorm";
     MAKEFILEDIR = "$(GNUSTEP_MAKEFILES)";
-    OBJC_COMPILEROPTIONS = "";
-    OTHER_RESOURCES = (
+    "OBJC_COMPILEROPTIONS" = "";
+    "OTHER_RESOURCES" = (
     );
-    OTHER_SOURCES = (
-	main.m
+    "OTHER_SOURCES" = (
+	"main.m"
     );
-    PRINCIPAL_CLASS = NSApplication;
-    PROJECT_AUTHORS = (
+    "PRINCIPAL_CLASS" = NSApplication;
+    "PROJECT_AUTHORS" = (
 	"Riccardo Mottola"
     );
-    PROJECT_COPYRIGHT = "Copyright (C) 2008-2010";
-    PROJECT_COPYRIGHT_DESC = "Released under GPL";
-    PROJECT_CREATOR = "Riccardo Mottola,,,";
-    PROJECT_DESCRIPTION = "SOAP Data Access Tool";
-    PROJECT_DOCUMENTTYPES = (
+    "PROJECT_COPYRIGHT" = "Copyright (C) 2008-2011";
+    "PROJECT_COPYRIGHT_DESC" = "Released under GPL";
+    "PROJECT_CREATOR" = "Riccardo Mottola,,,";
+    "PROJECT_DESCRIPTION" = "SOAP Data Access Tool";
+    "PROJECT_DOCUMENTTYPES" = (
     );
-    PROJECT_GROUP = "No group avaliable!";
-    PROJECT_MAINTAINER = "Riccardo Mottola,,,";
-    PROJECT_NAME = DataBasin;
-    PROJECT_RELEASE = 0.2;
-    PROJECT_SUMMARY = "No summary avaliable!";
-    PROJECT_TYPE = Application;
-    PROJECT_URL = "http://gap.nongnu.org/DataBasin/";
-    SEARCH_HEADER_DIRS = (
+    "PROJECT_GROUP" = "No group avaliable!";
+    "PROJECT_MAINTAINER" = "Riccardo Mottola,,,";
+    "PROJECT_NAME" = DataBasin;
+    "PROJECT_RELEASE" = "0.3";
+    "PROJECT_SUMMARY" = "No summary avaliable!";
+    "PROJECT_TYPE" = Application;
+    "PROJECT_URL" = "http://gap.nongnu.org/DataBasin/";
+    "SEARCH_HEADER_DIRS" = (
 	"$(GNUSTEP_LOCAL_ROOT)/Library/Headers/WebServices"
     );
-    SEARCH_LIB_DIRS = (
+    "SEARCH_LIB_DIRS" = (
 	"/usr/GNUstep/Local/Library/Libraries"
     );
     SUBPROJECTS = (
     );
-    SUPPORTING_FILES = (
-	GNUmakefile.preamble,
+    "SUPPORTING_FILES" = (
+	"GNUmakefile.preamble",
 	GNUmakefile,
-	GNUmakefile.postamble,
-	DataBasinInfo.plist
+	"GNUmakefile.postamble",
+	"DataBasinInfo.plist"
     );
-    USER_LANGUAGES = (
+    "USER_LANGUAGES" = (
 	English
     );
 }

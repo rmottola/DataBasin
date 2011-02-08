@@ -20,6 +20,7 @@
                 showDescribe = id; 
                 showInsert = id; 
                 showLogin = id; 
+                showObjectInspector = id; 
                 showPrefPanel = id; 
                 showQuickDelete = id; 
                 showSelect = id; 

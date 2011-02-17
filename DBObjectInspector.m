@@ -45,6 +45,11 @@
   [super dealloc];
 }
 
+- (void)setSoapHandler:(DBSoap *)db
+{
+  dbs = db;
+}
+
 - (void)awakeFromNib
 {
   NSRect scrollFrame;

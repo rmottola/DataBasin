@@ -26,14 +26,19 @@
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
 
+#import "DBSoap.h"
 
 @interface DBObjectInspector : NSObject
 {
+  DBSoap *dbs; /* soap handler */
+
   IBOutlet NSWindow *winObjInspector;
   IBOutlet NSScrollView *fieldScrollView;
   NSMatrix *fieldMatrix;
 }
 
+/** sets the Soap handler class, which needs to remain valid througout the inspector existence */
+- (void)setSoapHandler:(DBSoap *)db;
 - (void)show;
 
 @end

@@ -622,6 +622,7 @@
 
 - (IBAction)showObjectInspector:(id)sender
 {
+  [objInspector setSoapHandler: db];
   [objInspector show];
 }
 

@@ -82,4 +82,8 @@
   [winObjInspector makeKeyAndOrderFront:self];
 }
 
+- (IBAction)loadObject:(id)sender
+{
+}
+
 @end

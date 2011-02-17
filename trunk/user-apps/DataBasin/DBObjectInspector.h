@@ -40,5 +40,6 @@
 /** sets the Soap handler class, which needs to remain valid througout the inspector existence */
 - (void)setSoapHandler:(DBSoap *)db;
 - (void)show;
+- (IBAction)loadObject:(id)sender;
 
 @end

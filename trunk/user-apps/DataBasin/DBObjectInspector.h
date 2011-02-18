@@ -32,6 +32,7 @@
 {
   DBSoap *dbs; /* soap handler */
 
+  IBOutlet NSTextField *fieldObjId;
   IBOutlet NSWindow *winObjInspector;
   IBOutlet NSScrollView *fieldScrollView;
   NSMatrix *fieldMatrix;

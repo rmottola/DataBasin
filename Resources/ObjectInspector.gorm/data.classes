@@ -2,10 +2,18 @@
     "## Comment" = "Do NOT change this file, Gorm maintains it";
     DBObjectInspector = {
 	Actions = (
+	    "loadObject:"
 	);
 	Outlets = (
+	    fieldObjId,
 	    winObjInspector,
 	    fieldScrollView
+	);
+	Super = NSObject;
+    };
+    FirstResponder = {
+	Actions = (
+	    "loadObject:"
 	);
 	Super = NSObject;
     };

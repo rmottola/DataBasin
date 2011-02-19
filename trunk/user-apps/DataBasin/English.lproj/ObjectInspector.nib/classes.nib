@@ -1,9 +1,14 @@
 {
     IBClasses = (
         {
+            ACTIONS = {loadObject = id; }; 
             CLASS = DBObjectInspector; 
             LANGUAGE = ObjC; 
-            OUTLETS = {fieldScrollView = NSScrollView; winObjInspector = NSWindow; }; 
+            OUTLETS = {
+                fieldObjId = NSTextField; 
+                fieldScrollView = NSScrollView; 
+                winObjInspector = NSWindow; 
+            }; 
             SUPERCLASS = NSObject; 
         }, 
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }

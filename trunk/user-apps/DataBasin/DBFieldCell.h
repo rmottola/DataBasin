@@ -27,7 +27,7 @@
 #import <AppKit/AppKit.h>
 
 
-@interface DBFieldCell : NSCell
+@interface DBFieldCell : NSActionCell
 {
   NSString *strLabel;
   NSString *strDevName;

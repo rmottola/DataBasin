@@ -27,4 +27,37 @@
 
 @implementation DBFieldCell
 
+/* Overridden */
+- (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
+{
+  NSMutableParagraphStyle *style;
+  NSDictionary *strAttr;
+  NSPoint cellOrigin;
+  float cellWidth;
+  NSPoint labelPoint;
+  NSPoint devnamePoint;
+  NSPoint valuePoint;
+
+  cellOrigin = cellFrame.origin;
+  cellWidth = cellFrame.size.width;
+  labelPoint = cellOrigin;
+  devnamePoint = NSMakePoint(labelPoint.x + cellWidth/3, cellOrigin.y);
+  valuePoint = NSMakePoint(devnamePoint.x + cellWidth/3, cellOrigin.y);
+  
+  strLabel = @"Label";
+  strDevName = @"DevName";
+
+  
+  style = [[NSMutableParagraphStyle alloc] init];
+  [style setParagraphStyle:[NSParagraphStyle defaultParagraphStyle]];
+  strAttr = [[NSDictionary dictionaryWithObjectsAndKeys:
+    [NSFont labelFontOfSize:-1], NSFontAttributeName,
+    style, NSParagraphStyleAttributeName, nil] retain];
+ 
+  [strLabel drawAtPoint:labelPoint withAttributes:strAttr];
+  [strDevName drawAtPoint:labelPoint withAttributes:strAttr];
+  [[self stringValue] drawAtPoint:labelPoint withAttributes:strAttr];
+  [strAttr release];
+}
+
 @end

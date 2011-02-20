@@ -53,25 +53,17 @@
 - (void)awakeFromNib
 {
   NSRect scrollFrame;
+  int i;
   
   NSLog(@"Awaken");
-//  fieldMatrix = [[NSMatrix alloc] initWithFrame: NSMakeRect(0, 0, 100, 100)];
-//  [fieldMatrix setCellClass:[DBFieldCell class]];
-  fieldMatrix = [[NSMatrix alloc] initWithFrame:NSZeroRect
+  fieldMatrix = [[NSMatrix alloc] initWithFrame: NSZeroRect];
+  [fieldMatrix setCellClass:[DBFieldCell class]];
+/*  fieldMatrix = [[NSMatrix alloc] initWithFrame:NSZeroRect
                                            mode:NSRadioModeMatrix cellClass:[DBFieldCell class]
-                                   numberOfRows:2 numberOfColumns:0];
-  
+                                   numberOfRows:1 numberOfColumns:0]; */
+  [fieldMatrix setAutosizesCells:YES];
   [fieldScrollView setDocumentView:fieldMatrix];
   
-  NSMutableArray *array;
-  array = [[NSMutableArray alloc] initWithCapacity:1];
-  DBFieldCell *cell;
-  cell = [[DBFieldCell alloc] initTextCell:@"Cell1"];
-  [array addObject:cell];
-  cell = [[DBFieldCell alloc] initTextCell:@"Cell2"];
-  [array addObject:cell];
-  [fieldMatrix addColumnWithCells:array];
-  [fieldMatrix sizeToCells];
 }
 
 - (void)show
@@ -85,8 +77,9 @@
 - (IBAction)loadObject:(id)sender
 {
   NSMutableArray *objInfoArray;
-  NSMutableString *statement;
+  NSString *statement;
   NSString *objId;
+  int i;
   
   objId = [fieldObjId stringValue];
   statement = @"select Id from SObject where Id = '";
@@ -96,7 +89,29 @@
   NSLog(@"statement: %@", statement);
   [dbs query :statement queryAll:NO toArray:objInfoArray];
   NSLog(@"%@", objInfoArray);
+  
   [objInfoArray release];
+  
+  NSMutableArray *array;
+  array = [[NSMutableArray alloc] initWithCapacity:1];
+  DBFieldCell *cell;
+  cell = [[DBFieldCell alloc] initTextCell:@"Cell1"];
+  [array addObject:cell];
+  cell = [[DBFieldCell alloc] initTextCell:@"Cell2"];
+  [array addObject:cell];
+  if ([array count] >= [fieldMatrix numberOfRows])
+    {
+    NSLog(@"we need to make it bigger");
+    while ([fieldMatrix numberOfRows] < [array count])
+      [fieldMatrix addRow];
+    }
+  else
+    while ([array count] < [fieldMatrix numberOfRows])
+      [fieldMatrix removeRow:[fieldMatrix numberOfRows]];
+  
+  for (i = 0; i < [array count]; i++)
+    [fieldMatrix putCell:[array objectAtIndex:i] atRow:i column:0];
+  [fieldMatrix sizeToCells];  
 }
 
 @end

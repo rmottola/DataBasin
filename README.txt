@@ -12,6 +12,9 @@ Note: The Macintosh binaries are compiled for PowerPC. If you are on Intel and d
 Current Version: 0.2
 --------------------
 
+NEWS
+- object list queried at login and updatable later on
+
 
 LIMITATIONS
 - CVS Reading and Writing does not support full quoting properly

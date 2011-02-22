@@ -32,6 +32,7 @@
 @interface AppController : NSObject
 {
   DBSoap   *db;
+  NSArray  *sObjectNamesList;
 
   /* fault panel */
   IBOutlet NSPanel    *faultPanel;
@@ -124,6 +125,8 @@
 
 - (IBAction)showSessionInspector:(id)sender;
 - (IBAction)showUserInspector:(id)sender;
+
+- (IBAction)runDescribeGlobal:(id)sender;
 
 - (IBAction)showSelect:(id)sender;
 - (IBAction)browseFileSelect:(id)sender;

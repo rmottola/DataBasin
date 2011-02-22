@@ -16,6 +16,7 @@
                 prefPanelCancel = id; 
                 prefPanelOk = id; 
                 quickDelete = id; 
+                runDescribeGlobal = id; 
                 showDelete = id; 
                 showDescribe = id; 
                 showInsert = id; 

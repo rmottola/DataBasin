@@ -76,22 +76,15 @@
 
 - (IBAction)loadObject:(id)sender
 {
-  NSMutableArray *objInfoArray;
+  NSString *objDevName;
   NSString *statement;
   NSString *objId;
   int i;
   
   objId = [fieldObjId stringValue];
-  statement = @"select Id from SObject where Id = '";
-  statement = [statement stringByAppendingString: objId];
-  statement = [statement stringByAppendingString: @"'"];
-  objInfoArray = [[NSMutableArray alloc] init];
-  NSLog(@"statement: %@", statement);
-  [dbs query :statement queryAll:NO toArray:objInfoArray];
-  NSLog(@"%@", objInfoArray);
-  
-  [objInfoArray release];
-  
+  objDevName = [dbs identifyObjectById: objId];
+  NSLog(@"object is :%@", objDevName);
+
   NSMutableArray *array;
   array = [[NSMutableArray alloc] initWithCapacity:1];
   DBFieldCell *cell;

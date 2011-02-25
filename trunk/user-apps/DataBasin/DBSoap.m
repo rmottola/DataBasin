@@ -1315,6 +1315,29 @@
 
 - (NSString *)identifyObjectById:(NSString *)sfId
 {
+  NSString *devName;
+  NSEnumerator *enu;
+  NSString *name;
+  BOOL found;
+
+  devName = nil;
+  found = NO;
+
+  enu = [[self sObjectNames] objectEnumerator];
+  while ((name = [enu nextObject]) && !found)
+    {
+      NSString *statement;
+      NSMutableArray *resArray;
+
+      statement = @"select id from ";
+      statement = [statement stringByAppendingString: name];
+      statement = [statement stringByAppendingString: @" where id='"];
+      statement = [statement stringByAppendingString: sfId];
+      statement = [statement stringByAppendingString: @"'"];
+      NSLog(@"query: %@", statement);
+      [self query: statement queryAll:NO toArray: resArray];
+    }
+  return devName;
 }
 
 /* accessors*/

@@ -1,7 +1,7 @@
 /*
    Project: DataBasin
 
-   Copyright (C) 2008-2010 Free Software Foundation
+   Copyright (C) 2008-2011 Free Software Foundation
 
    Author: Riccardo Mottola
 
@@ -936,6 +936,8 @@
 }
 
 
+/** runs a describe global to retrieve all all the objects
+    The current implementation returns only the names list */
 - (NSArray *)describeGlobal
 {
   NSMutableDictionary   *headerDict;
@@ -1007,20 +1009,37 @@
     
       sObj = [sobjects objectAtIndex: i];
       propertiesArray = [sObj objectForKey: @"GWSCoderOrder"];
-	  propertiesDict = [NSMutableDictionary dictionaryWithCapacity: [propertiesArray count]];
+      propertiesDict = [NSMutableDictionary dictionaryWithCapacity: [propertiesArray count]];
       for (j = 0; j < [propertiesArray count]; j++)
-		{
-		  NSString *key;
+	{
+	  NSString *key;
 	  
-		  key = [propertiesArray objectAtIndex:j];
-		  [propertiesDict setObject: [sObj objectForKey: key] forKey: key];
-		}
-	  dbObj = [[DBSObject alloc] init];
-	  [dbObj setObjectProperties: propertiesDict];
-	  [objectNames addObject: [dbObj name]];
+	  key = [propertiesArray objectAtIndex:j];
+	  [propertiesDict setObject: [sObj objectForKey: key] forKey: key];
+	}
+      dbObj = [[DBSObject alloc] init];
+      [dbObj setObjectProperties: propertiesDict];
+      [objectNames addObject: [dbObj name]];
     }
 
   return [NSArray arrayWithArray: objectNames];
+}
+
+/* returns the currently stored list of object names
+   if the list is nil, a describe global will be run to obtain it */
+- (NSArray *)sObjectNames
+{
+  if (sObjectNamesList == nil)
+    sObjectNamesList = [[self describeGlobal] retain];
+
+  return sObjectNamesList;
+}
+
+/** Force an udpate to the currently stored object names list */
+- (void)updateObjectNames
+{
+  [sObjectNamesList release];
+  sObjectNamesList = [[self describeGlobal] retain];
 }
 
 - (void)describeSObject: (NSString *)objectType toWriter:(DBCVSWriter *)writer
@@ -1292,6 +1311,10 @@
   resultArray = [self delete:objectsArray];
   [objectsArray release];
   return resultArray;
+}
+
+- (NSString *)identifyObjectById:(NSString *)sfId
+{
 }
 
 /* accessors*/

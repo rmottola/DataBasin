@@ -1,7 +1,7 @@
 /*
    Project: DataBasin
 
-   Copyright (C) 2008-2010 Free Software Foundation
+   Copyright (C) 2008-2011 Free Software Foundation
 
    Author: Riccardo Mottola
 
@@ -31,13 +31,16 @@
 
 @interface DBSoap : NSObject
 {
-    GWSService *service;
+  GWSService *service;
     
-    /* salesforce.com session variables */
-    NSString     *sessionId;
-    NSString     *serverUrl;
-    BOOL         passwordExpired;
-    NSDictionary *userInfo;
+  /* salesforce.com session variables */
+  NSString     *sessionId;
+  NSString     *serverUrl;
+  BOOL         passwordExpired;
+  NSDictionary *userInfo;
+
+  /* list of all object names, custom and not */
+  NSArray  *sObjectNamesList;
 }
 
 - (void)login :(NSURL *)url :(NSString *)userName :(NSString *)password;
@@ -52,6 +55,8 @@
 - (NSMutableArray *)delete :(NSArray *)objectIdArray;
 - (NSMutableArray *)deleteFromReader:(DBCVSReader *)reader;
 - (NSArray *)describeGlobal;
+- (NSArray *)sObjectNames;
+- (void)updateObjectNames;
 - (void)describeSObject: (NSString *)objectType toWriter:(DBCVSWriter *)writer;
 - (DBSObject *)describeSObject: (NSString *)objectType;
 

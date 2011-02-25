@@ -64,7 +64,6 @@
 
 - (void)dealloc
 {
-  [sObjectNamesList release];
   [super dealloc];
 }
 
@@ -232,21 +231,14 @@
         [faultPanel makeKeyAndOrderFront:nil];
       }
   NS_ENDHANDLER
-  
-  if ([db sessionId] != nil)
-    {
-      [self runDescribeGlobal:self];
-    }
 }
 
-/* DESCRIBE GLOBAL TO GET SOBJECT LIST */
+/* UPDATE SOBJECT LIST */
 
 - (IBAction)runDescribeGlobal:(id)sender
 {
-  [sObjectNamesList release];
-  sObjectNamesList  = nil;
   NS_DURING
-    sObjectNamesList = [db describeGlobal];
+    [db updateObjectNames];
   NS_HANDLER
     if ([[localException name] hasPrefix:@"DB"])
       {
@@ -254,7 +246,6 @@
         [faultPanel makeKeyAndOrderFront:nil];
       }
   NS_ENDHANDLER
-  [sObjectNamesList retain];
 }
 
 /*  SELECT */
@@ -318,8 +309,11 @@
 
 - (IBAction)showInsert:(id)sender
 {
+  NSArray *objectNames;
+
+  objectNames = [db sObjectNames];
   [popupObjectsInsert removeAllItems];
-  [popupObjectsInsert addItemsWithTitles: sObjectNamesList];
+  [popupObjectsInsert addItemsWithTitles: objectNames];
 
   [winInsert makeKeyAndOrderFront:self];
 }
@@ -439,8 +433,11 @@
 
 - (IBAction)showDescribe:(id)sender
 {
+  NSArray *objectNames;
+
+  objectNames = [db sObjectNames];
   [popupObjectsDescribe removeAllItems];
-  [popupObjectsDescribe addItemsWithTitles: sObjectNamesList];
+  [popupObjectsDescribe addItemsWithTitles: objectNames];
     
   [winDescribe makeKeyAndOrderFront:self];
 }

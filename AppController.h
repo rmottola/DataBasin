@@ -32,7 +32,6 @@
 @interface AppController : NSObject
 {
   DBSoap   *db;
-  NSArray  *sObjectNamesList;
 
   /* fault panel */
   IBOutlet NSPanel    *faultPanel;

@@ -1324,11 +1324,12 @@
   found = NO;
 
   enu = [[self sObjectNames] objectEnumerator];
-  while ((name = [enu nextObject]) && !found)
+  while (!found && (name = [enu nextObject]))
     {
       NSString *statement;
       NSMutableArray *resArray;
 
+      resArray = [NSMutableArray arrayWithCapacity: 1];
       statement = @"select id from ";
       statement = [statement stringByAppendingString: name];
       statement = [statement stringByAppendingString: @" where id='"];
@@ -1336,7 +1337,20 @@
       statement = [statement stringByAppendingString: @"'"];
       NSLog(@"query: %@", statement);
       [self query: statement queryAll:NO toArray: resArray];
+      if ([resArray count] > 0)
+	{
+	  NSLog(@"we have something: %@", resArray);
+	  found = YES;
+	}
     }
+
+  if (found)
+    {
+      NSLog(@"we found: %@", name);
+      devName = [NSString stringWithString: name];
+    }
+  else
+    NSLog(@"not found");
   return devName;
 }
 

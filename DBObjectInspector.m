@@ -92,18 +92,8 @@
   [array addObject:cell];
   cell = [[DBFieldCell alloc] initTextCell:@"Cell2"];
   [array addObject:cell];
-  if ([array count] >= [fieldMatrix numberOfRows])
-    {
-    NSLog(@"we need to make it bigger");
-    while ([fieldMatrix numberOfRows] < [array count])
-      [fieldMatrix addRow];
-    }
-  else
-    while ([array count] < [fieldMatrix numberOfRows])
-      [fieldMatrix removeRow:[fieldMatrix numberOfRows]];
-  
-  for (i = 0; i < [array count]; i++)
-    [fieldMatrix putCell:[array objectAtIndex:i] atRow:i column:0];
+
+  [fieldMatrix insertColumn: 0 withCells: array];
   [fieldMatrix sizeToCells];  
 }
 

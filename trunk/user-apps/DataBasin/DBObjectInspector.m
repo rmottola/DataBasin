@@ -55,15 +55,8 @@
   NSRect scrollFrame;
   int i;
   
-  NSLog(@"Awaken");
-  fieldMatrix = [[NSMatrix alloc] initWithFrame: NSZeroRect];
   [fieldMatrix setCellClass:[DBFieldCell class]];
-/*  fieldMatrix = [[NSMatrix alloc] initWithFrame:NSZeroRect
-                                           mode:NSRadioModeMatrix cellClass:[DBFieldCell class]
-                                   numberOfRows:1 numberOfColumns:0]; */
-  [fieldMatrix setAutosizesCells:YES];
-  [fieldScrollView setDocumentView:fieldMatrix];
-  
+  [fieldMatrix setAutosizesCells:YES];  
 }
 
 - (void)show
@@ -92,6 +85,19 @@
   [array addObject:cell];
   cell = [[DBFieldCell alloc] initTextCell:@"Cell2"];
   [array addObject:cell];
+  
+  /* clean the matrix */
+  while ([fieldMatrix numberOfColumns] > 0)
+    [fieldMatrix removeColumn: 0];
+  while ([fieldMatrix numberOfRows] > 0)
+    [fieldMatrix removeRow: 0];
+
+  /* put enough rows back in */
+  while ([fieldMatrix numberOfRows] < [array count])	 
+      [fieldMatrix addRow];	 
+
+  NSLog(@"columns: %d", [fieldMatrix numberOfColumns]);
+  NSLog(@"rows: %d", [fieldMatrix numberOfRows]);
 
   [fieldMatrix insertColumn: 0 withCells: array];
   [fieldMatrix sizeToCells];  

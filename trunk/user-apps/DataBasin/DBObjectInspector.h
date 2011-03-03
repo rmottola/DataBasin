@@ -35,7 +35,7 @@
   IBOutlet NSTextField *fieldObjId;
   IBOutlet NSWindow *winObjInspector;
   IBOutlet NSScrollView *fieldScrollView;
-  NSMatrix *fieldMatrix;
+  IBOutlet NSMatrix *fieldMatrix;
 }
 
 /** sets the Soap handler class, which needs to remain valid througout the inspector existence */

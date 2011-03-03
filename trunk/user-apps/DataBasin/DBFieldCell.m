@@ -47,7 +47,7 @@
   strLabel = @"Label";
   strDevName = @"DevName";
 
-  
+  NSLog(@"cell width: %f", cellWidth);
   style = [[NSMutableParagraphStyle alloc] init];
   [style setParagraphStyle:[NSParagraphStyle defaultParagraphStyle]];
   strAttr = [[NSDictionary dictionaryWithObjectsAndKeys:

@@ -55,8 +55,8 @@
     style, NSParagraphStyleAttributeName, nil] retain];
  
   [strLabel drawAtPoint:labelPoint withAttributes:strAttr];
-  [strDevName drawAtPoint:labelPoint withAttributes:strAttr];
-  [[self stringValue] drawAtPoint:labelPoint withAttributes:strAttr];
+  [strDevName drawAtPoint:devnamePoint withAttributes:strAttr];
+  [[self stringValue] drawAtPoint:valuePoint withAttributes:strAttr];
   [strAttr release];
 }
 

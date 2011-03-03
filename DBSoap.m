@@ -253,7 +253,7 @@
 				  order : nil
 				timeout : 90];
     }
-
+  NSLog(@"result: %@", resultDict);
   queryFault = [resultDict objectForKey:@"GWSCoderFault"];
   if (queryFault != nil)
     {
@@ -269,7 +269,7 @@
   
   queryResult = [resultDict objectForKey:@"GWSCoderParameters"];
   result = [queryResult objectForKey:@"result"];
-  
+  NSLog(@"result: %@", result);  
   doneStr = [result objectForKey:@"done"];
   records = [result objectForKey:@"records"];
   sizeStr = [result objectForKey:@"size"];

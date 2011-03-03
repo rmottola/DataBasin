@@ -5,6 +5,7 @@
             CLASS = DBObjectInspector; 
             LANGUAGE = ObjC; 
             OUTLETS = {
+                fieldMatrix = NSMatrix; 
                 fieldObjId = NSTextField; 
                 fieldScrollView = NSScrollView; 
                 winObjInspector = NSWindow; 

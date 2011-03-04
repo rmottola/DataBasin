@@ -7,7 +7,6 @@
             OUTLETS = {
                 fieldMatrix = NSMatrix; 
                 fieldObjId = NSTextField; 
-                fieldScrollView = NSScrollView; 
                 winObjInspector = NSWindow; 
             }; 
             SUPERCLASS = NSObject; 

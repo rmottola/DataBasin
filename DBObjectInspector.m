@@ -56,7 +56,7 @@
   int i;
   
   [fieldMatrix setCellClass:[DBFieldCell class]];
-  [fieldMatrix setAutosizesCells:YES];  
+  [fieldMatrix setAutosizesCells:YES];
 }
 
 - (void)show
@@ -99,8 +99,9 @@
   NSLog(@"columns: %d", [fieldMatrix numberOfColumns]);
   NSLog(@"rows: %d", [fieldMatrix numberOfRows]);
 
-  [fieldMatrix insertColumn: 0 withCells: array];
-  [fieldMatrix sizeToCells];  
+  for (i = 0; i < [array count]; i++)
+    [fieldMatrix putCell: [array objectAtIndex: i] atRow:i column:0];
+
 }
 
 @end

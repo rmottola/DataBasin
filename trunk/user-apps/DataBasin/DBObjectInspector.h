@@ -34,7 +34,6 @@
 
   IBOutlet NSTextField *fieldObjId;
   IBOutlet NSWindow *winObjInspector;
-  IBOutlet NSScrollView *fieldScrollView;
   IBOutlet NSMatrix *fieldMatrix;
 }
 

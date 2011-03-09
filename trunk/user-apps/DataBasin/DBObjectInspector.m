@@ -40,8 +40,6 @@
 
 - (void)dealloc
 {
-  [fieldMatrix release];
-  
   [super dealloc];
 }
 
@@ -55,8 +53,7 @@
   NSRect scrollFrame;
   int i;
   
-  [fieldMatrix setCellClass:[DBFieldCell class]];
-  [fieldMatrix setAutosizesCells:YES];
+
 }
 
 - (void)show
@@ -76,32 +73,40 @@
   
   objId = [fieldObjId stringValue];
   objDevName = [dbs identifyObjectById: objId];
-  NSLog(@"object is :%@", objDevName);
+  NSLog(@"object is: %@", objDevName);
 
-  NSMutableArray *array;
-  array = [[NSMutableArray alloc] initWithCapacity:1];
-  DBFieldCell *cell;
-  cell = [[DBFieldCell alloc] initTextCell:@"Cell1"];
-  [array addObject:cell];
-  cell = [[DBFieldCell alloc] initTextCell:@"Cell2"];
-  [array addObject:cell];
-  
-  /* clean the matrix */
-  while ([fieldMatrix numberOfColumns] > 0)
-    [fieldMatrix removeColumn: 0];
-  while ([fieldMatrix numberOfRows] > 0)
-    [fieldMatrix removeRow: 0];
+  sObj = [dbs describeSObject: objDevName];
 
-  /* put enough rows back in */
-  while ([fieldMatrix numberOfRows] < [array count])	 
-      [fieldMatrix addRow];	 
+  NSLog(@"object described.");
+  NSLog(@"field names: %@", [sObj fieldNames]);
+  arrayLabels = [[NSMutableArray arrayWithArray: [sObj fieldNames]] retain];
+  arrayDevNames = [[NSMutableArray arrayWithArray: [sObj fieldNames]] retain];
+  arrayValues = [[NSMutableArray arrayWithArray: [sObj fieldNames]] retain];
+ 
+  [fieldTable reloadData];
 
-  NSLog(@"columns: %d", [fieldMatrix numberOfColumns]);
-  NSLog(@"rows: %d", [fieldMatrix numberOfRows]);
+}
 
-  for (i = 0; i < [array count]; i++)
-    [fieldMatrix putCell: [array objectAtIndex: i] atRow:i column:0];
+/** --- Data Source --- **/
 
+
+- (int)numberOfRowsInTableView:(NSTableView *)aTableView
+{
+  return [arrayDevNames count];
+}
+- (id) tableView: (NSTableView*)aTableView objectValueForTableColumn: (NSTableColumn*)column row: (int)rowIndex
+{
+  id retObj;
+
+  retObj = nil;
+  if ([[column identifier] isEqual: COLID_LABEL])
+    retObj = [arrayLabels objectAtIndex: rowIndex];
+  else if ([[column identifier] isEqual: COLID_DEVNAME])
+    retObj = [arrayDevNames objectAtIndex: rowIndex];
+  else if ([[column identifier] isEqual: COLID_VALUE])
+    retObj = [arrayValues objectAtIndex: rowIndex];
+
+  return retObj;
 }
 
 @end

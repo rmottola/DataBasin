@@ -25,7 +25,7 @@
 
 
 #import "DBSObject.h"
-
+#import "DBSoap.h"
 
 @implementation DBSObject
 
@@ -128,6 +128,11 @@ converting it if necessary.</p>
   return sfid;
 }
 
+- (void)setDBSoap: (DBSoap *)db
+{
+  dbs = db;
+}
+
 - (void)setObjectProperties: (NSDictionary *)properties
 {
   [objectProperties release];
@@ -179,6 +184,83 @@ converting it if necessary.</p>
     [fieldNames addObject: field];
   
   [recordValues setObject: value forKey: field];
+}
+
+
+- (void)loadFieldValues
+{
+  unsigned int i;
+  unsigned int sizeCount;
+  NSMutableArray *fieldsArray;
+
+  if (dbs == nil)
+    return;
+
+  NSLog(@"loading all fields....");
+  fieldsArray = [NSMutableArray arrayWithCapacity: 10];
+  sizeCount = 0;
+  for (i = 0; i < [fieldNames count]; i++)
+    {
+      NSString *currField;
+      NSLog(@"size count: %d", sizeCount);
+      currField = [fieldNames objectAtIndex:i];
+      if (sizeCount + [currField length] + 2 < MAX_SOQL_SIZE)
+	{
+	  [fieldsArray addObject: currField];
+	  sizeCount = [currField length] + 2;
+	}
+      else
+	{
+	  NSLog(@"we have %d fields", [fieldsArray count]);
+	  [self loadValuesForFields: fieldsArray];
+	  fieldsArray = [NSMutableArray arrayWithCapacity: 10];
+	  sizeCount = 0;
+	  [fieldsArray addObject: currField];
+	  sizeCount = [currField length] + 2;
+	}
+    }
+  NSLog(@"we have %d fields", [fieldsArray count]);
+  [self loadValuesForFields: fieldsArray];
+}
+
+- (void)loadValuesForFields:(NSArray *)namesArray
+{
+  NSMutableString *statement;
+  NSMutableArray *tempArray;
+  DBSObject *tempObj;
+  int i;
+
+  NSLog(@"loading fields: %@", namesArray);
+  if ([namesArray count] == 0)
+    return;
+
+  statement = [NSMutableString stringWithString:@"Select "];
+  i = 0;
+  while (i < [namesArray count])
+    {
+      [statement appendString: [namesArray objectAtIndex: i]];
+      if (i < ([namesArray count] - 1))
+	[statement appendString: @", "];
+      i++;
+    }
+  [statement appendString: @" from "];
+  [statement appendString: [self name]];
+  [statement appendString: @" where id = '"];
+  [statement appendString: [self sfId]];
+  [statement appendString: @"'"];
+  NSLog(@"query: %@", statement);
+  tempArray = [NSMutableArray arrayWithCapacity: [namesArray count]];
+  [dbs query :statement queryAll:NO toArray: tempArray];
+  tempObj = [tempArray objectAtIndex: 0];
+
+  /* copy the field values from the query result to the object itself */
+  for (i = 0; i < [namesArray count]; i++)
+    {
+      NSString *fieldName;
+
+      fieldName = [namesArray objectAtIndex: i];
+      [tempObj setValue: [tempObj fieldValue: fieldName] forField: fieldName];
+    }
 }
 
 @end

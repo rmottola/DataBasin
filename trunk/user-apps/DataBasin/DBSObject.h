@@ -2,7 +2,7 @@
  Project: DataBasin
  DBSobject.h
  
- Copyright (C) 2010 Free Software Foundation
+ Copyright (C) 2010-2011 Free Software Foundation
  
  Author: Riccardo Mottola
  
@@ -26,9 +26,12 @@
 
 #import <Foundation/Foundation.h>
 
+@class DBSoap;
 
 @interface DBSObject : NSObject
 {
+  DBSoap  *dbs;
+
   NSMutableDictionary *recordValues;
   NSMutableArray      *fieldNames;
   NSMutableDictionary *fieldProperties;
@@ -53,6 +56,9 @@
 /** returns the properties of the object itself, like its name */
 - (NSDictionary *)objectProperties;
 
+/** Set the soap database interface */
+- (void)setDBSoap: (DBSoap *)db;
+
 /** shortcut to return the property "name" */
 - (NSString *)name;
 
@@ -62,5 +68,15 @@
 - (NSArray *)fieldNames;
 - (NSString *)fieldValue: (NSString *)field;
 - (void)setValue: (NSString *)value forField:(NSString *)field;
+
+/** <p>Loads or refreshes the value of all known fields to the object.</p>
+ *  <p>If the object is instantiated as a result of a describe, it will load all values.</p>
+ *  <p>The object needs to have a valid <em>DBSoap</em> instance set </p>
+ */
+- (void)loadFieldValues;
+
+/** <p>Loads or refreshes the value of the fields passed in the array.</p>
+ */
+- (void)loadValuesForFields:(NSArray *)namesArray;
 
 @end

@@ -5,8 +5,8 @@
             CLASS = DBObjectInspector; 
             LANGUAGE = ObjC; 
             OUTLETS = {
-                fieldMatrix = NSMatrix; 
                 fieldObjId = NSTextField; 
+                fieldTable = NSTableView; 
                 winObjInspector = NSWindow; 
             }; 
             SUPERCLASS = NSObject; 

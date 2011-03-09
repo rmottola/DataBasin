@@ -76,9 +76,10 @@
   NSLog(@"object is: %@", objDevName);
 
   sObj = [dbs describeSObject: objDevName];
+  [sObj setValue: objId forField: @"Id"];
   [sObj setDBSoap: dbs];
   [sObj loadFieldValues];
-
+  NSLog(@"fields loaded...");
   [arrayDevNames release];
   [arrayLabels release];
   [arrayValues release];

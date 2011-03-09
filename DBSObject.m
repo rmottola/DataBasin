@@ -1,8 +1,8 @@
 /*
  Project: DataBasin
- DBSobject.h
+ DBSobject.m
  
- Copyright (C) 2010 Free Software Foundation
+ Copyright (C) 2010-2011 Free Software Foundation
  
  Author: Riccardo Mottola
  
@@ -196,18 +196,17 @@ converting it if necessary.</p>
   if (dbs == nil)
     return;
 
-  NSLog(@"loading all fields....");
   fieldsArray = [NSMutableArray arrayWithCapacity: 10];
   sizeCount = 0;
   for (i = 0; i < [fieldNames count]; i++)
     {
       NSString *currField;
-      NSLog(@"size count: %d", sizeCount);
+
       currField = [fieldNames objectAtIndex:i];
       if (sizeCount + [currField length] + 2 < MAX_SOQL_SIZE)
 	{
 	  [fieldsArray addObject: currField];
-	  sizeCount = [currField length] + 2;
+	  sizeCount += [currField length] + 2;
 	}
       else
 	{
@@ -230,8 +229,10 @@ converting it if necessary.</p>
   DBSObject *tempObj;
   int i;
 
-  NSLog(@"loading fields: %@", namesArray);
   if ([namesArray count] == 0)
+    return;
+
+  if ([self sfId] == nil)
     return;
 
   statement = [NSMutableString stringWithString:@"Select "];
@@ -259,7 +260,7 @@ converting it if necessary.</p>
       NSString *fieldName;
 
       fieldName = [namesArray objectAtIndex: i];
-      [tempObj setValue: [tempObj fieldValue: fieldName] forField: fieldName];
+      [self setValue: [tempObj fieldValue: fieldName] forField: fieldName];
     }
 }
 

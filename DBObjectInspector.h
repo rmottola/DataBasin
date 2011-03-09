@@ -28,13 +28,23 @@
 
 #import "DBSoap.h"
 
+#define COLID_LABEL    @"Label"
+#define COLID_DEVNAME  @"DevName"
+#define COLID_VALUE    @"Value"
+
 @interface DBObjectInspector : NSObject
 {
   DBSoap *dbs; /* soap handler */
 
   IBOutlet NSTextField *fieldObjId;
   IBOutlet NSWindow *winObjInspector;
-  IBOutlet NSMatrix *fieldMatrix;
+  IBOutlet NSTableView *fieldTable;
+
+  /* data source objects */
+  DBSObject      *sObj;
+  NSMutableArray *arrayLabels;
+  NSMutableArray *arrayDevNames;
+  NSMutableArray *arrayValues;;
 }
 
 /** sets the Soap handler class, which needs to remain valid througout the inspector existence */

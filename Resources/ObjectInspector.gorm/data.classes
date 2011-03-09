@@ -7,8 +7,7 @@
 	Outlets = (
 	    fieldObjId,
 	    winObjInspector,
-	    fieldScrollView,
-	    fieldMatrix
+	    fieldTable
 	);
 	Super = NSObject;
     };

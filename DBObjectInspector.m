@@ -67,7 +67,7 @@
 - (IBAction)loadObject:(id)sender
 {
   NSString *objDevName;
-  NSString *statement;
+  
   NSString *objId;
   int i;
   
@@ -77,11 +77,30 @@
 
   sObj = [dbs describeSObject: objDevName];
 
-  NSLog(@"object described.");
-  NSLog(@"field names: %@", [sObj fieldNames]);
-  arrayLabels = [[NSMutableArray arrayWithArray: [sObj fieldNames]] retain];
+
+
   arrayDevNames = [[NSMutableArray arrayWithArray: [sObj fieldNames]] retain];
-  arrayValues = [[NSMutableArray arrayWithArray: [sObj fieldNames]] retain];
+  arrayLabels = [[NSMutableArray arrayWithCapacity: [arrayDevNames count]] retain];
+  arrayValues = [[NSMutableArray arrayWithCapacity: [arrayDevNames count]] retain];
+  for (i = 0; i < [arrayDevNames count]; i++)
+    {
+      DBSObject *tempObj;
+      NSString *statement;
+      NSString *fieldDevName;
+      NSMutableArray *tempArray;
+
+      tempArray = [NSMutableArray arrayWithCapacity: 1];
+      fieldDevName = [arrayDevNames objectAtIndex: i];
+      [arrayLabels addObject: [[sObj propertiesOfField: fieldDevName] objectForKey: @"label"]];
+      statement = [NSString stringWithFormat:
+			      @"Select %@ from %@ where Id = '%@'",
+			    fieldDevName, objDevName, objId];
+
+      [dbs query :statement queryAll:NO toArray: tempArray];
+      tempObj = [tempArray objectAtIndex: 0];
+      [sObj setValue: [tempObj fieldValue: fieldDevName] forField: fieldDevName];
+      [arrayValues addObject: [tempObj fieldValue: fieldDevName]];
+    }
  
   [fieldTable reloadData];
 

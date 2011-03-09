@@ -14,8 +14,6 @@
 				858D8E650F1EA3BD00CC8F4A,
 				858D8E660F1EA3BD00CC8F4A,
 				858D8E670F1EA3BD00CC8F4A,
-				85E16E841301FBEE00D5F374,
-				85E16E851301FBEE00D5F374,
 				85E16E861301FBEE00D5F374,
 				85E16E871301FBEE00D5F374,
 			);
@@ -407,22 +405,6 @@
 			settings = {
 			};
 		};
-		85E16E841301FBEE00D5F374 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = DBFieldCell.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		85E16E851301FBEE00D5F374 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = DBFieldCell.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
 		85E16E861301FBEE00D5F374 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -438,18 +420,6 @@
 			path = DBObjectInspector.m;
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		85E16E881301FBEE00D5F374 = {
-			fileRef = 85E16E841301FBEE00D5F374;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		85E16E891301FBEE00D5F374 = {
-			fileRef = 85E16E851301FBEE00D5F374;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		85E16E8A1301FBEE00D5F374 = {
 			fileRef = 85E16E861301FBEE00D5F374;
@@ -550,7 +520,6 @@
 				858D8E6E0F1EA3BD00CC8F4A,
 				85ACAA8E0FF4292200CB151F,
 				858A152812BA9588001783B6,
-				85E16E881301FBEE00D5F374,
 				85E16E8A1301FBEE00D5F374,
 				85E16E901301FC0C00D5F374,
 			);
@@ -578,7 +547,6 @@
 				858D8E6F0F1EA3BD00CC8F4A,
 				85ACAA8F0FF4292200CB151F,
 				858A152912BA9588001783B6,
-				85E16E891301FBEE00D5F374,
 				85E16E8B1301FBEE00D5F374,
 			);
 			isa = PBXSourcesBuildPhase;

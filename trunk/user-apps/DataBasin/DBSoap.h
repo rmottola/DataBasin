@@ -27,7 +27,10 @@
 #import <WebServices/WebServices.h>
 #import "DBCVSWriter.h"
 #import "DBCVSReader.h"
-#import "DBSObject.h"
+
+#define MAX_SOQL_SIZE 9000
+
+@class DBSObject;
 
 @interface DBSoap : NSObject
 {
@@ -59,6 +62,7 @@
 - (void)updateObjectNames;
 - (void)describeSObject: (NSString *)objectType toWriter:(DBCVSWriter *)writer;
 - (DBSObject *)describeSObject: (NSString *)objectType;
+- (NSString *)identifyObjectById:(NSString *)sfId;
 
 - (NSString *) sessionId;
 - (NSString *) serverUrl;

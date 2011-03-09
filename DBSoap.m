@@ -50,8 +50,8 @@
   [defs registerDefaults:
     [NSDictionary dictionaryWithObjectsAndKeys:
       @"80", @"Port",
-      nil]
-    ];
+      nil]]
+    ;
 
   /* initialize the coder */
   coder = [GWSSOAPCoder new];
@@ -168,8 +168,8 @@
     NSLog(@"serverUrl: %@", serverUrl);
   }
   
-  [service setURL:serverUrl];
-}
+  [service setURL:serverUrl];}
+
 
 /** <p>Execute SOQL query <i>queryString</i> and returns the resulting DBSObjects as an array.</p>
   <p>This method will query all resultinng objects of the query, repeatedly querying again if necessary depending on the batch size.</p>
@@ -186,8 +186,8 @@
   while (qLoc != nil)
     qLoc = [self queryMore: qLoc toArray: sObjects];
   
-  return sObjects;
-}
+  return sObjects;}
+
 
 /** <p>execute SOQL query and write the resulting DBSObjectes into the <i>objects</i> array
   which must be valid and allocated. </p>
@@ -356,8 +356,8 @@
       queryLocator = [result objectForKey:@"queryLocator"];
       NSLog(@"should do query more, queryLocator: %@", queryLocator);
     }
-  return queryLocator;
-}
+  return queryLocator;}
+
 
 /** <p>Execute SOQL query more and write the resulting DBSObjectes into the <i>objects</i> array
     which must be valid and allocated, continuing from the given query locator <i>locator</i>. </p>
@@ -514,8 +514,8 @@
       queryLocator = [result objectForKey:@"queryLocator"];
       NSLog(@"should do query more, queryLocator: %@", queryLocator);
     }
-  return queryLocator;
-}
+  return queryLocator;}
+
 
 - (void)query :(NSString *)queryString queryAll:(BOOL)all toWriter:(DBCVSWriter *)writer
 {
@@ -586,8 +586,8 @@
       [writer writeDataSet:set];
       [set release];
       
-    }
-}
+    }}
+
 
 
 - (void)create :(NSString *)objectName fromReader:(DBCVSReader *)reader
@@ -759,8 +759,8 @@
         }
       /* we don't do yet anything useful with the results... */
       [set release];
-    }
-}
+    }}
+
 
 - (void)update :(NSString *)objectName fromReader:(DBCVSReader *)reader
 {
@@ -932,8 +932,8 @@
       }
       /* we don't do yet anything useful with the results... */
       [set release];
-    }
-}
+    }}
+
 
 
 /** runs a describe global to retrieve all all the objects
@@ -1333,6 +1333,12 @@
       NSString *statement;
       NSMutableArray *resArray;
 
+      if ([name isEqualToString: @"ActivityHistory"] ||
+	  [name isEqualToString: @"AggregateResult"])
+	{
+	  name = [enu nextObject];
+	  continue;
+	}
       resArray = [NSMutableArray arrayWithCapacity: 1];
       statement = @"select id from ";
       statement = [statement stringByAppendingString: name];

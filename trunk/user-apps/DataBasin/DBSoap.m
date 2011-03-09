@@ -264,7 +264,7 @@
       fault = [faultDetail objectForKey:@"fault"];
       NSLog(@"fault: %@", fault);
       NSLog(@"exception code: %@", [fault objectForKey:@"exceptionCode"]);
-      NSLog(@"exception code: %@", [fault objectForKey:@"exceptionMessage"]);
+      NSLog(@"exception: %@", [fault objectForKey:@"exceptionMessage"]);
     }
   
   queryResult = [resultDict objectForKey:@"GWSCoderParameters"];
@@ -1108,6 +1108,7 @@
   int                   size;
   NSMutableArray        *keys;
   DBSObject             *object;
+  NSMutableDictionary   *propDict;
 
 
   /* prepare the header */
@@ -1166,6 +1167,9 @@
   [keys removeObject:@"GWSCoderOrder"];
 
   object = [[DBSObject alloc] init];
+  propDict = [NSMutableDictionary dictionaryWithCapacity: 1];
+  [propDict setValue: objectType forKey: @"name"];
+  [object setObjectProperties: propDict];
 
   for (i = 0; i < size; i++)
     {

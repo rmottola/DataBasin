@@ -25,6 +25,7 @@
 
 #import "DBObjectInspector.h"
 #import "DBFieldCell.h"
+#import "DBSObject.h"
 
 
 @implementation DBObjectInspector
@@ -40,6 +41,9 @@
 
 - (void)dealloc
 {
+  [arrayDevNames release];
+  [arrayLabels release];
+  [arrayValues release];
   [super dealloc];
 }
 
@@ -50,10 +54,6 @@
 
 - (void)awakeFromNib
 {
-  NSRect scrollFrame;
-  int i;
-  
-
 }
 
 - (void)show
@@ -77,7 +77,9 @@
 
   sObj = [dbs describeSObject: objDevName];
 
-
+  [arrayDevNames release];
+  [arrayLabels release];
+  [arrayValues release];
 
   arrayDevNames = [[NSMutableArray arrayWithArray: [sObj fieldNames]] retain];
   arrayLabels = [[NSMutableArray arrayWithCapacity: [arrayDevNames count]] retain];
@@ -103,6 +105,8 @@
     }
  
   [fieldTable reloadData];
+
+  [winObjInspector setTitle: objDevName];
 
 }
 

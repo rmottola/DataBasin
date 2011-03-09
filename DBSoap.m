@@ -25,7 +25,7 @@
 #import <AppKit/AppKit.h>
 
 #import "DBSoap.h"
-
+#import "DBSObject.h"
 
 
 @implementation DBSoap

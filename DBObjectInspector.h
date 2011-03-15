@@ -42,9 +42,7 @@
 
   /* data source objects */
   DBSObject      *sObj;
-  NSMutableArray *arrayLabels;
-  NSMutableArray *arrayDevNames;
-  NSMutableArray *arrayValues;;
+  NSMutableArray *arrayRows;
 }
 
 /** sets the Soap handler class, which needs to remain valid througout the inspector existence */

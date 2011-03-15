@@ -127,4 +127,10 @@
   return retObj;
 }
 
+- (void)tableView:(NSTableView *)tableView sortDescriptorsDidChange:(NSArray *)oldDescriptors
+{
+  [arrayRows sortUsingDescriptors: [tableView sortDescriptors]];
+  [fieldTable reloadData];
+}
+
 @end

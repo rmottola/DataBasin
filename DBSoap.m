@@ -1020,6 +1020,7 @@
       dbObj = [[DBSObject alloc] init];
       [dbObj setObjectProperties: propertiesDict];
       [objectNames addObject: [dbObj name]];
+      [dbObj release];
     }
 
   return [NSArray arrayWithArray: objectNames];

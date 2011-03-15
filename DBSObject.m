@@ -213,7 +213,6 @@ converting it if necessary.</p>
 	  NSLog(@"we have %d fields", [fieldsArray count]);
 	  [self loadValuesForFields: fieldsArray];
 	  fieldsArray = [NSMutableArray arrayWithCapacity: 10];
-	  sizeCount = 0;
 	  [fieldsArray addObject: currField];
 	  sizeCount = [currField length] + 2;
 	}

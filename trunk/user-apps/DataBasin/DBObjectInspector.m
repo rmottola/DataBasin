@@ -41,9 +41,7 @@
 
 - (void)dealloc
 {
-  [arrayDevNames release];
-  [arrayLabels release];
-  [arrayValues release];
+  [arrayRows release];
   [super dealloc];
 }
 
@@ -67,6 +65,7 @@
 - (IBAction)loadObject:(id)sender
 {
   NSString *objDevName;
+  NSMutableArray *arrayDevNames;
   
   NSString *objId;
   int i;
@@ -80,20 +79,28 @@
   [sObj setDBSoap: dbs];
   [sObj loadFieldValues];
   NSLog(@"fields loaded...");
-  [arrayDevNames release];
-  [arrayLabels release];
-  [arrayValues release];
+  [arrayRows release];
+  arrayDevNames = [NSMutableArray arrayWithArray: [sObj fieldNames]];
+  arrayRows = [[NSMutableArray arrayWithCapacity: [arrayDevNames count]] retain];
 
-  arrayDevNames = [[NSMutableArray arrayWithArray: [sObj fieldNames]] retain];
-  arrayLabels = [[NSMutableArray arrayWithCapacity: [arrayDevNames count]] retain];
-  arrayValues = [[NSMutableArray arrayWithCapacity: [arrayDevNames count]] retain];
   for (i = 0; i < [arrayDevNames count]; i++)
     {
       NSString *fieldDevName;
+      NSString *fieldLabel;
+      NSString *fieldValue;
+      NSDictionary *rowDict;
+
 
       fieldDevName = [arrayDevNames objectAtIndex: i];
-      [arrayLabels addObject: [[sObj propertiesOfField: fieldDevName] objectForKey: @"label"]];
-      [arrayValues addObject: [sObj fieldValue: fieldDevName]];
+      fieldLabel = [[sObj propertiesOfField: fieldDevName] objectForKey: @"label"];
+      fieldValue =  [sObj fieldValue: fieldDevName];
+      
+      rowDict = [NSDictionary dictionaryWithObjectsAndKeys: 
+        fieldDevName, COLID_DEVNAME,
+        fieldLabel, COLID_LABEL,
+        fieldValue, COLID_VALUE,
+        NULL];
+      [arrayRows addObject: rowDict];
     }
  
   [fieldTable reloadData];
@@ -107,20 +114,16 @@
 
 - (int)numberOfRowsInTableView:(NSTableView *)aTableView
 {
-  return [arrayDevNames count];
+  return [arrayRows count];
 }
+
 - (id) tableView: (NSTableView*)aTableView objectValueForTableColumn: (NSTableColumn*)column row: (int)rowIndex
 {
   id retObj;
-
-  retObj = nil;
-  if ([[column identifier] isEqual: COLID_LABEL])
-    retObj = [arrayLabels objectAtIndex: rowIndex];
-  else if ([[column identifier] isEqual: COLID_DEVNAME])
-    retObj = [arrayDevNames objectAtIndex: rowIndex];
-  else if ([[column identifier] isEqual: COLID_VALUE])
-    retObj = [arrayValues objectAtIndex: rowIndex];
-
+  NSDictionary *row;
+  
+  row = [arrayRows objectAtIndex: rowIndex];
+  retObj = [row objectForKey: [column identifier]];
   return retObj;
 }
 

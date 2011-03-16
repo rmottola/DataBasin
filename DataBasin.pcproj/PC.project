@@ -19,7 +19,6 @@
 	"DBCVSWriter.m",
 	"DBCVSReader.m",
 	"DBSObject.m",
-	"DBFieldCell.m",
 	"DBObjectInspector.m"
     );
     COMPILEROPTIONS = "";
@@ -35,7 +34,6 @@
 	"DBCVSWriter.h",
 	"DBCVSReader.h",
 	"DBSObject.h",
-	"DBFieldCell.h",
 	"DBObjectInspector.h"
     );
     IMAGES = (

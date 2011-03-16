@@ -42,8 +42,10 @@
   BOOL         passwordExpired;
   NSDictionary *userInfo;
 
+  /* list of all objects, custom and not */
+  NSArray  *sObjectList;
   /* list of all object names, custom and not */
-  NSArray  *sObjectNamesList;
+  NSMutableArray  *sObjectNamesList;
 }
 
 - (void)login :(NSURL *)url :(NSString *)userName :(NSString *)password;
@@ -58,8 +60,9 @@
 - (NSMutableArray *)delete :(NSArray *)objectIdArray;
 - (NSMutableArray *)deleteFromReader:(DBCVSReader *)reader;
 - (NSArray *)describeGlobal;
+- (NSArray *)sObjects;
 - (NSArray *)sObjectNames;
-- (void)updateObjectNames;
+- (void)updateObjects;
 - (void)describeSObject: (NSString *)objectType toWriter:(DBCVSWriter *)writer;
 - (DBSObject *)describeSObject: (NSString *)objectType;
 - (NSString *)identifyObjectById:(NSString *)sfId;

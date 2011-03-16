@@ -24,7 +24,6 @@
 
 
 #import "DBObjectInspector.h"
-#import "DBFieldCell.h"
 #import "DBSObject.h"
 
 

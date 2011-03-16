@@ -238,7 +238,7 @@
 - (IBAction)runDescribeGlobal:(id)sender
 {
   NS_DURING
-    [db updateObjectNames];
+    [db updateObjects];
   NS_HANDLER
     if ([[localException name] hasPrefix:@"DB"])
       {

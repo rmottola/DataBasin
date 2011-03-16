@@ -949,7 +949,7 @@
   NSDictionary          *result;
   NSDictionary          *queryFault;
   NSArray               *sobjects;
-  NSMutableArray        *objectNames; // FIXME temporary, we should return full objects
+  NSMutableArray        *objectList;
   int                   i;
 
   /* prepare the header */
@@ -997,7 +997,7 @@
   result = [queryResult objectForKey:@"result"];
 //  NSLog(@"result: %@", result);
 
-  objectNames = [NSMutableArray arrayWithCapacity:1];
+  objectList = [NSMutableArray arrayWithCapacity:1];
   sobjects = [result objectForKey:@"sobjects"];
   for (i = 0; i < [sobjects count]; i++)
     {
@@ -1019,11 +1019,21 @@
 	}
       dbObj = [[DBSObject alloc] init];
       [dbObj setObjectProperties: propertiesDict];
-      [objectNames addObject: [dbObj name]];
+      [objectList addObject: dbObj];
       [dbObj release];
     }
 
-  return [NSArray arrayWithArray: objectNames];
+  return [NSArray arrayWithArray: objectList];
+}
+
+/* returns the currently stored list of object names
+   if the list is nil, a describe global will be run to obtain it */
+- (NSArray *)sObjects
+{
+  if (sObjectList == nil)
+    sObjectList = [[self describeGlobal] retain];
+
+  return sObjectList;
 }
 
 /* returns the currently stored list of object names
@@ -1031,16 +1041,32 @@
 - (NSArray *)sObjectNames
 {
   if (sObjectNamesList == nil)
-    sObjectNamesList = [[self describeGlobal] retain];
+    {
+      int i;
 
+      if (sObjectList == nil)
+	sObjectList = [[self describeGlobal] retain];
+
+      sObjectNamesList = [[NSMutableArray arrayWithCapacity:1] retain];
+      for (i = 0; i < [sObjectList count]; i++)
+	[sObjectNamesList addObject: [[sObjectList objectAtIndex: i] name]];
+    }
+  
   return sObjectNamesList;
 }
 
-/** Force an udpate to the currently stored object names list */
-- (void)updateObjectNames
+/** Force an udpate to the currently stored object  list */
+- (void)updateObjects
 {
+  int i;
+
+  [sObjectList release];
+  sObjectList = [[self describeGlobal] retain];
+
   [sObjectNamesList release];
-  sObjectNamesList = [[self describeGlobal] retain];
+  sObjectNamesList = [[NSMutableArray arrayWithCapacity:1] retain];
+  for (i = 0; i < [sObjectList count]; i++)
+    [sObjectNamesList addObject: [[sObjectList objectAtIndex: i] name]];
 }
 
 - (void)describeSObject: (NSString *)objectType toWriter:(DBCVSWriter *)writer

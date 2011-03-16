@@ -41,7 +41,6 @@ DBSoap.h \
 DBCVSWriter.h \
 DBCVSReader.h \
 DBSObject.h \
-DBFieldCell.h \
 DBObjectInspector.h
 
 #
@@ -53,7 +52,6 @@ DBSoap.m \
 DBCVSWriter.m \
 DBCVSReader.m \
 DBSObject.m \
-DBFieldCell.m \
 DBObjectInspector.m
 
 #

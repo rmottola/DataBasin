@@ -936,8 +936,7 @@
 
 
 
-/** runs a describe global to retrieve all all the objects
-    The current implementation returns only the names list */
+/** runs a describe global to retrieve all all the objects and returns an array of DBSobjects */
 - (NSArray *)describeGlobal
 {
   NSMutableDictionary   *headerDict;
@@ -977,7 +976,7 @@
 		timeout : 90];
 
 
-  NSLog(@"dict is %d big", [resultDict count]);
+  NSLog(@"Describe Global dict is %d big", [resultDict count]);
   
   queryFault = [resultDict objectForKey:@"GWSCoderFault"];
   if (queryFault != nil)

@@ -1349,33 +1349,32 @@
   NSEnumerator *enu;
   NSString *name;
   BOOL found;
+  NSString *prefixToIdentify;
+  DBSObject *tempObj;
 
   devName = nil;
   found = NO;
 
-  enu = [[self sObjectNames] objectEnumerator];
-  while (!found && (name = [enu nextObject]))
-    {
-      NSString *statement;
-      NSMutableArray *resArray;
+  if (sfId == nil)
+    return nil;
 
-      if ([name isEqualToString: @"ActivityHistory"] ||
-	  [name isEqualToString: @"AggregateResult"])
+  if (!([sfId length] == 15 || [sfId length] == 18))
+    return nil;
+
+  prefixToIdentify = [sfId substringToIndex: 3];
+  NSLog(@"identify: %@", prefixToIdentify);
+  if (sObjectList == nil)
+    [self updateObjects];
+
+  NSLog(@"in %d objects", [sObjectList count]);
+  enu = [sObjectList objectEnumerator];
+  while (!found && (tempObj = [enu nextObject]))
+    {
+      NSLog(@"compare to: %@", [[tempObj objectProperties] objectForKey: @"keyPrefix"]);
+      if ([[[tempObj objectProperties] objectForKey: @"keyPrefix"] isEqualToString: prefixToIdentify])
 	{
-	  name = [enu nextObject];
-	  continue;
-	}
-      resArray = [NSMutableArray arrayWithCapacity: 1];
-      statement = @"select id from ";
-      statement = [statement stringByAppendingString: name];
-      statement = [statement stringByAppendingString: @" where id='"];
-      statement = [statement stringByAppendingString: sfId];
-      statement = [statement stringByAppendingString: @"'"];
-      NSLog(@"query: %@", statement);
-      [self query: statement queryAll:NO toArray: resArray];
-      if ([resArray count] > 0)
-	{
-	  NSLog(@"we have something: %@", resArray);
+	  name = [tempObj name];
+	  NSLog(@"we have something: %@", name);
 	  found = YES;
 	}
     }

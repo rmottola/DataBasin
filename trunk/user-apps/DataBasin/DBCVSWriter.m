@@ -35,18 +35,32 @@
       qualifier = @"\"";
       separator = @",";
       newLine = @"\n";
-      encoding = NSUTF8StringEncoding;
+      [self setStringEncoding: NSUTF8StringEncoding];
+      //      encoding = NSUTF8StringEncoding;
+      //      bomLength = 3;
    }
   return self;
 }
 
 - (void)setStringEncoding: (NSStringEncoding) enc
 {
+  NSData *tempData;
+
   encoding = enc;
+  bomLength = 0;
+
+  /* BOM heuristics */
+  tempData = [@" "dataUsingEncoding: encoding];
+  tempData = [tempData subdataWithRange: NSMakeRange(0, [tempData length] - [@" " lengthOfBytesUsingEncoding: encoding])];
+  bomLength = [tempData length];
+
+  NSLog(@"bom length: %u", bomLength);
 }
 
 - (void)setFieldNames:(NSArray *)array andWriteIt:(BOOL)flag
 {
+  /* if we write the header, fine, else we write at least the BOM */
+
   if (flag == YES)
     {
       NSString *theLine;
@@ -54,6 +68,14 @@
       NSLog(@"should write out field names to file");
       theLine = [self formatOneLine:array];
       [file writeData: [theLine dataUsingEncoding: encoding]];
+    }
+  else
+    {
+      NSData *tempData;
+
+      tempData = [@" "dataUsingEncoding: encoding];
+      tempData = [tempData subdataWithRange: NSMakeRange(0, [tempData length] - [@" " lengthOfBytesUsingEncoding: encoding])];
+      [file writeData: tempData];
     }
 }
 
@@ -66,9 +88,11 @@
   for (i = 0; i < setCount; i++)
     {
       NSString *oneLine;
+      NSData *data;
       
       oneLine = [self formatOneLine:[array objectAtIndex:i]];
-      [file writeData: [oneLine dataUsingEncoding: encoding]];
+      data = [oneLine dataUsingEncoding: encoding];
+      [file writeData: [data subdataWithRange: NSMakeRange(bomLength, [data length]-bomLength)]];
     }
 }
 

@@ -1,7 +1,7 @@
 /*
    Project: DataBasin
 
-   Copyright (C) 2009-2010 Free Software Foundation
+   Copyright (C) 2009-2011 Free Software Foundation
 
    Author: Riccardo Mottola
 
@@ -34,6 +34,7 @@
   NSString     *qualifier;
   NSString     *newLine;
   NSStringEncoding encoding;
+  unsigned     bomLength;
 }
 
 - (id)initWithHandle:(NSFileHandle *)fileHandle;

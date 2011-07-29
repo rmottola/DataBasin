@@ -89,10 +89,15 @@
     {
       NSString *oneLine;
       NSData *data;
+      NSData *data2;
       
       oneLine = [self formatOneLine:[array objectAtIndex:i]];
       data = [oneLine dataUsingEncoding: encoding];
-      [file writeData: [data subdataWithRange: NSMakeRange(bomLength, [data length]-bomLength)]];
+      if (bomLength > 0)
+	data2 = [NSData dataWithBytesNoCopy: [data bytes]+bomLength length: [data length]-bomLength freeWhenDone: NO];
+      else
+	data2 = data;
+      [file writeData: data2];
     }
 }
 

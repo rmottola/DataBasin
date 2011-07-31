@@ -998,6 +998,7 @@
 
   objectList = [NSMutableArray arrayWithCapacity:1];
   sobjects = [result objectForKey:@"sobjects"];
+
   for (i = 0; i < [sobjects count]; i++)
     {
       NSMutableDictionary *sObj;

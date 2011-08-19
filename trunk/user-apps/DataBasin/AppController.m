@@ -69,8 +69,6 @@
 
 - (void)awakeFromNib
 {
-//  [[NSApp mainMenu] setTitle:@"DataBasin"];
-
 #if defined(__APPLE__) && (MAC_OS_X_VERSION_MAX_ALLOWED <= MAC_OS_X_VERSION_10_4)
   [popupStrEncoding setAutoenablesItems: NO];
   [[popupStrEncoding itemAtIndex: 1] setEnabled: NO];

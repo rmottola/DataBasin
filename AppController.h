@@ -73,6 +73,14 @@
   IBOutlet NSTextView    *fieldQuerySelect;
   IBOutlet NSTextField   *fieldFileSelect;
   IBOutlet NSButton      *queryAllSelect;
+
+  /* query identify */
+  IBOutlet NSWindow      *winSelectIdentify;
+  IBOutlet NSTextView    *fieldQuerySelectIdentify;
+  IBOutlet NSTextField   *fieldFieldSelectIdentify;
+  IBOutlet NSTextField   *fieldFileSelectIdentifyIn;
+  IBOutlet NSTextField   *fieldFileSelectIdentifyOut;
+  IBOutlet NSButton      *queryAllSelectIdentify;
   
   /* insert */
   IBOutlet NSWindow      *winInsert;
@@ -130,6 +138,11 @@
 - (IBAction)showSelect:(id)sender;
 - (IBAction)browseFileSelect:(id)sender;
 - (IBAction)executeSelect:(id)sender;
+
+- (IBAction)showSelectIdentify:(id)sender;
+- (IBAction)browseFileSelectIdentifyIn:(id)sender;
+- (IBAction)browseFileSelectIdentifyOut:(id)sender;
+- (IBAction)executeSelectIdentify:(id)sender;
 
 - (IBAction)showQuickDelete:(id)sender;
 - (IBAction)quickDelete:(id)sender;

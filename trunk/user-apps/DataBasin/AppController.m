@@ -425,7 +425,78 @@
   [whichObject release];
 }
 
+/*  SELECT IDENTIFY */
 
+- (IBAction)showSelectIdentify:(id)sender
+{
+  [winSelectIdentify makeKeyAndOrderFront:self];
+}
+
+- (IBAction)browseFileSelectIdentifyIn:(id)sender
+{
+  NSOpenPanel *openPanel;
+  
+  openPanel = [NSOpenPanel openPanel];
+  if ([openPanel runModal] == NSOKButton)
+    {
+      NSString *fileName;
+      
+      fileName = [openPanel filename];
+      [fieldFileSelectIdentifyOut setStringValue:fileName];
+    }
+}
+
+- (IBAction)browseFileSelectIdentifyOut:(id)sender
+{
+  NSSavePanel *savePanel;
+  
+  savePanel = [NSSavePanel savePanel];
+  [savePanel setRequiredFileType:@"csv"];
+  if ([savePanel runModal] == NSOKButton)
+    {
+      NSString *fileName;
+      
+      fileName = [savePanel filename];
+      [fieldFileSelectIdentifyOut setStringValue:fileName];
+    }
+}
+
+- (IBAction)executeSelectIdentify:(id)sender
+{
+  NSString      *statement;
+  NSString      *filePath;
+  NSFileHandle  *fileHandle;
+  NSFileManager *fileManager;
+  DBCVSWriter   *cvsWriter;
+  NSString      *identifyField;
+  
+  statement = [fieldQuerySelectIdentify string];
+  NSLog(@"%@", statement);
+  filePath = [fieldFileSelect stringValue];
+  NSLog(@"%@", filePath);
+  identifyField = [fieldFieldSelectIdentify stringValue];
+  NSLog(@"%@", identifyField);
+  
+  fileManager = [NSFileManager defaultManager];
+  if ([fileManager createFileAtPath:filePath contents:nil attributes:nil] == NO)
+    {
+      NSRunAlertPanel(@"Attention", @"Could not create File.", @"Ok", nil, nil);
+      return;
+    }  
+
+  fileHandle = [NSFileHandle fileHandleForWritingAtPath:filePath];
+  if (fileHandle == nil)
+    {
+      NSRunAlertPanel(@"Attention", @"Cannot create File.", @"Ok", nil, nil);
+    }
+  
+  cvsWriter = [[DBCVSWriter alloc] initWithHandle:fileHandle];
+  
+  //  [db query :statement queryAll:([queryAllSelectIdentify state] == NSOnState) toWriter:cvsWriter];
+    
+  [cvsWriter release];
+  [fileHandle closeFile];
+}
 
 /* DESCRIBE */
 

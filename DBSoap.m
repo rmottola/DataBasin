@@ -514,7 +514,8 @@
       queryLocator = [result objectForKey:@"queryLocator"];
       NSLog(@"should do query more, queryLocator: %@", queryLocator);
     }
-  return queryLocator;}
+  return queryLocator;
+}
 
 
 - (void)query :(NSString *)queryString queryAll:(BOOL)all toWriter:(DBCVSWriter *)writer
@@ -584,10 +585,54 @@
           [set addObject:values];
         }
       [writer writeDataSet:set];
-      [set release];
-      
-    }}
+      [set release];      
+    }
+}
 
+- (void)queryIdentify :(NSString *)queryString queryAll:(BOOL)all fromReader:(DBCVSReader *)reader toWriter:(DBCVSWriter *)writer 
+{
+  NSArray *inFieldNames;
+  unsigned inFieldCount;
+  NSArray *identifierArray;
+  NSString *identifierName;
+  NSMutableArray *sObjects;
+  NSString *identifier;
+
+  /* retrieve objects to create */
+  
+  /* first the fields */
+  inFieldNames = [reader fieldNames];
+  inFieldCount = [inFieldNames count];
+  identifierArray = [reader readDataSet];
+
+  if (inFieldCount > 1)
+    {
+      NSLog(@"We cannot identify %d field", inFieldCount);
+      return;
+    }
+
+  identifier = [inFieldNames objectAtIndex: 0];
+  NSLog(@"identify through %@", identifier);
+
+  [self queryIdentify:queryString with:identifier queryAll:all fromArray:identifierArray toArray: sObjects]; 
+}
+
+- (void)queryIdentify :(NSString *)queryString with: (NSString *)identifier queryAll:(BOOL)all fromArray:(NSArray *)fromArray toArray:(NSMutableArray *)outArray 
+{
+  unsigned i;
+
+  for (i = 0; i < [fromArray count]; i++)
+    {
+      NSMutableString *completeQuery;
+
+      completeQuery = [NSMutableString stringWithString: queryString];
+      [completeQuery appendString: @"Where "];
+      [completeQuery appendString: identifier];
+      [completeQuery appendString: @" = '"];
+      [completeQuery appendString: [fromArray objectAtIndex: i]];
+      [completeQuery appendString: @"'"];
+    }
+}
 
 
 - (void)create :(NSString *)objectName fromReader:(DBCVSReader *)reader
@@ -759,7 +804,8 @@
         }
       /* we don't do yet anything useful with the results... */
       [set release];
-    }}
+    }
+}
 
 
 - (void)update :(NSString *)objectName fromReader:(DBCVSReader *)reader

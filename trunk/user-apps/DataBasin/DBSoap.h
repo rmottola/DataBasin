@@ -54,7 +54,8 @@
 - (NSString *)query :(NSString *)queryString queryAll:(BOOL)all toArray:(NSMutableArray *)objects;
 - (NSString *)queryMore :(NSString *)locator toArray:(NSMutableArray *)objects;
 - (void)query :(NSString *)queryString queryAll:(BOOL)all toWriter:(DBCVSWriter *)writer;
-
+- (void)queryIdentify :(NSString *)queryString queryAll:(BOOL)all fromReader:(DBCVSReader *)reader toWriter:(DBCVSWriter *)writer;
+- (void)queryIdentify :(NSString *)queryString with: (NSString *)identifier queryAll:(BOOL)all fromArray:(NSArray *)fromArray toArray:(NSMutableArray *)outArray;
 - (void)create :(NSString *)objectName fromReader:(DBCVSReader *)reader;
 - (void)update :(NSString *)objectName fromReader:(DBCVSReader *)reader;
 - (NSMutableArray *)delete :(NSArray *)objectIdArray;

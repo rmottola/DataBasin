@@ -77,7 +77,6 @@
   /* query identify */
   IBOutlet NSWindow      *winSelectIdentify;
   IBOutlet NSTextView    *fieldQuerySelectIdentify;
-  IBOutlet NSTextField   *fieldFieldSelectIdentify;
   IBOutlet NSTextField   *fieldFileSelectIdentifyIn;
   IBOutlet NSTextField   *fieldFileSelectIdentifyOut;
   IBOutlet NSButton      *queryAllSelectIdentify;

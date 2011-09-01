@@ -442,7 +442,7 @@
       NSString *fileName;
       
       fileName = [openPanel filename];
-      [fieldFileSelectIdentifyOut setStringValue:fileName];
+      [fieldFileSelectIdentifyIn setStringValue:fileName];
     }
 }
 
@@ -464,38 +464,60 @@
 - (IBAction)executeSelectIdentify:(id)sender
 {
   NSString      *statement;
-  NSString      *filePath;
-  NSFileHandle  *fileHandle;
+  NSString      *filePathIn;
+  NSFileHandle  *fileHandleIn;
+  NSString      *filePathOut;
+  NSFileHandle  *fileHandleOut;
   NSFileManager *fileManager;
   DBCVSWriter   *cvsWriter;
+  DBCVSReader   *cvsReader;
   NSString      *identifyField;
   
   statement = [fieldQuerySelectIdentify string];
   NSLog(@"%@", statement);
-  filePath = [fieldFileSelect stringValue];
-  NSLog(@"%@", filePath);
+  filePathIn = [fieldFileSelectIdentifyIn stringValue];
+  NSLog(@"%@", filePathIn);
+  filePathOut = [fieldFileSelectIdentifyOut stringValue];
+  NSLog(@"%@", filePathOut);
   identifyField = [fieldFieldSelectIdentify stringValue];
   NSLog(@"%@", identifyField);
   
   fileManager = [NSFileManager defaultManager];
-  if ([fileManager createFileAtPath:filePath contents:nil attributes:nil] == NO)
+  if ([fileManager createFileAtPath:filePathIn contents:nil attributes:nil] == NO)
     {
       NSRunAlertPanel(@"Attention", @"Could not create File.", @"Ok", nil, nil);
       return;
     }  
 
-  fileHandle = [NSFileHandle fileHandleForWritingAtPath:filePath];
-  if (fileHandle == nil)
+  fileHandleIn = [NSFileHandle fileHandleForReadingAtPath:filePathIn];
+  if (fileHandleIn == nil)
+    {
+      NSRunAlertPanel(@"Attention", @"Cannot create File.", @"Ok", nil, nil);
+    }
+
+  cvsReader = [[DBCVSReader alloc] initWithHandle:fileHandleIn];
+
+  if ([fileManager createFileAtPath:filePathOut contents:nil attributes:nil] == NO)
+    {
+      NSRunAlertPanel(@"Attention", @"Could not create File.", @"Ok", nil, nil);
+      return;
+    }  
+
+  fileHandleOut = [NSFileHandle fileHandleForWritingAtPath:filePathOut];
+  if (fileHandleOut == nil)
     {
       NSRunAlertPanel(@"Attention", @"Cannot create File.", @"Ok", nil, nil);
     }
   
-  cvsWriter = [[DBCVSWriter alloc] initWithHandle:fileHandle];
+  cvsWriter = [[DBCVSWriter alloc] initWithHandle:fileHandleOut];
   
   //  [db query :statement queryAll:([queryAllSelectIdentify state] == NSOnState) toWriter:cvsWriter];
-    
+
+  [cvsReader release];
+  [fileHandleIn closeFile];
+  
   [cvsWriter release];
-  [fileHandle closeFile];
+  [fileHandleOut closeFile];
 }
 
 /* DESCRIBE */

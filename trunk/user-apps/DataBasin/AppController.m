@@ -479,8 +479,6 @@
   NSLog(@"%@", filePathIn);
   filePathOut = [fieldFileSelectIdentifyOut stringValue];
   NSLog(@"%@", filePathOut);
-  identifyField = [fieldFieldSelectIdentify stringValue];
-  NSLog(@"%@", identifyField);
   
   fileManager = [NSFileManager defaultManager];
   if ([fileManager createFileAtPath:filePathIn contents:nil attributes:nil] == NO)
@@ -511,7 +509,7 @@
   
   cvsWriter = [[DBCVSWriter alloc] initWithHandle:fileHandleOut];
   
-  //  [db query :statement queryAll:([queryAllSelectIdentify state] == NSOnState) toWriter:cvsWriter];
+  [db queryIdentify :statement queryAll:([queryAllSelectIdentify state] == NSOnState) fromReader:cvsReader toWriter:cvsWriter];
 
   [cvsReader release];
   [fileHandleIn closeFile];

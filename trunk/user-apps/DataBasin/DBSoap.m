@@ -587,6 +587,7 @@
       [writer writeDataSet:set];
       [set release];      
     }
+  [sObjects release];
 }
 
 - (void)queryIdentify :(NSString *)queryString queryAll:(BOOL)all fromReader:(DBCVSReader *)reader toWriter:(DBCVSWriter *)writer 
@@ -599,28 +600,32 @@
   NSString *identifier;
 
   /* retrieve objects to create */
+  NSLog(@"CVS identify 1.....");
   
   /* first the fields */
   inFieldNames = [reader fieldNames];
   inFieldCount = [inFieldNames count];
   identifierArray = [reader readDataSet];
-
+  NSLog(@"field names: %@", inFieldNames);
+  NSLog(@"identifiers: %@", identifierArray);
   if (inFieldCount > 1)
     {
       NSLog(@"We cannot identify %d field", inFieldCount);
       return;
     }
-
+  sObjects = [[NSMutableArray alloc] init];
   identifier = [inFieldNames objectAtIndex: 0];
   NSLog(@"identify through %@", identifier);
 
-  [self queryIdentify:queryString with:identifier queryAll:all fromArray:identifierArray toArray: sObjects]; 
+  [self queryIdentify:queryString with:identifier queryAll:all fromArray:identifierArray toArray: sObjects];
+
+  [sObjects release];
 }
 
 - (void)queryIdentify :(NSString *)queryString with: (NSString *)identifier queryAll:(BOOL)all fromArray:(NSArray *)fromArray toArray:(NSMutableArray *)outArray 
 {
   unsigned i;
-
+  NSLog(@"array identify 1.....");
   for (i = 0; i < [fromArray count]; i++)
     {
       NSMutableString *completeQuery;
@@ -631,6 +636,7 @@
       [completeQuery appendString: @" = '"];
       [completeQuery appendString: [fromArray objectAtIndex: i]];
       [completeQuery appendString: @"'"];
+      NSLog(@"query: %@", completeQuery);
     }
 }
 

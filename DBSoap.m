@@ -599,6 +599,9 @@
   NSMutableArray *sObjects;
   NSString *identifier;
   unsigned i;
+  unsigned j;
+  unsigned batchSize;
+  NSArray *keys;
 
   /* retrieve objects to create */
   NSLog(@"CVS identify 1.....");
@@ -621,6 +624,35 @@
   NSLog(@"identify through %@", identifier);
 
   [self queryIdentify:queryString with:identifier queryAll:all fromArray:identifierArray toArray: sObjects];
+
+  keys = nil;
+  batchSize = [sObjects count];
+  if (batchSize > 0)
+    {
+      DBSObject *obj;
+      NSMutableArray *set;
+
+      obj = [sObjects objectAtIndex: 0];
+      keys = [obj fieldNames];
+      [writer setFieldNames:keys andWriteIt:YES];
+
+      set = [[NSMutableArray alloc] init];
+      for (i = 0; i < batchSize; i++)
+        {
+          NSMutableArray *values;
+	  DBSObject *record;
+	  
+          record = [sObjects objectAtIndex:i];
+          values = [NSMutableArray arrayWithCapacity:[keys count]];
+          for (j = 0; j < [keys count]; j++)
+            {
+              [values addObject:[record fieldValue: [keys objectAtIndex:j]]];
+            }
+          [set addObject:values];
+        }
+      [writer writeDataSet:set];
+      [set release];
+    }
 
   [sObjects release];
   [identifierArray release];
@@ -647,6 +679,7 @@
       NSLog(@"query: %@", completeQuery);
 
       [self query:completeQuery queryAll:all toArray:resArray];
+      [outArray addObject: [resArray objectAtIndex: 0]];
       [completeQuery release];
     }
   [resArray release];

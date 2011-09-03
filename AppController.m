@@ -465,13 +465,11 @@
 {
   NSString      *statement;
   NSString      *filePathIn;
-  NSFileHandle  *fileHandleIn;
   NSString      *filePathOut;
   NSFileHandle  *fileHandleOut;
   NSFileManager *fileManager;
   DBCVSWriter   *cvsWriter;
   DBCVSReader   *cvsReader;
-  NSString      *identifyField;
   
   statement = [fieldQuerySelectIdentify string];
   NSLog(@"%@", statement);
@@ -487,6 +485,7 @@
   if ([fileManager createFileAtPath:filePathOut contents:nil attributes:nil] == NO)
     {
       NSRunAlertPanel(@"Attention", @"Could not create File.", @"Ok", nil, nil);
+      [cvsReader release];
       return;
     }  
 
@@ -494,11 +493,12 @@
   if (fileHandleOut == nil)
     {
       NSRunAlertPanel(@"Attention", @"Cannot create File.", @"Ok", nil, nil);
+      [cvsReader release];
+      return;
     }
-  NSLog(@"5");
 
   cvsWriter = [[DBCVSWriter alloc] initWithHandle:fileHandleOut];
-  NSLog(@"ready to identify and query %@", statement);
+
   [db queryIdentify :statement queryAll:([queryAllSelectIdentify state] == NSOnState) fromReader:cvsReader toWriter:cvsWriter];
 
   [cvsReader release];

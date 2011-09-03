@@ -594,10 +594,11 @@
 {
   NSArray *inFieldNames;
   unsigned inFieldCount;
-  NSArray *identifierArray;
-  NSString *identifierName;
+  NSArray *dataSet;
+  NSMutableArray *identifierArray;
   NSMutableArray *sObjects;
   NSString *identifier;
+  unsigned i;
 
   /* retrieve objects to create */
   NSLog(@"CVS identify 1.....");
@@ -605,14 +606,16 @@
   /* first the fields */
   inFieldNames = [reader fieldNames];
   inFieldCount = [inFieldNames count];
-  identifierArray = [reader readDataSet];
+  dataSet = [reader readDataSet];
   NSLog(@"field names: %@", inFieldNames);
-  NSLog(@"identifiers: %@", identifierArray);
   if (inFieldCount > 1)
     {
       NSLog(@"We cannot identify %d field", inFieldCount);
       return;
     }
+  identifierArray = [[NSMutableArray arrayWithCapacity: [dataSet count]] retain];
+  for (i = 0; i < [dataSet count]; i++)
+    [identifierArray addObject: [[dataSet objectAtIndex: i] objectAtIndex: 0]];
   sObjects = [[NSMutableArray alloc] init];
   identifier = [inFieldNames objectAtIndex: 0];
   NSLog(@"identify through %@", identifier);
@@ -620,24 +623,33 @@
   [self queryIdentify:queryString with:identifier queryAll:all fromArray:identifierArray toArray: sObjects];
 
   [sObjects release];
+  [identifierArray release];
 }
 
 - (void)queryIdentify :(NSString *)queryString with: (NSString *)identifier queryAll:(BOOL)all fromArray:(NSArray *)fromArray toArray:(NSMutableArray *)outArray 
 {
   unsigned i;
-  NSLog(@"array identify 1.....");
+  NSMutableArray *resArray;
+
+  resArray = [[NSMutableArray arrayWithCapacity: 1] retain];
   for (i = 0; i < [fromArray count]; i++)
     {
       NSMutableString *completeQuery;
 
-      completeQuery = [NSMutableString stringWithString: queryString];
-      [completeQuery appendString: @"Where "];
+      NSLog(@"%u %@", i, [fromArray objectAtIndex: i]);
+      [resArray removeAllObjects];
+      completeQuery = [[NSMutableString stringWithString: queryString] retain];
+      [completeQuery appendString: @" Where "];
       [completeQuery appendString: identifier];
       [completeQuery appendString: @" = '"];
       [completeQuery appendString: [fromArray objectAtIndex: i]];
       [completeQuery appendString: @"'"];
       NSLog(@"query: %@", completeQuery);
+
+      [self query:completeQuery queryAll:all toArray:resArray];
+      [completeQuery release];
     }
+  [resArray release];
 }
 
 

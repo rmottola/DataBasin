@@ -48,7 +48,7 @@
   NSMutableArray  *sObjectNamesList;
 }
 
-- (void)login :(NSURL *)url :(NSString *)userName :(NSString *)password;
+- (void)login :(NSURL *)url :(NSString *)userName :(NSString *)password :(BOOL)useHttps;
 
 - (NSMutableArray *)queryFull :(NSString *)queryString queryAll:(BOOL)all;
 - (NSString *)query :(NSString *)queryString queryAll:(BOOL)all toArray:(NSMutableArray *)objects;

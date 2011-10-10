@@ -42,6 +42,7 @@
   IBOutlet NSPopUpButton *popupStrEncoding;
   IBOutlet NSButton      *buttPrefCancel;
   IBOutlet NSButton      *buttPrefOk;
+  IBOutlet NSButton      *buttPrefHttps;
   
   /* login */
   IBOutlet NSWindow      *winLogin;

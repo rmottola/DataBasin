@@ -119,6 +119,9 @@
         break;
     }
   [popupStrEncoding selectItemAtIndex: index];
+
+  [buttPrefHttps setState: [[defaults valueForKey: @"UseHttps"] intValue]];
+
   [prefPanel makeKeyAndOrderFront: sender];
 }
 
@@ -148,6 +151,8 @@
     }
     
   [defaults setObject:[NSNumber numberWithInt: selectedEncoding] forKey: @"StringEncoding"];
+
+  [defaults setObject:[NSNumber numberWithInt: [buttPrefHttps state]] forKey: @"UseHttps"];
   [prefPanel performClose: nil];
 }
 
@@ -182,10 +187,21 @@
   NSString *urlStr;
   NSURL    *url;
   NSDictionary *uInfo;
+  BOOL useHttps;
+  NSString *protocolString;
   
   userName = [fieldUserName stringValue];
   password = [fieldPassword stringValue];
   token = [fieldToken stringValue];
+
+  useHttps = NO;
+  if ([[[NSUserDefaults standardUserDefaults] valueForKey: @"UseHttps"] intValue] == NSOnState)
+    useHttps = YES;
+
+  if (useHttps)
+    protocolString = @"https://";
+  else
+    protocolString = @"http://";
 
   /* if present, we append the security token to the password */
   if (token != nil)
@@ -193,15 +209,17 @@
     
   db = [[DBSoap alloc] init];
   
+  urlStr = nil;
   if ([popupEnvironment indexOfSelectedItem] == DB_ENVIRONMENT_PRODUCTION)
-    urlStr = @"http://www.salesforce.com/services/Soap/u/20.0";
+    urlStr = [protocolString stringByAppendingString: @"www.salesforce.com/services/Soap/u/20.0"];
   else if ([popupEnvironment indexOfSelectedItem] == DB_ENVIRONMENT_SANDBOX)
-    urlStr = @"http://test.salesforce.com/services/Soap/u/20.0";
+    urlStr = [protocolString stringByAppendingString: @"test.salesforce.com/services/Soap/u/20.0"];
+
   NSLog(@"Url: %@", urlStr);  
   url = [NSURL URLWithString:urlStr];
   
   NS_DURING
-    [db login :url :userName :password];
+    [db login :url :userName :password :useHttps];
     
     /* session inspector fields */
     [fieldSessionId setStringValue:[db sessionId]];

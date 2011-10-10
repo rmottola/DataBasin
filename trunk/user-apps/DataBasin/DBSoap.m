@@ -30,7 +30,7 @@
 
 @implementation DBSoap
 
-- (void)login :(NSURL *)url :(NSString *)userName :(NSString *)password
+- (void)login :(NSURL *)url :(NSString *)userName :(NSString *)password :(BOOL)useHttps
 {
   GWSSOAPCoder          *coder;
   NSUserDefaults        *defs;
@@ -154,7 +154,8 @@
   if ([[serverUrl substringToIndex:5] isEqualToString:@"https"])
   {
     NSLog(@"we have https....");
-    serverUrl = [@"http" stringByAppendingString:[serverUrl substringFromIndex:5]];
+    if (!useHttps)
+      serverUrl = [@"http" stringByAppendingString:[serverUrl substringFromIndex:5]];
   }
   
   [coder release];
@@ -755,7 +756,7 @@
 
     for (i = 0; i < fieldCount; i++)
       {
-        NSLog(@"%@: %@ - %@", objectName, [fieldNames objectAtIndex:i], [fieldValues objectAtIndex:i]);
+	//        NSLog(@"%@: %@ - %@", objectName, [fieldNames objectAtIndex:i], [fieldValues objectAtIndex:i]);
         [sObj setObject: [fieldValues objectAtIndex:i] forKey: [fieldNames objectAtIndex:i]];
         [sObjKeyOrder addObject:[fieldNames objectAtIndex:i]];
       }
@@ -1029,7 +1030,8 @@
       }
       /* we don't do yet anything useful with the results... */
       [set release];
-    }}
+    }
+}
 
 
 

@@ -19,7 +19,8 @@
 	"DBCVSWriter.m",
 	"DBCVSReader.m",
 	"DBSObject.m",
-	"DBObjectInspector.m"
+	"DBObjectInspector.m",
+	"DBSoapCSV.m"
     );
     COMPILEROPTIONS = "";
     CPPOPTIONS = "";
@@ -34,7 +35,8 @@
 	"DBCVSWriter.h",
 	"DBCVSReader.h",
 	"DBSObject.h",
-	"DBObjectInspector.h"
+	"DBObjectInspector.h",
+	"DBSoapCSV.h"
     );
     IMAGES = (
     );
@@ -73,7 +75,7 @@
     "PROJECT_GROUP" = "No group avaliable!";
     "PROJECT_MAINTAINER" = "Riccardo Mottola,,,";
     "PROJECT_NAME" = DataBasin;
-    "PROJECT_RELEASE" = "0.4";
+    "PROJECT_RELEASE" = "0.5";
     "PROJECT_SUMMARY" = "No summary avaliable!";
     "PROJECT_TYPE" = Application;
     "PROJECT_URL" = "http://gap.nongnu.org/DataBasin/";

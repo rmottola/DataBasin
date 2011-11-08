@@ -26,6 +26,7 @@
 
 #import "AppController.h"
 #import "DBSoap.h"
+#import "DBSoapCSV.h"
 #import "DBCVSWriter.h"
 #import "DBCVSReader.h"
 
@@ -64,6 +65,8 @@
 
 - (void)dealloc
 {
+  [dbCsv release];
+  [db release];
   [super dealloc];
 }
 
@@ -208,6 +211,8 @@
     password = [password stringByAppendingString:token];
     
   db = [[DBSoap alloc] init];
+  dbCsv = [[DBSoapCSV alloc] init];
+  [dbCsv setDBSoap:db];
   
   urlStr = nil;
   if ([popupEnvironment indexOfSelectedItem] == DB_ENVIRONMENT_PRODUCTION)
@@ -314,7 +319,7 @@
   
   cvsWriter = [[DBCVSWriter alloc] initWithHandle:fileHandle];
   
-  [db query :statement queryAll:([queryAllSelect state] == NSOnState) toWriter:cvsWriter];
+  [dbCsv query :statement queryAll:([queryAllSelect state] == NSOnState) toWriter:cvsWriter];
     
   [cvsWriter release];
   [fileHandle closeFile];
@@ -517,7 +522,7 @@
 
   cvsWriter = [[DBCVSWriter alloc] initWithHandle:fileHandleOut];
 
-  [db queryIdentify :statement queryAll:([queryAllSelectIdentify state] == NSOnState) fromReader:cvsReader toWriter:cvsWriter];
+  [dbCsv queryIdentify :statement queryAll:([queryAllSelectIdentify state] == NSOnState) fromReader:cvsReader toWriter:cvsWriter];
 
   [cvsReader release];
   
@@ -588,7 +593,7 @@
   NSLog(@"object: %@", whichObject);
   
   NS_DURING
-    [db describeSObject:whichObject toWriter:writer];
+    [dbCsv describeSObject:whichObject toWriter:writer];
   NS_HANDLER
     if ([[localException name] hasPrefix:@"DB"])
       {
@@ -698,7 +703,7 @@
   reader = [[DBCVSReader alloc] initWithPath:filePath byParsingHeaders:([checkSkipFirstLine state]==NSOnState)];  
   
   NS_DURING
-    [db deleteFromReader:reader];
+    [dbCsv deleteFromReader:reader];
   NS_HANDLER
     if ([[localException name] hasPrefix:@"DB"])
       {

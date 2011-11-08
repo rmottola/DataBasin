@@ -26,12 +26,15 @@
  
 #import <AppKit/AppKit.h>
 
-#import "DBSoap.h"
 #import "DBObjectInspector.h"
+
+@class DBSoap;
+@class DBSoapCSV;
 
 @interface AppController : NSObject
 {
-  DBSoap   *db;
+  DBSoap    *db;
+  DBSoapCSV *dbCsv;
 
   /* fault panel */
   IBOutlet NSPanel    *faultPanel;

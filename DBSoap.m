@@ -48,10 +48,9 @@
 
   defs = [NSUserDefaults standardUserDefaults];
   [defs registerDefaults:
-    [NSDictionary dictionaryWithObjectsAndKeys:
-      @"80", @"Port",
-      nil]]
-    ;
+	  [NSDictionary dictionaryWithObjectsAndKeys:
+		    @"80", @"Port",
+		  nil]];
 
   /* initialize the coder */
   coder = [GWSSOAPCoder new];
@@ -357,7 +356,8 @@
       queryLocator = [result objectForKey:@"queryLocator"];
       NSLog(@"should do query more, queryLocator: %@", queryLocator);
     }
-  return queryLocator;}
+  return queryLocator;
+}
 
 
 /** <p>Execute SOQL query more and write the resulting DBSObjectes into the <i>objects</i> array
@@ -518,29 +518,84 @@
   return queryLocator;
 }
 
-
-- (void)queryIdentify :(NSString *)queryString with: (NSString *)identifier queryAll:(BOOL)all fromArray:(NSArray *)fromArray toArray:(NSMutableArray *)outArray 
+/**
+  <p>execute a the given query on the objects given in the fromArray.<br>
+  The selection clause is automatically generated to identify the object by the field passed in the array. Only if the field is an unique identifier 
+  the result is a single record, else, more records are returned.<br>
+  The Where clause is either automatically generated if none is present or, if Where is already present, it is appended with an AND operator</p>
+  <p>the parameter <em>withBatchSize</em> selects the querying behaviour:
+  <ul>
+  <li>&lgt; 0:Auto-sizing of the batch, the maximum query size is formed</li>
+  <li>0, 1: A single element is queried with, making the clause Field = 'value'</li>
+  <li>&gt 1: The given batch size is used in a clause like Field in ('value1', 'value2', ... )</li>
+  </ul>
+ */
+- (void)queryIdentify :(NSString *)queryString with: (NSString *)identifier queryAll:(BOOL)all fromArray:(NSArray *)fromArray toArray:(NSMutableArray *)outArray withBatchSize:(int)batchSize
 {
   unsigned i;
+  unsigned j;
+  unsigned b;
   NSMutableArray *resArray;
-
+  BOOL batchable;
+  BOOL autoBatch;
+  
+  batchable = NO;
+  autoBatch = NO;
+  if (batchSize < 0)
+    {
+      autoBatch = YES;
+      batchable = YES;
+    }
+   else if (batchSize > 1)
+     batchable = YES;
+      
   resArray = [[NSMutableArray arrayWithCapacity: 1] retain];
-  for (i = 0; i < [fromArray count]; i++)
+  i = 0;
+  while (i < [fromArray count])
     {
       NSMutableString *completeQuery;
 
       NSLog(@"%u %@", i, [fromArray objectAtIndex: i]);
       [resArray removeAllObjects];
       completeQuery = [[NSMutableString stringWithString: queryString] retain];
-      [completeQuery appendString: @" Where "];
+      if ([queryString rangeOfString:@"WHERE" options:NSCaseInsensitiveSearch].location != NSNotFound)
+	{
+	  [completeQuery appendString: @" AND "];
+	}
+      else
+	{
+	  [completeQuery appendString: @" WHERE "];
+	}
       [completeQuery appendString: identifier];
-      [completeQuery appendString: @" = '"];
-      [completeQuery appendString: [fromArray objectAtIndex: i]];
-      [completeQuery appendString: @"'"];
+      if (!batchable)
+	{
+	  [completeQuery appendString: @" = '"];
+	  [completeQuery appendString: [fromArray objectAtIndex: i]];
+	  [completeQuery appendString: @"'"];
+	  i++;
+	}
+      else
+	{
+	  b = 0;
+	  [completeQuery appendString: @" in ("];
+	  /* we always stay inside the maximum sqoql query size and if we have a batch limit we cap on that */
+	  while (((i < [fromArray count]) && ([completeQuery length] < MAX_SOQL_SIZE-20)) && (autoBatch || (b < batchSize)))
+	    {
+	      [completeQuery appendString: @"'"];
+	      [completeQuery appendString: [fromArray objectAtIndex: i]];
+	      [completeQuery appendString: @"',"];
+	      i++;
+	      b++;
+	    }
+	  if (b > 0)
+	    [completeQuery deleteCharactersInRange: NSMakeRange([completeQuery length]-1, 1)];
+	  [completeQuery appendString: @")"];
+	}
       NSLog(@"query: %@", completeQuery);
 
       [self query:completeQuery queryAll:all toArray:resArray];
-      [outArray addObject: [resArray objectAtIndex: 0]];
+      for (j = 0; j < [resArray count]; j++)
+	[outArray addObject: [resArray objectAtIndex: j]];
       [completeQuery release];
     }
   [resArray release];

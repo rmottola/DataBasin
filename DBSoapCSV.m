@@ -140,7 +140,7 @@
   identifier = [inFieldNames objectAtIndex: 0];
   NSLog(@"identify through %@", identifier);
 
-  [db queryIdentify:queryString with:identifier queryAll:all fromArray:identifierArray toArray: sObjects];
+  [db queryIdentify:queryString with:identifier queryAll:all fromArray:identifierArray toArray: sObjects withBatchSize:-1];
 
   keys = nil;
   batchSize = [sObjects count];

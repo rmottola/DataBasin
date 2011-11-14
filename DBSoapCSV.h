@@ -38,7 +38,7 @@
 
 - (void)setDBSoap: (DBSoap *)dbs;
 - (void)query :(NSString *)queryString queryAll:(BOOL)all toWriter:(DBCVSWriter *)writer;
-- (void)queryIdentify :(NSString *)queryString queryAll:(BOOL)all fromReader:(DBCVSReader *)reader toWriter:(DBCVSWriter *)writer;
+- (void)queryIdentify :(NSString *)queryString queryAll:(BOOL)all fromReader:(DBCVSReader *)reader toWriter:(DBCVSWriter *)writer withBatchSize:(int)bSize;
 - (void)create :(NSString *)objectName fromReader:(DBCVSReader *)reader;
 - (void)update :(NSString *)objectName fromReader:(DBCVSReader *)reader;
 - (NSMutableArray *)deleteFromReader:(DBCVSReader *)reader;

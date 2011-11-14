@@ -493,6 +493,7 @@
   NSFileManager *fileManager;
   DBCVSWriter   *cvsWriter;
   DBCVSReader   *cvsReader;
+  int batchSize;
   
   statement = [fieldQuerySelectIdentify string];
   NSLog(@"%@", statement);
@@ -500,6 +501,26 @@
   NSLog(@"fpi: %@", filePathIn);
   filePathOut = [fieldFileSelectIdentifyOut stringValue];
   NSLog(@"fpo: %@", filePathOut);
+
+  batchSize = 0;
+  switch ([[popupBatchSizeIdentify selectedItem] tag])
+    {
+    case 1:
+      batchSize = 0;
+      break;
+    case 2:
+      batchSize = 10;
+      break;
+    case 3:
+      batchSize = 50;
+      break;
+    case 99:
+      batchSize = -1;
+      break;
+    default:
+      NSLog(@"unexpected batch size");
+    }
+  NSLog(@"batch Size: %d", batchSize);
   
   fileManager = [NSFileManager defaultManager];
 
@@ -522,7 +543,7 @@
 
   cvsWriter = [[DBCVSWriter alloc] initWithHandle:fileHandleOut];
 
-  [dbCsv queryIdentify :statement queryAll:([queryAllSelectIdentify state] == NSOnState) fromReader:cvsReader toWriter:cvsWriter];
+  [dbCsv queryIdentify :statement queryAll:([queryAllSelectIdentify state] == NSOnState) fromReader:cvsReader toWriter:cvsWriter withBatchSize:batchSize];
 
   [cvsReader release];
   

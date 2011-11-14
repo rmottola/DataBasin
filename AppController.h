@@ -84,6 +84,7 @@
   IBOutlet NSTextField   *fieldFileSelectIdentifyIn;
   IBOutlet NSTextField   *fieldFileSelectIdentifyOut;
   IBOutlet NSButton      *queryAllSelectIdentify;
+  IBOutlet NSPopUpButton *popupBatchSizeIdentify;
   
   /* insert */
   IBOutlet NSWindow      *winInsert;

@@ -107,7 +107,10 @@
   [sObjects release];
 }
 
-- (void)queryIdentify :(NSString *)queryString queryAll:(BOOL)all fromReader:(DBCVSReader *)reader toWriter:(DBCVSWriter *)writer 
+/**
+   See DBSoap for informations about the batch size parameter.
+ */
+- (void)queryIdentify :(NSString *)queryString queryAll:(BOOL)all fromReader:(DBCVSReader *)reader toWriter:(DBCVSWriter *)writer withBatchSize:(int)bSize
 {
   NSArray *inFieldNames;
   unsigned inFieldCount;
@@ -140,7 +143,7 @@
   identifier = [inFieldNames objectAtIndex: 0];
   NSLog(@"identify through %@", identifier);
 
-  [db queryIdentify:queryString with:identifier queryAll:all fromArray:identifierArray toArray: sObjects withBatchSize:-1];
+  [db queryIdentify:queryString with:identifier queryAll:all fromArray:identifierArray toArray: sObjects withBatchSize:bSize];
 
   keys = nil;
   batchSize = [sObjects count];

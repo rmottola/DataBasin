@@ -68,6 +68,7 @@
 	    fieldFileSelectIdentifyIn,
 	    fieldFileSelectIdentifyOut,
 	    queryAllSelectIdentify,
+	    popupBatchSizeIdentify,
 	    winInsert,
 	    fieldFileInsert,
 	    popupObjectsInsert,

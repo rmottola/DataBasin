@@ -34,9 +34,12 @@
 @interface DBSoapCSV : NSObject
 {
   DBSoap *db;
+  BOOL useQuoting;
 }
 
 - (void)setDBSoap: (DBSoap *)dbs;
+- (void)setUseQuoting: (BOOL)flag;
+- (BOOL)useQuoting;
 - (void)query :(NSString *)queryString queryAll:(BOOL)all toWriter:(DBCVSWriter *)writer;
 - (void)queryIdentify :(NSString *)queryString queryAll:(BOOL)all fromReader:(DBCVSReader *)reader toWriter:(DBCVSWriter *)writer withBatchSize:(int)bSize;
 - (void)create :(NSString *)objectName fromReader:(DBCVSReader *)reader;

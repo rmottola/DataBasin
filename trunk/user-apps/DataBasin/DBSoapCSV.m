@@ -30,9 +30,28 @@
 
 @implementation DBSoapCSV
 
+- (id)init
+{
+  if ((self = [super init]))
+    {
+      useQuoting = NO;
+    }
+  return self;
+}
+
 - (void)setDBSoap: (DBSoap *)dbs
 {
   db = dbs;
+}
+
+- (void)setUseQuoting: (BOOL)flag
+{
+  useQuoting = flag;
+}
+
+- (BOOL)useQuoting
+{
+  return useQuoting;
 }
 
 - (void)query :(NSString *)queryString queryAll:(BOOL)all toWriter:(DBCVSWriter *)writer

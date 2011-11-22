@@ -31,7 +31,7 @@
   if ((self = [super init]))
     {
       file = fileHandle;
-      isQualified = NO;
+      isQualified = YES;
       qualifier = @"\"";
       separator = @",";
       newLine = @"\n";
@@ -40,6 +40,16 @@
       //      bomLength = 3;
    }
   return self;
+}
+
+- (void)setIsQualified: (BOOL)flag
+{
+  isQualified = flag;
+}
+
+- (BOOL)isQualified
+{
+  return isQualified;
 }
 
 - (void)setStringEncoding: (NSStringEncoding) enc
@@ -112,20 +122,22 @@
 - (NSString *)formatOneLine:(NSArray *)values
 {
   NSMutableString *theLine;
+  NSString *escapedQualifier;
   int      size;
   int      i;
+  id obj;
   
   size = [values count];
 
   if (size == 0)
     return nil;
 
+  escapedQualifier = [qualifier stringByAppendingString: qualifier];
+
   theLine = [[NSMutableString alloc] initWithCapacity:64];
-    
-  for (i = 0; i < size-1; i++)
-    {
-      id obj;
-      
+
+  for (i = 0; i < size; i++)
+    { 
       obj = [values objectAtIndex:i];
       if ([obj isKindOfClass: [NSDictionary class]])
         {
@@ -134,13 +146,32 @@
         }
       else if ([obj isKindOfClass: [NSString class]])
         {
-          [theLine appendString: obj];
+	  if (isQualified)
+	    {
+	      NSMutableString *s;
+
+	      s = [[NSMutableString alloc] initWithCapacity: [obj length]+2];
+	      [s appendString: qualifier]; 
+	      [s appendString: obj];
+
+	      [s replaceOccurrencesOfString: qualifier withString: escapedQualifier options:(unsigned)NULL range: NSMakeRange(1, [s length]-1)];
+	      [s appendString: qualifier];
+
+	      [theLine appendString: s];
+	      [s release];
+	    }
+	  else
+	    {
+	      [theLine appendString: obj];
+	    }
         }
       else
         NSLog(@"unknown class of value: %@", [obj class]);
-      [theLine appendString: separator];
+
+      if (i < size-1)
+	[theLine appendString: separator];
     }
-  [theLine appendString:[values objectAtIndex:i]];
+
   [theLine appendString:newLine];
   return [theLine autorelease];
 }

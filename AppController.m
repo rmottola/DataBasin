@@ -369,7 +369,7 @@
   reader = [[DBCVSReader alloc] initWithPath:filePath];
   
   NS_DURING
-    [db create:intoWhichObject fromReader:reader];
+    [dbCsv create:intoWhichObject fromReader:reader];
   NS_HANDLER
     if ([[localException name] hasPrefix:@"DB"])
       {

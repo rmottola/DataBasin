@@ -601,8 +601,11 @@
   [resArray release];
 }
 
-
-- (void)create :(NSString *)objectName fromReader:(DBCVSReader *)reader
+/**
+  insert an array of DBSObjects.<br>
+  The objects in the array shall all be of the same type.
+ */
+- (void)create :(NSString *)objectName fromArray:(NSMutableArray *)objects
 {
   NSMutableDictionary   *headerDict;
   NSMutableDictionary   *sessionHeaderDict;
@@ -618,20 +621,14 @@
   NSDictionary          *queryFault;
   NSString              *sizeStr;
   int                   size;
-  NSArray               *objectsArray;
-  NSArray               *fieldValues;
   NSArray               *fieldNames;
   int                   fieldCount;
   NSMutableArray        *queryObjectsArray;
   NSMutableDictionary   *queryObjectsDict;
+  DBSObject             *sObject;
 
-  /* retrieve objects to create */
-  
-  /* first the fields */
-  fieldNames = [reader fieldNames];
-  fieldCount = [fieldNames count];
-  objectsArray = [reader readDataSet];
-  
+  if ([objects count] == 0)
+    return;
   
   
   /* prepare the header */
@@ -647,11 +644,11 @@
   queryParmDict = [NSMutableDictionary dictionaryWithCapacity: 2];
   [queryParmDict setObject: @"urn:partner.soap.sforce.com" forKey: GWSSOAPNamespaceURIKey];
   
-  NSLog(@"objectsArray: %@", objectsArray);
-  queryObjectsArray = [NSMutableArray arrayWithCapacity: [objectsArray count]]; /* maybe a static array could be used here */
+  NSLog(@"create objects array: %@", objects);
+  queryObjectsArray = [NSMutableArray arrayWithCapacity: [objects count]]; /* maybe a static array could be used here */
   
-  enumerator = [objectsArray objectEnumerator];
-  while ((fieldValues = [enumerator nextObject]))
+  enumerator = [objects objectEnumerator];
+  while ((sObject = [enumerator nextObject]))
   {
     unsigned int i;
     NSMutableDictionary *sObj;
@@ -669,16 +666,20 @@
     [sObj setObject: sObjType forKey:@"type"];
     [sObjKeyOrder addObject:@"type"];
 
+    fieldNames = [sObject fieldNames];
+    fieldCount = [fieldNames count];
+
     for (i = 0; i < fieldCount; i++)
       {
-	//        NSLog(@"%@: %@ - %@", objectName, [fieldNames objectAtIndex:i], [fieldValues objectAtIndex:i]);
-        [sObj setObject: [fieldValues objectAtIndex:i] forKey: [fieldNames objectAtIndex:i]];
-        [sObjKeyOrder addObject:[fieldNames objectAtIndex:i]];
+	NSString *keyName;
+
+	keyName = [fieldNames objectAtIndex:i];
+        [sObj setObject: [sObject fieldValue:keyName] forKey:keyName];
+        [sObjKeyOrder addObject:keyName];
       }
     [sObj setObject: sObjKeyOrder forKey: GWSOrderKey];
     [queryObjectsArray addObject: sObj];
   }
-
 
   queryObjectsDict = [NSDictionary dictionaryWithObjectsAndKeys: queryObjectsArray, GWSSOAPValueKey, nil];
 
@@ -688,17 +689,16 @@
   [parmsDict setObject: queryParmDict forKey: @"create"];
   [parmsDict setObject: headerDict forKey:GWSSOAPMessageHeadersKey];
 
-  
   /* make the query */  
   resultDict = [service invokeMethod: @"create"
                 parameters : parmsDict
 		order : nil
 		timeout : 90];
   
-//  NSLog(@"request: %@", [[NSString alloc] initWithData: [resultDict objectForKey:@"GWSCoderRequestData"] encoding: NSUTF8StringEncoding]);
+  //  NSLog(@"request: %@", [[NSString alloc] initWithData: [resultDict objectForKey:@"GWSCoderRequestData"] encoding: NSUTF8StringEncoding]);
   
 
-  NSLog(@"dict is %d big", [resultDict count]);
+  NSLog(@"create result dict is %d big", [resultDict count]);
 
   enumerator = [resultDict keyEnumerator];
   while ((key = [enumerator nextObject]))
@@ -727,7 +727,6 @@
   records = [result objectForKey:@"records"];
   sizeStr = [result objectForKey:@"size"];
  
-
 
   if (sizeStr != nil)
     {

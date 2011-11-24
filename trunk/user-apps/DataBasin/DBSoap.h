@@ -46,6 +46,9 @@
   NSArray  *sObjectList;
   /* list of all object names, custom and not */
   NSMutableArray  *sObjectNamesList;
+
+  /* create, update, upsert batch size */
+  unsigned upBatchSize;
 }
 
 - (void)login :(NSURL *)url :(NSString *)userName :(NSString *)password :(BOOL)useHttps;
@@ -54,8 +57,8 @@
 - (NSString *)query :(NSString *)queryString queryAll:(BOOL)all toArray:(NSMutableArray *)objects;
 - (NSString *)queryMore :(NSString *)locator toArray:(NSMutableArray *)objects;
 - (void)queryIdentify :(NSString *)queryString with: (NSString *)identifier queryAll:(BOOL)all fromArray:(NSArray *)fromArray toArray:(NSMutableArray *)outArray withBatchSize:(int)batchSize;
-- (void)create :(NSString *)objectName fromReader:(DBCVSReader *)reader;
-- (void)update :(NSString *)objectName fromReader:(DBCVSReader *)reader;
+- (void)create :(NSString *)objectName fromArray:(NSMutableArray *)objects;
+- (void)update :(NSString *)objectName fromArray:(NSMutableArray *)objects;
 - (NSMutableArray *)delete :(NSArray *)objectIdArray;
 - (NSArray *)describeGlobal;
 - (NSArray *)sObjects;

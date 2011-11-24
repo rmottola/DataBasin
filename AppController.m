@@ -332,7 +332,16 @@
 {
   NSArray *objectNames;
 
-  objectNames = [db sObjectNames];
+  objectNames = nil;
+  NS_DURING
+    objectNames = [db sObjectNames];
+  NS_HANDLER
+    if ([[localException name] hasPrefix:@"DB"])
+      {
+        [faultTextView setString:[localException reason]];
+        [faultPanel makeKeyAndOrderFront:nil];
+      }
+  NS_ENDHANDLER
   [popupObjectsInsert removeAllItems];
   [popupObjectsInsert addItemsWithTitles: objectNames];
 
@@ -387,11 +396,11 @@
 
 - (IBAction)showUpdate:(id)sender
 {
-  NSArray      *objectsArray;
+  NSArray      *objectNames;
   
-  objectsArray  = nil;
+  objectNames  = nil;
   NS_DURING
-    objectsArray = [db describeGlobal];
+    objectNames = [db sObjectNames];
   NS_HANDLER
     if ([[localException name] hasPrefix:@"DB"])
       {
@@ -400,7 +409,7 @@
       }
   NS_ENDHANDLER
   [popupObjectsUpdate removeAllItems];
-  [popupObjectsUpdate addItemsWithTitles: objectsArray];
+  [popupObjectsUpdate addItemsWithTitles: objectNames];
     
   [winUpdate makeKeyAndOrderFront:self];
 }
@@ -435,7 +444,7 @@
   reader = [[DBCVSReader alloc] initWithPath:filePath];
   
   NS_DURING
-    [db update:whichObject fromReader:reader];
+    [dbCsv update:whichObject fromReader:reader];
   NS_HANDLER
     if ([[localException name] hasPrefix:@"DB"])
       {

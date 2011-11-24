@@ -216,6 +216,44 @@
   [sObjectsArray release];
 }
 
+- (void)update :(NSString *)objectName fromReader:(DBCVSReader *)reader
+{
+  NSEnumerator          *enumerator;
+  NSArray               *objectsArray;
+  NSArray               *fieldValues;
+  NSArray               *fieldNames;
+  int                   fieldCount;
+  NSMutableArray        *sObjectsArray;
+
+  /* retrieve objects to update */
+  
+  /* first the fields */
+  fieldNames = [reader fieldNames];
+  fieldCount = [fieldNames count];
+  objectsArray = [reader readDataSet];
+  
+
+  sObjectsArray = [[NSMutableArray arrayWithCapacity: [objectsArray count]] retain];
+  
+  enumerator = [objectsArray objectEnumerator];
+  while ((fieldValues = [enumerator nextObject]))
+  {
+    unsigned int i;
+    DBSObject *sObj;
+
+    sObj = [[DBSObject alloc] init];
+  
+    for (i = 0; i < fieldCount; i++)
+      [sObj setValue: [fieldValues objectAtIndex:i] forField: [fieldNames objectAtIndex:i]];
+ 
+    [sObjectsArray addObject: sObj];
+    [sObj release];
+  }
+
+  [db update:objectName fromArray:sObjectsArray];
+  [sObjectsArray release];
+}
+
 - (void)describeSObject: (NSString *)objectType toWriter:(DBCVSWriter *)writer
 {
   int            i;

@@ -793,7 +793,7 @@
   if ([objects count] == 0)
     return;
   
-  upBatchSize = 2; // FIXME ########
+  upBatchSize = 1; // FIXME ########
 
   /* prepare the header */
   sessionHeaderDict = [[NSMutableDictionary dictionaryWithCapacity: 2] retain];
@@ -827,36 +827,33 @@
     NSString            *sizeStr;
     int                 size;
 
-    if (sObject != nil && batchCounter < upBatchSize)
+    NSLog(@"inner cycle: %d", batchCounter);
+    sObj = [NSMutableDictionary dictionaryWithCapacity: 2];
+    [sObj setObject: @"urn:partner.soap.sforce.com" forKey: GWSSOAPNamespaceURIKey];
+    sObjKeyOrder = [NSMutableArray arrayWithCapacity: 2];
+
+    /* each objects needs its type specifier which has its own namespace */
+    sObjType = [NSMutableDictionary dictionaryWithCapacity: 2];
+    [sObjType setObject: @"urn:sobject.partner.soap.sforce.com" forKey: GWSSOAPNamespaceURIKey];
+    [sObjType setObject: objectName forKey:GWSSOAPValueKey];
+    [sObj setObject: sObjType forKey:@"type"];
+    [sObjKeyOrder addObject:@"type"];
+
+    fieldNames = [sObject fieldNames];
+    fieldCount = [fieldNames count];
+
+    for (i = 0; i < fieldCount; i++)
       {
-	NSLog(@"inner cycle: %d", batchCounter);
-	sObj = [NSMutableDictionary dictionaryWithCapacity: 2];
-	[sObj setObject: @"urn:partner.soap.sforce.com" forKey: GWSSOAPNamespaceURIKey];
-	sObjKeyOrder = [NSMutableArray arrayWithCapacity: 2];
+	NSString *keyName;
 
-	/* each objects needs its type specifier which has its own namespace */
-	sObjType = [NSMutableDictionary dictionaryWithCapacity: 2];
-	[sObjType setObject: @"urn:sobject.partner.soap.sforce.com" forKey: GWSSOAPNamespaceURIKey];
-	[sObjType setObject: objectName forKey:GWSSOAPValueKey];
-	[sObj setObject: sObjType forKey:@"type"];
-	[sObjKeyOrder addObject:@"type"];
-
-	fieldNames = [sObject fieldNames];
-	fieldCount = [fieldNames count];
-
-	for (i = 0; i < fieldCount; i++)
-	  {
-	    NSString *keyName;
-
-	    keyName = [fieldNames objectAtIndex:i];
-	    [sObj setObject: [sObject fieldValue:keyName] forKey:keyName];
-	    [sObjKeyOrder addObject:keyName];
-	  }
-	[sObj setObject: sObjKeyOrder forKey: GWSOrderKey];
-	[queryObjectsArray addObject: sObj];
-	batchCounter++;
+	keyName = [fieldNames objectAtIndex:i];
+	[sObj setObject: [sObject fieldValue:keyName] forKey:keyName];
+	[sObjKeyOrder addObject:keyName];
       }
-    else
+    [sObj setObject: sObjKeyOrder forKey: GWSOrderKey];
+    [queryObjectsArray addObject: sObj];
+
+    if (batchCounter == upBatchSize)
       {
 	/* prepare the parameters */
 	queryParmDict = [NSMutableDictionary dictionaryWithCapacity: 2];
@@ -894,10 +891,11 @@
 	    [[NSException exceptionWithName:@"DBException" reason:faultString userInfo:nil] raise];
 	  }
 
+
 	queryResult = [resultDict objectForKey:@"GWSCoderParameters"];
 	result = [queryResult objectForKey:@"result"];
 	NSLog(@"result: %@", result);
-
+#if 0
 	records = [result objectForKey:@"records"];
 	sizeStr = [result objectForKey:@"size"];
  
@@ -945,11 +943,15 @@
 	    /* we don't do yet anything useful with the results... */
 	    [set release];
 	  }
+#endif
 	NSLog(@"reiniting cycle...");
 	[queryObjectsArray removeAllObjects];
 	batchCounter = 0;
       }
-
+    else
+      {
+	batchCounter++;
+      }
     NSLog(@"outer cycle....");
   } /* while: outer global object enumerator cycle */
   NSLog(@"outer cycle ended %@", sObject);

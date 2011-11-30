@@ -609,52 +609,51 @@
 {
   NSMutableDictionary   *headerDict;
   NSMutableDictionary   *sessionHeaderDict;
-  NSMutableDictionary   *parmsDict;
-  NSMutableDictionary   *queryParmDict;
   NSDictionary          *resultDict;
   NSEnumerator          *enumerator;
-  NSString              *key;
   NSDictionary          *queryResult;
-  NSDictionary          *result;
-  NSArray               *records;
-  NSDictionary          *record;
-  NSDictionary          *queryFault;
-  NSString              *sizeStr;
-  int                   size;
   NSArray               *fieldNames;
   int                   fieldCount;
   NSMutableArray        *queryObjectsArray;
-  NSMutableDictionary   *queryObjectsDict;
   DBSObject             *sObject;
+  unsigned              batchCounter;
 
   if ([objects count] == 0)
     return;
   
+  upBatchSize = 1; // FIXME ########
   
   /* prepare the header */
-  sessionHeaderDict = [NSMutableDictionary dictionaryWithCapacity: 2];
+  sessionHeaderDict = [[NSMutableDictionary dictionaryWithCapacity: 2] retain];
   [sessionHeaderDict setObject: sessionId forKey: @"sessionId"];
   [sessionHeaderDict setObject: @"urn:partner.soap.sforce.com" forKey: GWSSOAPNamespaceURIKey];
 
-  headerDict = [NSMutableDictionary dictionaryWithCapacity: 2];
+  headerDict = [[NSMutableDictionary dictionaryWithCapacity: 2] retain];
   [headerDict setObject: sessionHeaderDict forKey: @"SessionHeader"];
   [headerDict setObject: GWSSOAPUseLiteral forKey: GWSSOAPUseKey];
-  
-  /* prepare the parameters */
-  queryParmDict = [NSMutableDictionary dictionaryWithCapacity: 2];
-  [queryParmDict setObject: @"urn:partner.soap.sforce.com" forKey: GWSSOAPNamespaceURIKey];
-  
-  NSLog(@"create objects array: %@", objects);
-  queryObjectsArray = [NSMutableArray arrayWithCapacity: [objects count]]; /* maybe a static array could be used here */
-  
+    
   enumerator = [objects objectEnumerator];
+  batchCounter = 0;
+  queryObjectsArray = [[NSMutableArray arrayWithCapacity: upBatchSize] retain];
   while ((sObject = [enumerator nextObject]))
   {
-    unsigned int i;
+    unsigned            i;
     NSMutableDictionary *sObj;
     NSMutableDictionary *sObjType;
     NSMutableArray      *sObjKeyOrder;
+    NSMutableDictionary *queryObjectsDict;
+    NSMutableDictionary *parmsDict;
+    NSMutableDictionary *queryParmDict;
+    NSDictionary        *result;
+    NSArray             *records;
+    NSDictionary        *record;
+    NSDictionary        *queryFault;
+    NSString            *sizeStr;
+    int                 size;
+
     
+    
+    NSLog(@"inner cycle: %d", batchCounter);
     sObj = [NSMutableDictionary dictionaryWithCapacity: 2];
     [sObj setObject: @"urn:partner.soap.sforce.com" forKey: GWSSOAPNamespaceURIKey];
     sObjKeyOrder = [NSMutableArray arrayWithCapacity: 2];
@@ -679,104 +678,120 @@
       }
     [sObj setObject: sObjKeyOrder forKey: GWSOrderKey];
     [queryObjectsArray addObject: sObj];
-  }
 
-  queryObjectsDict = [NSDictionary dictionaryWithObjectsAndKeys: queryObjectsArray, GWSSOAPValueKey, nil];
+    if (batchCounter == upBatchSize-1)
+      {
+	/* prepare the parameters */
+	queryParmDict = [NSMutableDictionary dictionaryWithCapacity: 2];
+	[queryParmDict setObject: @"urn:partner.soap.sforce.com" forKey: GWSSOAPNamespaceURIKey];
+	
+	NSLog(@"create objects array: %@", objects);
 
-  [queryParmDict setObject: queryObjectsDict forKey: @"sObjects"];
+	queryObjectsDict = [NSDictionary dictionaryWithObjectsAndKeys: queryObjectsArray, GWSSOAPValueKey, nil];
+
+	[queryParmDict setObject: queryObjectsDict forKey: @"sObjects"];
   
-  parmsDict = [NSMutableDictionary dictionaryWithCapacity: 1];
-  [parmsDict setObject: queryParmDict forKey: @"create"];
-  [parmsDict setObject: headerDict forKey:GWSSOAPMessageHeadersKey];
+	parmsDict = [NSMutableDictionary dictionaryWithCapacity: 1];
+	[parmsDict setObject: queryParmDict forKey: @"create"];
+	[parmsDict setObject: headerDict forKey:GWSSOAPMessageHeadersKey];
 
-  /* make the query */  
-  resultDict = [service invokeMethod: @"create"
-                parameters : parmsDict
-		order : nil
-		timeout : 90];
+	/* make the query */  
+	resultDict = [service invokeMethod: @"create"
+			       parameters : parmsDict
+				    order : nil
+				  timeout : 90];
   
-  //  NSLog(@"request: %@", [[NSString alloc] initWithData: [resultDict objectForKey:@"GWSCoderRequestData"] encoding: NSUTF8StringEncoding]);
+	//  NSLog(@"request: %@", [[NSString alloc] initWithData: [resultDict objectForKey:@"GWSCoderRequestData"] encoding: NSUTF8StringEncoding]);
   
 
-  NSLog(@"create result dict is %d big", [resultDict count]);
-
-  enumerator = [resultDict keyEnumerator];
-  while ((key = [enumerator nextObject]))
-  {
-    NSLog(@"%@ - %@", key, [resultDict objectForKey:key]); 
-  }
+	NSLog(@"create result dict is %d big", [resultDict count]);
   
-  queryFault = [resultDict objectForKey:@"GWSCoderFault"];
-  if (queryFault != nil)
-    {
-      NSString *faultCode;
-      NSString *faultString;
+	queryFault = [resultDict objectForKey:@"GWSCoderFault"];
+	if (queryFault != nil)
+	  {
+	    NSString *faultCode;
+	    NSString *faultString;
 
 
-      faultCode = [queryFault objectForKey:@"faultcode"];
-      faultString = [queryFault objectForKey:@"faultstring"];
-      NSLog(@"fault code: %@", faultCode);
-      NSLog(@"fault String: %@", faultString);
-      [[NSException exceptionWithName:@"DBException" reason:faultString userInfo:nil] raise];
-    }
+	    faultCode = [queryFault objectForKey:@"faultcode"];
+	    faultString = [queryFault objectForKey:@"faultstring"];
+	    NSLog(@"fault code: %@", faultCode);
+	    NSLog(@"fault String: %@", faultString);
+	    [[NSException exceptionWithName:@"DBException" reason:faultString userInfo:nil] raise];
+	  }
 
-  queryResult = [resultDict objectForKey:@"GWSCoderParameters"];
-  result = [queryResult objectForKey:@"result"];
-  NSLog(@"result: %@", result);
+	queryResult = [resultDict objectForKey:@"GWSCoderParameters"];
+	result = [queryResult objectForKey:@"result"];
+	NSLog(@"result: %@", result);
 
-  records = [result objectForKey:@"records"];
-  sizeStr = [result objectForKey:@"size"];
+	records = [result objectForKey:@"records"];
+	sizeStr = [result objectForKey:@"size"];
  
 
-  if (sizeStr != nil)
-    {
-      int            i;
-      int            j;
-      int    batchSize;
-      NSMutableArray *keys;
-      NSMutableArray *set;
+	if (sizeStr != nil)
+	  {
+	    int            i;
+	    int            j;
+	    int    batchSize;
+	    NSMutableArray *keys;
+	    NSMutableArray *set;
       
       
-      size = [sizeStr intValue];
-      batchSize = [records count];
-      NSLog(@"Declared size is: %d", size);
-      NSLog(@"records size is: %d", batchSize);
+	    size = [sizeStr intValue];
+	    batchSize = [records count];
+	    NSLog(@"Declared size is: %d", size);
+	    NSLog(@"records size is: %d", batchSize);
       
-      /* let's get the fields from the keys of the first record */
-      record = [records objectAtIndex:0];
-      keys = [NSMutableArray arrayWithArray:[record allKeys]];
-      [keys removeObject:@"GWSCoderOrder"];
+	    /* let's get the fields from the keys of the first record */
+	    record = [records objectAtIndex:0];
+	    keys = [NSMutableArray arrayWithArray:[record allKeys]];
+	    [keys removeObject:@"GWSCoderOrder"];
 
-      NSLog(@"keys: %@", keys);
+	    NSLog(@"keys: %@", keys);
       
-      set = [[NSMutableArray alloc] init];
+	    set = [[NSMutableArray alloc] init];
       
-      /* now cycle all the records and read out the fields */
-      for (i = 0; i < batchSize; i++)
-        {
-          NSMutableArray *values;
+	    /* now cycle all the records and read out the fields */
+	    for (i = 0; i < batchSize; i++)
+	      {
+		NSMutableArray *values;
 	  
-          record = [records objectAtIndex:i];
-          values = [NSMutableArray arrayWithCapacity:[keys count]];
-          for (j = 0; j < [keys count]; j++)
-            {
-              NSString *value;
+		record = [records objectAtIndex:i];
+		values = [NSMutableArray arrayWithCapacity:[keys count]];
+		for (j = 0; j < [keys count]; j++)
+		  {
+		    NSString *value;
 	      
-              value = [record objectForKey:[keys objectAtIndex:j]];
-              [values addObject:value];
-            }
-          NSLog(@"%d: %@", i, values);
-          [set addObject:values];
-        }
-      /* we don't do yet anything useful with the results... */
-      [set release];
-    }
+		    value = [record objectForKey:[keys objectAtIndex:j]];
+		    [values addObject:value];
+		  }
+		NSLog(@"%d: %@", i, values);
+		[set addObject:values];
+	      }
+	    /* we don't do yet anything useful with the results... */
+	    [set release];
+	  }
+	NSLog(@"reiniting cycle...");
+	[queryObjectsArray removeAllObjects];
+	batchCounter = 0;
+      }
+    else /* of batch */
+      {
+	batchCounter++;
+      }
+  }
+  NSLog(@"Outer cycle ended");
+  [queryObjectsArray release];
+  [sessionHeaderDict release];
+  [headerDict release];
 }
 
 
 /**
-  update an array of DBSObjects.<br>
+  <p>Update an array of DBSObjects.<br>
   The objects in the array shall all be of the same type.
+  </p>
+  <p>The batch size sent is determined by the upBatchSize property of the class</p>
  */
 - (void)update :(NSString *)objectName fromArray:(NSMutableArray *)objects
 {
@@ -853,7 +868,7 @@
     [sObj setObject: sObjKeyOrder forKey: GWSOrderKey];
     [queryObjectsArray addObject: sObj];
 
-    if (batchCounter == upBatchSize)
+    if (batchCounter == upBatchSize-1)
       {
 	/* prepare the parameters */
 	queryParmDict = [NSMutableDictionary dictionaryWithCapacity: 2];
@@ -948,7 +963,7 @@
 	[queryObjectsArray removeAllObjects];
 	batchCounter = 0;
       }
-    else
+    else /* of batch */
       {
 	batchCounter++;
       }

@@ -1,7 +1,7 @@
 /*
    Project: DataBasin
 
-   Copyright (C) 2009-2010 Free Software Foundation
+   Copyright (C) 2009-2011 Free Software Foundation
 
    Author: Riccardo Mottola
 
@@ -68,25 +68,9 @@
 
 - (NSArray *)getFieldNames:(NSString *)firstLine
 {
-  NSScanner      *scanner;
   NSMutableArray *record;
-  NSString       *field;
-  
-  scanner = [NSScanner scannerWithString:firstLine];
-  record = [NSMutableArray arrayWithCapacity:1];
 
-  while([scanner scanUpToString:separator intoString:&field] == YES)
-    {
-      NSLog(@"field: %@", field);
-      [record addObject:field];
-      [scanner scanString:separator intoString:(NSString **)nil];
-    }
-/*  field = [firstLine substringFromIndex:[scanner scanLocation]];
-  if (field != nil)
-    {
-      NSLog(@"field: %@", field);
-      [record addObject:field];
-    } */
+  record = [self decodeOneLine:firstLine];
     
   NSLog(@"header %@", record);
   return record;
@@ -128,12 +112,6 @@
       [record addObject:field];
       [scanner scanString:separator intoString:(NSString **)nil];
     }
-/*  field = [line substringFromIndex:[scanner scanLocation]];
-  if (field != nil)
-    {
-      NSLog(@"field: %@", field);
-      [record addObject:field];
-    }  */
   return record;
 }
 

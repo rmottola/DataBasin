@@ -1,7 +1,7 @@
 /*
    Project: DataBasin
 
-   Copyright (C) 2008-2011 Free Software Foundation
+   Copyright (C) 2008-2012 Free Software Foundation
 
    Author: Riccardo Mottola
 
@@ -29,6 +29,7 @@
 #import "DBCVSReader.h"
 
 #define MAX_SOQL_SIZE 9000
+#define MAX_BATCH_SIZE 200
 
 @class DBSObject;
 

@@ -1,7 +1,7 @@
 /*
    Project: DataBasin
 
-   Copyright (C) 2008-2011 Free Software Foundation
+   Copyright (C) 2008-2012 Free Software Foundation
 
    Author: Riccardo Mottola
 
@@ -1260,15 +1260,15 @@
 {
   NSMutableDictionary   *headerDict;
   NSMutableDictionary   *sessionHeaderDict;
-  NSMutableDictionary   *parmsDict;
-  NSMutableDictionary   *queryParmDict;
-  NSDictionary          *resultDict;
-  NSDictionary          *queryResult;
-  NSDictionary          *result;
-  NSDictionary          *queryFault;
-  NSMutableArray        *queryObjectsDict;
   NSMutableArray        *resultArray;
-  
+  NSEnumerator          *enumerator;
+  unsigned              batchCounter;
+  NSMutableArray        *batchObjArray;
+  NSString              *idStr;
+
+  if ([objectIdArray count] == 0)
+    return nil;
+  NSLog(@"deleting %u objects...", [objectIdArray count]);
   /* prepare the header */
   sessionHeaderDict = [NSMutableDictionary dictionaryWithCapacity: 2];
   [sessionHeaderDict setObject: sessionId forKey: @"sessionId"];
@@ -1277,97 +1277,128 @@
   headerDict = [NSMutableDictionary dictionaryWithCapacity: 2];
   [headerDict setObject: sessionHeaderDict forKey: @"SessionHeader"];
   [headerDict setObject: GWSSOAPUseLiteral forKey: GWSSOAPUseKey];
-  
-  /* prepare the parameters */
-  queryParmDict = [NSMutableDictionary dictionaryWithCapacity: 2];
-  [queryParmDict setObject: @"urn:partner.soap.sforce.com" forKey: GWSSOAPNamespaceURIKey];
-  
-  queryObjectsDict = [NSDictionary dictionaryWithObjectsAndKeys: objectIdArray, GWSSOAPValueKey, nil];
 
-  [queryParmDict setObject: queryObjectsDict forKey: @"ids"];
+  enumerator = [objectIdArray objectEnumerator];
+  batchCounter = 0;
+  batchObjArray = [[NSMutableArray arrayWithCapacity: MAX_BATCH_SIZE] retain];
+  resultArray = [[NSMutableArray arrayWithCapacity:1] retain];
   
-  parmsDict = [NSMutableDictionary dictionaryWithCapacity: 1];
-  [parmsDict setObject: queryParmDict forKey: @"delete"];
-  [parmsDict setObject: headerDict forKey:GWSSOAPMessageHeadersKey];
-
-  
-  /* make the query */  
-  resultDict = [service invokeMethod: @"delete"
-                parameters : parmsDict
-		order : nil
-		timeout : 90];
-
-  queryFault = [resultDict objectForKey:@"GWSCoderFault"];
-  if (queryFault != nil)
+  do
     {
-      NSString *faultCode;
-      NSString *faultString;
+      NSMutableDictionary   *parmsDict;
+      NSMutableDictionary   *queryParmDict;
+      NSDictionary          *resultDict;
+      NSDictionary          *queryResult;
+      NSDictionary          *result;
+      NSDictionary          *queryFault;
+      NSMutableArray        *queryObjectsDict;
 
-      faultCode = [queryFault objectForKey:@"faultcode"];
-      faultString = [queryFault objectForKey:@"faultstring"];
-      NSLog(@"fault code: %@", faultCode);
-      NSLog(@"fault String: %@", faultString);
-      [[NSException exceptionWithName:@"DBException" reason:faultString userInfo:nil] raise];
-    }
-  
-  queryResult = [resultDict objectForKey:@"GWSCoderParameters"];
-  result = [queryResult objectForKey:@"result"];
-  NSLog(@"result: %@", result);
-  
-  resultArray = nil;
-
-  if (result != nil)
-    {
-      id resultRow;
-      NSEnumerator   *objEnu;
-      NSDictionary   *rowDict;
-
-      /* if only one element gets returned, GWS can't interpret it as an array */
-      if (!([result isKindOfClass: [NSArray class]]))
-         result = [NSArray arrayWithObject: result];
-         
-      resultArray = [[NSMutableArray arrayWithCapacity:1] retain];
-      objEnu = [result objectEnumerator];
-      while ((resultRow = [objEnu nextObject]))
-        {
-          id message;
-          id success;
-          id errors;
-          id statusCode;
-          id sfId;
-
-          errors = [resultRow objectForKey:@"errors"];
-          message  = [errors objectForKey:@"message"];          
-          statusCode = [errors objectForKey:@"statusCode"]; 
-          success = [resultRow objectForKey:@"success"];
-          sfId = [resultRow objectForKey:@"id"];
-
-          NSLog(@"resultRow: %@", resultRow);
-          NSLog(@"errors: %@", errors);
-          NSLog(@"success: %@", success);
-          NSLog(@"message: %@", message);
-          NSLog(@"statusCode: %@", statusCode);
-          NSLog(@"id: %@", sfId);
-
-          if ([success isEqualToString:@"true"])
-            {
-              rowDict = [NSDictionary dictionaryWithObjectsAndKeys:
-                success, @"success",
-                sfId, @"id",
-                nil];            
-            }
-          else
-            {
-              rowDict = [NSDictionary dictionaryWithObjectsAndKeys:
-                success, @"success",
-                message, @"message",
-                statusCode, @"statusCode",
-                nil];
-            }
-	  [resultArray addObject:rowDict];
+      idStr = [enumerator nextObject];
+      if (idStr)
+	{
+	  [batchObjArray addObject: idStr];
+	  batchCounter++;
 	}
-  }
-  NSLog(@"result array: %@", resultArray);
+      /* did we fill a batch or did we reach the end? */
+      if (batchCounter == MAX_BATCH_SIZE || !idStr)
+	{
+	  NSLog(@"batch obj-> %@", batchObjArray);
+	  
+	  /* prepare the parameters */
+	  queryParmDict = [NSMutableDictionary dictionaryWithCapacity: 2];
+	  [queryParmDict setObject: @"urn:partner.soap.sforce.com" forKey: GWSSOAPNamespaceURIKey];
+	  
+	  queryObjectsDict = [NSDictionary dictionaryWithObjectsAndKeys: batchObjArray, GWSSOAPValueKey, nil];
+	  NSLog(@"Inner delete cycle. Deleting %u objects", [batchObjArray count]);
+	  [queryParmDict setObject: queryObjectsDict forKey: @"ids"];
+	  
+	  parmsDict = [NSMutableDictionary dictionaryWithCapacity: 1];
+	  [parmsDict setObject: queryParmDict forKey: @"delete"];
+	  [parmsDict setObject: headerDict forKey:GWSSOAPMessageHeadersKey];  
+  
+	  /* make the query */  
+	  resultDict = [service invokeMethod: @"delete"
+				 parameters : parmsDict
+				      order : nil
+				    timeout : 90];
+
+	  queryFault = [resultDict objectForKey:@"GWSCoderFault"];
+	  if (queryFault != nil)
+	    {
+	      NSString *faultCode;
+	      NSString *faultString;
+	      
+	      faultCode = [queryFault objectForKey:@"faultcode"];
+	      faultString = [queryFault objectForKey:@"faultstring"];
+	      NSLog(@"fault code: %@", faultCode);
+	      NSLog(@"fault String: %@", faultString);
+	      [[NSException exceptionWithName:@"DBException" reason:faultString userInfo:nil] raise];
+	    }
+  
+	  queryResult = [resultDict objectForKey:@"GWSCoderParameters"];
+	  result = [queryResult objectForKey:@"result"];
+	  NSLog(@"result: %@", result);
+
+	  if (result != nil)
+	    {
+	      id resultRow;
+	      NSEnumerator   *objEnu;
+	      NSDictionary   *rowDict;
+	      
+	      /* if only one element gets returned, GWS can't interpret it as an array */
+	      if (!([result isKindOfClass: [NSArray class]]))
+		result = [NSArray arrayWithObject: result];
+	      
+	      objEnu = [result objectEnumerator];
+	      while ((resultRow = [objEnu nextObject]))
+		{
+		  id message;
+		  id success;
+		  id errors;
+		  id statusCode;
+		  id sfId;
+
+		  errors = [resultRow objectForKey:@"errors"];
+		  message  = [errors objectForKey:@"message"];          
+		  statusCode = [errors objectForKey:@"statusCode"]; 
+		  success = [resultRow objectForKey:@"success"];
+		  sfId = [resultRow objectForKey:@"id"];
+		  
+		  //		  NSLog(@"resultRow: %@", resultRow);
+		  NSLog(@"errors: %@", errors);
+		  NSLog(@"success: %@", success);
+		  NSLog(@"message: %@", message);
+		  NSLog(@"statusCode: %@", statusCode);
+		  //		  NSLog(@"id: %@", sfId);
+		  
+		  if ([success isEqualToString:@"true"])
+		    {
+		      rowDict = [NSDictionary dictionaryWithObjectsAndKeys:
+						success, @"success",
+					      sfId, @"id",
+					      nil];            
+		    }
+		  else
+		    {
+		      rowDict = [NSDictionary dictionaryWithObjectsAndKeys:
+						success, @"success",
+					      message, @"message",
+					      statusCode, @"statusCode",
+					      nil];
+		    }
+		  [resultArray addObject:rowDict];
+		}
+	    }
+	  NSLog(@"reiniting batch....");
+	  [batchObjArray removeAllObjects];
+	  batchCounter = 0;
+	} /* of batch */
+      NSLog(@"end of while loop...%@", idStr);
+    }
+  while (idStr);
+
+  NSLog(@"%d result array: %@", [resultArray count], resultArray);
+  [batchObjArray release];
   return [resultArray autorelease];
 }
 

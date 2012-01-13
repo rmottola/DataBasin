@@ -41,6 +41,9 @@
   if ((self = [super init]))
     {
       NSString *fileContentString;
+      NSRange firstNLRange;
+      NSRange firstCRRange;
+
       isQualified = NO;
       qualifier = @"\"";
       separator = @",";
@@ -53,6 +56,43 @@
 	if ([[fileContentString substringToIndex:[qualifier length]] isEqualToString: qualifier])
 	  isQualified = YES;
 	NSLog(@"File is qualified? %d", isQualified);
+
+	firstNLRange = [fileContentString rangeOfString:@"\n"];
+	firstCRRange = [fileContentString rangeOfString:@"\r"];
+
+	if (firstCRRange.location == NSNotFound)
+	  {
+	    /* it can be NL only */
+	    if (firstNLRange.location > 0)
+	      {
+		NSLog(@"standard unix-style");
+		newLine = @"\n";
+	      }
+	    else
+	      NSLog(@"could not determine line ending style");
+	  }
+	else
+	  {
+	    /* it could be CR or CR+NL */
+	    if (firstNLRange.location != NSNotFound && firstNLRange.location > 0)
+	      {
+		if (firstNLRange.location - firstCRRange.location == 1)
+		  {
+		    NSLog(@"standard DOS-style");
+		    newLine=@"\r\n";
+		  }
+		else
+		  NSLog(@"ambiguous, using unix-style");
+	      }
+	    else if (firstCRRange.location > 0)
+	      {
+		NSLog(@"old mac-style");
+		newLine = @"\r";
+	      }
+	    else
+	      NSLog(@"coud not determine line ending style");
+	  }
+
 	linesArray = [[fileContentString componentsSeparatedByString:newLine] retain];
 	if(parseHeader)
 	  fieldNames = [[NSArray arrayWithArray:[self getFieldNames:[self readLine]]] retain];

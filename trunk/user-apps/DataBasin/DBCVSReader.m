@@ -1,7 +1,7 @@
 /*
    Project: DataBasin
 
-   Copyright (C) 2009-2011 Free Software Foundation
+   Copyright (C) 2009-2012 Free Software Foundation
 
    Author: Riccardo Mottola
 
@@ -45,11 +45,18 @@
       qualifier = @"\"";
       separator = @",";
       newLine = @"\n";
-      fileContentString = [NSString stringWithContentsOfFile:filePath];
-      linesArray = [[fileContentString componentsSeparatedByString:newLine] retain];
       currentLine = 0;
-      if(parseHeader)
-        fieldNames = [[NSArray arrayWithArray:[self getFieldNames:[self readLine]]] retain];
+      fileContentString = [NSString stringWithContentsOfFile:filePath];
+      NSLog(@"init with Path... analyzing file");
+      if (fileContentString)
+      {
+	if ([[fileContentString substringToIndex:[qualifier length]] isEqualToString: qualifier])
+	  isQualified = YES;
+	NSLog(@"File is qualified? %d", isQualified);
+	linesArray = [[fileContentString componentsSeparatedByString:newLine] retain];
+	if(parseHeader)
+	  fieldNames = [[NSArray arrayWithArray:[self getFieldNames:[self readLine]]] retain];
+      }
    }
   return self;
 }
@@ -68,7 +75,7 @@
 
 - (NSArray *)getFieldNames:(NSString *)firstLine
 {
-  NSMutableArray *record;
+  NSArray *record;
 
   record = [self decodeOneLine:firstLine];
     
@@ -99,6 +106,7 @@
   NSScanner      *scanner;
   NSMutableArray *record;
   NSString       *field;
+  BOOL           inField;
   
   if ([line length] == 0)
     return nil;
@@ -106,11 +114,22 @@
   scanner = [NSScanner scannerWithString:line];
   record = [NSMutableArray arrayWithCapacity:1];
   
-  while([scanner scanUpToString:separator intoString:&field] == YES)
+  if (isQualified)
     {
-      NSLog(@"field: %@", field);
-      [record addObject:field];
-      [scanner scanString:separator intoString:(NSString **)nil];
+      NSString *token;
+
+      while ([scanner scanLocation] < [line length])
+	{
+	}
+    }
+  else
+    {
+      while([scanner scanUpToString:separator intoString:&field] == YES)
+	{
+	  NSLog(@"field: %@", field);
+	  [record addObject:field];
+	  [scanner scanString:separator intoString:(NSString **)nil];
+	}
     }
   return record;
 }

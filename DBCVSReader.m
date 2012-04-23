@@ -153,13 +153,58 @@
   
   scanner = [NSScanner scannerWithString:line];
   record = [NSMutableArray arrayWithCapacity:1];
-  
+
   if (isQualified)
     {
       NSString *token;
 
+      qualifier = @"\""; /* FIXME: temporary hack */
+      field = @"";
+      NSLog(@"loc %lu, total length: %lu", [scanner scanLocation], [line length]);
+      inField = false;
       while ([scanner scanLocation] < [line length])
 	{
+	  NSUInteger loc;
+
+	  token = nil;
+	  [scanner scanUpToString:qualifier intoString:&token];
+	  //	  NSLog(@"token %@", token);
+
+	  loc = [scanner scanLocation];
+	  //	  NSLog(@"loc %lu", loc);
+	  if (loc > 0 && token)
+	    {
+	      if ([line characterAtIndex:(loc-1)] == '\\')
+		{
+		  /* it was an escaped qualifier */
+		  NSLog(@"Escaped qualifier");
+		  inField = YES;
+		  field = [field stringByAppendingString: [token substringToIndex:[token length]-1]];
+		  field = [field stringByAppendingString: @"\""];
+		  NSLog(@"f2: %@", field);
+		  [scanner scanString:qualifier intoString:(NSString **)nil];
+		}
+	      else
+		{
+		  if (inField)
+		    field = [field stringByAppendingString: token];
+		  else
+		    field = [NSString stringWithString: token];
+		  //		  NSLog(@"field: %@", field);
+		  [record addObject:field];
+
+		  [scanner scanString:qualifier intoString:(NSString **)nil];
+		  [scanner scanString:separator intoString:(NSString **)nil];
+		  inField = NO;
+		  field = @"";
+		}
+	    }
+	  else
+	    {
+	      /* let's skip this qualifier */
+	      [scanner scanString:qualifier intoString:(NSString **)nil];
+	    }
+
 	}
     }
   else
@@ -171,6 +216,7 @@
 	  [scanner scanString:separator intoString:(NSString **)nil];
 	}
     }
+  NSLog(@"decoded record: %@", record);
   return record;
 }
 

@@ -158,7 +158,6 @@
     {
       NSString *token;
 
-      qualifier = @"\""; /* FIXME: temporary hack */
       field = @"";
       NSLog(@"loc %lu, total length: %lu", [scanner scanLocation], [line length]);
       inField = false;

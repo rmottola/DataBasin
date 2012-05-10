@@ -257,14 +257,30 @@
   queryFault = [resultDict objectForKey:@"GWSCoderFault"];
   if (queryFault != nil)
     {
-      NSDictionary *fault;
       NSDictionary *faultDetail;
+      NSString *faultName;
     
       faultDetail = [queryFault objectForKey:@"detail"];
-      fault = [faultDetail objectForKey:@"fault"];
-      NSLog(@"fault: %@", fault);
-      NSLog(@"exception code: %@", [fault objectForKey:@"exceptionCode"]);
-      NSLog(@"exception: %@", [fault objectForKey:@"exceptionMessage"]);
+      //      NSLog(@"Fault detail: %@", faultDetail);
+      faultName = [[faultDetail objectForKey:@"GWSCoderOrder"] objectAtIndex: 0];
+      if (faultName)
+	{
+	  NSDictionary *fault;
+	  NSString *exceptionMessage;
+
+	  NSLog(@"fault name: %@", faultName);
+	  fault = [faultDetail objectForKey:faultName];
+	  exceptionMessage = [fault objectForKey:@"exceptionMessage"];
+	  //	  NSLog(@"fault: %@", fault);
+	  NSLog(@"exception code: %@", [fault objectForKey:@"exceptionCode"]);
+	  NSLog(@"exception: %@", exceptionMessage);
+	  [[NSException exceptionWithName:@"DBException" reason:exceptionMessage userInfo:nil] raise];
+	}
+      else
+	{
+	  NSLog(@"Fault detail: %@", faultDetail);
+	}
+      return nil;
     }
   
   queryResult = [resultDict objectForKey:@"GWSCoderParameters"];
@@ -287,6 +303,8 @@
     }
   else
     {
+      NSLog(@"not done, analyzing");
+
       NSLog(@"error, doneStr is nil: unexpected");
       return nil;
     }

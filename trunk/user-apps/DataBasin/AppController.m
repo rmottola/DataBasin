@@ -318,9 +318,15 @@
     }
   
   cvsWriter = [[DBCVSWriter alloc] initWithHandle:fileHandle];
-  
-  [dbCsv query :statement queryAll:([queryAllSelect state] == NSOnState) toWriter:cvsWriter];
-    
+  NS_DURING
+    [dbCsv query :statement queryAll:([queryAllSelect state] == NSOnState) toWriter:cvsWriter];
+  NS_HANDLER
+    if ([[localException name] hasPrefix:@"DB"])
+      {
+        [faultTextView setString:[localException reason]];
+        [faultPanel makeKeyAndOrderFront:nil];
+      }
+  NS_ENDHANDLER
   [cvsWriter release];
   [fileHandle closeFile];
 }

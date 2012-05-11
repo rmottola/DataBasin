@@ -1,7 +1,7 @@
 /* 
    Project: DataBasin
 
-   Copyright (C) 2008-2011 Free Software Foundation
+   Copyright (C) 2008-2012 Free Software Foundation
 
    Author: Riccardo Mottola
 
@@ -558,7 +558,16 @@
 
   cvsWriter = [[DBCVSWriter alloc] initWithHandle:fileHandleOut];
 
-  [dbCsv queryIdentify :statement queryAll:([queryAllSelectIdentify state] == NSOnState) fromReader:cvsReader toWriter:cvsWriter withBatchSize:batchSize];
+
+  NS_DURING
+    [dbCsv queryIdentify :statement queryAll:([queryAllSelectIdentify state] == NSOnState) fromReader:cvsReader toWriter:cvsWriter withBatchSize:batchSize];
+  NS_HANDLER
+    if ([[localException name] hasPrefix:@"DB"])
+      {
+        [faultTextView setString:[localException reason]];
+        [faultPanel makeKeyAndOrderFront:nil];
+      }
+  NS_ENDHANDLER
 
   [cvsReader release];
   
@@ -588,10 +597,10 @@
 
   if ([savePanel runModal] == NSOKButton)
     {
-    NSString *fileName;
+      NSString *fileName;
     
-    fileName = [savePanel filename];
-    [fieldFileDescribe setStringValue:fileName];
+      fileName = [savePanel filename];
+      [fieldFileDescribe setStringValue:fileName];
     }
 }
 

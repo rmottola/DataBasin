@@ -173,6 +173,7 @@
 
 /** <p>Execute SOQL query <i>queryString</i> and returns the resulting DBSObjects as an array.</p>
   <p>This method will query all resultinng objects of the query, repeatedly querying again if necessary depending on the batch size.</p>
+  <p>Returns exception</p>
 */
 - (NSMutableArray *)queryFull :(NSString *)queryString queryAll:(BOOL)all
 {
@@ -186,12 +187,14 @@
   while (qLoc != nil)
     qLoc = [self queryMore: qLoc toArray: sObjects];
   
-  return sObjects;}
+  return sObjects;
+}
 
 
 /** <p>execute SOQL query and write the resulting DBSObjectes into the <i>objects</i> array
   which must be valid and allocated. </p>
   <p>If the query locator is returned,  a query more has to be executed.</p>
+  <p>Returns exception</p>
 */
 - (NSString *)query :(NSString *)queryString queryAll:(BOOL)all toArray:(NSMutableArray *)objects
 {
@@ -596,7 +599,7 @@
 	{
 	  b = 0;
 	  [completeQuery appendString: @" in ("];
-	  /* we always stay inside the maximum sqoql query size and if we have a batch limit we cap on that */
+	  /* we always stay inside the maximum soql query size and if we have a batch limit we cap on that */
 	  while (((i < [fromArray count]) && ([completeQuery length] < MAX_SOQL_SIZE-20)) && (autoBatch || (b < batchSize)))
 	    {
 	      [completeQuery appendString: @"'"];

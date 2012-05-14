@@ -1,7 +1,7 @@
 /*
  Project: DataBasin
  
- Copyright (C) 2010-2011 Free Software Foundation
+ Copyright (C) 2010-2012 Free Software Foundation
  
  Author: Riccardo Mottola
  
@@ -73,10 +73,29 @@
   objDevName = [dbs identifyObjectById: objId];
   NSLog(@"object is: %@", objDevName);
 
+  if (objDevName == nil)
+    {
+      NSLog(@"Invalid object.");
+      [faultTextView setString:@"Invalid object ID or object not found"];
+      [faultPanel makeKeyAndOrderFront:nil];
+      return;
+    }
+
   sObj = [dbs describeSObject: objDevName];
   [sObj setValue: objId forField: @"Id"];
   [sObj setDBSoap: dbs];
-  [sObj loadFieldValues];
+
+  NS_DURING
+    [sObj loadFieldValues];
+  NS_HANDLER
+    if ([[localException name] hasPrefix:@"DB"])
+      {
+	[faultTextView setString:[localException reason]];
+	[faultPanel makeKeyAndOrderFront:nil];
+	return;
+      }
+  NS_ENDHANDLER
+
   NSLog(@"fields loaded...");
   [arrayRows release];
   arrayDevNames = [NSMutableArray arrayWithArray: [sObj fieldNames]];

@@ -7,7 +7,9 @@
 	Outlets = (
 	    fieldObjId,
 	    winObjInspector,
-	    fieldTable
+	    fieldTable,
+	    faultPanel,
+	    faultTextView
 	);
 	Super = NSObject;
     };

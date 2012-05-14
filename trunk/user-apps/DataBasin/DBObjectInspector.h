@@ -1,7 +1,7 @@
 /*
  Project: DataBasin
  
- Copyright (C) 2010-2011 Free Software Foundation
+ Copyright (C) 2010-2012 Free Software Foundation
  
  Author: Riccardo Mottola
  
@@ -39,6 +39,8 @@
   IBOutlet NSTextField *fieldObjId;
   IBOutlet NSWindow *winObjInspector;
   IBOutlet NSTableView *fieldTable;
+  IBOutlet NSTextView *faultTextView;
+  IBOutlet NSPanel *faultPanel;
 
   /* data source objects */
   DBSObject      *sObj;

@@ -2,7 +2,7 @@
  Project: DataBasin
  DBSobject.m
  
- Copyright (C) 2010-2011 Free Software Foundation
+ Copyright (C) 2010-2012 Free Software Foundation
  
  Author: Riccardo Mottola
  
@@ -251,6 +251,11 @@ converting it if necessary.</p>
   NSLog(@"query: %@", statement);
   tempArray = [NSMutableArray arrayWithCapacity: [namesArray count]];
   [dbs query :statement queryAll:NO toArray: tempArray];
+  if ([tempArray count] == 0)
+    {
+      [[NSException exceptionWithName:@"DBException" reason:@"Object not found." userInfo:nil] raise];
+      return;
+    }
   tempObj = [tempArray objectAtIndex: 0];
 
   /* copy the field values from the query result to the object itself */

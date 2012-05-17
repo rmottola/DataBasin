@@ -67,6 +67,7 @@
                 fieldUserId = NSTextField; 
                 fieldUserName = NSTextField; 
                 fieldUserNameInsp = NSTextField; 
+                popupBatchSizeIdentify = NSPopUpButton; 
                 popupEnvironment = NSPopUpButton; 
                 popupObjectsDescribe = NSPopUpButton; 
                 popupObjectsInsert = NSPopUpButton; 

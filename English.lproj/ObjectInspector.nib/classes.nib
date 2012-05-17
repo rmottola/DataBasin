@@ -5,6 +5,8 @@
             CLASS = DBObjectInspector; 
             LANGUAGE = ObjC; 
             OUTLETS = {
+                faultPanel = NSPanel; 
+                faultTextView = NSTextView; 
                 fieldObjId = NSTextField; 
                 fieldTable = NSTableView; 
                 winObjInspector = NSWindow; 

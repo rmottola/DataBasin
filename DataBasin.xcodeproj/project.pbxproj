@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8559BB59115B6B21002EA7DD /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8559BB58115B6B21002EA7DD /* README.txt */; };
+		856D73F614790D2900BC327D /* DBSoapCSV.m in Sources */ = {isa = PBXBuildFile; fileRef = 856D73F514790D2900BC327D /* DBSoapCSV.m */; };
 		858D8E6A0F1EA3BD00CC8F4A /* AppController.h in Resources */ = {isa = PBXBuildFile; fileRef = 858D8E640F1EA3BD00CC8F4A /* AppController.h */; };
 		858D8E6B0F1EA3BD00CC8F4A /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 858D8E650F1EA3BD00CC8F4A /* AppController.m */; };
 		858D8E6C0F1EA3BD00CC8F4A /* DBCVSWriter.h in Resources */ = {isa = PBXBuildFile; fileRef = 858D8E660F1EA3BD00CC8F4A /* DBCVSWriter.h */; };
@@ -34,6 +35,8 @@
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		8559BB58115B6B21002EA7DD /* README.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
+		856D73F414790D2900BC327D /* DBSoapCSV.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DBSoapCSV.h; sourceTree = "<group>"; };
+		856D73F514790D2900BC327D /* DBSoapCSV.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = DBSoapCSV.m; sourceTree = "<group>"; };
 		858D8E640F1EA3BD00CC8F4A /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AppController.h; sourceTree = "<group>"; };
 		858D8E650F1EA3BD00CC8F4A /* AppController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = AppController.m; sourceTree = "<group>"; };
 		858D8E660F1EA3BD00CC8F4A /* DBCVSWriter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DBCVSWriter.h; sourceTree = "<group>"; };
@@ -76,6 +79,8 @@
 				858D8E670F1EA3BD00CC8F4A /* DBCVSWriter.m */,
 				858D8E680F1EA3BD00CC8F4A /* DBSoap.h */,
 				858D8E690F1EA3BD00CC8F4A /* DBSoap.m */,
+				856D73F414790D2900BC327D /* DBSoapCSV.h */,
+				856D73F514790D2900BC327D /* DBSoapCSV.m */,
 				85F656F911F5F83600E5CC0D /* DBSObject.h */,
 				85F656FA11F5F83600E5CC0D /* DBSObject.m */,
 				85F1998612B93B1D0009ED44 /* DBObjectInspector.h */,
@@ -217,6 +222,7 @@
 				85ACAA8F0FF4292200CB151F /* DBCVSReader.m in Sources */,
 				85F656FB11F5F83600E5CC0D /* DBSObject.m in Sources */,
 				85F1998812B93B1D0009ED44 /* DBObjectInspector.m in Sources */,
+				856D73F614790D2900BC327D /* DBSoapCSV.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

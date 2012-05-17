@@ -211,6 +211,7 @@
   NSArray               *records;
   NSDictionary          *record;
   NSDictionary          *queryFault;
+  NSDictionary         *coderError;
   NSString              *sizeStr;
   int                   size;
   
@@ -257,6 +258,12 @@
 				timeout : 90];
     }
   NSLog(@"result: %@", resultDict);
+  coderError = [resultDict objectForKey:@"GWSCoderError"];
+  if (coderError != nil)
+    {
+      NSLog(@"error: %@", coderError);
+      [[NSException exceptionWithName:@"DBException" reason:coderError userInfo:nil] raise];
+    }
   queryFault = [resultDict objectForKey:@"GWSCoderFault"];
   if (queryFault != nil)
     {

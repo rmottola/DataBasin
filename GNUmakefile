@@ -29,7 +29,8 @@ DataBasin_LIBRARIES_DEPEND_UPON += -lWebServices
 #
 DataBasin_RESOURCE_FILES = \
 Resources/DataBasin.gorm \
-Resources/ObjectInspector.gorm 
+Resources/ObjectInspector.gorm \
+Resources/Log.gorm 
 
 
 #
@@ -42,7 +43,8 @@ DBCVSWriter.h \
 DBCVSReader.h \
 DBSObject.h \
 DBObjectInspector.h \
-DBSoapCSV.h
+DBSoapCSV.h \
+DBLogger.h
 
 #
 # Class files
@@ -54,7 +56,8 @@ DBCVSWriter.m \
 DBCVSReader.m \
 DBSObject.m \
 DBObjectInspector.m \
-DBSoapCSV.m
+DBSoapCSV.m \
+DBLogger.m
 
 #
 # Other sources

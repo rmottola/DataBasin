@@ -30,6 +30,13 @@
 
 @implementation DBSoap
 
+- (void)setLogger: (DBLogger *)l
+{
+  if (logger)
+    [logger release];
+  logger = [l retain];
+}
+
 - (void)login :(NSURL *)url :(NSString *)userName :(NSString *)password :(BOOL)useHttps
 {
   GWSSOAPCoder          *coder;
@@ -92,7 +99,7 @@
 		order : nil
 		timeout : 60];
 
-  NSLog(@"dict is %d big", [resultDict count]);
+  [logger log: LogDebug: @"[DBSoap Login]:dict is %d big", [resultDict count]];
   
   queryFault = [resultDict objectForKey:@"GWSCoderFault"];
   if (queryFault != nil)

@@ -29,6 +29,7 @@
 #import "DBSoapCSV.h"
 #import "DBCVSWriter.h"
 #import "DBCVSReader.h"
+#import "DBLogger.h"
 
 #define DB_ENVIRONMENT_PRODUCTION 0
 #define DB_ENVIRONMENT_SANDBOX    1
@@ -59,6 +60,7 @@
 {
   if ((self = [super init]))
     {
+      logger = [[DBLogger alloc] init];
     }
   return self;
 }
@@ -67,6 +69,7 @@
 {
   [dbCsv release];
   [db release];
+  [logger release];
   [super dealloc];
 }
 
@@ -174,6 +177,11 @@
   [winUserInspector makeKeyAndOrderFront:self];
 }
 
+/* LOGGER */
+- (IBAction)showLog:(id)sender
+{
+  [logger show:sender];
+}
 
 /* LOGIN */
 
@@ -211,6 +219,7 @@
     password = [password stringByAppendingString:token];
     
   db = [[DBSoap alloc] init];
+  [db setLogger: logger];
   dbCsv = [[DBSoapCSV alloc] init];
   [dbCsv setDBSoap:db];
   
@@ -246,12 +255,14 @@
     [fieldRoleId setStringValue: [uInfo valueForKey:@"roleId"]];
 
   NS_HANDLER
+    [logger log:LogStandard :@"Login failed"];
     if ([[localException name] hasPrefix:@"DB"])
       {
         [faultTextView setString:[localException reason]];
         [faultPanel makeKeyAndOrderFront:nil];
       }
   NS_ENDHANDLER
+  [logger log:LogInformative :@"%@ logged in succesfully", userName];
 }
 
 /* UPDATE SOBJECT LIST */

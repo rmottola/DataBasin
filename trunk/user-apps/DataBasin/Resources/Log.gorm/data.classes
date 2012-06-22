@@ -1,0 +1,19 @@
+{
+    "## Comment" = "Do NOT change this file, Gorm maintains it";
+    DBLogger = {
+	Actions = (
+	    "show:"
+	);
+	Outlets = (
+	    logWin,
+	    logView
+	);
+	Super = NSObject;
+    };
+    FirstResponder = {
+	Actions = (
+	    "show:"
+	);
+	Super = NSObject;
+    };
+}

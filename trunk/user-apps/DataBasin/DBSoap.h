@@ -25,6 +25,7 @@
 #import <Foundation/Foundation.h>
 
 #import <WebServices/WebServices.h>
+#import "DBLogger.h"
 #import "DBCVSWriter.h"
 #import "DBCVSReader.h"
 
@@ -36,6 +37,7 @@
 @interface DBSoap : NSObject
 {
   GWSService *service;
+  DBLogger *logger;
     
   /* salesforce.com session variables */
   NSString     *sessionId;
@@ -53,6 +55,7 @@
 }
 
 - (void)login :(NSURL *)url :(NSString *)userName :(NSString *)password :(BOOL)useHttps;
+- (void)setLogger: (DBLogger *)l;
 
 - (NSMutableArray *)queryFull :(NSString *)queryString queryAll:(BOOL)all;
 - (NSString *)query :(NSString *)queryString queryAll:(BOOL)all toArray:(NSMutableArray *)objects;

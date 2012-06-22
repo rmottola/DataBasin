@@ -1,7 +1,7 @@
 /* 
    Project: DataBasin
 
-   Copyright (C) 2008-2011 Free Software Foundation
+   Copyright (C) 2008-2012 Free Software Foundation
 
    Author: Riccardo Mottola
 
@@ -30,11 +30,13 @@
 
 @class DBSoap;
 @class DBSoapCSV;
+@class DBLogger;
 
 @interface AppController : NSObject
 {
   DBSoap    *db;
   DBSoapCSV *dbCsv;
+  DBLogger  *logger;
 
   /* fault panel */
   IBOutlet NSPanel    *faultPanel;
@@ -136,6 +138,7 @@
 
 - (IBAction)showSessionInspector:(id)sender;
 - (IBAction)showUserInspector:(id)sender;
+- (IBAction)showLog:(id)sender;
 
 - (IBAction)runDescribeGlobal:(id)sender;
 

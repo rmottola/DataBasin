@@ -20,7 +20,8 @@
 	"DBCVSReader.m",
 	"DBSObject.m",
 	"DBObjectInspector.m",
-	"DBSoapCSV.m"
+	"DBSoapCSV.m",
+	"DBLogger.m"
     );
     COMPILEROPTIONS = "";
     CPPOPTIONS = "";
@@ -36,14 +37,16 @@
 	"DBCVSReader.h",
 	"DBSObject.h",
 	"DBObjectInspector.h",
-	"DBSoapCSV.h"
+	"DBSoapCSV.h",
+	"DBLogger.h"
     );
     IMAGES = (
     );
     INSTALLDIR = "$(HOME)/GNUstep";
     INTERFACES = (
 	"DataBasin.gorm",
-	"ObjectInspector.gorm"
+	"ObjectInspector.gorm",
+	"Log.gorm"
     );
     LANGUAGE = English;
     LIBRARIES = (

@@ -165,6 +165,13 @@
 	      [theLine appendString: obj];
 	    }
         }
+      else if ([obj isKindOfClass: [NSNumber class]])
+	{
+	  // FIXME: this is locale sensitive?
+	  // FIXME2: maybe give the option to quote also numbers
+
+	  [theLine appendString: [obj stringValue]];
+	}
       else
         NSLog(@"unknown class of value: %@", [obj class]);
 

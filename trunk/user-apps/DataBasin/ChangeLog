@@ -1,0 +1,4 @@
+2012-06-28 Riccardo Mottola <rm@gnu.org>
+
+	* DBCSVWriter.m
+	Interpret NSNumber values and use unquoted string value.

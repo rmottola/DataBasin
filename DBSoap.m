@@ -570,7 +570,6 @@
   unsigned i;
   unsigned j;
   unsigned b;
-  NSMutableArray *resArray;
   BOOL batchable;
   BOOL autoBatch;
   
@@ -584,14 +583,14 @@
    else if (batchSize > 1)
      batchable = YES;
       
-  resArray = [[NSMutableArray arrayWithCapacity: 1] retain];
   i = 0;
   while (i < [fromArray count])
     {
       NSMutableString *completeQuery;
+      NSMutableArray *resArray;
 
       NSLog(@"%u %@", i, [fromArray objectAtIndex: i]);
-      [resArray removeAllObjects];
+
       completeQuery = [[NSMutableString stringWithString: queryString] retain];
       if ([queryString rangeOfString:@"WHERE" options:NSCaseInsensitiveSearch].location != NSNotFound)
 	{
@@ -628,12 +627,13 @@
 	}
       NSLog(@"query: %@", completeQuery);
 
-      [self query:completeQuery queryAll:all toArray:resArray];
+      /* since we might get back more records for each object to identify, we need to use query more */
+      resArray = [self queryFull:completeQuery queryAll:all];
+ 
       for (j = 0; j < [resArray count]; j++)
 	[outArray addObject: [resArray objectAtIndex: j]];
       [completeQuery release];
     }
-  [resArray release];
 }
 
 /**

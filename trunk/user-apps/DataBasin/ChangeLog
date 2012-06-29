@@ -1,3 +1,8 @@
+2012-06-29 Riccardo Mottola <rm@gnu.org>
+
+	* DBSoap.m
+	Query Identify needs to respect QueryMore and the query locator
+
 2012-06-28 Riccardo Mottola <rm@gnu.org>
 
 	* DBCSVWriter.m

@@ -128,6 +128,24 @@
 
   [buttPrefHttps setState: [[defaults valueForKey: @"UseHttps"] intValue]];
 
+  index = 0;
+  switch([[defaults valueForKey: @"LogLevel"] intValue])
+    {
+      case LogStandard:
+        index = 0;
+        break;
+      case LogInformative:
+        index = 1;
+        break;
+      case LogDebug:
+        index = 2;
+        break;
+      default:
+        NSLog(@"Unexpected log level");
+        break;
+    }
+  [popupLogLevel selectItemAtIndex: index];
+
   [prefPanel makeKeyAndOrderFront: sender];
 }
 
@@ -139,6 +157,7 @@
 - (IBAction)prefPanelOk:(id)sender
 {
   NSStringEncoding selectedEncoding;
+  DBLogLevel selectedLogLevel;
   NSUserDefaults *defaults;
 
   defaults = [NSUserDefaults standardUserDefaults];
@@ -159,6 +178,22 @@
   [defaults setObject:[NSNumber numberWithInt: selectedEncoding] forKey: @"StringEncoding"];
 
   [defaults setObject:[NSNumber numberWithInt: [buttPrefHttps state]] forKey: @"UseHttps"];
+
+  selectedLogLevel = LogStandard;
+  switch([popupLogLevel indexOfSelectedItem])
+    {
+      case 0: selectedLogLevel = LogStandard;
+        break;
+      case 1: selectedLogLevel = LogInformative;
+        break;
+      case 2: selectedLogLevel = LogDebug;
+        break;
+      default:
+        break;
+    }
+    
+  [defaults setObject:[NSNumber numberWithInt: selectedEncoding] forKey: @"LogLevel"];
+
   [prefPanel performClose: nil];
 }
 

@@ -38,8 +38,11 @@ typedef enum
 {
   IBOutlet NSWindow   *logWin;
   IBOutlet NSTextView *logView;
+
+  DBLogLevel logLevel;
 }
 
+-(void)setLogLevel: (DBLogLevel)l;
 -(IBAction)show:(id)sender;
 -(void)log: (DBLogLevel)level :(NSString* )format, ...;
 

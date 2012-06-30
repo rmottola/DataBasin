@@ -48,6 +48,7 @@
   IBOutlet NSButton      *buttPrefCancel;
   IBOutlet NSButton      *buttPrefOk;
   IBOutlet NSButton      *buttPrefHttps;
+  IBOutlet NSPopUpButton *popupLogLevel;
   
   /* login */
   IBOutlet NSWindow      *winLogin;

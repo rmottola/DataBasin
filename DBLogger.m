@@ -31,6 +31,7 @@
   if ((self = [super init]))
     {
       [NSBundle loadNibNamed:@"Log" owner:self];
+      logLevel = LogStandard;
     }
   return self;
 }
@@ -38,6 +39,11 @@
 -(void)dealloc
 {
   [super dealloc];
+}
+
+-(void)setLogLevel: (DBLogLevel)l
+{
+  logLevel = l;
 }
 
 
@@ -51,12 +57,16 @@
   va_list ap;
   NSString *formattedString;
 
-  va_start (ap, format);
-  formattedString = [[NSString alloc] initWithFormat:format arguments: ap];
-  va_end(ap);
+  if (logLevel >= level)
+    {
+      va_start (ap, format);
+      formattedString = [[NSString alloc] initWithFormat:format arguments: ap];
+      va_end(ap);
   
-  NSLog(@"level: %d | %@", level, formattedString);
-  [formattedString release];
+  
+      NSLog(@"level: %d | %@", level, formattedString);
+      [formattedString release];
+    }
 }
 
 @end

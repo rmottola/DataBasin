@@ -1,5 +1,10 @@
 2012-06-30 Riccardo Mottola <rm@gnu.org>
 
+	* AppController.m
+	Correctly save the log level preference.
+
+2012-06-30 Riccardo Mottola <rm@gnu.org>
+
 	* AppController.h
 	* AppController.m
 	* DBLogger.h

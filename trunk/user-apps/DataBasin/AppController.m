@@ -191,8 +191,7 @@
       default:
         break;
     }
-    
-  [defaults setObject:[NSNumber numberWithInt: selectedEncoding] forKey: @"LogLevel"];
+  [defaults setObject:[NSNumber numberWithInt: selectedLogLevel] forKey: @"LogLevel"];
 
   [prefPanel performClose: nil];
 }

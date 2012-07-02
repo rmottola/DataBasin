@@ -192,6 +192,7 @@
         break;
     }
   [defaults setObject:[NSNumber numberWithInt: selectedLogLevel] forKey: @"LogLevel"];
+  [logger setLogLevel: selectedLogLevel];
 
   [prefPanel performClose: nil];
 }

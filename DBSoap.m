@@ -99,7 +99,7 @@
 		order : nil
 		timeout : 60];
 
-  [logger log: LogDebug: @"[DBSoap Login]:dict is %d big", [resultDict count]];
+  [logger log: LogDebug: @"[DBSoap Login]:resultDict is %d big", [resultDict count]];
   
   queryFault = [resultDict objectForKey:@"GWSCoderFault"];
   if (queryFault != nil)
@@ -110,30 +110,29 @@
     
     faultCode = [queryFault objectForKey:@"faultcode"];
     faultString = [queryFault objectForKey:@"faultstring"];
-    NSLog(@"fault code: %@", faultCode);
-    NSLog(@"fault String: %@", faultString);
+    [logger log: LogStandard: @"[DBSoap Login]: fault code: %@", faultCode];
+    [logger log: LogStandard: @"[DBSoap Login]: fault String: %@", faultString];
     [[NSException exceptionWithName:@"DBException" reason:faultString userInfo:nil] raise];
   }
   
   loginResult = [resultDict objectForKey:@"GWSCoderParameters"];
-  NSLog(@"coder parameters is %@", loginResult);
+  [logger log: LogDebug: @"[DBSoap Login]: coder parameters is %@", loginResult];
   
   enumerator = [loginResult keyEnumerator];
   while ((key = [enumerator nextObject]))
   {
-    NSLog(@"%@ - %@", key, [loginResult objectForKey:key]); 
+    [logger log: LogDebug: @"[DBSoap Login]:%@ - %@", key, [loginResult objectForKey:key]]; 
   }
   
-  
-  NSLog(@"loginResult is %d big", [loginResult count]);
+ 
 
   loginResult2 = [loginResult objectForKey:@"result"];
-  NSLog(@"result in login dict is %@", loginResult2);
+  [logger log: LogDebug: @"[DBSoap Login]: %@", loginResult2];
   
   enumerator = [loginResult2 keyEnumerator];
   while ((key = [enumerator nextObject]))
   {
-    NSLog(@"%@ - %@", key, [loginResult2 objectForKey:key]); 
+    [logger log: LogDebug: @"[DBSoap Login]:%@ - %@", key, [loginResult2 objectForKey:key]]; 
   }
     
   sessionId = [loginResult2 objectForKey:@"sessionId"];
@@ -159,7 +158,7 @@
      even if we initiate a non-secure one, we force it to http */
   if ([[serverUrl substringToIndex:5] isEqualToString:@"https"])
   {
-    NSLog(@"we have https....");
+    [logger log: LogInformative: @"[DBSoap Login]: preferences set to https...."];
     if (!useHttps)
       serverUrl = [@"http" stringByAppendingString:[serverUrl substringFromIndex:5]];
   }
@@ -170,9 +169,10 @@
   {
     [[NSException exceptionWithName:@"DBException" reason:@"No Session information returned." userInfo:nil] raise];
   }
+  else
   {
-    NSLog(@"sessionId: %@", sessionId);
-    NSLog(@"serverUrl: %@", serverUrl);
+    [logger log: LogDebug: @"[DBSoap Login]: sessionId: %@", sessionId];
+    [logger log: LogDebug: @"[DBSoap Login]: serverUrl: %@", serverUrl];
   }
   
   [service setURL:serverUrl];}
@@ -190,7 +190,7 @@
   sObjects = [[NSMutableArray alloc] init];
 
   qLoc = [self query: queryString queryAll:all toArray: sObjects];
-  NSLog(@"query loc after first query: %@", qLoc);
+  [logger log: LogInformative: @"[DBSoap queryFull]: query locator after first query: %@", qLoc];
   while (qLoc != nil)
     qLoc = [self queryMore: qLoc toArray: sObjects];
   

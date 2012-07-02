@@ -1,7 +1,13 @@
-2012-06-30 Riccardo Mottola <rm@gnu.org>
+2012-07-02 Riccardo Mottola <rm@gnu.org>
 
 	* AppController.m
-	Correctly save the log level preference.
+	Correctly save the log level preference. Set logger level.
+
+	* DBSoap.m
+	Log login messages to logger and not stdout.
+
+	* Resources/DataBasin.gorm
+	Add log level preference.
 
 2012-06-30 Riccardo Mottola <rm@gnu.org>
 

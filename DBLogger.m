@@ -59,13 +59,33 @@
 
   if (logLevel >= level)
     {
+      NSAttributedString *attrStr;
+      NSMutableDictionary *textAttributes;
+
       va_start (ap, format);
       formattedString = [[NSString alloc] initWithFormat:format arguments: ap];
       va_end(ap);
-  
-  
+
+
+      textAttributes = nil;
+      if (level == LogStandard)
+	textAttributes = [NSMutableDictionary dictionaryWithObject:[NSColor greenColor] forKey:NSForegroundColorAttributeName];
+      else if (level == LogInformative)
+	textAttributes = [NSMutableDictionary dictionaryWithObject:[NSColor blueColor] forKey:NSForegroundColorAttributeName];
+      else if (level == LogDebug)
+	textAttributes = [NSMutableDictionary dictionaryWithObject:[NSColor blackColor] forKey:NSForegroundColorAttributeName];
+      else
+	NSLog(@"Unexpected log level");
+
       NSLog(@"level: %d | %@", level, formattedString);
+      attrStr = [[NSAttributedString alloc] initWithString: formattedString
+						attributes: textAttributes];
+      [[logView textStorage] appendAttributedString: attrStr];
+
+
+      [attrStr release];
       [formattedString release];
+
     }
 }
 

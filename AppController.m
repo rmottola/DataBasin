@@ -61,6 +61,8 @@
   if ((self = [super init]))
     {
       logger = [[DBLogger alloc] init];
+
+      [logger setLogLevel: [[[NSUserDefaults standardUserDefaults] valueForKey: @"LogLevel"] intValue]];
     }
   return self;
 }
@@ -290,14 +292,15 @@
     [fieldRoleId setStringValue: [uInfo valueForKey:@"roleId"]];
 
   NS_HANDLER
-    [logger log:LogStandard :@"Login failed"];
+    [logger log:LogStandard :@"Login failed\n"];
     if ([[localException name] hasPrefix:@"DB"])
       {
         [faultTextView setString:[localException reason]];
         [faultPanel makeKeyAndOrderFront:nil];
+	return;
       }
   NS_ENDHANDLER
-  [logger log:LogInformative :@"%@ logged in succesfully", userName];
+  [logger log:LogStandard :@"%@ logged in succesfully\n", userName];
 }
 
 /* UPDATE SOBJECT LIST */

@@ -1,3 +1,17 @@
+2012-07-03 Riccardo Mottola <rm@gnu.org>
+
+	* AppController.m
+	Logger preferences.
+
+	* DBLogger.m
+	Log with attributed string.
+
+	* DBSoap.m
+	Adapt to new logger method.
+
+	* Resources/DataBasin.gorm
+	Add log menu item
+
 2012-07-02 Riccardo Mottola <rm@gnu.org>
 
 	* AppController.m

@@ -99,7 +99,7 @@
 		order : nil
 		timeout : 60];
 
-  [logger log: LogDebug: @"[DBSoap Login]:resultDict is %d big", [resultDict count]];
+  [logger log: LogDebug: @"[DBSoap Login]:resultDict is %d big\n", [resultDict count]];
   
   queryFault = [resultDict objectForKey:@"GWSCoderFault"];
   if (queryFault != nil)
@@ -110,29 +110,29 @@
     
     faultCode = [queryFault objectForKey:@"faultcode"];
     faultString = [queryFault objectForKey:@"faultstring"];
-    [logger log: LogStandard: @"[DBSoap Login]: fault code: %@", faultCode];
-    [logger log: LogStandard: @"[DBSoap Login]: fault String: %@", faultString];
+    [logger log: LogStandard: @"[DBSoap Login]: fault code: %@\n", faultCode];
+    [logger log: LogStandard: @"[DBSoap Login]: fault String: %@\n", faultString];
     [[NSException exceptionWithName:@"DBException" reason:faultString userInfo:nil] raise];
   }
   
   loginResult = [resultDict objectForKey:@"GWSCoderParameters"];
-  [logger log: LogDebug: @"[DBSoap Login]: coder parameters is %@", loginResult];
+  [logger log: LogDebug: @"[DBSoap Login]: coder parameters is %@\n", loginResult];
   
   enumerator = [loginResult keyEnumerator];
   while ((key = [enumerator nextObject]))
   {
-    [logger log: LogDebug: @"[DBSoap Login]:%@ - %@", key, [loginResult objectForKey:key]]; 
+    [logger log: LogDebug: @"[DBSoap Login]:%@ - %@\n", key, [loginResult objectForKey:key]]; 
   }
   
  
 
   loginResult2 = [loginResult objectForKey:@"result"];
-  [logger log: LogDebug: @"[DBSoap Login]: %@", loginResult2];
+  [logger log: LogDebug: @"[DBSoap Login]: %@\n", loginResult2];
   
   enumerator = [loginResult2 keyEnumerator];
   while ((key = [enumerator nextObject]))
   {
-    [logger log: LogDebug: @"[DBSoap Login]:%@ - %@", key, [loginResult2 objectForKey:key]]; 
+    [logger log: LogDebug: @"[DBSoap Login]:%@ - %@\n", key, [loginResult2 objectForKey:key]]; 
   }
     
   sessionId = [loginResult2 objectForKey:@"sessionId"];
@@ -158,7 +158,7 @@
      even if we initiate a non-secure one, we force it to http */
   if ([[serverUrl substringToIndex:5] isEqualToString:@"https"])
   {
-    [logger log: LogInformative: @"[DBSoap Login]: preferences set to https...."];
+    [logger log: LogInformative: @"[DBSoap Login]: preferences set to https....\n"];
     if (!useHttps)
       serverUrl = [@"http" stringByAppendingString:[serverUrl substringFromIndex:5]];
   }
@@ -171,8 +171,8 @@
   }
   else
   {
-    [logger log: LogDebug: @"[DBSoap Login]: sessionId: %@", sessionId];
-    [logger log: LogDebug: @"[DBSoap Login]: serverUrl: %@", serverUrl];
+    [logger log: LogStandard: @"[DBSoap Login]: sessionId: %@\n", sessionId];
+    [logger log: LogStandard: @"[DBSoap Login]: serverUrl: %@\n", serverUrl];
   }
   
   [service setURL:serverUrl];}
@@ -190,7 +190,7 @@
   sObjects = [[NSMutableArray alloc] init];
 
   qLoc = [self query: queryString queryAll:all toArray: sObjects];
-  [logger log: LogInformative: @"[DBSoap queryFull]: query locator after first query: %@", qLoc];
+  [logger log: LogInformative: @"[DBSoap queryFull]: query locator after first query: %@\n", qLoc];
   while (qLoc != nil)
     qLoc = [self queryMore: qLoc toArray: sObjects];
   

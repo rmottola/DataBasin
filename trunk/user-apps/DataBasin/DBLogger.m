@@ -52,6 +52,18 @@
   [logWin makeKeyAndOrderFront:self];
 }
 
+
+/*
+ This routine is called after adding new results to the text view's backing store.
+ We now need to scroll the NSScrollView in which the NSTextView sits to the part
+ that we just added at the end
+ */
+- (void)scrollToVisible:(id)ignore
+{
+  [logView scrollRangeToVisible:NSMakeRange([[logView string] length], 0)];
+}
+
+
 -(void)log: (DBLogLevel)level :(NSString* )format, ...
 {
   va_list ap;
@@ -68,16 +80,19 @@
 
 
       textAttributes = nil;
+      textAttributes = [NSMutableDictionary dictionaryWithObject:[NSFont userFixedPitchFontOfSize: 0] forKey:NSFontAttributeName];
       if (level == LogStandard)
-	textAttributes = [NSMutableDictionary dictionaryWithObject:[NSColor greenColor] forKey:NSForegroundColorAttributeName];
+	[textAttributes  setObject:[NSColor blackColor] forKey:NSForegroundColorAttributeName];
       else if (level == LogInformative)
-	textAttributes = [NSMutableDictionary dictionaryWithObject:[NSColor blueColor] forKey:NSForegroundColorAttributeName];
+	[textAttributes  setObject:[NSColor blueColor] forKey:NSForegroundColorAttributeName];
       else if (level == LogDebug)
-	textAttributes = [NSMutableDictionary dictionaryWithObject:[NSColor blackColor] forKey:NSForegroundColorAttributeName];
+	[textAttributes  setObject:[NSColor purpleColor] forKey:NSForegroundColorAttributeName];
       else
-	NSLog(@"Unexpected log level");
+	{
+	  NSLog(@"Unexpected log level");
+	  NSLog(@"level: %d | %@", level, formattedString);
+	}
 
-      NSLog(@"level: %d | %@", level, formattedString);
       attrStr = [[NSAttributedString alloc] initWithString: formattedString
 						attributes: textAttributes];
       [[logView textStorage] appendAttributedString: attrStr];
@@ -86,6 +101,8 @@
       [attrStr release];
       [formattedString release];
 
+      /* we scroll in the next run of the event loop */
+      [self performSelector:@selector(scrollToVisible:) withObject:nil afterDelay:0.0];
     }
 }
 

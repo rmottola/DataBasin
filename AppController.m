@@ -266,7 +266,7 @@
   else if ([popupEnvironment indexOfSelectedItem] == DB_ENVIRONMENT_SANDBOX)
     urlStr = [protocolString stringByAppendingString: @"test.salesforce.com/services/Soap/u/20.0"];
 
-  [logger log:LogStandard :@"[AppController doLogin] Url: %@", urlStr];  
+  [logger log:LogStandard :@"[AppController doLogin] Url: %@\n", urlStr];  
   url = [NSURL URLWithString:urlStr];
   
   NS_DURING

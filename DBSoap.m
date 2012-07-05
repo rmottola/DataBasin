@@ -264,11 +264,11 @@
 				  order : nil
 				timeout : 90];
     }
-  NSLog(@"result: %@", resultDict);
+  [logger log: LogDebug: @"[DBSoap query] result: %@\n", resultDict];
   coderError = [resultDict objectForKey:@"GWSCoderError"];
   if (coderError != nil)
     {
-      NSLog(@"error: %@", coderError);
+      [logger log: LogStandard :@"[DBSoap query] error: %@\n", coderError];
       [[NSException exceptionWithName:@"DBException" reason:coderError userInfo:nil] raise];
     }
   queryFault = [resultDict objectForKey:@"GWSCoderFault"];
@@ -285,44 +285,42 @@
 	  NSDictionary *fault;
 	  NSString *exceptionMessage;
 
-	  NSLog(@"fault name: %@", faultName);
+	  [logger log: LogInformative: @"[DBSoap query] fault name: %@\n", faultName];
 	  fault = [faultDetail objectForKey:faultName];
 	  exceptionMessage = [fault objectForKey:@"exceptionMessage"];
-	  //	  NSLog(@"fault: %@", fault);
-	  NSLog(@"exception code: %@", [fault objectForKey:@"exceptionCode"]);
-	  NSLog(@"exception: %@", exceptionMessage);
+
+	  [logger log: LogStandard: @"[DBSoap query] exception code: %@\n", [fault objectForKey:@"exceptionCode"]];
+	  [logger log: LogStandard: @"[DBSoap query] exception: %@\n", exceptionMessage];
 	  [[NSException exceptionWithName:@"DBException" reason:exceptionMessage userInfo:nil] raise];
 	}
       else
 	{
-	  NSLog(@"Fault detail: %@", faultDetail);
+	  [logger log: LogInformative: @"[DBSoap query] fault detail: %@\n", faultDetail];
 	}
       return nil;
     }
   
   queryResult = [resultDict objectForKey:@"GWSCoderParameters"];
   result = [queryResult objectForKey:@"result"];
-  NSLog(@"result: %@", result);  
+  [logger log: LogDebug: @"[DBSoap query] result: %@\n", result];  
   doneStr = [result objectForKey:@"done"];
   records = [result objectForKey:@"records"];
   sizeStr = [result objectForKey:@"size"];
   
   if (doneStr != nil)
     {
-      NSLog(@"done: %@", doneStr);
+      [logger log: LogDebug: @"[DBSoap query] done: %@\n", doneStr];
       done = NO;
       if ([doneStr isEqualToString:@"true"])
         done = YES;
       else if ([doneStr isEqualToString:@"false"])
         done = NO;
       else
-        NSLog(@"Done, unexpected value: %@", doneStr);
+        [logger log: LogStandard: @"[DBSoap query] Done, unexpected value: %@\n", doneStr];
     }
   else
     {
-      NSLog(@"not done, analyzing");
-
-      NSLog(@"error, doneStr is nil: unexpected");
+      [logger log: LogStandard: @"[DBSoap query] error, doneStr is nil: unexpected\n"];
       return nil;
     }
   
@@ -335,7 +333,7 @@
     
     
       size = [sizeStr intValue];
-      NSLog(@"Declared size is: %d", size);
+      [logger log: LogInformative: @"[DBSoap query] Declared size is: %d\n", size];
     
       /* if we have only one element, put it in an array */
       if (size == 1)
@@ -345,7 +343,7 @@
       record = [records objectAtIndex:0];
       batchSize = [records count];        
       
-      NSLog(@"records size is: %d", batchSize);
+      [logger log: LogInformative :@"[DBSoap query] records size is: %d\n", batchSize];
       /* let's get the fields from the keys of the first record */
       keys = [NSMutableArray arrayWithArray:[record allKeys]];
       [keys removeObject:@"GWSCoderOrder"];
@@ -358,7 +356,7 @@
         [keys removeObject:@"Id"];
       
       
-      NSLog(@"keys: %@", keys);
+      //NSLog(@"keys: %@", keys);
       
       /* now cycle all the records and read out the fields */
       for (i = 0; i < batchSize; i++)
@@ -367,7 +365,7 @@
         
           sObj = [[DBSObject alloc] init];
           record = [records objectAtIndex:i];
-          NSLog(@"record :%@", record);
+	  [logger log: LogDebug: @"[DBSoap query] record :%@\n", record];
           for (j = 0; j < [keys count]; j++)
             {
               id       obj;
@@ -389,7 +387,7 @@
   if (!done)
     {
       queryLocator = [result objectForKey:@"queryLocator"];
-      NSLog(@"should do query more, queryLocator: %@", queryLocator);
+      [logger log: LogDebug: @"[DBSoap query] should do query more, queryLocator: %@\n", queryLocator];
     }
   return queryLocator;
 }
@@ -548,7 +546,7 @@
   if (!done)
     {
       queryLocator = [result objectForKey:@"queryLocator"];
-      NSLog(@"should do query more, queryLocator: %@", queryLocator);
+      [logger log: LogDebug: @"[DBSoap queryMore] should do query more, queryLocator: %@\n", queryLocator];
     }
   return queryLocator;
 }
@@ -589,7 +587,7 @@
       NSMutableString *completeQuery;
       NSMutableArray *resArray;
 
-      NSLog(@"%u %@", i, [fromArray objectAtIndex: i]);
+      [logger log: LogDebug: @"[DBSoap queryIdentify] %u %@\n", i, [fromArray objectAtIndex: i]];
 
       completeQuery = [[NSMutableString stringWithString: queryString] retain];
       if ([queryString rangeOfString:@"WHERE" options:NSCaseInsensitiveSearch].location != NSNotFound)
@@ -625,7 +623,7 @@
 	    [completeQuery deleteCharactersInRange: NSMakeRange([completeQuery length]-1, 1)];
 	  [completeQuery appendString: @")"];
 	}
-      NSLog(@"query: %@", completeQuery);
+      [logger log: LogDebug: @"[DBSoap queryIdentify] query: %@\n", completeQuery];
 
       /* since we might get back more records for each object to identify, we need to use query more */
       resArray = [self queryFull:completeQuery queryAll:all];
@@ -720,7 +718,7 @@
 	queryParmDict = [NSMutableDictionary dictionaryWithCapacity: 2];
 	[queryParmDict setObject: @"urn:partner.soap.sforce.com" forKey: GWSSOAPNamespaceURIKey];
 	
-	NSLog(@"create objects array: %@", objects);
+	[logger log: LogDebug: @"[DBSoap create] create objects array: %@\n", objects];
 
 	queryObjectsDict = [NSDictionary dictionaryWithObjectsAndKeys: queryObjectsArray, GWSSOAPValueKey, nil];
 
@@ -736,7 +734,6 @@
 				    order : nil
 				  timeout : 90];
   
-	//  NSLog(@"request: %@", [[NSString alloc] initWithData: [resultDict objectForKey:@"GWSCoderRequestData"] encoding: NSUTF8StringEncoding]);
   
 
 	NSLog(@"create result dict is %d big", [resultDict count]);
@@ -750,14 +747,14 @@
 
 	    faultCode = [queryFault objectForKey:@"faultcode"];
 	    faultString = [queryFault objectForKey:@"faultstring"];
-	    NSLog(@"fault code: %@", faultCode);
-	    NSLog(@"fault String: %@", faultString);
+	    [logger log: LogStandard: @"[DBSoap create] fault code: %@\n", faultCode];
+	    [logger log: LogStandard: @"[DBSoap create] fault String: %@\n", faultString];
 	    [[NSException exceptionWithName:@"DBException" reason:faultString userInfo:nil] raise];
 	  }
 
 	queryResult = [resultDict objectForKey:@"GWSCoderParameters"];
 	result = [queryResult objectForKey:@"result"];
-	NSLog(@"result: %@", result);
+	[logger log: LogDebug: @"[DBSoap create] result: %@\n", result];
 
 	records = [result objectForKey:@"records"];
 	sizeStr = [result objectForKey:@"size"];
@@ -806,7 +803,7 @@
 	    /* we don't do yet anything useful with the results... */
 	    [set release];
 	  }
-	NSLog(@"reiniting cycle...");
+	[logger log: LogDebug: @"[DBSoap create] reiniting cycle...\n"];
 	[queryObjectsArray removeAllObjects];
 	batchCounter = 0;
       }
@@ -815,7 +812,7 @@
 	batchCounter++;
       }
   }
-  NSLog(@"Outer cycle ended");
+  [logger log: LogDebug: @"[DBSoap create] Outer cycle ended\n"];
   [queryObjectsArray release];
   [sessionHeaderDict release];
   [headerDict release];
@@ -854,7 +851,7 @@
   [headerDict setObject: sessionHeaderDict forKey: @"SessionHeader"];
   [headerDict setObject: GWSSOAPUseLiteral forKey: GWSSOAPUseKey];
   
-  NSLog(@"update objects array: %@", objects);
+  [logger log: LogDebug: @"[DBSoap update] update objects array: %@\n", objects];
   
   
   enumerator = [objects objectEnumerator];
@@ -936,8 +933,8 @@
 
 	    faultCode = [queryFault objectForKey:@"faultcode"];
 	    faultString = [queryFault objectForKey:@"faultstring"];
-	    NSLog(@"fault code: %@", faultCode);
-	    NSLog(@"fault String: %@", faultString);
+	    [logger log: LogStandard: @"[DBSoap update] fault code: %@\n", faultCode];
+	    [logger log: LogStandard: @"[DBSoap update] fault String: %@\n", faultString];
 	    [[NSException exceptionWithName:@"DBException" reason:faultString userInfo:nil] raise];
 	  }
 
@@ -1004,7 +1001,7 @@
       }
     NSLog(@"outer cycle....");
   } /* while: outer global object enumerator cycle */
-  NSLog(@"outer cycle ended %@", sObject);
+  [logger log: LogDebug: @"[DBSoap update] outer cycle ended %@\n", sObject];
 
   [queryObjectsArray release];
   [sessionHeaderDict release];
@@ -1054,7 +1051,7 @@
 		timeout : 90];
 
 
-  NSLog(@"Describe Global dict is %d big", [resultDict count]);
+  [logger log: LogDebug: @"[DBSoap describeGlobal] Describe Global dict is %d big\n", [resultDict count]];
   
   queryFault = [resultDict objectForKey:@"GWSCoderFault"];
   if (queryFault != nil)
@@ -1065,8 +1062,8 @@
       faultDetail = [queryFault objectForKey:@"detail"];
       fault = [faultDetail objectForKey:@"fault"];
       NSLog(@"fault: %@", fault);
-      NSLog(@"exception code: %@", [fault objectForKey:@"exceptionCode"]);
-      NSLog(@"exception message: %@", [fault objectForKey:@"exceptionMessage"]);
+      [logger log: LogStandard :@"[DBSoap describeGlobal] exception code: %@\n", [fault objectForKey:@"exceptionCode"]];
+      [logger log: LogStandard :@"[DBSoap describeGlobal] exception message: %@\n", [fault objectForKey:@"exceptionMessage"]];
       [[NSException exceptionWithName:@"DBException" reason:[fault objectForKey:@"exceptionMessage"] userInfo:nil] raise];
     }
 
@@ -1251,8 +1248,8 @@
       faultDetail = [queryFault objectForKey:@"detail"];
       fault = [faultDetail objectForKey:@"fault"];
       NSLog(@"fault: %@", fault);
-      NSLog(@"exception code: %@", [fault objectForKey:@"exceptionCode"]);
-      NSLog(@"exception message: %@", [fault objectForKey:@"exceptionMessage"]);
+      [logger log: LogStandard :@"[DBSoap describeSObject] exception code: %@\n", [fault objectForKey:@"exceptionCode"]];
+      [logger log: LogStandard :@"[DBSoap describeSObject] exception message: %@\n", [fault objectForKey:@"exceptionMessage"]];
       [[NSException exceptionWithName:@"DBException" reason:[fault objectForKey:@"exceptionMessage"] userInfo:nil] raise];
     }
 
@@ -1303,7 +1300,9 @@
 
   if ([objectIdArray count] == 0)
     return nil;
-  NSLog(@"deleting %u objects...", [objectIdArray count]);
+
+  [logger log: LogDebug :@"[DBSoap delete] deleting %u objects...\n", [objectIdArray count]];
+
   /* prepare the header */
   sessionHeaderDict = [NSMutableDictionary dictionaryWithCapacity: 2];
   [sessionHeaderDict setObject: sessionId forKey: @"sessionId"];
@@ -1337,7 +1336,7 @@
       /* did we fill a batch or did we reach the end? */
       if (batchCounter == MAX_BATCH_SIZE || !idStr)
 	{
-	  NSLog(@"batch obj-> %@", batchObjArray);
+	  [logger log: LogDebug :@"[DBSoapNSLog delete ] batch obj-> %@\n", batchObjArray];
 	  
 	  /* prepare the parameters */
 	  queryParmDict = [NSMutableDictionary dictionaryWithCapacity: 2];
@@ -1445,7 +1444,7 @@
   /* retrieve objects to delete */
   // FIXME perhaps this copy is useless
   objectsArray = [[NSMutableArray arrayWithArray:[reader readDataSet]] retain];
-  NSLog(@"objects to delete: %@", objectsArray);
+  [logger log: LogDebug :@"[DBSoap deleteFromReader] objects to delete: %@\n", objectsArray];
   NSLog(@"count of objects to delete: %d", [objectsArray count]);
 
   resultArray = [self delete:objectsArray];
@@ -1472,30 +1471,30 @@
     return nil;
 
   prefixToIdentify = [sfId substringToIndex: 3];
-  NSLog(@"identify: %@", prefixToIdentify);
+  [logger log: LogInformative :@"[DBSoap identifyObjectById] identify: %@\n", prefixToIdentify];
   if (sObjectList == nil)
     [self updateObjects];
 
-  NSLog(@"in %d objects", [sObjectList count]);
+  [logger log: LogDebug :@"[DBSoap identifyObjectById] in %d objects\n", [sObjectList count]];
   enu = [sObjectList objectEnumerator];
   while (!found && (tempObj = [enu nextObject]))
     {
-      NSLog(@"compare to: %@", [[tempObj objectProperties] objectForKey: @"keyPrefix"]);
+      [logger log: LogDebug :@"[DBSoap identifyObjectById] compare to: %@\n", [[tempObj objectProperties] objectForKey: @"keyPrefix"]];
       if ([[[tempObj objectProperties] objectForKey: @"keyPrefix"] isEqualToString: prefixToIdentify])
 	{
 	  name = [tempObj name];
-	  NSLog(@"we have something: %@", name);
+	  [logger log: LogDebug :@"[DBSoap identifyObjectById] we found: %@\n", name];
 	  found = YES;
 	}
     }
 
   if (found)
     {
-      NSLog(@"we found: %@", name);
+      [logger log: LogDebug :@"[DBSoap identifyObjectById] we found: %@\n", name];
       devName = [NSString stringWithString: name];
     }
   else
-    NSLog(@"not found");
+    [logger log: LogStandard :@"[DBSoap identifyObjectById] not found\n"];
   return devName;
 }
 

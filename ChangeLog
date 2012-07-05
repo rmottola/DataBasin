@@ -1,7 +1,11 @@
-2012-07-03 Riccardo Mottola <rm@gnu.org>
+2012-07-05 Riccardo Mottola <rm@gnu.org>
 
 	* DBLogger.m
 	Change colors and set fixed font size. NSLog() only unexpected stuff.
+
+	* AppController.m
+	* DBSoap.m
+	Clean up logging and use new logger class.
 
 2012-07-03 Riccardo Mottola <rm@gnu.org>
 

@@ -266,7 +266,7 @@
   else if ([popupEnvironment indexOfSelectedItem] == DB_ENVIRONMENT_SANDBOX)
     urlStr = [protocolString stringByAppendingString: @"test.salesforce.com/services/Soap/u/20.0"];
 
-  NSLog(@"Url: %@", urlStr);  
+  [logger log:LogStandard :@"[AppController doLogin] Url: %@", urlStr];  
   url = [NSURL URLWithString:urlStr];
   
   NS_DURING
@@ -300,7 +300,7 @@
 	return;
       }
   NS_ENDHANDLER
-  [logger log:LogStandard :@"%@ logged in succesfully\n", userName];
+  [logger log:LogStandard :@"[AppController doLogin] %@ logged in succesfully\n", userName];
 }
 
 /* UPDATE SOBJECT LIST */
@@ -428,7 +428,7 @@
   NSLog(@"%@", filePath);
   
   intoWhichObject = [[[popupObjectsInsert selectedItem] title] retain];
-  NSLog(@"object: %@", intoWhichObject);
+  [logger log:LogInformative :@"[AppController executeInsert] object: %@\n", intoWhichObject];
   
   reader = [[DBCVSReader alloc] initWithPath:filePath];
   
@@ -494,7 +494,7 @@
   NSLog(@"%@", filePath);
   
   whichObject = [[[popupObjectsUpdate selectedItem] title] retain];
-  NSLog(@"object: %@", whichObject);
+  [logger log:LogInformative :@"[AppController executeUpdate] object: %@\n", whichObject];
   
   reader = [[DBCVSReader alloc] initWithPath:filePath];
   
@@ -560,11 +560,8 @@
   int batchSize;
   
   statement = [fieldQuerySelectIdentify string];
-  NSLog(@"%@", statement);
   filePathIn = [fieldFileSelectIdentifyIn stringValue];
-  NSLog(@"fpi: %@", filePathIn);
   filePathOut = [fieldFileSelectIdentifyOut stringValue];
-  NSLog(@"fpo: %@", filePathOut);
 
   batchSize = 0;
   switch ([[popupBatchSizeIdentify selectedItem] tag])
@@ -582,9 +579,9 @@
       batchSize = -1;
       break;
     default:
-      NSLog(@"unexpected batch size");
+      [logger log:LogStandard :@"[AppController executeSelectIdentify] unexpected batch size\n"];
     }
-  NSLog(@"batch Size: %d", batchSize);
+  [logger log:LogDebug :@"[AppController executeSelectIdentify] batch Size: %d\n", batchSize];
   
   fileManager = [NSFileManager defaultManager];
 
@@ -792,7 +789,6 @@
   DBCVSReader   *reader;
   
   filePath = [fieldFileDelete stringValue];
-  NSLog(@"%@", filePath);
     
   reader = [[DBCVSReader alloc] initWithPath:filePath byParsingHeaders:([checkSkipFirstLine state]==NSOnState)];  
   

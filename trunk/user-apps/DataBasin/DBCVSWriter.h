@@ -1,7 +1,7 @@
 /*
    Project: DataBasin
 
-   Copyright (C) 2009-2011 Free Software Foundation
+   Copyright (C) 2009-20112Free Software Foundation
 
    Author: Riccardo Mottola
 
@@ -40,7 +40,7 @@
 - (id)initWithHandle:(NSFileHandle *)fileHandle;
 - (void)setFieldNames:(NSArray *)array andWriteIt:(BOOL)flag;
 - (void)writeDataSet:(NSArray *)array;
-- (NSString *)formatOneLine:(NSArray *)values;
+- (NSString *)formatOneLine:(NSArray *)values forHeader:(BOOL) headerFlag;
 - (void)setStringEncoding: (NSStringEncoding) enc;
 
 @end

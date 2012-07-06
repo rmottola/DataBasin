@@ -56,27 +56,13 @@
     {
       DBSObject *obj;
       NSMutableArray *set;
+      NSMutableArray *fields;
 
       obj = [sObjects objectAtIndex: 0];
       keys = [obj fieldNames];
-      [writer setFieldNames:keys andWriteIt:YES];
-
-      set = [[NSMutableArray alloc] init];
-      for (i = 0; i < batchSize; i++)
-        {
-          NSMutableArray *values;
-	  DBSObject *record;
-	  
-          record = [sObjects objectAtIndex:i];
-          values = [NSMutableArray arrayWithCapacity:[keys count]];
-          for (j = 0; j < [keys count]; j++)
-            {
-              [values addObject:[record fieldValue: [keys objectAtIndex:j]]];
-            }
-          [set addObject:values];
-        }
-      [writer writeDataSet:set];
-      [set release];
+      [writer setFieldNames:obj andWriteIt:YES];
+      NSLog(@"s Objects: %@", sObjects);
+      [writer writeDataSet: sObjects];
     }
 
   while (qLoc != nil)
@@ -86,23 +72,7 @@
       [sObjects removeAllObjects];
       NSLog(@"size %d", [sObjects count]);
       qLoc = [db queryMore: qLoc toArray: sObjects];
-      batchSize = [sObjects count];
-      set = [[NSMutableArray alloc] init];
-      for (i = 0; i < batchSize; i++)
-        {
-          NSMutableArray *values;
-	  DBSObject *record;
-	  
-          record = [sObjects objectAtIndex:i];
-          values = [NSMutableArray arrayWithCapacity:[keys count]];
-          for (j = 0; j < [keys count]; j++)
-            {
-              [values addObject:[record fieldValue: [keys objectAtIndex:j]]];
-            }
-          [set addObject:values];
-        }
-      [writer writeDataSet:set];
-      [set release];      
+      [writer writeDataSet: sObjects];
     }
   [sObjects release];
 }

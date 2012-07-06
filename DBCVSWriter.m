@@ -169,7 +169,16 @@
       
       if ([obj isKindOfClass: [NSDictionary class]])
         {
-          [tempRes appendString: [self formatComplexObject: obj withRoot:root forHeader:headerFlag]];
+	  NSMutableString *s;
+
+	  s = [NSMutableString stringWithString:root];
+	  if (headerFlag)
+	    {
+	      [s appendString:@"."];
+	      [s appendString:key];
+	    }
+
+          [tempRes appendString: [self formatComplexObject: obj withRoot:s forHeader:headerFlag]];
         }
       else if ([obj isKindOfClass: [NSString class]] || [obj isKindOfClass: [NSNumber class]])
         {

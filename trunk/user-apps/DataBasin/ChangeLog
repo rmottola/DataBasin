@@ -1,5 +1,13 @@
 2012-07-06 Riccardo Mottola <rm@gnu.org>
 
+	* DBSoapCSV.m
+	Cleanup and use new header generation for queryIdentify.
+
+	* DBCVSWriter.m
+	Rescurse and append header names correctly.
+
+2012-07-06 Riccardo Mottola <rm@gnu.org>
+
 	* DBCVSWriter.h
 	* DBCVSWriter.m
 	* DBSoapCSV.m

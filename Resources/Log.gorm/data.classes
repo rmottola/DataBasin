@@ -2,7 +2,8 @@
     "## Comment" = "Do NOT change this file, Gorm maintains it";
     DBLogger = {
 	Actions = (
-	    "show:"
+	    "show:",
+	    "clean:"
 	);
 	Outlets = (
 	    logWin,
@@ -12,6 +13,7 @@
     };
     FirstResponder = {
 	Actions = (
+	    "clean:",
 	    "show:"
 	);
 	Super = NSObject;

@@ -54,7 +54,7 @@
 
 -(IBAction)clean:(id)sender
 {
-  [logView setText:nil];
+  [logView setString:@""];
 }
 
 

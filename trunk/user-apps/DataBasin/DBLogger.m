@@ -52,7 +52,7 @@
   [logWin makeKeyAndOrderFront:self];
 }
 
--(IBAction)clean
+-(IBAction)clean:(id)sender
 {
   [logView setText:nil];
 }

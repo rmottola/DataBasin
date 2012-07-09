@@ -52,6 +52,11 @@
   [logWin makeKeyAndOrderFront:self];
 }
 
+-(IBAction)clean
+{
+  [logView setText:nil];
+}
+
 
 /*
  This routine is called after adding new results to the text view's backing store.

@@ -367,6 +367,7 @@
     }
   
   cvsWriter = [[DBCVSWriter alloc] initWithHandle:fileHandle];
+  [cvsWriter setLogger:logger];
   NS_DURING
     [dbCsv query :statement queryAll:([queryAllSelect state] == NSOnState) toWriter:cvsWriter];
   NS_HANDLER
@@ -496,7 +497,7 @@
   whichObject = [[[popupObjectsUpdate selectedItem] title] retain];
   [logger log:LogInformative :@"[AppController executeUpdate] object: %@\n", whichObject];
   
-  reader = [[DBCVSReader alloc] initWithPath:filePath];
+  reader = [[DBCVSReader alloc] initWithPath:filePath withLogger:logger];
   
   NS_DURING
     [dbCsv update:whichObject fromReader:reader];
@@ -585,7 +586,7 @@
   
   fileManager = [NSFileManager defaultManager];
 
-  cvsReader = [[DBCVSReader alloc] initWithPath:filePathIn];
+  cvsReader = [[DBCVSReader alloc] initWithPath:filePathIn withLogger:logger];
 
   if ([fileManager createFileAtPath:filePathOut contents:nil attributes:nil] == NO)
     {
@@ -603,7 +604,7 @@
     }
 
   cvsWriter = [[DBCVSWriter alloc] initWithHandle:fileHandleOut];
-
+  [cvsWriter setLogger:logger];
 
   NS_DURING
     [dbCsv queryIdentify :statement queryAll:([queryAllSelectIdentify state] == NSOnState) fromReader:cvsReader toWriter:cvsWriter withBatchSize:batchSize];
@@ -678,6 +679,7 @@
     }
   
   writer = [[DBCVSWriter alloc] initWithHandle:fileHandle];
+  [writer setLogger:logger];
   [writer setStringEncoding: [[defaults valueForKey: @"StringEncoding"] intValue]];
   
   whichObject = [[[popupObjectsDescribe selectedItem] title] retain];
@@ -790,7 +792,7 @@
   
   filePath = [fieldFileDelete stringValue];
     
-  reader = [[DBCVSReader alloc] initWithPath:filePath byParsingHeaders:([checkSkipFirstLine state]==NSOnState)];  
+  reader = [[DBCVSReader alloc] initWithPath:filePath byParsingHeaders:([checkSkipFirstLine state]==NSOnState) withLogger:logger];  
   
   NS_DURING
     [dbCsv deleteFromReader:reader];

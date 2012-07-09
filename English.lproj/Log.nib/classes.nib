@@ -1,0 +1,13 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {clean = id; show = id; }; 
+            CLASS = DBLogger; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {logView = NSTextView; logWin = NSWindow; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+    ); 
+    IBVersion = 1; 
+}

@@ -56,6 +56,7 @@
 
 - (void)login :(NSURL *)url :(NSString *)userName :(NSString *)password :(BOOL)useHttps;
 - (void)setLogger: (DBLogger *)l;
+- (DBLogger *)logger;
 
 - (NSMutableArray *)queryFull :(NSString *)queryString queryAll:(BOOL)all;
 - (NSString *)query :(NSString *)queryString queryAll:(BOOL)all toArray:(NSMutableArray *)objects;

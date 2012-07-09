@@ -45,6 +45,7 @@ typedef enum
 -(void)setLogLevel: (DBLogLevel)l;
 -(IBAction)show:(id)sender;
 -(void)log: (DBLogLevel)level :(NSString* )format, ...;
+-(IBAction)clean;
 
 @end
 

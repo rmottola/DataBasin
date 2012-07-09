@@ -1,7 +1,7 @@
 /*
    Project: DataBasin
 
-   Copyright (C) 2008-2011 Free Software Foundation
+   Copyright (C) 2008-2012 Free Software Foundation
 
    Author: Riccardo Mottola
 
@@ -33,12 +33,11 @@
 - (void)setDBSoap: (DBSoap *)dbs
 {
   db = dbs;
+  logger = [db logger];
 }
 
 - (void)query :(NSString *)queryString queryAll:(BOOL)all toWriter:(DBCVSWriter *)writer
 {
-  int            i;
-  int            j;
   int            batchSize;
 
   NSString       *qLoc;
@@ -58,8 +57,6 @@
 
   while (qLoc != nil)
     {
-      NSMutableArray *set;
-
       [sObjects removeAllObjects];
       NSLog(@"size %d", [sObjects count]);
       qLoc = [db queryMore: qLoc toArray: sObjects];
@@ -85,16 +82,15 @@
   NSArray *keys;
 
   /* retrieve objects to create */
-  NSLog(@"CVS identify 1.....");
   
   /* first the fields */
   inFieldNames = [reader fieldNames];
   inFieldCount = [inFieldNames count];
   dataSet = [reader readDataSet];
-  NSLog(@"field names: %@", inFieldNames);
+  [logger log: LogDebug :@"[DBSoapCSV queryIdentify] field names: %@\n", inFieldNames];
   if (inFieldCount > 1)
     {
-      NSLog(@"We cannot identify %d field", inFieldCount);
+      [logger log: LogStandard :@"[DBSoapCSV queryIdentify] We cannot identify on %d fields\n", inFieldCount];
       return;
     }
   identifierArray = [[NSMutableArray arrayWithCapacity: [dataSet count]] retain];
@@ -102,7 +98,7 @@
     [identifierArray addObject: [[dataSet objectAtIndex: i] objectAtIndex: 0]];
   sObjects = [[NSMutableArray alloc] init];
   identifier = [inFieldNames objectAtIndex: 0];
-  NSLog(@"identify through %@", identifier);
+  [logger log: LogStandard :@"[DBSoapCSV queryIdentify] Identify through %@\n", identifier];
 
   [db queryIdentify:queryString with:identifier queryAll:all fromArray:identifierArray toArray: sObjects withBatchSize:bSize];
 
@@ -254,8 +250,8 @@
   /* retrieve objects to delete */
   // FIXME perhaps this copy is useless
   objectsArray = [[NSMutableArray arrayWithArray:[reader readDataSet]] retain];
-  NSLog(@"objects to delete: %@", objectsArray);
-  NSLog(@"count of objects to delete: %d", [objectsArray count]);
+  [logger log: LogDebug :@"[DBSoapCSV delete] objects to delete: %@\n", objectsArray];
+  [logger log: LogStandard :@"[DBSoapCSV delete] Count of objects to delete: %d\n", [objectsArray count]];
 
   resultArray = [db delete:objectsArray];
   [objectsArray release];

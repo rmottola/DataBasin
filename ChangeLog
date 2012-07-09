@@ -1,6 +1,15 @@
 2012-07-09 Riccardo Mottola <rm@gnu.org>
 
 	* AppController.m
+	* DBCVSReader.h
+	* DBCVSReader.m
+	* DBCVSWriter.h
+	* DBCVSWriter.m
+	Add logger to CVS reader and writer.
+
+2012-07-09 Riccardo Mottola <rm@gnu.org>
+
+	* AppController.m
 	Bump API version to 25
 
 2012-07-06 Riccardo Mottola <rm@gnu.org>

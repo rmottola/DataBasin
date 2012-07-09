@@ -23,20 +23,26 @@
 */
 
 #import "DBCVSReader.h"
+#import "DBLogger.h"
 
 
 @implementation DBCVSReader
 
-- (id)initWithPath:(NSString *)filePath
+- (id)initWithPath:(NSString *)filePath withLogger:(DBLogger *)l
 {
   if ((self = [super init]))
     {
-      [self initWithPath:filePath byParsingHeaders:YES];
+      [self initWithPath:filePath byParsingHeaders:YES withLogger:l];
     }
   return self;
 }
 
-- (id)initWithPath:(NSString *)filePath byParsingHeaders:(BOOL)parseHeader
+- (void)setLogger:(DBLogger *)l
+{
+  logger = l;
+}
+
+- (id)initWithPath:(NSString *)filePath byParsingHeaders:(BOOL)parseHeader withLogger:(DBLogger *)l
 {
   if ((self = [super init]))
     {
@@ -44,18 +50,19 @@
       NSRange firstNLRange;
       NSRange firstCRRange;
 
+      logger = l;
       isQualified = NO;
       qualifier = @"\"";
       separator = @",";
       newLine = @"\n";
       currentLine = 0;
       fileContentString = [NSString stringWithContentsOfFile:filePath];
-      NSLog(@"init with Path... analyzing file");
+      [logger log:LogStandard :@"[DBCVSReader initWithPath] analyzing file\n"];
       if (fileContentString)
       {
 	if ([[fileContentString substringToIndex:[qualifier length]] isEqualToString: qualifier])
 	  isQualified = YES;
-	NSLog(@"File is qualified? %d", isQualified);
+	[logger log:LogStandard :@"[DBCVSReader initWithPath] Is file qualified? %d\n", isQualified];
 
 	firstNLRange = [fileContentString rangeOfString:@"\n"];
 	firstCRRange = [fileContentString rangeOfString:@"\r"];
@@ -65,7 +72,7 @@
 	    /* it can be NL only */
 	    if (firstNLRange.location > 0)
 	      {
-		NSLog(@"standard unix-style");
+		[logger log:LogStandard :@"[DBCVSReader initWithPath] standard unix-style\n"];
 		newLine = @"\n";
 	      }
 	    else
@@ -78,19 +85,19 @@
 	      {
 		if (firstNLRange.location - firstCRRange.location == 1)
 		  {
-		    NSLog(@"standard DOS-style");
+		    [logger log:LogStandard :@"[DBCVSReader initWithPath] standard DOS-style\n"];
 		    newLine=@"\r\n";
 		  }
 		else
-		  NSLog(@"ambiguous, using unix-style");
+		  [logger log:LogStandard :@"[DBCVSReader initWithPath] ambiguous, using unix-style\n"];
 	      }
 	    else if (firstCRRange.location > 0)
 	      {
-		NSLog(@"old mac-style");
+		[logger log:LogStandard :@"[DBCVSReader initWithPath] old mac-style\n"];
 		newLine = @"\r";
 	      }
 	    else
-	      NSLog(@"coud not determine line ending style");
+	      [logger log:LogStandard :@"[DBCVSReader initWithPath] could not determine line ending style\n"];
 	  }
 
 	linesArray = [[fileContentString componentsSeparatedByString:newLine] retain];
@@ -119,7 +126,7 @@
 
   record = [self decodeOneLine:firstLine];
     
-  NSLog(@"header %@", record);
+  [logger log:LogDebug :@"[DBCVSReader getFieldNames] header %@\n", record];
   return record;
 }
 
@@ -159,7 +166,7 @@
       NSString *token;
 
       field = @"";
-      NSLog(@"loc %lu, total length: %lu", [scanner scanLocation], [line length]);
+      //NSLog(@"loc %lu, total length: %lu", [scanner scanLocation], [line length]);
       inField = false;
       while ([scanner scanLocation] < [line length])
 	{
@@ -176,11 +183,11 @@
 	      if ([line characterAtIndex:(loc-1)] == '\\')
 		{
 		  /* it was an escaped qualifier */
-		  NSLog(@"Escaped qualifier");
+		  //NSLog(@"Escaped qualifier");
 		  inField = YES;
 		  field = [field stringByAppendingString: [token substringToIndex:[token length]-1]];
 		  field = [field stringByAppendingString: @"\""];
-		  NSLog(@"f2: %@", field);
+		  //NSLog(@"f2: %@", field);
 		  [scanner scanString:qualifier intoString:(NSString **)nil];
 		}
 	      else
@@ -215,7 +222,7 @@
 	  [scanner scanString:separator intoString:(NSString **)nil];
 	}
     }
-  NSLog(@"decoded record: %@", record);
+  [logger log:LogDebug :@"[DBCVSReader getFieldNames] decoded record: %@\n", record];
   return record;
 }
 
@@ -223,7 +230,6 @@
 {
   if (currentLine < [linesArray count])
     {
-      NSLog(@"line %@", [linesArray objectAtIndex:currentLine]);
       return [linesArray objectAtIndex:currentLine++];
     }
   return nil;

@@ -1,7 +1,7 @@
 /*
    Project: DataBasin
 
-   Copyright (C) 2009-2010 Free Software Foundation
+   Copyright (C) 2009-2012 Free Software Foundation
 
    Author: Riccardo Mottola
 
@@ -24,6 +24,7 @@
 
 #import "DBCVSWriter.h"
 #import "DBSObject.h"
+#import "DBLogger.h"
 
 @implementation DBCVSWriter
 
@@ -37,10 +38,13 @@
       separator = @",";
       newLine = @"\n";
       [self setStringEncoding: NSUTF8StringEncoding];
-      //      encoding = NSUTF8StringEncoding;
-      //      bomLength = 3;
    }
   return self;
+}
+
+- (void)setLogger:(DBLogger *)l
+{
+  logger = l;
 }
 
 - (void)setIsQualified: (BOOL)flag

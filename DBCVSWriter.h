@@ -1,7 +1,7 @@
 /*
    Project: DataBasin
 
-   Copyright (C) 2009-20112Free Software Foundation
+   Copyright (C) 2009-2012 Free Software Foundation
 
    Author: Riccardo Mottola
 
@@ -24,8 +24,11 @@
 
 #import <Foundation/Foundation.h>
 
+@class DBLogger;
+
 @interface DBCVSWriter : NSObject
 {
+  DBLogger     *logger;
   NSArray      *fieldNames;
   NSArray      *fieldTypes;
   NSFileHandle *file;
@@ -38,6 +41,7 @@
 }
 
 - (id)initWithHandle:(NSFileHandle *)fileHandle;
+- (void)setLogger:(DBLogger *)l;
 - (void)setFieldNames:(NSArray *)array andWriteIt:(BOOL)flag;
 - (void)writeDataSet:(NSArray *)array;
 - (NSString *)formatOneLine:(NSArray *)values forHeader:(BOOL) headerFlag;

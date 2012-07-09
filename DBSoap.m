@@ -37,6 +37,11 @@
   logger = [l retain];
 }
 
+- (DBLogger *)logger
+{
+  return logger;
+}
+
 - (void)login :(NSURL *)url :(NSString *)userName :(NSString *)password :(BOOL)useHttps
 {
   GWSSOAPCoder          *coder;

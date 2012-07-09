@@ -10,6 +10,12 @@
 	* DBLogger.[h,m]
 	Log cleaner method.
 
+	* DBSoapCSV.[h,m]
+	Adopt logger.
+
+	* DBSoap.[h,m]
+	Logger getter.
+
 2012-07-09 Riccardo Mottola <rm@gnu.org>
 
 	* AppController.m

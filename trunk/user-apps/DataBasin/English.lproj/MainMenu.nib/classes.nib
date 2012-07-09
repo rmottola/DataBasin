@@ -23,6 +23,7 @@
                 showDelete = id; 
                 showDescribe = id; 
                 showInsert = id; 
+                showLog = id; 
                 showLogin = id; 
                 showObjectInspector = id; 
                 showPrefPanel = id; 
@@ -69,6 +70,7 @@
                 fieldUserNameInsp = NSTextField; 
                 popupBatchSizeIdentify = NSPopUpButton; 
                 popupEnvironment = NSPopUpButton; 
+                popupLogLevel = NSPopUpButton; 
                 popupObjectsDescribe = NSPopUpButton; 
                 popupObjectsInsert = NSPopUpButton; 
                 popupObjectsUpdate = NSPopUpButton; 

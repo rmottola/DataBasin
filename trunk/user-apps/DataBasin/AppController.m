@@ -262,9 +262,9 @@
   
   urlStr = nil;
   if ([popupEnvironment indexOfSelectedItem] == DB_ENVIRONMENT_PRODUCTION)
-    urlStr = [protocolString stringByAppendingString: @"www.salesforce.com/services/Soap/u/20.0"];
+    urlStr = [protocolString stringByAppendingString: @"www.salesforce.com/services/Soap/u/25.0"];
   else if ([popupEnvironment indexOfSelectedItem] == DB_ENVIRONMENT_SANDBOX)
-    urlStr = [protocolString stringByAppendingString: @"test.salesforce.com/services/Soap/u/20.0"];
+    urlStr = [protocolString stringByAppendingString: @"test.salesforce.com/services/Soap/u/25.0"];
 
   [logger log:LogStandard :@"[AppController doLogin] Url: %@\n", urlStr];  
   url = [NSURL URLWithString:urlStr];

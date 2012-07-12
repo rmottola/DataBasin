@@ -26,6 +26,8 @@
 
 #import "DBSoap.h"
 #import "DBSObject.h"
+#import "DBCVSWriter.h"
+#import "DBCVSReader.h"
 
 
 @implementation DBSoap

@@ -86,14 +86,13 @@
   NSString *escapedQualifier;
 
   escapedQualifier = [qualifier stringByAppendingString: qualifier];
-
+ 
   res = nil;
   if ([value isKindOfClass: [NSString class]])
     {
       if (isQualified)
 	{
 	  NSMutableString *s;
-
 	      
 	  s = [[NSMutableString alloc] initWithCapacity: [value length]+2];
 
@@ -119,10 +118,13 @@
       if (isQualified)
 	{
 	  NSMutableString *s;
-	  s = [[NSMutableString alloc] initWithCapacity: [value length]+2];
-	  
+	  NSMutableString *strValue;
+
+	  strValue = [value stringValue];
+	  s = [[NSMutableString alloc] initWithCapacity: [strValue length]+2];
 	  [s appendString: qualifier];
-	  [s appendString: [value stringValue]];
+	  [s appendString: strValue];
+	  [s appendString: qualifier];
 	  res = [NSString stringWithString: s];
 	  [s release];
 	}
@@ -130,6 +132,10 @@
 	{
 	  res = [value stringValue];
 	}
+    }
+  else
+    {
+      [logger log: LogStandard :@"[DBCSVWriter formatScalarObject] %@ has unknown class %@:\n", value, [value class]];
     }
 
   return res;
@@ -314,9 +320,9 @@
 	      value = [obj fieldValue: key];
 	      NSLog(@"key ---> %@ object %@", key, value);
 	      
-	      if ([value isKindOfClass: [NSString class]])
+	      if ([value isKindOfClass: [NSString class]] ||[value isKindOfClass: [NSNumber class]] )
 		{
-		  NSLog(@"String");
+		  NSLog(@"Scalar value");
 		  if (headerFlag)
 		    {
 		      [theLine appendString: [self formatScalarObject:key]];

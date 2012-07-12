@@ -23,11 +23,9 @@
 */
 
 #import <Foundation/Foundation.h>
-
 #import <WebServices/WebServices.h>
+
 #import "DBLogger.h"
-#import "DBCVSWriter.h"
-#import "DBCVSReader.h"
 
 #define MAX_SOQL_SIZE 9000
 #define MAX_BATCH_SIZE 200

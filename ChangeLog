@@ -1,5 +1,10 @@
 2012-07-12 Riccardo Mottola <rm@gnu.org>
 
+	* DBCVSWriter.m
+	Fix parsing of aggregate objects, fix formatting of numbers as scalar objects
+	
+2012-07-12 Riccardo Mottola <rm@gnu.org>
+
 	* DBSoap.h
 	* DBSoap.m
 	Clean up headers.

@@ -225,9 +225,9 @@
   NSArray               *records;
   NSDictionary          *record;
   NSDictionary          *queryFault;
-  NSDictionary         *coderError;
+  NSDictionary          *coderError;
   NSString              *sizeStr;
-  int                   size;
+  unsigned long         size;
   
   /* if the destination array is nil, exit */
   if (objects == nil)
@@ -363,8 +363,18 @@
         [keys removeObject:@"Id"];
       
       
-      //NSLog(@"keys: %@", keys);
-      
+      /* Count() is not like to aggrecate count(Id) and returns no AggregateResult
+	 but returns just a count without an actual records array.
+	 Thus we fake one single object. */
+      if (batchSize == 0 && size > 0)
+	{
+	  DBSObject *sObj;
+        
+          sObj = [[DBSObject alloc] init];
+	  [sObj setValue: [NSNumber numberWithUnsignedLong:size] forField: @"count"];
+	  [objects addObject:sObj];
+	  [sObj release];
+	}
       /* now cycle all the records and read out the fields */
       for (i = 0; i < batchSize; i++)
         {

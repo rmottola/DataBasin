@@ -44,6 +44,11 @@
   return logger;
 }
 
+/**<p>executes login</p>
+   <p><i>url</i> specifies the URL of the endpoint</p>
+   <p><i>useHttps</i> specifies if secure connecton has to be used or not. If not, http is attempted and then enforced.
+   The Salesforce.com instance must be configured to accept non-secure connections.</p>
+ */
 - (void)login :(NSURL *)url :(NSString *)userName :(NSString *)password :(BOOL)useHttps
 {
   GWSSOAPCoder          *coder;
@@ -276,7 +281,7 @@
   if (coderError != nil)
     {
       [logger log: LogStandard :@"[DBSoap query] error: %@\n", coderError];
-      [[NSException exceptionWithName:@"DBException" reason:coderError userInfo:nil] raise];
+      [[NSException exceptionWithName:@"DBException" reason:@"Coder Error, check log" userInfo:nil] raise];
     }
   queryFault = [resultDict objectForKey:@"GWSCoderFault"];
   if (queryFault != nil)
@@ -285,7 +290,6 @@
       NSString *faultName;
     
       faultDetail = [queryFault objectForKey:@"detail"];
-      //      NSLog(@"Fault detail: %@", faultDetail);
       faultName = [[faultDetail objectForKey:@"GWSCoderOrder"] objectAtIndex: 0];
       if (faultName)
 	{

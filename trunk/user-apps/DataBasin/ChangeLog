@@ -1,6 +1,11 @@
 2012-07-13 Riccardo Mottola <rm@gnu.org>
 
 	* DBSoap.m
+	Fix warnining by returning a string and not casting a dictionary.
+
+2012-07-13 Riccardo Mottola <rm@gnu.org>
+
+	* DBSoap.m
 	Fake AggregateResult for count()
 
 2012-07-12 Riccardo Mottola <rm@gnu.org>

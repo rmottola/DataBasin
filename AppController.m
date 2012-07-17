@@ -66,6 +66,8 @@
       loginDict = [[NSUserDefaults standardUserDefaults] objectForKey: @"logins"];
       if (loginDict == nil)
 	loginDict = [NSMutableDictionary dictionary];
+      else
+	loginDict = [NSMutableDictionary dictionaryWithDictionary:loginDict];
       [loginDict retain];
     }
   return self;
@@ -329,14 +331,16 @@
   [logger log:LogStandard :@"[AppController doLogin] %@ logged in succesfully\n", userName];
   
   loginSet = [NSMutableDictionary dictionaryWithCapacity:4];
+  [loginSet retain];
   [loginSet setObject:userName forKey:@"username"];
-  [loginSet setObject:password forKey:@"password"];
+  [loginSet setObject:[fieldPassword stringValue] forKey:@"password"];
   if (token != nil)
     [loginSet setObject:token forKey:@"token"];
   [loginSet setObject:[NSDate date] forKey:@"lastlogin"];
-  //  [loginDict setObject:loginSet forKey:userName];
+  [loginDict setObject:loginSet forKey:userName];
+  [loginSet release];
   NSLog(@"login dictionary is: %@", loginDict);
-  //  [[NSUserDefaults standardUserDefaults] setObject:loginDict forKey: @"logins"];
+  [[NSUserDefaults standardUserDefaults] setObject:loginDict forKey: @"logins"];
 }
 
 /* UPDATE SOBJECT LIST */

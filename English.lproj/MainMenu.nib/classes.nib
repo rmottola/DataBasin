@@ -33,6 +33,7 @@
                 showSessionInspector = id; 
                 showUpdate = id; 
                 showUserInspector = id; 
+                usernameFieldAction = id; 
             }; 
             CLASS = AppController; 
             LANGUAGE = ObjC; 

@@ -1,3 +1,8 @@
+2012-07-18 Riccardo Mottola <rm@gnu.org>
+
+	* AppController.m
+	Transform Dictionary in Mutable Dictionary
+
 2012-07-17 Riccardo Mottola <rm@gnu.org>
 
 	* AppController.h

@@ -5,6 +5,11 @@
 	* Resources/DataBasin.gorm
 	Rough initial work for remembering logins.
 
+	* DBCVSWriter.m
+	* DBSObject.h
+	* DBSObject.m
+	Make value handling generic and not String restrained.
+
 2012-07-13 Riccardo Mottola <rm@gnu.org>
 
 	* DBSoap.m

@@ -62,7 +62,11 @@
     {
       logger = [[DBLogger alloc] init];
 
-      [logger setLogLevel: [[[NSUserDefaults standardUserDefaults] valueForKey: @"LogLevel"] intValue]];
+      [logger setLogLevel: [[[NSUserDefaults standardUserDefaults] objectForKey: @"LogLevel"] intValue]];
+      loginDict = [[NSUserDefaults standardUserDefaults] objectForKey: @"logins"];
+      if (loginDict == nil)
+	loginDict = [NSMutableDictionary dictionary];
+      [loginDict retain];
     }
   return self;
 }
@@ -72,6 +76,7 @@
   [dbCsv release];
   [db release];
   [logger release];
+  [loginDict release];
   [super dealloc];
 }
 
@@ -227,6 +232,22 @@
   [winLogin makeKeyAndOrderFront:self];
 }
 
+- (IBAction)usernameFieldAction:(id)sender
+{
+  NSDictionary *loginSet;
+  NSString *userName;
+  NSString *token;
+
+  userName = [fieldUserName stringValue];
+  loginSet = [loginDict objectForKey:userName];
+  NSLog(@"found login: %@", loginSet);
+  [fieldPassword setStringValue:[loginSet objectForKey:@"password"]];
+  token = [loginSet objectForKey:@"token"];
+  if (token == nil)
+    token = @"";
+  [fieldToken setStringValue:token];
+}
+
 - (IBAction)doLogin:(id)sender
 {
   NSString *userName;
@@ -237,13 +258,14 @@
   NSDictionary *uInfo;
   BOOL useHttps;
   NSString *protocolString;
+  NSMutableDictionary *loginSet;
   
   userName = [fieldUserName stringValue];
   password = [fieldPassword stringValue];
   token = [fieldToken stringValue];
 
   useHttps = NO;
-  if ([[[NSUserDefaults standardUserDefaults] valueForKey: @"UseHttps"] intValue] == NSOnState)
+  if ([[[NSUserDefaults standardUserDefaults] objectForKey: @"UseHttps"] intValue] == NSOnState)
     useHttps = YES;
 
   if (useHttps)
@@ -299,8 +321,22 @@
         [faultPanel makeKeyAndOrderFront:nil];
 	return;
       }
+    else
+      {
+	NSLog(@"Unexpected exception: @", [localException name]);
+      }
   NS_ENDHANDLER
   [logger log:LogStandard :@"[AppController doLogin] %@ logged in succesfully\n", userName];
+  
+  loginSet = [NSMutableDictionary dictionaryWithCapacity:4];
+  [loginSet setObject:userName forKey:@"username"];
+  [loginSet setObject:password forKey:@"password"];
+  if (token != nil)
+    [loginSet setObject:token forKey:@"token"];
+  [loginSet setObject:[NSDate date] forKey:@"lastlogin"];
+  //  [loginDict setObject:loginSet forKey:userName];
+  NSLog(@"login dictionary is: %@", loginDict);
+  //  [[NSUserDefaults standardUserDefaults] setObject:loginDict forKey: @"logins"];
 }
 
 /* UPDATE SOBJECT LIST */

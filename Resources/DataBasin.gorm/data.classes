@@ -6,6 +6,7 @@
 	    "prefPanelCancel:",
 	    "prefPanelOk:",
 	    "showLogin:",
+	    "usernameFieldAction:",
 	    "doLogin:",
 	    "showSessionInspector:",
 	    "showUserInspector:",
@@ -125,7 +126,8 @@
 	    "showSelectIdentify:",
 	    "showSessionInspector:",
 	    "showUpdate:",
-	    "showUserInspector:"
+	    "showUserInspector:",
+	    "usernameFieldAction:"
 	);
 	Super = NSObject;
     };

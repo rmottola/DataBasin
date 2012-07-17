@@ -37,6 +37,7 @@
   DBSoap    *db;
   DBSoapCSV *dbCsv;
   DBLogger  *logger;
+  NSMutableDictionary *loginDict;
 
   /* fault panel */
   IBOutlet NSPanel    *faultPanel;
@@ -135,6 +136,7 @@
 - (IBAction)prefPanelOk:(id)sender;
 
 - (IBAction)showLogin:(id)sender;
+- (IBAction)usernameFieldAction:(id)sender;
 - (IBAction)doLogin:(id)sender;
 
 - (IBAction)showSessionInspector:(id)sender;

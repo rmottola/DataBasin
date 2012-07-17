@@ -170,7 +170,7 @@ converting it if necessary.</p>
 
 /** <p>Returns the value of field <i>field</i><p>
 */
-- (NSString *)fieldValue: (NSString *)field
+- (id)fieldValue: (NSString *)field
 {
   return [recordValues objectForKey: field];
 }
@@ -178,7 +178,7 @@ converting it if necessary.</p>
 /** <p>Sets the value of the given field of the record and adds it
     to the list if field names if it was not already present.</p>
 */
-- (void)setValue: (NSString *)value forField: (NSString*)field
+- (void)setValue: (id)value forField: (NSString*)field
 {
   if (![fieldNames containsObject: field])
     [fieldNames addObject: field];

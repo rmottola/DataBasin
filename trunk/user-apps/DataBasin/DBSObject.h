@@ -2,7 +2,7 @@
  Project: DataBasin
  DBSobject.h
  
- Copyright (C) 2010-2011 Free Software Foundation
+ Copyright (C) 2010-2012 Free Software Foundation
  
  Author: Riccardo Mottola
  
@@ -66,8 +66,8 @@
 - (NSDictionary *)propertiesOfField: (NSString *)field;
 
 - (NSArray *)fieldNames;
-- (NSString *)fieldValue: (NSString *)field;
-- (void)setValue: (NSString *)value forField:(NSString *)field;
+- (id)fieldValue: (NSString *)field;
+- (void)setValue: (id)value forField:(NSString *)field;
 
 /** <p>Loads or refreshes the value of all known fields to the object.</p>
  *  <p>If the object is instantiated as a result of a describe, it will load all values.</p>

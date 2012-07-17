@@ -118,7 +118,7 @@
       if (isQualified)
 	{
 	  NSMutableString *s;
-	  NSMutableString *strValue;
+	  NSString *strValue;
 
 	  strValue = [value stringValue];
 	  s = [[NSMutableString alloc] initWithCapacity: [strValue length]+2];

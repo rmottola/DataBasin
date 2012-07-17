@@ -34,6 +34,8 @@
 #define DB_ENVIRONMENT_PRODUCTION 0
 #define DB_ENVIRONMENT_SANDBOX    1
 
+#define MAX_STORED_LOGINS 5
+
 #if defined(__APPLE__) && (MAC_OS_X_VERSION_MAX_ALLOWED <= MAC_OS_X_VERSION_10_4)
 #define NSUTF16StringEncoding 999
 #endif
@@ -340,6 +342,30 @@
   [loginDict setObject:loginSet forKey:userName];
   [loginSet release];
   NSLog(@"login dictionary is: %@", loginDict);
+  if ([loginDict count] > MAX_STORED_LOGINS)
+    { 
+      NSEnumerator *e;
+      id key;
+      id oldKey;
+
+      [logger log:LogInformative :@"[AppController doLogin] Maximum number of stored logins reached, removing oldest\n"];
+      e = [loginDict keyEnumerator];
+      oldKey = nil;
+      while ((key = [e nextObject]))
+	{
+	  NSDictionary *currSet;
+	  NSDictionary *oldSet;
+
+	  if (oldKey == nil)
+	    oldKey = key;
+	  currSet = [loginDict objectForKey:key];
+	  oldSet = [loginDict objectForKey:oldKey];
+	  if ([[currSet objectForKey:@"lastlogin"] compare: [oldSet objectForKey:@"lastlogin"]] == NSOrderedAscending)
+	    oldKey = key;
+	}
+      [logger log:LogInformative :@"[AppController doLogin] delete: %@\n", oldKey];
+      [loginDict removeObjectForKey:oldKey];
+    }
   [[NSUserDefaults standardUserDefaults] setObject:loginDict forKey: @"logins"];
 }
 

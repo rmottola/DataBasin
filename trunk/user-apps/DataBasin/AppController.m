@@ -241,6 +241,7 @@
   NSDictionary *loginSet;
   NSString *userName;
   NSString *token;
+  NSNumber *envNum;
 
   userName = [fieldUserName stringValue];
   loginSet = [loginDict objectForKey:userName];
@@ -250,6 +251,10 @@
   if (token == nil)
     token = @"";
   [fieldToken setStringValue:token];
+
+  envNum = [loginSet objectForKey:@"environment"];
+  if (envNum)
+    [popupEnvironment selectItemAtIndex:[popupEnvironment indexOfItemWithTag:[envNum intValue]]];
 }
 
 - (IBAction)doLogin:(id)sender
@@ -339,6 +344,7 @@
   if (token != nil)
     [loginSet setObject:token forKey:@"token"];
   [loginSet setObject:[NSDate date] forKey:@"lastlogin"];
+  [loginSet setObject:[NSNumber numberWithInt:[popupEnvironment indexOfSelectedItem]] forKey:@"environment"];
   [loginDict setObject:loginSet forKey:userName];
   [loginSet release];
   NSLog(@"login dictionary is: %@", loginDict);

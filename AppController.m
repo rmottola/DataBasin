@@ -254,7 +254,7 @@
 
   envNum = [loginSet objectForKey:@"environment"];
   if (envNum)
-    [popupEnvironment selectItemAtIndex:[popupEnvironment indexOfItemWithTag:[envNum intValue]]];
+    [popupEnvironment selectItemAtIndex:[envNum intValue]];
 }
 
 - (IBAction)doLogin:(id)sender

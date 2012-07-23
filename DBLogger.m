@@ -58,17 +58,6 @@
 }
 
 
-/*
- This routine is called after adding new results to the text view's backing store.
- We now need to scroll the NSScrollView in which the NSTextView sits to the part
- that we just added at the end
- */
-- (void)scrollToVisible:(id)ignore
-{
-  [logView scrollRangeToVisible:NSMakeRange([[logView string] length], 0)];
-}
-
-
 -(void)log: (DBLogLevel)level :(NSString* )format, ...
 {
   va_list ap;
@@ -107,7 +96,8 @@
       [formattedString release];
 
       /* we scroll in the next run of the event loop */
-      [self performSelector:@selector(scrollToVisible:) withObject:nil afterDelay:0.0];
+      [[NSRunLoop currentRunLoop] runUntilDate:[NSDate distantPast]];
+      [logView scrollRangeToVisible:NSMakeRange([[logView string] length], 0)];
     }
 }
 

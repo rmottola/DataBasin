@@ -210,7 +210,7 @@
 }
 
 
-/** <p>execute SOQL query and write the resulting DBSObjectes into the <i>objects</i> array
+/** <p>execute SOQL query and write the resulting DBSObjects into the <i>objects</i> array
   which must be valid and allocated. </p>
   <p>If the query locator is returned,  a query more has to be executed.</p>
   <p>Returns exception</p>

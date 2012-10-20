@@ -13,7 +13,7 @@ include $(GNUSTEP_MAKEFILES)/common.make
 #
 # Application
 #
-VERSION = 0.5
+VERSION = 0.6
 PACKAGE_NAME = DataBasin
 APP_NAME = DataBasin
 DataBasin_APPLICATION_ICON = 
@@ -44,7 +44,9 @@ DBCVSReader.h \
 DBSObject.h \
 DBObjectInspector.h \
 DBSoapCSV.h \
-DBLogger.h
+DBLogger.h \
+DBProgressProtocol.h \
+DBProgress.h
 
 #
 # Class files
@@ -57,7 +59,8 @@ DBCVSReader.m \
 DBSObject.m \
 DBObjectInspector.m \
 DBSoapCSV.m \
-DBLogger.m
+DBLogger.m \
+DBProgress.m
 
 #
 # Other sources

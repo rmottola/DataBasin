@@ -341,10 +341,17 @@
       int            j;
       int    batchSize;
       NSMutableArray *keys;
+      NSScanner *scan;
+      long long ll;
+
+      scan = [NSScanner scannerWithString:sizeStr];
+      if ([scan scanLongLong:&ll])
+	size = (unsigned long)ll;
+      else
+	size = 0;
     
-    
-      size = [sizeStr intValue];
-      [logger log: LogInformative: @"[DBSoap query] Declared size is: %d\n", size];
+      //size = [sizeStr intValue];
+      [logger log: LogInformative: @"[DBSoap query] Declared size is: %lu\n", size];
     
       /* if we have only one element, put it in an array */
       if (size == 1)
@@ -434,7 +441,7 @@
   NSDictionary          *record;
   NSDictionary          *queryFault;
   NSString              *sizeStr;
-  int                   size;
+  unsigned long         size;
 
   /* if the destination array is nil, exit */
   if (objects == nil)
@@ -507,12 +514,12 @@
     {
       int            i;
       int            j;
-      int    batchSize;
+      NSUInteger     batchSize;
       NSMutableArray *keys;
       
-      
-      size = [sizeStr intValue];
-      NSLog(@"Declared size is: %d", size);
+      /* this will be only as big as a batch anyway */
+      size = (unsigned long)[sizeStr intValue];
+      NSLog(@"Declared size is: %lu", size);
       
       /* if we have only one element, put it in an array */
       if (size == 1)
@@ -522,7 +529,7 @@
       record = [records objectAtIndex:0];
       batchSize = [records count];        
       
-      NSLog(@"records size is: %d", batchSize);
+      NSLog(@"records size is: %lu", batchSize);
       
       /* let's get the fields from the keys of the first record */
       keys = [NSMutableArray arrayWithArray:[record allKeys]];
@@ -853,7 +860,7 @@
   NSDictionary          *resultDict;
   NSEnumerator          *enumerator;
   NSArray               *fieldNames;
-  int                   fieldCount;
+  unsigned              fieldCount;
   DBSObject             *sObject;
   unsigned              batchCounter;
   NSMutableArray        *queryObjectsArray;
@@ -893,7 +900,7 @@
     NSDictionary        *record;
     NSDictionary        *queryFault;
     NSString            *sizeStr;
-    int                 size;
+    unsigned            size;
 
     NSLog(@"inner cycle: %d", batchCounter);
     sObj = [NSMutableDictionary dictionaryWithCapacity: 2];
@@ -970,17 +977,17 @@
 
 	if (sizeStr != nil)
 	  {
-	    int            i;
-	    int            j;
-	    int    batchSize;
+	    unsigned        i;
+	    unsigned        j;
+	    unsigned        batchSize;
 	    NSMutableArray *keys;
 	    NSMutableArray *set;
       
       
-	    size = [sizeStr intValue];
+	    size = (unsigned)[sizeStr intValue];
 	    batchSize = [records count];
-	    NSLog(@"Declared size is: %d", size);
-	    NSLog(@"records size is: %d", batchSize);
+	    NSLog(@"Declared size is: %u", size);
+	    NSLog(@"records size is: %u", batchSize);
       
 	    /* let's get the fields from the keys of the first record */
 	    record = [records objectAtIndex:0];
@@ -1005,7 +1012,7 @@
 		    value = [record objectForKey:[keys objectAtIndex:j]];
 		    [values addObject:value];
 		  }
-		NSLog(@"%d: %@", i, values);
+		NSLog(@"%u: %@", i, values);
 		[set addObject:values];
 	      }
 	    /* we don't do yet anything useful with the results... */
@@ -1045,7 +1052,7 @@
   NSDictionary          *queryFault;
   NSArray               *sobjects;
   NSMutableArray        *objectList;
-  int                   i;
+  unsigned              i;
 
   /* prepare the header */
   sessionHeaderDict = [NSMutableDictionary dictionaryWithCapacity: 2];
@@ -1101,7 +1108,7 @@
       NSArray *propertiesArray;
       NSMutableDictionary *propertiesDict;
       DBSObject *dbObj;
-      int j;
+      unsigned j;
     
       sObj = [sobjects objectAtIndex: i];
       propertiesArray = [sObj objectForKey: @"GWSCoderOrder"];
@@ -1138,7 +1145,7 @@
 {
   if (sObjectNamesList == nil)
     {
-      int i;
+      unsigned i;
 
       if (sObjectList == nil)
 	sObjectList = [[self describeGlobal] retain];
@@ -1154,7 +1161,7 @@
 /** Force an udpate to the currently stored object  list */
 - (void)updateObjects
 {
-  int i;
+  unsigned i;
 
   [sObjectList release];
   sObjectList = [[self describeGlobal] retain];
@@ -1167,8 +1174,8 @@
 
 - (void)describeSObject: (NSString *)objectType toWriter:(DBCVSWriter *)writer
 {
-  int            i;
-  int            size;
+  unsigned       i;
+  unsigned       size;
   DBSObject      *object;
   NSDictionary   *properties;
   NSArray        *fields;
@@ -1191,7 +1198,7 @@
   for (i = 0; i < size; i++)
     {
       NSMutableArray *values;
-      int            j;
+      unsigned       j;
       NSString       *field;
       
       field = [fields objectAtIndex: i];
@@ -1227,8 +1234,8 @@
   NSDictionary          *queryFault;
   NSArray               *records;
   NSDictionary          *record;
-  int                   i;
-  int                   size;
+  unsigned              i;
+  unsigned              size;
   NSMutableArray        *keys;
   DBSObject             *object;
   NSMutableDictionary   *propDict;

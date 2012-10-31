@@ -27,12 +27,15 @@
 
 #import "DBProgressProtocol.h"
 
+@class DBLogger;
+
 @interface DBProgress : NSObject <DBProgressProtocol>
 {
-  NSString *currentDescription;
-  NSUInteger currVal;
-  NSUInteger maxVal;
-  float percent;
+  DBLogger       *logger;
+  NSString       *currentDescription;
+  unsigned long  currVal;
+  unsigned long  maxVal;
+  float          percent;
 }
 
 @end

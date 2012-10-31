@@ -23,29 +23,56 @@
 */
 
 #import "DBProgress.h"
+#import "DBLogger.h"
 
 @implementation DBProgress
 
+
 /* protocol methods */
--(void)setMaximumValue:(NSUInteger)max
+- (void)setLogger:(DBLogger *)l
 {
-  maxVal = max;
+  logger = l;
 }
 
--(void)setCurrentValue:(NSUInteger)current
+-(void)reset
+{
+  maxVal = 0;
+  currVal = 0;
+  percent = 0;
+  currentDescription = @"";
+}
+
+-(void)setMaximumValue:(unsigned long)max
+{
+  maxVal = max;
+  [logger log:LogDebug :@"[DBProgress] maximum: %lu\n", maxVal];
+}
+
+-(void)setCurrentValue:(unsigned long)current
 {
   currVal = current;
+  [logger log:LogDebug :@"[DBProgress] current: %lu\n", currVal];
+  percent = (double)(currVal * 100) / (double)maxVal; 
+  [logger log:LogStandard :@"[DBProgress]: %f\n", percent];
+}
+
+-(void)incrementCurrentValue:(unsigned long)amount
+{
+  [logger log:LogDebug :@"[DBProgress] amount: %lu\n", amount];
+  [self setCurrentValue:(currVal+amount)];
 }
 
 -(void)setEnd
 {
   percent = 100.0;
+  [logger log:LogDebug :@"[DBProgress]: %f\n", percent];
 }
 
 
 -(void)setCurrentDescription:(NSString *)desc
 {
   currentDescription = desc;
+  [logger log:LogStandard :@"[DBProgress]:[%@]\n", currentDescription];
 }
 
 @end

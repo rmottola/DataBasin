@@ -42,7 +42,7 @@
 
 - (id)initWithHandle:(NSFileHandle *)fileHandle;
 - (void)setLogger:(DBLogger *)l;
-- (void)setFieldNames:(NSArray *)array andWriteIt:(BOOL)flag;
+- (void)setFieldNames: (id)obj andWriteIt: (BOOL)flag;
 - (void)writeDataSet:(NSArray *)array;
 - (NSString *)formatOneLine:(NSArray *)values forHeader:(BOOL) headerFlag;
 - (void)setStringEncoding: (NSStringEncoding) enc;

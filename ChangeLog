@@ -1,3 +1,10 @@
+2012-10-31 Riccardo Mottola <rm@gnu.org>
+
+	* DBProgress.h
+	* DBProgress.m
+	* DBProgressProtocol.h
+	New reset, increment by amount methods.
+
 2012-10-19 Riccardo Mottola <rm@gnu.org>
 
 	* DBProgress.h

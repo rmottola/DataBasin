@@ -259,7 +259,7 @@
       NSData *data2;
       id o;
 
-      NSLog(@"write data set");
+//      NSLog(@"write data set");
       o = [array objectAtIndex:i];
       if ([o isKindOfClass: [DBSObject class]])
 	o = [NSArray  arrayWithObject: o];
@@ -281,7 +281,7 @@
   int      i;
   id       obj;
   
-  NSLog(@"Format one line array: %@", values);
+//  NSLog(@"Format one line array: %@", values);
 
   size = [values count];
 
@@ -291,7 +291,7 @@
   escapedQualifier = [qualifier stringByAppendingString: qualifier];
 
   theLine = [[NSMutableString alloc] initWithCapacity:64];
-  NSLog(@"format one line");
+
   for (i = 0; i < size; i++)
     {
       obj = [values objectAtIndex:i];
@@ -306,7 +306,7 @@
 	  unsigned j;
 	  NSMutableArray *values;
 
-	  NSLog(@"DBSObject at root level");
+//	  NSLog(@"DBSObject at root level");
 
 	  keys = [obj fieldNames];
 
@@ -318,11 +318,10 @@
 
 	      key = [keys objectAtIndex: j];
 	      value = [obj fieldValue: key];
-	      NSLog(@"key ---> %@ object %@", key, value);
+	      // NSLog(@"key ---> %@ object %@", key, value);
 	      
 	      if ([value isKindOfClass: [NSString class]] ||[value isKindOfClass: [NSNumber class]] )
 		{
-		  NSLog(@"Scalar value");
 		  if (headerFlag)
 		    {
 		      [theLine appendString: [self formatScalarObject:key]];
@@ -334,7 +333,7 @@
 		}
 	      else if ([value isKindOfClass: [NSDictionary class]])
 		{
-		  NSLog(@"Dictionary");
+		  // NSLog(@"Dictionary");
 		  [theLine appendString: [self formatComplexObject:value withRoot:key forHeader:headerFlag]];
 		}
 	      else

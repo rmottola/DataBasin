@@ -591,14 +591,30 @@
   <li>&gt 1: The given batch size is used in a clause like Field in ('value1', 'value2', ... )</li>
   </ul>
  */
-- (void)queryIdentify :(NSString *)queryString with: (NSString *)identifier queryAll:(BOOL)all fromArray:(NSArray *)fromArray toArray:(NSMutableArray *)outArray withBatchSize:(int)batchSize
+- (void)queryIdentify :(NSString *)queryString with: (NSArray *)identifiers queryAll:(BOOL)all fromArray:(NSArray *)fromArray toArray:(NSMutableArray *)outArray withBatchSize:(int)batchSize
 {
   unsigned i;
   unsigned j;
   unsigned b;
   BOOL batchable;
   BOOL autoBatch;
+  BOOL multiKey;
+  NSString *identifier;
   
+  multiKey = NO;
+  identifier = nil;
+  if ([identifiers count] > 1)
+    {
+      multiKey = YES;
+      [logger log: LogDebug: @"[DBSoap queryIdentify], multi-identifier %@\n", identifiers];
+    }
+  else if ([identifiers count] == 1)
+    {
+      multiKey = NO;
+      identifier = [identifiers objectAtIndex:0];
+      [logger log: LogDebug: @"[DBSoap queryIdentify], single identifier: %@\n", identifier];
+    }
+
   batchable = NO;
   autoBatch = NO;
   if (batchSize < 0)
@@ -615,7 +631,20 @@
       NSMutableString *completeQuery;
       NSMutableArray *resArray;
 
-      [logger log: LogDebug: @"[DBSoap queryIdentify] %u %@\n", i, [fromArray objectAtIndex: i]];
+      NSString *currKeyString;
+      NSArray *currKeyArray;
+
+      multiKey = NO;
+      if (multiKey)
+	{
+	  currKeyArray = (NSArray*)[fromArray objectAtIndex: i];
+	  [logger log: LogDebug: @"[DBSoap queryIdentify], multi-key %u %@\n", i, currKeyArray];
+	}
+      else
+	{
+	  currKeyString = (NSString*)[fromArray objectAtIndex: i];
+	  [logger log: LogDebug: @"[DBSoap queryIdentify], single key %u %@\n", i, currKeyString];
+	}
 
       completeQuery = [[NSMutableString stringWithString: queryString] retain];
       if ([queryString rangeOfString:@"WHERE" options:NSCaseInsensitiveSearch].location != NSNotFound)
@@ -626,30 +655,53 @@
 	{
 	  [completeQuery appendString: @" WHERE "];
 	}
-      [completeQuery appendString: identifier];
+      
       if (!batchable)
 	{
-	  [completeQuery appendString: @" = '"];
-	  [completeQuery appendString: [fromArray objectAtIndex: i]];
-	  [completeQuery appendString: @"'"];
+	  if (!multiKey)
+	    {
+	      [completeQuery appendString: identifier];
+	      [completeQuery appendString: @" = '"];
+	      [completeQuery appendString: currKeyString];
+	      [completeQuery appendString: @"'"];
+	    }
+	  else
+	    {
+	      unsigned k;
+
+	      [completeQuery appendString: @" = '"];
+	      for (k = 0; k < [currKeyArray count]; k++)
+		{
+		  [completeQuery appendString: [currKeyArray objectAtIndex: k]];
+		  [completeQuery appendString: @"'"];
+		}
+	    }
 	  i++;
 	}
       else
 	{
-	  b = 0;
-	  [completeQuery appendString: @" in ("];
-	  /* we always stay inside the maximum soql query size and if we have a batch limit we cap on that */
-	  while (((i < [fromArray count]) && ([completeQuery length] < MAX_SOQL_SIZE-20)) && (autoBatch || (b < batchSize)))
+	  if (!multiKey)
 	    {
-	      [completeQuery appendString: @"'"];
-	      [completeQuery appendString: [fromArray objectAtIndex: i]];
-	      [completeQuery appendString: @"',"];
-	      i++;
-	      b++;
+	      [completeQuery appendString: identifier];
+	      b = 0;
+	      [completeQuery appendString: @" in ("];
+	      /* we always stay inside the maximum soql query size and if we have a batch limit we cap on that */
+	      while (((i < [fromArray count]) && ([completeQuery length] < MAX_SOQL_SIZE-20)) && (autoBatch || (b < batchSize)))
+		{
+		  [completeQuery appendString: @"'"];
+		  [completeQuery appendString: [fromArray objectAtIndex: i]];
+		  [completeQuery appendString: @"',"];
+		  i++;
+		  b++;
+		}
+	      if (b > 0)
+		[completeQuery deleteCharactersInRange: NSMakeRange([completeQuery length]-1, 1)];
+	      [completeQuery appendString: @")"];
 	    }
-	  if (b > 0)
-	    [completeQuery deleteCharactersInRange: NSMakeRange([completeQuery length]-1, 1)];
-	  [completeQuery appendString: @")"];
+	    else
+	      {
+		[logger log: LogDebug: @"[DBSoap queryIdentify] multikey-bacthable query not handled\n"];
+	      }
 	}
       [logger log: LogDebug: @"[DBSoap queryIdentify] query: %@\n", completeQuery];
 

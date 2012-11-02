@@ -59,7 +59,7 @@
 - (NSMutableArray *)queryFull :(NSString *)queryString queryAll:(BOOL)all;
 - (NSString *)query :(NSString *)queryString queryAll:(BOOL)all toArray:(NSMutableArray *)objects;
 - (NSString *)queryMore :(NSString *)locator toArray:(NSMutableArray *)objects;
-- (void)queryIdentify :(NSString *)queryString with: (NSString *)identifier queryAll:(BOOL)all fromArray:(NSArray *)fromArray toArray:(NSMutableArray *)outArray withBatchSize:(int)batchSize;
+- (void)queryIdentify :(NSString *)queryString with: (NSArray *)identifiers queryAll:(BOOL)all fromArray:(NSArray *)fromArray toArray:(NSMutableArray *)outArray withBatchSize:(int)batchSize;
 - (void)create :(NSString *)objectName fromArray:(NSMutableArray *)objects;
 - (void)update :(NSString *)objectName fromArray:(NSMutableArray *)objects;
 - (NSMutableArray *)delete :(NSArray *)objectIdArray;

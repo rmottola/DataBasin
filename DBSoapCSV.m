@@ -75,7 +75,7 @@
   NSArray *dataSet;
   NSMutableArray *identifierArray;
   NSMutableArray *sObjects;
-  NSString *identifier;
+  NSArray *identifiers;
   unsigned i;
   unsigned j;
   unsigned batchSize;
@@ -97,10 +97,9 @@
   for (i = 0; i < [dataSet count]; i++)
     [identifierArray addObject: [[dataSet objectAtIndex: i] objectAtIndex: 0]];
   sObjects = [[NSMutableArray alloc] init];
-  identifier = [inFieldNames objectAtIndex: 0];
-  [logger log: LogStandard :@"[DBSoapCSV queryIdentify] Identify through %@\n", identifier];
-
-  [db queryIdentify:queryString with:identifier queryAll:all fromArray:identifierArray toArray: sObjects withBatchSize:bSize];
+  
+  [logger log: LogStandard :@"[DBSoapCSV queryIdentify] Identify through %@\n", inFieldNames];
+  [db queryIdentify:queryString with:inFieldNames queryAll:all fromArray:identifierArray toArray: sObjects withBatchSize:bSize];
 
   keys = nil;
   batchSize = [sObjects count];

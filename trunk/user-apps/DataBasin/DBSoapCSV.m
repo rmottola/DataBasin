@@ -88,19 +88,23 @@
   inFieldCount = [inFieldNames count];
   dataSet = [reader readDataSet];
   [logger log: LogDebug :@"[DBSoapCSV queryIdentify] field names: %@\n", inFieldNames];
-  if (inFieldCount > 1)
+  
+  if (inFieldCount == 1)
     {
-      [logger log: LogStandard :@"[DBSoapCSV queryIdentify] We cannot identify on %d fields\n", inFieldCount];
-      return;
+      identifierArray = [[NSMutableArray arrayWithCapacity: [dataSet count]] retain];
+      for (i = 0; i < [dataSet count]; i++)
+        [identifierArray addObject: [[dataSet objectAtIndex: i] objectAtIndex: 0]];
     }
-  identifierArray = [[NSMutableArray arrayWithCapacity: [dataSet count]] retain];
-  for (i = 0; i < [dataSet count]; i++)
-    [identifierArray addObject: [[dataSet objectAtIndex: i] objectAtIndex: 0]];
+  else
+    {
+      identifierArray = (NSArray *)dataSet;
+      [identifierArray retain];
+    }
   sObjects = [[NSMutableArray alloc] init];
   
   [logger log: LogStandard :@"[DBSoapCSV queryIdentify] Identify through %@\n", inFieldNames];
   [db queryIdentify:queryString with:inFieldNames queryAll:all fromArray:identifierArray toArray: sObjects withBatchSize:bSize];
-
+  
   keys = nil;
   batchSize = [sObjects count];
   if (batchSize > 0)
@@ -108,7 +112,7 @@
       [writer setFieldNames:[sObjects objectAtIndex: 0] andWriteIt:YES];
       [writer writeDataSet: sObjects];
     }
-
+  
   [sObjects release];
   [identifierArray release];
 }

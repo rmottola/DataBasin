@@ -600,7 +600,7 @@
   BOOL autoBatch;
   BOOL multiKey;
   NSString *identifier;
-  
+
   multiKey = NO;
   identifier = nil;
   if ([identifiers count] > 1)
@@ -613,6 +613,10 @@
       multiKey = NO;
       identifier = [identifiers objectAtIndex:0];
       [logger log: LogDebug: @"[DBSoap queryIdentify], single identifier: %@\n", identifier];
+    }
+  else
+    {
+      NSLog(@"Unexpected identifier count: %u", [identifiers count]);
     }
 
   batchable = NO;
@@ -634,7 +638,6 @@
       NSString *currKeyString;
       NSArray *currKeyArray;
 
-      multiKey = NO;
       if (multiKey)
 	{
 	  currKeyArray = (NSArray*)[fromArray objectAtIndex: i];
@@ -669,12 +672,17 @@
 	    {
 	      unsigned k;
 
-	      [completeQuery appendString: @" = '"];
+	      [completeQuery appendString: @"( "];
 	      for (k = 0; k < [currKeyArray count]; k++)
 		{
+		  if (k > 0)
+		    [completeQuery appendString: @" AND "];
+		  [completeQuery appendString: [identifiers objectAtIndex: k]];
+		  [completeQuery appendString: @" = '"];
 		  [completeQuery appendString: [currKeyArray objectAtIndex: k]];
 		  [completeQuery appendString: @"'"];
 		}
+	      [completeQuery appendString: @" )"];
 	    }
 	  i++;
 	}
@@ -698,10 +706,34 @@
 		[completeQuery deleteCharactersInRange: NSMakeRange([completeQuery length]-1, 1)];
 	      [completeQuery appendString: @")"];
 	    }
-	    else
-	      {
-		[logger log: LogDebug: @"[DBSoap queryIdentify] multikey-bacthable query not handled\n"];
-	      }
+	  else
+	    {
+	      b = 0;
+	      [completeQuery appendString: @" ("];
+	      /* we always stay inside the maximum soql query size and if we have a batch limit we cap on that */
+	      while (((i < [fromArray count]) && ([completeQuery length] < MAX_SOQL_SIZE-20)) && (autoBatch || (b < batchSize)))
+		{
+		  unsigned k;
+
+		  [completeQuery appendString: @"( "];
+		  for (k = 0; k < [currKeyArray count]; k++)
+		    {
+		      if (k > 0)
+			[completeQuery appendString: @" AND "];
+		      [completeQuery appendString: [identifiers objectAtIndex: k]];
+		      [completeQuery appendString: @" = '"];
+		      [completeQuery appendString: [[fromArray objectAtIndex: i] objectAtIndex: k]];
+		      [completeQuery appendString: @"'"];
+		    }
+		  [completeQuery appendString: @" ) OR "];
+
+		  i++;
+		  b++;
+		}
+	      if (b > 0)
+		[completeQuery deleteCharactersInRange: NSMakeRange([completeQuery length]-3, 3)];
+	      [completeQuery appendString: @")"];
+	    }
 	}
       [logger log: LogDebug: @"[DBSoap queryIdentify] query: %@\n", completeQuery];
 

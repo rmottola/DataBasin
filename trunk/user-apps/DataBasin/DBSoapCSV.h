@@ -42,7 +42,7 @@
 
 - (void)setDBSoap: (DBSoap *)dbs;
 - (void)query :(NSString *)queryString queryAll:(BOOL)all toWriter:(DBCVSWriter *)writer progressMonitor:(id<DBProgressProtocol>)p;
-- (void)queryIdentify :(NSString *)queryString queryAll:(BOOL)all fromReader:(DBCVSReader *)reader toWriter:(DBCVSWriter *)writer withBatchSize:(int)bSize;
+- (void)queryIdentify :(NSString *)queryString queryAll:(BOOL)all fromReader:(DBCVSReader *)reader toWriter:(DBCVSWriter *)writer withBatchSize:(int)bSize progressMonitor:(id<DBProgressProtocol>)p;
 - (void)create :(NSString *)objectName fromReader:(DBCVSReader *)reader;
 - (void)update :(NSString *)objectName fromReader:(DBCVSReader *)reader;
 - (NSMutableArray *)deleteFromReader:(DBCVSReader *)reader;

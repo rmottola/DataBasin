@@ -352,7 +352,7 @@
 	size = 0;
 
       [logger log: LogInformative: @"[DBSoap query] Declared size is: %lu\n", size];
-      NSLog(@"setting progress monitor: %@", p);
+      
       [p setMaximumValue: size];
     
       /* if we have only one element, put it in an array */
@@ -593,7 +593,7 @@
   <li>&gt 1: The given batch size is used in a clause like Field in ('value1', 'value2', ... )</li>
   </ul>
  */
-- (void)queryIdentify :(NSString *)queryString with: (NSArray *)identifiers queryAll:(BOOL)all fromArray:(NSArray *)fromArray toArray:(NSMutableArray *)outArray withBatchSize:(int)batchSize
+- (void)queryIdentify :(NSString *)queryString with: (NSArray *)identifiers queryAll:(BOOL)all fromArray:(NSArray *)fromArray toArray:(NSMutableArray *)outArray withBatchSize:(int)batchSize progressMonitor:(id<DBProgressProtocol>)p
 {
   unsigned i;
   unsigned j;
@@ -745,6 +745,8 @@
       for (j = 0; j < [resArray count]; j++)
 	[outArray addObject: [resArray objectAtIndex: j]];
       [completeQuery release];
+      
+      [p setCurrentValue: i];
     }
 }
 

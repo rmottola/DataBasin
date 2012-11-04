@@ -29,6 +29,7 @@
 #import "DBCVSWriter.h"
 #import "DBCVSReader.h"
 
+#import "DBProgressProtocol.h"
 
 @implementation DBSoap
 
@@ -191,17 +192,17 @@
 
 
 /** <p>Execute SOQL query <i>queryString</i> and returns the resulting DBSObjects as an array.</p>
-  <p>This method will query all resultinng objects of the query, repeatedly querying again if necessary depending on the batch size.</p>
+  <p>This method will query all resulting objects of the query, repeatedly querying again if necessary depending on the batch size.</p>
   <p>Returns exception</p>
 */
-- (NSMutableArray *)queryFull :(NSString *)queryString queryAll:(BOOL)all
+- (NSMutableArray *)queryFull :(NSString *)queryString queryAll:(BOOL)all progressMonitor:(id<DBProgressProtocol>)p
 {
   NSString       *qLoc;
   NSMutableArray *sObjects;
   
   sObjects = [[NSMutableArray alloc] init];
 
-  qLoc = [self query: queryString queryAll:all toArray: sObjects];
+  qLoc = [self query: queryString queryAll:all toArray: sObjects progressMonitor:p];
   [logger log: LogInformative: @"[DBSoap queryFull]: query locator after first query: %@\n", qLoc];
   while (qLoc != nil)
     qLoc = [self queryMore: qLoc toArray: sObjects];
@@ -215,7 +216,7 @@
   <p>If the query locator is returned,  a query more has to be executed.</p>
   <p>Returns exception</p>
 */
-- (NSString *)query :(NSString *)queryString queryAll:(BOOL)all toArray:(NSMutableArray *)objects
+- (NSString *)query :(NSString *)queryString queryAll:(BOOL)all toArray:(NSMutableArray *)objects progressMonitor:(id<DBProgressProtocol>)p
 {
   NSMutableDictionary   *headerDict;
   NSMutableDictionary   *sessionHeaderDict;
@@ -337,8 +338,8 @@
   
   if (sizeStr != nil)
     {
-      int            i;
-      int            j;
+      unsigned     i;
+      unsigned     j;
       int    batchSize;
       NSMutableArray *keys;
       NSScanner *scan;
@@ -349,9 +350,10 @@
 	size = (unsigned long)ll;
       else
 	size = 0;
-    
-      //size = [sizeStr intValue];
+
       [logger log: LogInformative: @"[DBSoap query] Declared size is: %lu\n", size];
+      NSLog(@"setting progress monitor: %@", p);
+      [p setMaximumValue: size];
     
       /* if we have only one element, put it in an array */
       if (size == 1)
@@ -738,7 +740,7 @@
       [logger log: LogDebug: @"[DBSoap queryIdentify] query: %@\n", completeQuery];
 
       /* since we might get back more records for each object to identify, we need to use query more */
-      resArray = [self queryFull:completeQuery queryAll:all];
+      resArray = [self queryFull:completeQuery queryAll:all progressMonitor:nil];
  
       for (j = 0; j < [resArray count]; j++)
 	[outArray addObject: [resArray objectAtIndex: j]];

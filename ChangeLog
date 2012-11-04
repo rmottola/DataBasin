@@ -1,3 +1,12 @@
+2012-11-04 Riccardo Mottola <rm@gnu.org>
+
+	* AppController.m
+	* DBSoap.h
+	* DBSoap.m
+	* DBSoapCSV.h
+	* DBSoapCSV.m
+	Select progress monitor.
+
 2012-11-03 Riccardo Mottola <rm@gnu.org>
 
 	* DBSoap.m

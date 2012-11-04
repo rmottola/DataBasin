@@ -30,6 +30,7 @@
 #import "DBCVSWriter.h"
 #import "DBCVSReader.h"
 #import "DBLogger.h"
+#import "DBProgress.h"
 
 #define DB_ENVIRONMENT_PRODUCTION 0
 #define DB_ENVIRONMENT_SANDBOX    1
@@ -422,11 +423,10 @@
   NSFileHandle  *fileHandle;
   NSFileManager *fileManager;
   DBCVSWriter   *cvsWriter;
+  DBProgress    *progress;
   
   statement = [fieldQuerySelect string];
-  NSLog(@"%@", statement);
   filePath = [fieldFileSelect stringValue];
-  NSLog(@"%@", filePath);
   
   fileManager = [NSFileManager defaultManager];
   if ([fileManager createFileAtPath:filePath contents:nil attributes:nil] == NO)
@@ -441,10 +441,12 @@
       NSRunAlertPanel(@"Attention", @"Cannot create File.", @"Ok", nil, nil);
     }
   
+  progress = [[DBProgress alloc] init];
+  [progress setLogger:logger];
   cvsWriter = [[DBCVSWriter alloc] initWithHandle:fileHandle];
   [cvsWriter setLogger:logger];
   NS_DURING
-    [dbCsv query :statement queryAll:([queryAllSelect state] == NSOnState) toWriter:cvsWriter];
+    [dbCsv query :statement queryAll:([queryAllSelect state] == NSOnState) toWriter:cvsWriter progressMonitor:progress];
   NS_HANDLER
     if ([[localException name] hasPrefix:@"DB"])
       {
@@ -454,6 +456,7 @@
   NS_ENDHANDLER
   [cvsWriter release];
   [fileHandle closeFile];
+  [progress release];
 }
 
 /* INSERT */

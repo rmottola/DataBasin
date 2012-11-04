@@ -32,6 +32,8 @@
 @class DBSoap;
 @class DBLogger;
 
+@protocol DBProgressProtocol;
+
 @interface DBSoapCSV : NSObject
 {
   DBLogger *logger;
@@ -39,7 +41,7 @@
 }
 
 - (void)setDBSoap: (DBSoap *)dbs;
-- (void)query :(NSString *)queryString queryAll:(BOOL)all toWriter:(DBCVSWriter *)writer;
+- (void)query :(NSString *)queryString queryAll:(BOOL)all toWriter:(DBCVSWriter *)writer progressMonitor:(id<DBProgressProtocol>)p;
 - (void)queryIdentify :(NSString *)queryString queryAll:(BOOL)all fromReader:(DBCVSReader *)reader toWriter:(DBCVSWriter *)writer withBatchSize:(int)bSize;
 - (void)create :(NSString *)objectName fromReader:(DBCVSReader *)reader;
 - (void)update :(NSString *)objectName fromReader:(DBCVSReader *)reader;

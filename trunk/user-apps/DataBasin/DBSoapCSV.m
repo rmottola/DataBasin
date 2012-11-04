@@ -27,6 +27,7 @@
 #import "DBSoap.h"
 #import "DBSObject.h"
 #import "DBSoapCSV.h"
+#import "DBProgressProtocol.h"
 
 @implementation DBSoapCSV
 
@@ -36,7 +37,7 @@
   logger = [db logger];
 }
 
-- (void)query :(NSString *)queryString queryAll:(BOOL)all toWriter:(DBCVSWriter *)writer
+- (void)query :(NSString *)queryString queryAll:(BOOL)all toWriter:(DBCVSWriter *)writer progressMonitor:(id<DBProgressProtocol>)p
 {
   int            batchSize;
 
@@ -46,23 +47,31 @@
   
   sObjects = [[NSMutableArray alloc] init];
 
-  qLoc = [db query: queryString queryAll: all toArray: sObjects];
+  [p reset];
+  [p setCurrentDescription:@"Retrieving"];
+  qLoc = [db query: queryString queryAll: all toArray: sObjects progressMonitor:p];
 
   batchSize = [sObjects count];
   if (batchSize > 0)
     {
       [writer setFieldNames: [sObjects objectAtIndex: 0] andWriteIt:YES];
+      [p setCurrentDescription:@"Writing"];
       [writer writeDataSet: sObjects];
+      [p incrementCurrentValue:[sObjects count]];
     }
 
   while (qLoc != nil)
     {
+      [p setCurrentDescription:@"Retrieving"];
       [sObjects removeAllObjects];
-      NSLog(@"size %d", [sObjects count]);
       qLoc = [db queryMore: qLoc toArray: sObjects];
+      [p setCurrentDescription:@"Writing"];
       [writer writeDataSet: sObjects];
+      [p incrementCurrentValue:[sObjects count]];
     }
   [sObjects release];
+  [p setCurrentDescription:@"Done"];
+  [p setEnd];
 }
 
 /**

@@ -250,7 +250,7 @@ converting it if necessary.</p>
   [statement appendString: @"'"];
   NSLog(@"query: %@", statement);
   tempArray = [NSMutableArray arrayWithCapacity: [namesArray count]];
-  [dbs query :statement queryAll:NO toArray: tempArray];
+  [dbs query :statement queryAll:NO toArray: tempArray progressMonitor:nil];
   if ([tempArray count] == 0)
     {
       [[NSException exceptionWithName:@"DBException" reason:@"Object not found." userInfo:nil] raise];

@@ -60,7 +60,7 @@
 - (NSMutableArray *)queryFull :(NSString *)queryString queryAll:(BOOL)all progressMonitor:(id<DBProgressProtocol>)p;
 - (NSString *)query :(NSString *)queryString queryAll:(BOOL)all toArray:(NSMutableArray *)objects progressMonitor:(id<DBProgressProtocol>)p;
 - (NSString *)queryMore :(NSString *)locator toArray:(NSMutableArray *)objects;
-- (void)queryIdentify :(NSString *)queryString with: (NSArray *)identifiers queryAll:(BOOL)all fromArray:(NSArray *)fromArray toArray:(NSMutableArray *)outArray withBatchSize:(int)batchSize;
+- (void)queryIdentify :(NSString *)queryString with: (NSArray *)identifiers queryAll:(BOOL)all fromArray:(NSArray *)fromArray toArray:(NSMutableArray *)outArray withBatchSize:(int)batchSize progressMonitor:(id<DBProgressProtocol>)p;
 - (void)create :(NSString *)objectName fromArray:(NSMutableArray *)objects;
 - (void)update :(NSString *)objectName fromArray:(NSMutableArray *)objects;
 - (NSMutableArray *)delete :(NSArray *)objectIdArray;

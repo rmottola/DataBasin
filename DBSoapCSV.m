@@ -77,7 +77,7 @@
 /**
    See DBSoap for informations about the batch size parameter.
  */
-- (void)queryIdentify :(NSString *)queryString queryAll:(BOOL)all fromReader:(DBCVSReader *)reader toWriter:(DBCVSWriter *)writer withBatchSize:(int)bSize
+- (void)queryIdentify :(NSString *)queryString queryAll:(BOOL)all fromReader:(DBCVSReader *)reader toWriter:(DBCVSWriter *)writer withBatchSize:(int)bSize progressMonitor:(id<DBProgressProtocol>)p
 {
   NSArray *inFieldNames;
   unsigned inFieldCount;
@@ -90,9 +90,12 @@
   unsigned batchSize;
   NSArray *keys;
 
+  [p reset];
+  
   /* retrieve objects to create */
   
   /* first the fields */
+  [p setCurrentDescription:@"Loading data"];
   inFieldNames = [reader fieldNames];
   inFieldCount = [inFieldNames count];
   dataSet = [reader readDataSet];
@@ -109,11 +112,15 @@
       identifierArray = (NSArray *)dataSet;
       [identifierArray retain];
     }
+  
+  [p setMaximumValue:[identifierArray count]];
   sObjects = [[NSMutableArray alloc] init];
-  
+
+  [p setCurrentDescription:@"Identifying and querying."];
   [logger log: LogStandard :@"[DBSoapCSV queryIdentify] Identify through %@\n", inFieldNames];
-  [db queryIdentify:queryString with:inFieldNames queryAll:all fromArray:identifierArray toArray: sObjects withBatchSize:bSize];
+  [db queryIdentify:queryString with:inFieldNames queryAll:all fromArray:identifierArray toArray: sObjects withBatchSize:bSize progressMonitor: p];
   
+  [p setCurrentDescription:@"Writing data"];
   keys = nil;
   batchSize = [sObjects count];
   if (batchSize > 0)
@@ -124,6 +131,7 @@
   
   [sObjects release];
   [identifierArray release];
+  [p setEnd];
 }
 
 - (void)create :(NSString *)objectName fromReader:(DBCVSReader *)reader

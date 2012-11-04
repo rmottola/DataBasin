@@ -636,7 +636,8 @@
   NSFileManager *fileManager;
   DBCVSWriter   *cvsWriter;
   DBCVSReader   *cvsReader;
-  int batchSize;
+  DBProgress    *progress;
+  int           batchSize;
   
   statement = [fieldQuerySelectIdentify string];
   filePathIn = [fieldFileSelectIdentifyIn stringValue];
@@ -683,9 +684,11 @@
 
   cvsWriter = [[DBCVSWriter alloc] initWithHandle:fileHandleOut];
   [cvsWriter setLogger:logger];
+  progress = [[DBProgress alloc] init];
+  [progress setLogger:logger];
 
   NS_DURING
-    [dbCsv queryIdentify :statement queryAll:([queryAllSelectIdentify state] == NSOnState) fromReader:cvsReader toWriter:cvsWriter withBatchSize:batchSize];
+    [dbCsv queryIdentify :statement queryAll:([queryAllSelectIdentify state] == NSOnState) fromReader:cvsReader toWriter:cvsWriter withBatchSize:batchSize progressMonitor:progress];
   NS_HANDLER
     if ([[localException name] hasPrefix:@"DB"])
       {
@@ -695,9 +698,10 @@
   NS_ENDHANDLER
 
   [cvsReader release];
-  
   [cvsWriter release];
   [fileHandleOut closeFile];
+  
+  [progress release];
 }
 
 /* DESCRIBE */

@@ -84,9 +84,7 @@
   NSArray *dataSet;
   NSMutableArray *identifierArray;
   NSMutableArray *sObjects;
-  NSArray *identifiers;
   unsigned i;
-  unsigned j;
   unsigned batchSize;
   NSArray *keys;
 

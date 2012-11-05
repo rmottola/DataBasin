@@ -643,11 +643,13 @@
       if (multiKey)
 	{
 	  currKeyArray = (NSArray*)[fromArray objectAtIndex: i];
+	  currKeyString = nil;
 	  [logger log: LogDebug: @"[DBSoap queryIdentify], multi-key %u %@\n", i, currKeyArray];
 	}
       else
 	{
 	  currKeyString = (NSString*)[fromArray objectAtIndex: i];
+	  currKeyArray = nil;
 	  [logger log: LogDebug: @"[DBSoap queryIdentify], single key %u %@\n", i, currKeyString];
 	}
 

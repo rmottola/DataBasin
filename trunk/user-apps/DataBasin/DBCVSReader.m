@@ -174,10 +174,10 @@
 
 	  token = nil;
 	  [scanner scanUpToString:qualifier intoString:&token];
-	  //	  NSLog(@"token %@", token);
+	  //NSLog(@"token %@", token);
 
 	  loc = [scanner scanLocation];
-	  //	  NSLog(@"loc %lu", loc);
+	  //NSLog(@"loc %lu", loc);
 	  if (loc > 0 && token)
 	    {
 	      if ([line characterAtIndex:(loc-1)] == '\\')
@@ -192,14 +192,20 @@
 		}
 	      else
 		{
-		  if (inField)
-		    field = [field stringByAppendingString: token];
-		  else
-		    field = [NSString stringWithString: token];
-		  //		  NSLog(@"field: %@", field);
+		  /* we might have skipped qualifiers up to a separator, thus an empty field. We check for that */
+		  if (![token isEqualToString:separator])
+		    {
+		      if (inField)
+			field = [field stringByAppendingString: token];
+		      else
+			field = [NSString stringWithString: token];
+		      if (field == nil)
+			field = @"";
+		      [scanner scanString:qualifier intoString:(NSString **)nil];
+		    }
+		  NSLog(@"adding q field: %@", field);
 		  [record addObject:field];
 
-		  [scanner scanString:qualifier intoString:(NSString **)nil];
 		  [scanner scanString:separator intoString:(NSString **)nil];
 		  inField = NO;
 		  field = @"";
@@ -215,11 +221,32 @@
     }
   else
     {
-      while([scanner scanUpToString:separator intoString:&field] == YES)
+      while ([scanner scanLocation] < [line length])
 	{
-	  NSLog(@"field: %@", field);
+	  NSUInteger scanLocation;
+	  NSUInteger scanLocation2;
+	  if ([scanner scanUpToString:separator intoString:&field] == YES)
+	    {
+	      if (field == nil)
+		field = @"";
+	    }
+	  else
+	    {
+	      
+	      field = @"";
+	    }
+	  //NSLog(@"adding nq field: %@", field);
 	  [record addObject:field];
+	  scanLocation = [scanner scanLocation];
 	  [scanner scanString:separator intoString:(NSString **)nil];
+	  scanLocation2 = [scanner scanLocation];
+	  if ((scanLocation2 == [line length])  && (scanLocation != scanLocation2))
+	    {
+	      /* the last is empty and was skipped, we add it */
+	      NSLog(@"Skipped separator");
+	      [record addObject:@""];
+	    }
+	    //NSLog(@"scan location: %lu-%lu", scanLocation2, [line length]);
 	}
     }
   [logger log:LogDebug :@"[DBCVSReader getFieldNames] decoded record: %@\n", record];

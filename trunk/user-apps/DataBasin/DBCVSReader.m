@@ -177,6 +177,13 @@
 	  //NSLog(@"token %@", token);
 
 	  loc = [scanner scanLocation];
+
+	  /* we reach the end, but the field was empty, thus we artifically insert an empty string */
+	  if (loc == [line length]-1 && token == nil)
+	    {
+	      token = @"";
+	      NSLog(@"we reached the end... token is %@", token);
+	    }
 	  //NSLog(@"loc %lu", loc);
 	  if (loc > 0 && token)
 	    {
@@ -187,7 +194,6 @@
 		  inField = YES;
 		  field = [field stringByAppendingString: [token substringToIndex:[token length]-1]];
 		  field = [field stringByAppendingString: @"\""];
-		  //NSLog(@"f2: %@", field);
 		  [scanner scanString:qualifier intoString:(NSString **)nil];
 		}
 	      else
@@ -203,10 +209,12 @@
 			field = @"";
 		      [scanner scanString:qualifier intoString:(NSString **)nil];
 		    }
+
 		  NSLog(@"adding q field: %@", field);
 		  [record addObject:field];
 
 		  [scanner scanString:separator intoString:(NSString **)nil];
+
 		  inField = NO;
 		  field = @"";
 		}
@@ -216,7 +224,6 @@
 	      /* let's skip this qualifier */
 	      [scanner scanString:qualifier intoString:(NSString **)nil];
 	    }
-
 	}
     }
   else
@@ -243,7 +250,7 @@
 	  if ((scanLocation2 == [line length])  && (scanLocation != scanLocation2))
 	    {
 	      /* the last is empty and was skipped, we add it */
-	      NSLog(@"Skipped separator");
+	      //NSLog(@"Skipped separator");
 	      [record addObject:@""];
 	    }
 	    //NSLog(@"scan location: %lu-%lu", scanLocation2, [line length]);

@@ -248,7 +248,6 @@
   loginSet = [loginDict objectForKey:userName];
   if (loginSet == nil)
     return;
-  NSLog(@"found login: %@", loginSet);
   
   [fieldPassword setStringValue:[loginSet objectForKey:@"password"]];
   token = [loginSet objectForKey:@"token"];

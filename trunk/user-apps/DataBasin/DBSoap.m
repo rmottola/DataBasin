@@ -207,6 +207,7 @@
   while (qLoc != nil)
     qLoc = [self queryMore: qLoc toArray: sObjects];
   
+  [sObjects autorelease];
   return sObjects;
 }
 

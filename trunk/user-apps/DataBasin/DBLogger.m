@@ -72,8 +72,6 @@
       formattedString = [[NSString alloc] initWithFormat:format arguments: ap];
       va_end(ap);
 
-
-      textAttributes = nil;
       textAttributes = [NSMutableDictionary dictionaryWithObject:[NSFont userFixedPitchFontOfSize: 0] forKey:NSFontAttributeName];
       if (level == LogStandard)
 	[textAttributes  setObject:[NSColor blackColor] forKey:NSForegroundColorAttributeName];

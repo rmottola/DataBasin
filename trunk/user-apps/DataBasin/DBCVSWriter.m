@@ -146,12 +146,9 @@
   NSMutableArray  *keys;
   unsigned i;
   NSMutableString *tempRes;
-  NSString *escapedQualifier;
 
   if (!d)
     return nil;
-
-  escapedQualifier = [qualifier stringByAppendingString: qualifier];
 
   keys = [NSMutableArray arrayWithArray:[d allKeys]];
   [keys removeObject:@"GWSCoderOrder"];
@@ -230,10 +227,8 @@
       else
 	array = [NSArray arrayWithObject: obj];
 
-      theLine = [self formatOneLine:array forHeader:YES];      
       NSLog(@"array of header: %@\n", array);
       theLine = [self formatOneLine:array forHeader:YES];
-      NSLog(@"--- end of header formatting \n");
       [file writeData: [theLine dataUsingEncoding: encoding]];
     }
   else

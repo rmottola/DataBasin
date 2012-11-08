@@ -3,6 +3,9 @@
 	* DBSoap.m
 	queryFull: Return autoreleased array.
 
+	* DBCVSWriter.m
+	Clean up.
+
 2012-11-06 Riccardo Mottola <rm@gnu.org>
 
 	* DBCVSReader.m
@@ -99,6 +102,7 @@
 
 	* DBCVSWriter.m
 	Fix parsing of aggregate objects, fix formatting of numbers as scalar objects
+	
 2012-07-12 Riccardo Mottola <rm@gnu.org>
 
 	* DBSoap.h

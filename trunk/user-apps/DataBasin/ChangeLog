@@ -1,3 +1,8 @@
+2012-11-26 Riccardo Mottola <rm@gnu.org>
+
+	* DBSoap.m
+	retain sessionId variable
+
 2012-11-08 Riccardo Mottola <rm@gnu.org>
 
 	* DBSoap.m

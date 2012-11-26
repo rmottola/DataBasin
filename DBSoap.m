@@ -188,7 +188,10 @@
     [logger log: LogStandard: @"[DBSoap Login]: serverUrl: %@\n", serverUrl];
   }
   
-  [service setURL:serverUrl];}
+  [service setURL:serverUrl];
+
+  [sessionId retain];
+}
 
 
 /** <p>Execute SOQL query <i>queryString</i> and returns the resulting DBSObjects as an array.</p>
@@ -1640,6 +1643,7 @@
 
 - (void)dealloc
 {
+  [sessionId release];
   [userInfo release];
   [service release];
   [super dealloc];

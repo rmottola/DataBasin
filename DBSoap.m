@@ -138,7 +138,6 @@
   }
   
  
-
   loginResult2 = [loginResult objectForKey:@"result"];
   [logger log: LogDebug: @"[DBSoap Login]: %@\n", loginResult2];
   
@@ -148,6 +147,7 @@
     [logger log: LogDebug: @"[DBSoap Login]:%@ - %@\n", key, [loginResult2 objectForKey:key]]; 
   }
     
+  [sessionId release];
   sessionId = [loginResult2 objectForKey:@"sessionId"];
   serverUrl = [loginResult2 objectForKey:@"serverUrl"];
   

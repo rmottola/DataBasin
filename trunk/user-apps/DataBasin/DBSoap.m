@@ -33,6 +33,16 @@
 
 @implementation DBSoap
 
+- (id)init
+{
+  if ((self = [super init]))
+    {
+      standardTimeoutSec = 60;
+      queryTimeoutSec = 180;
+    }
+  return self;
+}
+
 - (void)setLogger: (DBLogger *)l
 {
   if (logger)
@@ -110,7 +120,7 @@
   resultDict = [service invokeMethod: @"login"
                 parameters : parmsDict
 		order : nil
-		timeout : 60];
+		timeout : standardTimeoutSec];
 
   [logger log: LogDebug: @"[DBSoap Login]:resultDict is %d big\n", [resultDict count]];
   
@@ -270,7 +280,7 @@
       resultDict = [service invokeMethod: @"queryAll"
 			     parameters : parmsDict
 				  order : nil
-				timeout : 90];
+				timeout : queryTimeoutSec];
     }
   else
     {
@@ -279,7 +289,7 @@
       resultDict = [service invokeMethod: @"query"
 			     parameters : parmsDict
 				  order : nil
-				timeout : 90];
+				timeout : queryTimeoutSec];
     }
   [logger log: LogDebug: @"[DBSoap query] result: %@\n", resultDict];
   coderError = [resultDict objectForKey:@"GWSCoderError"];
@@ -475,7 +485,7 @@
   resultDict = [service invokeMethod: @"queryMore"
                          parameters : parmsDict
                               order : nil
-                            timeout : 90];
+                            timeout : queryTimeoutSec];
   
 
   queryLocator = nil;
@@ -854,7 +864,7 @@
 	resultDict = [service invokeMethod: @"create"
 			       parameters : parmsDict
 				    order : nil
-				  timeout : 90];
+				  timeout : standardTimeoutSec];
   
   
 
@@ -1042,7 +1052,7 @@
 	resultDict = [service invokeMethod: @"update"
 			       parameters : parmsDict
 				    order : nil
-				  timeout : 90];
+				  timeout : standardTimeoutSec];
   
 	NSLog(@"update result dict is %d big", [resultDict count]);
   
@@ -1170,7 +1180,7 @@
   resultDict = [service invokeMethod: @"describeGlobal"
                 parameters : parmsDict
 		order : nil
-		timeout : 90];
+		timeout : standardTimeoutSec];
 
 
   [logger log: LogDebug: @"[DBSoap describeGlobal] Describe Global dict is %d big\n", [resultDict count]];
@@ -1359,7 +1369,7 @@
   resultDict = [service invokeMethod: @"describeSObject"
                 parameters : parmsDict
 		order : nil
-		timeout : 90];
+		timeout : standardTimeoutSec];
   
   queryFault = [resultDict objectForKey:@"GWSCoderFault"];
   if (queryFault != nil)
@@ -1476,7 +1486,7 @@
 	  resultDict = [service invokeMethod: @"delete"
 				 parameters : parmsDict
 				      order : nil
-				    timeout : 90];
+				    timeout : standardTimeoutSec];
 
 	  queryFault = [resultDict objectForKey:@"GWSCoderFault"];
 	  if (queryFault != nil)
@@ -1639,6 +1649,26 @@
 - (NSDictionary *) userInfo
 {
   return userInfo;
+}
+
+- (void)setStandardTimeout:(unsigned)sec
+{
+  standardTimeoutSec = sec;
+}
+
+- (void)setQueryTimeout:(unsigned)sec
+{
+  queryTimeoutSec = sec;
+}
+
+- (unsigned)standardTimeout
+{
+  return standardTimeoutSec;
+}
+
+- (unsigned)queryTimeout
+{
+  return queryTimeoutSec;
 }
 
 - (void)dealloc

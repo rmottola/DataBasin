@@ -51,6 +51,12 @@
 
   /* create, update, upsert batch size */
   unsigned upBatchSize;
+
+  /** Timeout in seconds, for generic methods */
+  unsigned standardTimeoutSec;
+
+  /** Timeout in seconds, for query methods */
+  unsigned queryTimeoutSec;
 }
 
 - (void)login :(NSURL *)url :(NSString *)userName :(NSString *)password :(BOOL)useHttps;
@@ -75,6 +81,11 @@
 - (NSString *) serverUrl;
 - (BOOL) passwordExpired;
 - (NSDictionary *) userInfo;
+
+- (void)setStandardTimeout:(unsigned)sec;
+- (void)setQueryTimeout:(unsigned)sec;
+- (unsigned)standardTimeout;
+- (unsigned)queryTimeout;
 
 @end
 

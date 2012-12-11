@@ -1,8 +1,14 @@
+2012-12-11 Riccardo Mottola <rm@gnu.org>
+
+	* DBSoap.h
+	* DBSoap.m
+	Settable timeout values for query and stnadard methods.
+
 2012-11-27 Riccardo Mottola <rm@gnu.org>
 
 	* DBSoap.m
         release before assigning.
-        
+
 2012-11-26 Riccardo Mottola <rm@gnu.org>
 
 	* DBSoap.m

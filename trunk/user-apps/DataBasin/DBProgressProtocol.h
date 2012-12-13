@@ -26,8 +26,6 @@
 
 @protocol DBProgressProtocol <NSObject>
 
-- (void)setLogger:(DBLogger *)l;
-
 /** Sets the maximum value expected on which to calculate progress on.<br>
     E.g. it could be the maximum expected number of records.
   */

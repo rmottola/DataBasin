@@ -38,6 +38,8 @@
   float          percent;
 }
 
+- (void)setLogger:(DBLogger *)l;
+
 @end
 
 

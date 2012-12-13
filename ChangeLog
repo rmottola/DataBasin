@@ -1,3 +1,9 @@
+2012-12-13 Riccardo Mottola <rm@gnu.org>
+
+	* DBProgressProtocol.h
+	* DBProgress.h
+	Remove setLogger from the protocol.
+
 2012-12-11 Riccardo Mottola <rm@gnu.org>
 
 	* DBSoap.h

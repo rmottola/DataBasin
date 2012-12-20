@@ -1,3 +1,8 @@
+2012-12-20 Riccardo Mottola <rm@gnu.org>
+
+	* DBSoap.m
+	Support for LIMIT in query identify, single-batch.
+
 2012-12-13 Riccardo Mottola <rm@gnu.org>
 
 	* DBProgressProtocol.h

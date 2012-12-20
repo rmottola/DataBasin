@@ -606,6 +606,7 @@
   <li>0, 1: A single element is queried with, making the clause Field = 'value'</li>
   <li>&gt 1: The given batch size is used in a clause like Field in ('value1', 'value2', ... )</li>
   </ul>
+  <p>A limit N specification is supported (only with batch of size 1)</p>
  */
 - (void)queryIdentify :(NSString *)queryString with: (NSArray *)identifiers queryAll:(BOOL)all fromArray:(NSArray *)fromArray toArray:(NSMutableArray *)outArray withBatchSize:(int)batchSize progressMonitor:(id<DBProgressProtocol>)p
 {
@@ -616,6 +617,9 @@
   BOOL autoBatch;
   BOOL multiKey;
   NSString *identifier;
+  NSString *queryFirstPart;
+  NSString *queryLimitPart;
+  NSUInteger limitLocation;
 
   multiKey = NO;
   identifier = nil;
@@ -644,7 +648,23 @@
     }
    else if (batchSize > 1)
      batchable = YES;
-      
+  
+  limitLocation = [queryString rangeOfString: @"LIMIT" options:NSCaseInsensitiveSearch].location;
+  if (limitLocation != NSNotFound)
+    {
+      if (batchable)
+        {
+          [logger log: LogStandard: @"[DBSoap queryIdentify] LIMIT specifier incompatible with batch size > 1\n"];
+          return;
+        }
+      queryFirstPart = [queryString substringToIndex:limitLocation];
+      queryLimitPart = [queryString substringFromIndex:limitLocation];
+    }
+  else
+    {
+      queryFirstPart = queryString;
+    }
+
   i = 0;
   while (i < [fromArray count])
     {
@@ -667,8 +687,8 @@
 	  [logger log: LogDebug: @"[DBSoap queryIdentify], single key %u %@\n", i, currKeyString];
 	}
 
-      completeQuery = [[NSMutableString stringWithString: queryString] retain];
-      if ([queryString rangeOfString:@"WHERE" options:NSCaseInsensitiveSearch].location != NSNotFound)
+      completeQuery = [[NSMutableString stringWithString: queryFirstPart] retain];
+      if ([queryFirstPart rangeOfString:@"WHERE" options:NSCaseInsensitiveSearch].location != NSNotFound)
 	{
 	  [completeQuery appendString: @" AND "];
 	}
@@ -702,6 +722,13 @@
 		}
 	      [completeQuery appendString: @" )"];
 	    }
+
+          /* append LIMIT clause if present */
+          if (limitLocation != NSNotFound)
+            {
+              [completeQuery appendString: @" "];
+              [completeQuery appendString:queryLimitPart];
+            }
 	  i++;
 	}
       else

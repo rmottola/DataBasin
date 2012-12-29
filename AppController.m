@@ -442,8 +442,10 @@
   
   progress = [[DBProgress alloc] init];
   [progress setLogger:logger];
+  [progress reset];
   cvsWriter = [[DBCVSWriter alloc] initWithHandle:fileHandle];
   [cvsWriter setLogger:logger];
+
   NS_DURING
     [dbCsv query :statement queryAll:([queryAllSelect state] == NSOnState) toWriter:cvsWriter progressMonitor:progress];
   NS_HANDLER
@@ -685,6 +687,7 @@
   [cvsWriter setLogger:logger];
   progress = [[DBProgress alloc] init];
   [progress setLogger:logger];
+  [progress reset];
 
   NS_DURING
     [dbCsv queryIdentify :statement queryAll:([queryAllSelectIdentify state] == NSOnState) fromReader:cvsReader toWriter:cvsWriter withBatchSize:batchSize progressMonitor:progress];

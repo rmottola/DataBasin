@@ -1,6 +1,6 @@
 2012-12-29 Riccardo Mottola <rm@gnu.org>
 
-	* DBSoap.m
+	* AppController.m
 	Call progress reset before starting task.
 
 2012-12-20 Riccardo Mottola <rm@gnu.org>

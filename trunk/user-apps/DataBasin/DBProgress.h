@@ -36,6 +36,7 @@
   unsigned long  currVal;
   unsigned long  maxVal;
   float          percent;
+  NSDate         *startDate;
 }
 
 - (void)setLogger:(DBLogger *)l;

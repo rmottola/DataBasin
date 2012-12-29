@@ -27,6 +27,11 @@
 
 @implementation DBProgress
 
+-(void)dealloc
+{
+  [startDate release];
+  [super dealloc];
+}
 
 /* protocol methods */
 - (void)setLogger:(DBLogger *)l
@@ -40,6 +45,8 @@
   currVal = 0;
   percent = 0;
   currentDescription = @"";
+  [startDate release];
+  startDate = [[NSDate date] retain];
 }
 
 -(void)setMaximumValue:(unsigned long)max
@@ -50,10 +57,20 @@
 
 -(void)setCurrentValue:(unsigned long)current
 {
+  NSTimeInterval timeDelta;
+  NSTimeInterval totalTime;
+  NSDate *endDate;
+
+
   currVal = current;
   [logger log:LogDebug :@"[DBProgress] current: %lu\n", currVal];
-  percent = (double)(currVal * 100) / (double)maxVal; 
-  [logger log:LogStandard :@"[DBProgress]: %f\n", percent];
+  percent = (double)(currVal * 100) / (double)maxVal;
+  timeDelta = [[NSDate date] timeIntervalSinceDate:startDate];
+  totalTime = (timeDelta * maxVal) / (double)currVal;
+  endDate = [NSDate dateWithTimeIntervalSinceNow: totalTime-timeDelta];
+
+  [logger log:LogStandard :@"[DBProgress]: %f, time to completion: %lf\n", percent, totalTime-timeDelta];
+  NSLog(@"start %@ end date: %@", startDate, endDate);
 }
 
 -(void)incrementCurrentValue:(unsigned long)amount

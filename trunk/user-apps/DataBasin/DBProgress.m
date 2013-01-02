@@ -1,7 +1,7 @@
 /*
    Project: DataBasin
 
-   Copyright (C) 2012 Free Software Foundation
+   Copyright (C) 2012-2013 Free Software Foundation
 
    Author: Riccardo Mottola
 
@@ -63,6 +63,11 @@
 
 
   currVal = current;
+
+  /* if we don't have a maximum value, we continuously shift it to the current one */
+  if (maxVal == 0)
+    maxVal = currVal;
+
   [logger log:LogDebug :@"[DBProgress] current: %lu\n", currVal];
   percent = (double)(currVal * 100) / (double)maxVal;
   timeDelta = [[NSDate date] timeIntervalSinceDate:startDate];
@@ -75,6 +80,8 @@
 
 -(void)incrementCurrentValue:(unsigned long)amount
 {
+  if (amount == 0)
+    return;
   [logger log:LogDebug :@"[DBProgress] amount: %lu\n", amount];
   [self setCurrentValue:(currVal+amount)];
 }

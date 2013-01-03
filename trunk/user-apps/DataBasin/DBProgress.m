@@ -59,27 +59,33 @@
 {
   NSTimeInterval timeDelta;
   NSTimeInterval totalTime;
+  NSTimeInterval remainingTime;
   NSDate *endDate;
 
 
   currVal = current;
-
+  NSLog(@"set %lu", currVal);
   /* if we don't have a maximum value, we continuously shift it to the current one */
   if (maxVal == 0)
     maxVal = currVal;
 
   [logger log:LogDebug :@"[DBProgress] current: %lu\n", currVal];
   percent = (double)(currVal * 100) / (double)maxVal;
-  timeDelta = [[NSDate date] timeIntervalSinceDate:startDate];
-  totalTime = (timeDelta * maxVal) / (double)currVal;
-  endDate = [NSDate dateWithTimeIntervalSinceNow: totalTime-timeDelta];
-
-  [logger log:LogStandard :@"[DBProgress]: %f, time to completion: %lf\n", percent, totalTime-timeDelta];
-  NSLog(@"start %@ end date: %@", startDate, endDate);
+  remainingTime = 0;
+  if (currVal > 0)
+    {
+      timeDelta = [[NSDate date] timeIntervalSinceDate:startDate];
+      totalTime = (timeDelta * maxVal) / (double)currVal;
+      remainingTime = totalTime-timeDelta;
+      endDate = [NSDate dateWithTimeIntervalSinceNow: remainingTime];
+      NSLog(@"start %@ end date: %@", startDate, endDate);
+    }
+  [logger log:LogStandard :@"[DBProgress]: %f, time to completion: %lf\n", percent, remainingTime];
 }
 
 -(void)incrementCurrentValue:(unsigned long)amount
 {
+  NSLog(@"increment %lu", amount);
   if (amount == 0)
     return;
   [logger log:LogDebug :@"[DBProgress] amount: %lu\n", amount];

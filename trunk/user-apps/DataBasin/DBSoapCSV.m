@@ -132,7 +132,7 @@
   [p setEnd];
 }
 
-- (void)create :(NSString *)objectName fromReader:(DBCVSReader *)reader
+- (void)create :(NSString *)objectName fromReader:(DBCVSReader *)reader progressMonitor:(id<DBProgressProtocol>)p
 {
   NSEnumerator          *enumerator;
   NSArray               *objectsArray;
@@ -166,11 +166,11 @@
     [sObj release];
   }
 
-  [db create:objectName fromArray:sObjectsArray];
+  [db create:objectName fromArray:sObjectsArray progressMonitor:p];
   [sObjectsArray release];
 }
 
-- (void)update :(NSString *)objectName fromReader:(DBCVSReader *)reader
+- (void)update :(NSString *)objectName fromReader:(DBCVSReader *)reader progressMonitor:(id<DBProgressProtocol>)p
 {
   NSEnumerator          *enumerator;
   NSArray               *objectsArray;
@@ -180,7 +180,9 @@
   NSMutableArray        *sObjectsArray;
 
   /* retrieve objects to update */
-  
+  [p reset];
+  [p setCurrentDescription:@"Retrieving"];
+
   /* first the fields */
   fieldNames = [reader fieldNames];
   fieldCount = [fieldNames count];
@@ -204,8 +206,10 @@
     [sObj release];
   }
 
-  [db update:objectName fromArray:sObjectsArray];
+  [db update:objectName fromArray:sObjectsArray progressMonitor:p];
   [sObjectsArray release];
+  [p setCurrentDescription:@"Done"];
+  [p setEnd];
 }
 
 - (void)describeSObject: (NSString *)objectType toWriter:(DBCVSWriter *)writer

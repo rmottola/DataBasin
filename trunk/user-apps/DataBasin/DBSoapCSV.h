@@ -1,7 +1,7 @@
 /*
    Project: DataBasin
 
-   Copyright (C) 2008-2012 Free Software Foundation
+   Copyright (C) 2008-2013 Free Software Foundation
 
    Author: Riccardo Mottola
 
@@ -43,8 +43,8 @@
 - (void)setDBSoap: (DBSoap *)dbs;
 - (void)query :(NSString *)queryString queryAll:(BOOL)all toWriter:(DBCVSWriter *)writer progressMonitor:(id<DBProgressProtocol>)p;
 - (void)queryIdentify :(NSString *)queryString queryAll:(BOOL)all fromReader:(DBCVSReader *)reader toWriter:(DBCVSWriter *)writer withBatchSize:(int)bSize progressMonitor:(id<DBProgressProtocol>)p;
-- (void)create :(NSString *)objectName fromReader:(DBCVSReader *)reader;
-- (void)update :(NSString *)objectName fromReader:(DBCVSReader *)reader;
+- (void)create :(NSString *)objectName fromReader:(DBCVSReader *)reader progressMonitor:(id<DBProgressProtocol>)p;
+- (void)update :(NSString *)objectName fromReader:(DBCVSReader *)reader progressMonitor:(id<DBProgressProtocol>)p;
 - (NSMutableArray *)deleteFromReader:(DBCVSReader *)reader;
 - (void)describeSObject: (NSString *)objectType toWriter:(DBCVSWriter *)writer;
 

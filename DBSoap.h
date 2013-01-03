@@ -1,7 +1,7 @@
 /*
    Project: DataBasin
 
-   Copyright (C) 2008-2012 Free Software Foundation
+   Copyright (C) 2008-2013 Free Software Foundation
 
    Author: Riccardo Mottola
 
@@ -67,8 +67,8 @@
 - (NSString *)query :(NSString *)queryString queryAll:(BOOL)all toArray:(NSMutableArray *)objects progressMonitor:(id<DBProgressProtocol>)p;
 - (NSString *)queryMore :(NSString *)locator toArray:(NSMutableArray *)objects;
 - (void)queryIdentify :(NSString *)queryString with: (NSArray *)identifiers queryAll:(BOOL)all fromArray:(NSArray *)fromArray toArray:(NSMutableArray *)outArray withBatchSize:(int)batchSize progressMonitor:(id<DBProgressProtocol>)p;
-- (void)create :(NSString *)objectName fromArray:(NSMutableArray *)objects;
-- (void)update :(NSString *)objectName fromArray:(NSMutableArray *)objects;
+- (void)create :(NSString *)objectName fromArray:(NSMutableArray *)objects progressMonitor:(id<DBProgressProtocol>)p;
+- (void)update :(NSString *)objectName fromArray:(NSMutableArray *)objects progressMonitor:(id<DBProgressProtocol>)p;
 - (NSMutableArray *)delete :(NSArray *)objectIdArray;
 - (NSArray *)describeGlobal;
 - (NSArray *)sObjects;

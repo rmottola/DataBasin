@@ -797,7 +797,7 @@
   insert an array of DBSObjects.<br>
   The objects in the array shall all be of the same type.
  */
-- (void)create :(NSString *)objectName fromArray:(NSMutableArray *)objects
+- (void)create :(NSString *)objectName fromArray:(NSMutableArray *)objects progressMonitor:(id<DBProgressProtocol>)p
 {
   NSMutableDictionary   *headerDict;
   NSMutableDictionary   *sessionHeaderDict;
@@ -823,6 +823,8 @@
   headerDict = [[NSMutableDictionary dictionaryWithCapacity: 2] retain];
   [headerDict setObject: sessionHeaderDict forKey: @"SessionHeader"];
   [headerDict setObject: GWSSOAPUseLiteral forKey: GWSSOAPUseKey];
+
+  [p setCurrentDescription:@"Creating"];
     
   enumerator = [objects objectEnumerator];
   batchCounter = 0;
@@ -963,6 +965,7 @@
 	    [set release];
 	  }
 	[logger log: LogDebug: @"[DBSoap create] reiniting cycle...\n"];
+	[p incrementCurrentValue: batchCounter];
 	[queryObjectsArray removeAllObjects];
 	batchCounter = 0;
       }
@@ -984,7 +987,7 @@
   </p>
   <p>The batch size sent is determined by the upBatchSize property of the class</p>
  */
-- (void)update :(NSString *)objectName fromArray:(NSMutableArray *)objects
+- (void)update :(NSString *)objectName fromArray:(NSMutableArray *)objects progressMonitor:(id<DBProgressProtocol>)p
 {
   NSMutableDictionary   *headerDict;
   NSMutableDictionary   *sessionHeaderDict;
@@ -994,10 +997,13 @@
   unsigned              fieldCount;
   DBSObject             *sObject;
   unsigned              batchCounter;
+  NSUInteger            totalCounter;
   NSMutableArray        *queryObjectsArray;
 
   if ([objects count] == 0)
     return;
+
+  [p setMaximumValue: [objects count]];
   
   upBatchSize = 1; // FIXME ########
 
@@ -1012,9 +1018,11 @@
   
   [logger log: LogDebug: @"[DBSoap update] update objects array: %@\n", objects];
   
+  [p setCurrentDescription:@"Updating"];
   
   enumerator = [objects objectEnumerator];
   batchCounter = 0;
+  totalCounter = 0;
   queryObjectsArray = [[NSMutableArray arrayWithCapacity: upBatchSize] retain];
   while ((sObject = [enumerator nextObject]))
   {
@@ -1059,7 +1067,7 @@
     [sObj setObject: sObjKeyOrder forKey: GWSOrderKey];
     [queryObjectsArray addObject: sObj];
 
-    if (batchCounter == upBatchSize-1)
+    if (batchCounter == upBatchSize-1 || totalCounter == [objects count])
       {
 	/* prepare the parameters */
 	queryParmDict = [NSMutableDictionary dictionaryWithCapacity: 2];
@@ -1150,17 +1158,19 @@
 	    [set release];
 	  }
 #endif
-	NSLog(@"reiniting cycle...");
+	NSLog(@"reiniting cycle... %u", batchCounter+1);
+	[p incrementCurrentValue:batchCounter+1];
 	[queryObjectsArray removeAllObjects];
 	batchCounter = 0;
       }
     else /* of batch */
       {
 	batchCounter++;
+	totalCounter++;
       }
-    NSLog(@"outer cycle....");
+    NSLog(@"outer cycle.... %lu", totalCounter);
   } /* while: outer global object enumerator cycle */
-  [logger log: LogDebug: @"[DBSoap update] outer cycle ended %@\n", sObject];
+  [logger log: LogDebug: @"[DBSoap update] outer cycle ended %lu\n", totalCounter];
 
   [queryObjectsArray release];
   [sessionHeaderDict release];

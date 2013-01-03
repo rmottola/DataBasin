@@ -1,3 +1,13 @@
+2013-01-03 Riccardo Mottola <rm@gnu.org>
+
+	* AppController.m
+	* DBProgress.m
+	* DBSoap.h
+	* DBSoap.m
+	* DBSoapCSV.h
+	* DBSoapCSV.m
+	Update and Create progress.
+
 2013-01-02 Riccardo Mottola <rm@gnu.org>
 
 	* DBProgress.m

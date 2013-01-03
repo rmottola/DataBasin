@@ -503,17 +503,22 @@
   NSString      *filePath;
   DBCVSReader   *reader;
   NSString      *intoWhichObject;
+  DBProgress    *progress;
   
   filePath = [fieldFileInsert stringValue];
   NSLog(@"%@", filePath);
   
   intoWhichObject = [[[popupObjectsInsert selectedItem] title] retain];
   [logger log:LogInformative :@"[AppController executeInsert] object: %@\n", intoWhichObject];
+
+  progress = [[DBProgress alloc] init];
+  [progress setLogger:logger];
+  [progress reset];
   
   reader = [[DBCVSReader alloc] initWithPath:filePath];
   
   NS_DURING
-    [dbCsv create:intoWhichObject fromReader:reader];
+    [dbCsv create:intoWhichObject fromReader:reader progressMonitor:progress];
   NS_HANDLER
     if ([[localException name] hasPrefix:@"DB"])
       {
@@ -524,6 +529,7 @@
   
   [reader release];
   [intoWhichObject release];
+  [progress release];
 }
 
 /* UPDATE */
@@ -569,17 +575,22 @@
   NSString      *filePath;
   DBCVSReader   *reader;
   NSString      *whichObject;
+  DBProgress    *progress;
   
   filePath = [fieldFileUpdate stringValue];
   NSLog(@"%@", filePath);
   
+  progress = [[DBProgress alloc] init];
+  [progress setLogger:logger];
+  [progress reset];
+
   whichObject = [[[popupObjectsUpdate selectedItem] title] retain];
   [logger log:LogInformative :@"[AppController executeUpdate] object: %@\n", whichObject];
   
   reader = [[DBCVSReader alloc] initWithPath:filePath withLogger:logger];
   
   NS_DURING
-    [dbCsv update:whichObject fromReader:reader];
+    [dbCsv update:whichObject fromReader:reader progressMonitor:progress];
   NS_HANDLER
     if ([[localException name] hasPrefix:@"DB"])
       {
@@ -590,6 +601,7 @@
     
   [reader release];
   [whichObject release];
+  [progress release];
 }
 
 /*  SELECT IDENTIFY */

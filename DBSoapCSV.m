@@ -168,6 +168,8 @@
 
   [db create:objectName fromArray:sObjectsArray progressMonitor:p];
   [sObjectsArray release];
+  [p setCurrentDescription:@"Done"];
+  [p setEnd];
 }
 
 - (void)update :(NSString *)objectName fromReader:(DBCVSReader *)reader progressMonitor:(id<DBProgressProtocol>)p

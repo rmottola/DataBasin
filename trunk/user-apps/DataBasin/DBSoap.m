@@ -812,6 +812,8 @@
 
   if ([objects count] == 0)
     return;
+
+  [p setMaximumValue: [objects count]];
   
   upBatchSize = 1; // FIXME ########
   
@@ -965,7 +967,7 @@
 	    [set release];
 	  }
 	[logger log: LogDebug: @"[DBSoap create] reiniting cycle...\n"];
-	[p incrementCurrentValue: batchCounter];
+	[p incrementCurrentValue: batchCounter+1];
 	[queryObjectsArray removeAllObjects];
 	batchCounter = 0;
       }

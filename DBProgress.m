@@ -95,7 +95,7 @@
 -(void)setEnd
 {
   percent = 100.0;
-  [logger log:LogDebug :@"[DBProgress]: %f\n", percent];
+  [logger log:LogDebug :@"[DBProgress]: %f, %lu\n", percent, currVal];
 }
 
 

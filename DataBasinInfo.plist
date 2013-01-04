@@ -6,7 +6,7 @@
     Authors = (
 	"Riccardo Mottola"
     );
-    Copyright = "Copyright (C) 2008-2012";
+    Copyright = "Copyright (C) 2008-2013";
     CopyrightDescription = "Released under GPL";
     FullVersionID = "0.6";
     NSExecutable = DataBasin;

@@ -1,7 +1,7 @@
 /*
    Project: DataBasin
 
-   Copyright (C) 2008-2012 Free Software Foundation
+   Copyright (C) 2008-2013 Free Software Foundation
 
    Author: Riccardo Mottola
 
@@ -809,6 +809,7 @@
   NSMutableArray        *queryObjectsArray;
   DBSObject             *sObject;
   unsigned              batchCounter;
+  NSUInteger            totalCounter;
 
   if ([objects count] == 0)
     return;
@@ -830,6 +831,7 @@
     
   enumerator = [objects objectEnumerator];
   batchCounter = 0;
+  totalCounter = 1;
   queryObjectsArray = [[NSMutableArray arrayWithCapacity: upBatchSize] retain];
   while ((sObject = [enumerator nextObject]))
   {
@@ -875,7 +877,7 @@
     [sObj setObject: sObjKeyOrder forKey: GWSOrderKey];
     [queryObjectsArray addObject: sObj];
 
-    if (batchCounter == upBatchSize-1)
+    if (batchCounter == upBatchSize-1 || totalCounter == [objects count])
       {
 	/* prepare the parameters */
 	queryParmDict = [NSMutableDictionary dictionaryWithCapacity: 2];
@@ -975,6 +977,7 @@
       {
 	batchCounter++;
       }
+    totalCounter++;
   }
   [logger log: LogDebug: @"[DBSoap create] Outer cycle ended\n"];
   [queryObjectsArray release];
@@ -1024,7 +1027,7 @@
   
   enumerator = [objects objectEnumerator];
   batchCounter = 0;
-  totalCounter = 0;
+  totalCounter = 1;
   queryObjectsArray = [[NSMutableArray arrayWithCapacity: upBatchSize] retain];
   while ((sObject = [enumerator nextObject]))
   {
@@ -1068,7 +1071,7 @@
       }
     [sObj setObject: sObjKeyOrder forKey: GWSOrderKey];
     [queryObjectsArray addObject: sObj];
-
+    NSLog(@"total counter = %lu of %lu", totalCounter, [objects count]);
     if (batchCounter == upBatchSize-1 || totalCounter == [objects count])
       {
 	/* prepare the parameters */
@@ -1136,7 +1139,7 @@
 	    [keys removeObject:@"GWSCoderOrder"];
 
 	    NSLog(@"keys: %@", keys);
-      
+    
 	    set = [[NSMutableArray alloc] init];
       
 	    /* now cycle all the records and read out the fields */
@@ -1160,6 +1163,7 @@
 	    [set release];
 	  }
 #endif
+
 	NSLog(@"reiniting cycle... %u", batchCounter+1);
 	[p incrementCurrentValue:batchCounter+1];
 	[queryObjectsArray removeAllObjects];
@@ -1168,8 +1172,8 @@
     else /* of batch */
       {
 	batchCounter++;
-	totalCounter++;
       }
+    totalCounter++;
     NSLog(@"outer cycle.... %lu", totalCounter);
   } /* while: outer global object enumerator cycle */
   [logger log: LogDebug: @"[DBSoap update] outer cycle ended %lu\n", totalCounter];

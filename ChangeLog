@@ -1,6 +1,11 @@
 2013-01-04 Riccardo Mottola <rm@gnu.org>
 
 	* DBSoap.m
+	Trap count() for zero size counts.
+
+2013-01-04 Riccardo Mottola <rm@gnu.org>
+
+	* DBSoap.m
 	Count cycle end correctly.
 
 2013-01-03 Riccardo Mottola <rm@gnu.org>
@@ -17,13 +22,13 @@
 
 	* DBProgress.m
 	Check for a valid maxVal
-	
+
 2012-12-29 Riccardo Mottola <rm@gnu.org>
 
 	* DBProgress.m
 	* DBProgress.h
 	Time estimation.
-	
+
 2012-12-29 Riccardo Mottola <rm@gnu.org>
 
 	* AppController.m

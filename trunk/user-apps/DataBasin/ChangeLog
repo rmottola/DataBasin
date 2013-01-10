@@ -1,6 +1,11 @@
 2013-01-04 Riccardo Mottola <rm@gnu.org>
 
 	* DBSoap.m
+	Handle case where no records are returned better.
+
+2013-01-04 Riccardo Mottola <rm@gnu.org>
+
+	* DBSoap.m
 	Trap count() for zero size counts.
 
 2013-01-04 Riccardo Mottola <rm@gnu.org>

@@ -381,12 +381,21 @@
       [p setMaximumValue: size];
     
       /* if we have only one element, put it in an array */
-      if (size == 1)
+      if (records != nil)
         {
-          records = [NSArray arrayWithObject:records];
+          if (size == 1)
+            {
+              records = [NSArray arrayWithObject:records];
+            }
+          record = [records objectAtIndex:0];
+          batchSize = [records count];
         }
-      record = [records objectAtIndex:0];
-      batchSize = [records count];        
+      else
+        {
+          record = nil;
+          batchSize = 0;
+        }
+           
       
       [logger log: LogInformative :@"[DBSoap query] records size is: %d\n", batchSize];
       /* let's get the fields from the keys of the first record */

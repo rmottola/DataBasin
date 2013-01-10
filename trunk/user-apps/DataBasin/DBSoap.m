@@ -248,11 +248,17 @@
   NSDictionary          *coderError;
   NSString              *sizeStr;
   unsigned long         size;
+  BOOL                  isCountQuery;
   
   /* if the destination array is nil, exit */
   if (objects == nil)
     return nil;
-  
+
+  /* we need to check if the query contains count() since it requires special handling to fake an AggregateResult */
+  isCountQuery = NO;
+  if ([queryString rangeOfString:@"count()" options:NSCaseInsensitiveSearch].location != NSNotFound)
+    isCountQuery = YES;
+
   queryLocator = nil;
  
   /* prepare the header */
@@ -361,11 +367,16 @@
 
       scan = [NSScanner scannerWithString:sizeStr];
       if ([scan scanLongLong:&ll])
-	size = (unsigned long)ll;
+        {
+          size = (unsigned long)ll;
+          [logger log: LogInformative: @"[DBSoap query] Declared size is: %lu\n", size];
+        }
       else
-	size = 0;
-
-      [logger log: LogInformative: @"[DBSoap query] Declared size is: %lu\n", size];
+	{
+          [logger log: LogStandard : @"[DBSoap query] Could not parse Size string: %@\n", sizeStr];
+          return nil;
+        }
+      
       
       [p setMaximumValue: size];
     
@@ -390,10 +401,10 @@
         [keys removeObject:@"Id"];
       
       
-      /* Count() is not like to aggrecate count(Id) and returns no AggregateResult
-	 but returns just a count without an actual records array.
-	 Thus we fake one single object. */
-      if (batchSize == 0 && size > 0)
+      /* Count() is not like to aggregate count(Id) and returns no AggregateResult
+	 but returns just a size count without an actual records array.
+	 Thus we fake one single object as AggregateResult. */
+      if (batchSize == 0 && done && isCountQuery)
 	{
 	  DBSObject *sObj;
         
@@ -402,6 +413,7 @@
 	  [objects addObject:sObj];
 	  [sObj release];
 	}
+
       /* now cycle all the records and read out the fields */
       for (i = 0; i < batchSize; i++)
         {

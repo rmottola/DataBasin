@@ -1,7 +1,7 @@
 /*
  Project: DataBasin
  
- Copyright (C) 2010-2012 Free Software Foundation
+ Copyright (C) 2010-2013 Free Software Foundation
  
  Author: Riccardo Mottola
  
@@ -51,6 +51,27 @@
 
 - (void)awakeFromNib
 {
+  NSArray *cols;
+  NSTableColumn *col;
+  NSCell *cell;
+
+  col = [fieldTable tableColumnWithIdentifier:COLID_LABEL];
+  cell = [col dataCell];
+  [cell setSelectable:YES];
+  [cell setEditable:NO];
+  [col setDataCell:cell];
+  
+  col = [fieldTable tableColumnWithIdentifier:COLID_DEVNAME];
+  cell = [col dataCell];
+  [cell setSelectable:YES];
+  [cell setEditable:NO];
+  [col setDataCell:cell];
+  
+  col = [fieldTable tableColumnWithIdentifier:COLID_VALUE];
+  cell = [col dataCell];
+  [cell setSelectable:YES];
+  [cell setEditable:NO];
+  [col setDataCell:cell];
 }
 
 - (void)show

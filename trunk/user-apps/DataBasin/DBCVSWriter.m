@@ -1,7 +1,7 @@
 /*
    Project: DataBasin
 
-   Copyright (C) 2009-2012 Free Software Foundation
+   Copyright (C) 2009-2013 Free Software Foundation
 
    Author: Riccardo Mottola
 
@@ -271,9 +271,8 @@
 - (NSString *)formatOneLine:(NSArray *)values forHeader:(BOOL) headerFlag
 {
   NSMutableString *theLine;
-  NSString *escapedQualifier;
-  int      size;
-  int      i;
+  unsigned      size;
+  unsigned      i;
   id       obj;
   
 //  NSLog(@"Format one line array: %@", values);
@@ -283,8 +282,6 @@
   if (size == 0)
     return nil;
 
-  escapedQualifier = [qualifier stringByAppendingString: qualifier];
-
   theLine = [[NSMutableString alloc] initWithCapacity:64];
 
   for (i = 0; i < size; i++)
@@ -292,7 +289,7 @@
       obj = [values objectAtIndex:i];
       if ([obj isKindOfClass: [NSDictionary class]])
         {
-          NSLog(@"Dictionary: %@", obj);
+	  //          NSLog(@"Dictionary: %@", obj);
 	  [theLine appendString: [self formatComplexObject: obj withRoot: nil forHeader:headerFlag]];
         }
       if ([obj isKindOfClass: [DBSObject class]])
@@ -301,11 +298,8 @@
 	  unsigned j;
 	  NSMutableArray *values;
 
-//	  NSLog(@"DBSObject at root level");
-
 	  keys = [obj fieldNames];
 
-	  values = [NSMutableArray arrayWithCapacity:[keys count]];
           for (j = 0; j < [keys count]; j++)
             {
 	      NSString *key;

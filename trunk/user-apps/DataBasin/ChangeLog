@@ -6,6 +6,9 @@
 	* DBCVSWriter.m
 	Specify explicit search option.
 
+	* DBObjectInspector.m
+	Fix warnings about unused stuff.
+
 2013-01-12 Riccardo Mottola <rm@gnu.org>
 
 	* DBObjectInspector.m

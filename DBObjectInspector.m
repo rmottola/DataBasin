@@ -51,7 +51,6 @@
 
 - (void)awakeFromNib
 {
-  NSArray *cols;
   NSTableColumn *col;
   NSCell *cell;
 

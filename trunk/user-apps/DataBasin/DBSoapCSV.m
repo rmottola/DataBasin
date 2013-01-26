@@ -1,7 +1,7 @@
 /*
    Project: DataBasin
 
-   Copyright (C) 2008-2012 Free Software Foundation
+   Copyright (C) 2008-2013 Free Software Foundation
 
    Author: Riccardo Mottola
 
@@ -107,7 +107,7 @@
     }
   else
     {
-      identifierArray = (NSArray *)dataSet;
+      identifierArray = (NSMutableArray *)dataSet;
       [identifierArray retain];
     }
   

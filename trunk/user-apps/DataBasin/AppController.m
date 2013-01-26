@@ -63,10 +63,22 @@
 {
   if ((self = [super init]))
     {
-      logger = [[DBLogger alloc] init];
+      id logLevelObj;
+      NSUserDefaults *defaults;
 
-      [logger setLogLevel: [[[NSUserDefaults standardUserDefaults] objectForKey: @"LogLevel"] intValue]];
-      loginDict = [[NSUserDefaults standardUserDefaults] objectForKey: @"logins"];
+      defaults = [NSUserDefaults standardUserDefaults];
+
+      logger = [[DBLogger alloc] init];
+      logLevelObj = [defaults objectForKey: @"LogLevel"];
+      /* if the log level is not set we set it to the standard level */
+      if (logLevelObj == nil)
+        {
+          logLevelObj = [NSNumber numberWithInt: LogStandard];
+          [defaults setObject:logLevelObj forKey: @"LogLevel"];
+        }
+      [logger setLogLevel: [logLevelObj intValue]];
+
+      loginDict = [defaults objectForKey: @"logins"];
       if (loginDict == nil)
 	loginDict = [NSMutableDictionary dictionary];
       else

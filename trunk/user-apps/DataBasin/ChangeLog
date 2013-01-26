@@ -9,6 +9,9 @@
 	* DBObjectInspector.m
 	Fix warnings about unused stuff.
 
+	* AppController.m
+	Initialize log level if not set.
+
 2013-01-12 Riccardo Mottola <rm@gnu.org>
 
 	* DBObjectInspector.m

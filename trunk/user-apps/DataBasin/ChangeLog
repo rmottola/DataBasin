@@ -1,3 +1,11 @@
+2013-01-27 Riccardo Mottola <rm@gnu.org>
+
+	* DBSoapCSV.m
+	Fix cast.
+
+	* DBCVSWriter.m
+	Specify explicit search option.
+
 2013-01-12 Riccardo Mottola <rm@gnu.org>
 
 	* DBObjectInspector.m

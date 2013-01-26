@@ -100,7 +100,7 @@
 
 	  [s appendString: value];
 
-	  [s replaceOccurrencesOfString: qualifier withString: escapedQualifier options:(unsigned)NULL range: NSMakeRange(1, [s length]-1)];
+	  [s replaceOccurrencesOfString: qualifier withString: escapedQualifier options:NSLiteralSearch range: NSMakeRange(1, [s length]-1)];
 	  [s appendString: qualifier];
 
 	  res = [NSString stringWithString: s];

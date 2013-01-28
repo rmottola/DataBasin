@@ -1135,6 +1135,19 @@
 	queryResult = [resultDict objectForKey:@"GWSCoderParameters"];
 	result = [queryResult objectForKey:@"result"];
 	NSLog(@"result: %@", result);
+
+	if (result != nil)
+	  {
+	    NSString *objId;
+	    NSString *successStr;
+	    BOOL success;
+	    objId = [result objectForKey:@"id"];
+	    successStr = [result objectForKey:@"success"];
+	    success = NO;
+	    if ([successStr isEqualToString:@"true"])
+	      success = YES;
+	    NSLog(@"result: %@ -> %d", objId, success);
+	  }
 #if 0
 	records = [result objectForKey:@"records"];
 	sizeStr = [result objectForKey:@"size"];

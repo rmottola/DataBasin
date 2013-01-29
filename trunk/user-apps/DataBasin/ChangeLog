@@ -1,3 +1,8 @@
+2013-01-29 Riccardo Mottola <rm@gnu.org>
+
+	* DBSoap.m
+	Extract update result: success and errors.
+
 2013-01-27 Riccardo Mottola <rm@gnu.org>
 
 	* DBSoapCSV.m

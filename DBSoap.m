@@ -1031,7 +1031,7 @@
 
   [p setMaximumValue: [objects count]];
   
-  upBatchSize = 1; // FIXME ########
+  upBatchSize = 10; // FIXME ########
 
   /* prepare the header */
   sessionHeaderDict = [[NSMutableDictionary dictionaryWithCapacity: 2] retain];
@@ -1061,11 +1061,7 @@
     NSMutableDictionary *queryParmDict;
     NSDictionary        *queryResult;
     NSDictionary        *result;
-    NSArray             *records;
-    NSDictionary        *record;
     NSDictionary        *queryFault;
-    NSString            *sizeStr;
-    unsigned            size;
 
     NSLog(@"inner cycle: %d", batchCounter);
     sObj = [NSMutableDictionary dictionaryWithCapacity: 2];
@@ -1134,71 +1130,51 @@
 
 	queryResult = [resultDict objectForKey:@"GWSCoderParameters"];
 	result = [queryResult objectForKey:@"result"];
-	NSLog(@"result: %@", result);
+	NSLog(@"query result: %@", result);
 
 	if (result != nil)
 	  {
-	    NSString *objId;
-	    NSString *successStr;
-	    BOOL success;
-	    objId = [result objectForKey:@"id"];
-	    successStr = [result objectForKey:@"success"];
-	    success = NO;
-	    if ([successStr isEqualToString:@"true"])
-	      success = YES;
-	    NSLog(@"result: %@ -> %d", objId, success);
+            NSArray *results;
+            NSUInteger i;
+
+            if (![result isKindOfClass:[NSArray class]])
+              {
+                NSLog(@"Single result. Repackaging into array");
+                results = [NSArray arrayWithObject:result];
+              }
+            else
+              {
+                results = (NSArray *)result;
+              }
+
+            for (i = 0; i < [results count]; i++)
+              {
+                NSString *objId;
+                NSString *successStr;
+                BOOL success;
+                NSString *message;
+                NSString *code;
+                NSDictionary *r;
+                NSDictionary *errors;
+                
+                r = [results objectAtIndex:i];
+                objId = [r objectForKey:@"id"];
+                successStr = [r objectForKey:@"success"];
+                success = NO;
+                if ([successStr isEqualToString:@"true"])
+                  success = YES;
+                code = nil;
+                message = nil;
+                errors = [r objectForKey:@"errors"];
+                if (errors != nil)
+                  {
+                    message = [errors objectForKey:@"message"];
+                    code = [errors objectForKey:@"statusCode"];
+                  }
+                NSLog(@"result: %@ -> %d, %@: %@", objId, success, code, message);
+              }
 	  }
-#if 0
-	records = [result objectForKey:@"records"];
-	sizeStr = [result objectForKey:@"size"];
- 
 
-	if (sizeStr != nil)
-	  {
-	    unsigned        i;
-	    unsigned        j;
-	    unsigned        batchSize;
-	    NSMutableArray *keys;
-	    NSMutableArray *set;
-      
-      
-	    size = (unsigned)[sizeStr intValue];
-	    batchSize = [records count];
-	    NSLog(@"Declared size is: %u", size);
-	    NSLog(@"records size is: %u", batchSize);
-      
-	    /* let's get the fields from the keys of the first record */
-	    record = [records objectAtIndex:0];
-	    keys = [NSMutableArray arrayWithArray:[record allKeys]];
-	    [keys removeObject:@"GWSCoderOrder"];
-
-	    NSLog(@"keys: %@", keys);
-    
-	    set = [[NSMutableArray alloc] init];
-      
-	    /* now cycle all the records and read out the fields */
-	    for (i = 0; i < batchSize; i++)
-	      {
-		NSMutableArray *values;
-	  
-		record = [records objectAtIndex:i];
-		values = [NSMutableArray arrayWithCapacity:[keys count]];
-		for (j = 0; j < [keys count]; j++)
-		  {
-		    NSString *value;
-	      
-		    value = [record objectForKey:[keys objectAtIndex:j]];
-		    [values addObject:value];
-		  }
-		NSLog(@"%u: %@", i, values);
-		[set addObject:values];
-	      }
-	    /* we don't do yet anything useful with the results... */
-	    [set release];
-	  }
-#endif
-
-	NSLog(@"reiniting cycle... %u", batchCounter+1);
 	[p incrementCurrentValue:batchCounter+1];
 	[queryObjectsArray removeAllObjects];
 	batchCounter = 0;

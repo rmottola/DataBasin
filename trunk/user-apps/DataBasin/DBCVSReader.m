@@ -1,7 +1,7 @@
 /*
    Project: DataBasin
 
-   Copyright (C) 2009-2012 Free Software Foundation
+   Copyright (C) 2009-2013 Free Software Foundation
 
    Author: Riccardo Mottola
 
@@ -210,7 +210,6 @@
 		      [scanner scanString:qualifier intoString:(NSString **)nil];
 		    }
 
-		  NSLog(@"adding q field: %@", field);
 		  [record addObject:field];
 
 		  [scanner scanString:separator intoString:(NSString **)nil];

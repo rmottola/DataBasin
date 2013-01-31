@@ -49,7 +49,13 @@
 
   [p reset];
   [p setCurrentDescription:@"Retrieving"];
-  qLoc = [db query: queryString queryAll: all toArray: sObjects progressMonitor:p];
+
+  NS_DURING
+    qLoc = [db query: queryString queryAll: all toArray: sObjects progressMonitor:p];
+  NS_HANDLER
+    [sObjects release];
+    [localException raise];
+  NS_ENDHANDLER
 
   batchSize = [sObjects count];
   if (batchSize > 0)
@@ -116,7 +122,15 @@
 
   [p setCurrentDescription:@"Identifying and querying."];
   [logger log: LogStandard :@"[DBSoapCSV queryIdentify] Identify through %@\n", inFieldNames];
-  [db queryIdentify:queryString with:inFieldNames queryAll:all fromArray:identifierArray toArray: sObjects withBatchSize:bSize progressMonitor: p];
+
+  NS_DURING
+    [db queryIdentify:queryString with:inFieldNames queryAll:all fromArray:identifierArray toArray: sObjects withBatchSize:bSize progressMonitor: p];
+  NS_HANDLER
+    [identifierArray release];
+    [sObjects release];
+    NSLog(@"trapped exception, cleaning up and rethrowing");
+    [localException raise];
+  NS_ENDHANDLER
   
   [p setCurrentDescription:@"Writing data"];
   keys = nil;
@@ -166,7 +180,12 @@
     [sObj release];
   }
 
-  [db create:objectName fromArray:sObjectsArray progressMonitor:p];
+  NS_DURING
+    [db create:objectName fromArray:sObjectsArray progressMonitor:p];
+  NS_HANDLER
+    [sObjectsArray release];
+    [localException raise];
+  NS_ENDHANDLER
   [sObjectsArray release];
   [p setCurrentDescription:@"Done"];
   [p setEnd];
@@ -208,7 +227,13 @@
     [sObj release];
   }
 
-  [db update:objectName fromArray:sObjectsArray progressMonitor:p];
+  NS_DURING
+    [db update:objectName fromArray:sObjectsArray progressMonitor:p];
+  NS_HANDLER
+    [sObjectsArray release];
+    [localException raise];
+  NS_ENDHANDLER
+
   [sObjectsArray release];
   [p setCurrentDescription:@"Done"];
   [p setEnd];
@@ -277,7 +302,14 @@
   [logger log: LogDebug :@"[DBSoapCSV delete] objects to delete: %@\n", objectsArray];
   [logger log: LogStandard :@"[DBSoapCSV delete] Count of objects to delete: %d\n", [objectsArray count]];
 
-  resultArray = [db delete:objectsArray];
+  resultArray = nil;
+  NS_DURING
+    resultArray = [db delete:objectsArray];
+  NS_HANDLER
+    [objectsArray release];
+    [localException raise];
+  NS_ENDHANDLER
+
   [objectsArray release];
   return resultArray;
 }

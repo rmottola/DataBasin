@@ -67,7 +67,7 @@
       fieldNames = [[NSMutableArray arrayWithCapacity: 1] retain];
       fieldProperties = [[NSMutableDictionary dictionaryWithCapacity: 1] retain];
       recordValues = [[NSMutableDictionary dictionaryWithCapacity: 1] retain];
-	  objectProperties = [[NSMutableDictionary dictionaryWithCapacity: 1] retain];
+      objectProperties = [[NSMutableDictionary dictionaryWithCapacity: 1] retain];
     }
   return self;
 }

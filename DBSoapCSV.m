@@ -128,7 +128,6 @@
   NS_HANDLER
     [identifierArray release];
     [sObjects release];
-    NSLog(@"trapped exception, cleaning up and rethrowing");
     [localException raise];
   NS_ENDHANDLER
   

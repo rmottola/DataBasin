@@ -29,6 +29,7 @@
 
 -(void)dealloc
 {
+  [currentDescription release];
   [startDate release];
   [super dealloc];
 }

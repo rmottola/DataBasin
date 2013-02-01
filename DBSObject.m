@@ -2,7 +2,7 @@
  Project: DataBasin
  DBSobject.m
  
- Copyright (C) 2010-2012 Free Software Foundation
+ Copyright (C) 2010-2013 Free Software Foundation
  
  Author: Riccardo Mottola
  
@@ -250,7 +250,7 @@ converting it if necessary.</p>
   [statement appendString: @"'"];
   NSLog(@"query: %@", statement);
   tempArray = [NSMutableArray arrayWithCapacity: [namesArray count]];
-  [dbs query :statement queryAll:NO toArray: tempArray progressMonitor:nil];
+  [dbs query :statement queryAll:YES toArray: tempArray progressMonitor:nil];
   if ([tempArray count] == 0)
     {
       [[NSException exceptionWithName:@"DBException" reason:@"Object not found." userInfo:nil] raise];

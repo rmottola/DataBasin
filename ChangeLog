@@ -1,3 +1,8 @@
+2013-02-01 Riccardo Mottola <rm@gnu.org>
+
+	* DBSoap.m
+	Load fields also of a deleted object.
+
 2013-01-31 Riccardo Mottola <rm@gnu.org>
 
 	* DBSoapCSV.m

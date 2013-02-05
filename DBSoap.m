@@ -1031,7 +1031,7 @@
 
   [p setMaximumValue: [objects count]];
   
-  upBatchSize = 10; // FIXME ########
+  upBatchSize = 1; // FIXME ########
 
   /* prepare the header */
   sessionHeaderDict = [[NSMutableDictionary dictionaryWithCapacity: 2] retain];

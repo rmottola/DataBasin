@@ -1,5 +1,10 @@
 2013-02-01 Riccardo Mottola <rm@gnu.org>
 
+	* DBSoapCSV.m
+	Initialize qLoc to nil.
+
+2013-02-01 Riccardo Mottola <rm@gnu.org>
+
 	* DBSoap.m
 	Load fields also of a deleted object.
 

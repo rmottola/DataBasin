@@ -50,6 +50,7 @@
   [p reset];
   [p setCurrentDescription:@"Retrieving"];
 
+  qLoc = nil;
   NS_DURING
     qLoc = [db query: queryString queryAll: all toArray: sObjects progressMonitor:p];
   NS_HANDLER

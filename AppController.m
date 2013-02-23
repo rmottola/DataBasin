@@ -1,7 +1,7 @@
 /* 
    Project: DataBasin
 
-   Copyright (C) 2008-2012 Free Software Foundation
+   Copyright (C) 2008-2013 Free Software Foundation
 
    Author: Riccardo Mottola
 
@@ -347,7 +347,7 @@
       }
     else
       {
-	NSLog(@"Unexpected exception: @", [localException name]);
+	NSLog(@"Unexpected exception: %@", [localException name]);
       }
   NS_ENDHANDLER
   [logger log:LogStandard :@"[AppController doLogin] %@ logged in succesfully\n", userName];
@@ -527,7 +527,7 @@
   [progress setLogger:logger];
   [progress reset];
   
-  reader = [[DBCVSReader alloc] initWithPath:filePath];
+  reader = [[DBCVSReader alloc] initWithPath:filePath withLogger:logger];
   
   NS_DURING
     [dbCsv create:intoWhichObject fromReader:reader progressMonitor:progress];

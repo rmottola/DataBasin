@@ -1,3 +1,8 @@
+2013-02-23 Riccardo Mottola <rm@gnu.org>
+
+	* AppController.m
+	Use correct DBCVSReader init method.
+
 2013-02-01 Riccardo Mottola <rm@gnu.org>
 
 	* DBSoapCSV.m

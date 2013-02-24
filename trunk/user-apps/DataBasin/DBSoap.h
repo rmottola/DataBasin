@@ -27,6 +27,15 @@
 
 #import "DBLogger.h"
 
+#if defined(__APPLE__) && (MAC_OS_X_VERSION_MAX_ALLOWED <= MAC_OS_X_VERSION_10_4)
+#ifndef NSUInteger
+#define NSUInteger unsigned int
+#endif
+#ifndef NSInteger
+#define NSInteger int
+#endif
+#endif
+
 #define MAX_SOQL_SIZE 9000
 #define MAX_BATCH_SIZE 200
 

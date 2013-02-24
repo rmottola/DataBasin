@@ -210,14 +210,14 @@ converting it if necessary.</p>
 	}
       else
 	{
-	  NSLog(@"we have %d fields", [fieldsArray count]);
+	  NSLog(@"we have %u fields", [fieldsArray count]);
 	  [self loadValuesForFields: fieldsArray];
 	  fieldsArray = [NSMutableArray arrayWithCapacity: 10];
 	  [fieldsArray addObject: currField];
 	  sizeCount = [currField length] + 2;
 	}
     }
-  NSLog(@"we have %d fields", [fieldsArray count]);
+  NSLog(@"we have %u fields", [fieldsArray count]);
   [self loadValuesForFields: fieldsArray];
 }
 

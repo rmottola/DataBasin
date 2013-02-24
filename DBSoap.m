@@ -922,7 +922,7 @@
   
   
 
-	NSLog(@"create result dict is %d big", [resultDict count]);
+	NSLog(@"create result dict is %u big", [resultDict count]);
   
 	queryFault = [resultDict objectForKey:@"GWSCoderFault"];
 	if (queryFault != nil)
@@ -1063,7 +1063,7 @@
     NSDictionary        *result;
     NSDictionary        *queryFault;
 
-    NSLog(@"inner cycle: %d", batchCounter);
+    NSLog(@"inner cycle: %u", batchCounter);
     sObj = [NSMutableDictionary dictionaryWithCapacity: 2];
     [sObj setObject: @"urn:partner.soap.sforce.com" forKey: GWSSOAPNamespaceURIKey];
     sObjKeyOrder = [NSMutableArray arrayWithCapacity: 2];
@@ -1111,7 +1111,7 @@
 				    order : nil
 				  timeout : standardTimeoutSec];
   
-	NSLog(@"update result dict is %d big", [resultDict count]);
+	NSLog(@"update result dict is %u big", [resultDict count]);
   
 	queryFault = [resultDict objectForKey:@"GWSCoderFault"];
 	if (queryFault != nil)
@@ -1236,7 +1236,7 @@
 		timeout : standardTimeoutSec];
 
 
-  [logger log: LogDebug: @"[DBSoap describeGlobal] Describe Global dict is %d big\n", [resultDict count]];
+  [logger log: LogDebug: @"[DBSoap describeGlobal] Describe Global dict is %lu big\n", [resultDict count]];
   
   queryFault = [resultDict objectForKey:@"GWSCoderFault"];
   if (queryFault != nil)
@@ -1630,7 +1630,7 @@
   // FIXME perhaps this copy is useless
   objectsArray = [[NSMutableArray arrayWithArray:[reader readDataSet]] retain];
   [logger log: LogDebug :@"[DBSoap deleteFromReader] objects to delete: %@\n", objectsArray];
-  NSLog(@"count of objects to delete: %d", [objectsArray count]);
+  NSLog(@"count of objects to delete: %u", [objectsArray count]);
 
   resultArray = [self delete:objectsArray];
   [objectsArray release];
@@ -1660,7 +1660,7 @@
   if (sObjectList == nil)
     [self updateObjects];
 
-  [logger log: LogDebug :@"[DBSoap identifyObjectById] in %d objects\n", [sObjectList count]];
+  [logger log: LogDebug :@"[DBSoap identifyObjectById] in %u objects\n", [sObjectList count]];
   enu = [sObjectList objectEnumerator];
   while (!found && (tempObj = [enu nextObject]))
     {

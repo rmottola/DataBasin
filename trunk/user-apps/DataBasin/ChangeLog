@@ -1,3 +1,15 @@
+2013-02-24 Riccardo Mottola <rm@gnu.org>
+
+	* DBObjectInspector.m
+	NSInteger transition
+
+	* DBSoap.h
+	Old Mac defines for NSInteger type and similar
+
+	* DBSoap.m
+	* DBSObject.m
+	Warning fixes.
+
 2013-02-23 Riccardo Mottola <rm@gnu.org>
 
 	* AppController.m

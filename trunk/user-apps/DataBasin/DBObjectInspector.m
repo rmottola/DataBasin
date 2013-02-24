@@ -150,12 +150,12 @@
 /** --- Data Source --- **/
 
 
-- (int)numberOfRowsInTableView:(NSTableView *)aTableView
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
 {
   return [arrayRows count];
 }
 
-- (id) tableView: (NSTableView*)aTableView objectValueForTableColumn: (NSTableColumn*)column row: (int)rowIndex
+- (id) tableView: (NSTableView*)aTableView objectValueForTableColumn: (NSTableColumn*)column row: (NSInteger)rowIndex
 {
   id retObj;
   NSDictionary *row;

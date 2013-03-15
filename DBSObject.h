@@ -2,7 +2,7 @@
  Project: DataBasin
  DBSobject.h
  
- Copyright (C) 2010-2012 Free Software Foundation
+ Copyright (C) 2010-2013 Free Software Foundation
  
  Author: Riccardo Mottola
  
@@ -64,6 +64,9 @@
 
 - (void)setProperties: (NSDictionary *)properties forField: (NSString *)field;
 - (NSDictionary *)propertiesOfField: (NSString *)field;
+
+/** removes a field and its properties */
+- (void)removeField: (NSString *)field;
 
 - (NSArray *)fieldNames;
 - (id)fieldValue: (NSString *)field;

@@ -156,6 +156,12 @@ converting it if necessary.</p>
   [fieldProperties setObject: properties forKey: field];
 }
 
+- (void)removeField: (NSString *)field
+{
+  [recordValues removeObjectForKey: field];
+  [fieldNames removeObject: field];
+}
+
 - (NSDictionary *)propertiesOfField: (NSString *)field
 {
   return [fieldProperties objectForKey: field];
@@ -185,7 +191,6 @@ converting it if necessary.</p>
   
   [recordValues setObject: value forKey: field];
 }
-
 
 - (void)loadFieldValues
 {

@@ -1,3 +1,8 @@
+2013-04-02 Riccardo Mottola <rm@gnu.org>
+
+	* DBCVSWriter.[h,m] (formatOneLine)
+	Allow a single-complex object at top-level, not just arrays
+
 2013-03-15 Riccardo Mottola <rm@gnu.org>
 
 	* DBSObject.[h,m]

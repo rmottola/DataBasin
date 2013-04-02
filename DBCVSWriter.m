@@ -176,12 +176,16 @@
       
       if ([obj isKindOfClass: [NSDictionary class]])
         {
-	  NSMutableString *s;
+          NSMutableString *s;
 
-	  s = [NSMutableString stringWithString:root];
+          if (root)
+            s = [NSMutableString stringWithString:root];
+          else
+            s = [NSMutableString stringWithString:@""];
 	  if (headerFlag)
 	    {
-	      [s appendString:@"."];
+              if (root)
+                [s appendString:@"."];
 	      [s appendString:key];
 	    }
 
@@ -191,10 +195,14 @@
         {
 	  NSMutableString *s;
 
+          if (root)
+            s = [NSMutableString stringWithString:root];
+          else
+            s = [NSMutableString stringWithString:@""];
 	  if (headerFlag)
 	    {
-	      s = [NSMutableString stringWithString:root];
-	      [s appendString:@"."];
+              if (root)
+                [s appendString:@"."];
 	      [s appendString:key];
 	    }
 	  else
@@ -268,16 +276,23 @@
     }
 }
 
-- (NSString *)formatOneLine:(NSArray *)values forHeader:(BOOL) headerFlag
+- (NSString *)formatOneLine:(id)data forHeader:(BOOL) headerFlag
 {
+  NSArray         *array;
   NSMutableString *theLine;
-  unsigned      size;
-  unsigned      i;
-  id       obj;
+  unsigned         size;
+  unsigned         i;
+  id               obj;
   
-//  NSLog(@"Format one line array: %@", values);
 
-  size = [values count];
+
+  /* if we have just a single object, we fake an array */
+  if([data isKindOfClass: [NSArray class]])
+    array = data;
+  else
+    array = [NSArray arrayWithObject: data];
+
+  size = [array count];
 
   if (size == 0)
     return nil;
@@ -286,17 +301,15 @@
 
   for (i = 0; i < size; i++)
     {
-      obj = [values objectAtIndex:i];
+      obj = [array objectAtIndex:i];
       if ([obj isKindOfClass: [NSDictionary class]])
         {
-	  //          NSLog(@"Dictionary: %@", obj);
 	  [theLine appendString: [self formatComplexObject: obj withRoot: nil forHeader:headerFlag]];
         }
-      if ([obj isKindOfClass: [DBSObject class]])
+      else if ([obj isKindOfClass: [DBSObject class]])
         {
 	  NSArray *keys;
 	  unsigned j;
-	  NSMutableArray *values;
 
 	  keys = [obj fieldNames];
 

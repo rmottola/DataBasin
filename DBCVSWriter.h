@@ -1,7 +1,7 @@
 /*
    Project: DataBasin
 
-   Copyright (C) 2009-2012 Free Software Foundation
+   Copyright (C) 2009-2013 Free Software Foundation
 
    Author: Riccardo Mottola
 
@@ -44,7 +44,7 @@
 - (void)setLogger:(DBLogger *)l;
 - (void)setFieldNames: (id)obj andWriteIt: (BOOL)flag;
 - (void)writeDataSet:(NSArray *)array;
-- (NSString *)formatOneLine:(NSArray *)values forHeader:(BOOL) headerFlag;
+- (NSString *)formatOneLine:(id)data forHeader:(BOOL) headerFlag;
 - (void)setStringEncoding: (NSStringEncoding) enc;
 
 @end

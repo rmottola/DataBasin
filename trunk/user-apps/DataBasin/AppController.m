@@ -895,15 +895,26 @@
 
 - (IBAction)executeDelete:(id)sender
 {
-  NSString      *filePath;
-  DBCVSReader   *reader;
-  
+  NSString       *filePath;
+  NSString       *resFilePath;
+  DBCVSReader    *reader;
+  DBCVSWriter    *resWriter;
+  NSMutableArray *results;
+  NSFileManager  *fileManager;
+  NSFileHandle   *resFH;
+  NSUserDefaults *defaults;
+
+  defaults = [NSUserDefaults standardUserDefaults];  
   filePath = [fieldFileDelete stringValue];
+  resFilePath = [[filePath stringByDeletingLastPathComponent] stringByAppendingPathComponent: @"results.csv"];
+
+  NSLog(@"writing results to: %@", resFilePath);
     
   reader = [[DBCVSReader alloc] initWithPath:filePath byParsingHeaders:([checkSkipFirstLine state]==NSOnState) withLogger:logger];  
   
   NS_DURING
-    [dbCsv deleteFromReader:reader];
+    results = [dbCsv deleteFromReader:reader];
+    [results retain];
   NS_HANDLER
     if ([[localException name] hasPrefix:@"DB"])
       {
@@ -912,6 +923,29 @@
       }
   NS_ENDHANDLER
 
+  fileManager = [NSFileManager defaultManager];
+  if ([fileManager createFileAtPath:resFilePath contents:nil attributes:nil] == NO)
+    {
+      NSRunAlertPanel(@"Attention", @"Could not create File.", @"Ok", nil, nil);
+    }  
+
+  resFH = [NSFileHandle fileHandleForWritingAtPath:resFilePath];
+  if (resFH == nil)
+    {
+      NSRunAlertPanel(@"Attention", @"Cannot create File.", @"Ok", nil, nil);
+    }
+  else
+    {
+      resWriter = [[DBCVSWriter alloc] initWithHandle:resFH];
+      [resWriter setLogger:logger];
+      [resWriter setStringEncoding: [[defaults valueForKey: @"StringEncoding"] intValue]];
+      
+      [resWriter setFieldNames:[results objectAtIndex: 0] andWriteIt:YES];
+      [resWriter writeDataSet: results];
+      
+      [resWriter release];
+    }
+  [results release];
   [reader release];
 }
 

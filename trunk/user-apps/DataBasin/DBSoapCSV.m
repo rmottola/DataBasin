@@ -291,7 +291,7 @@
 
 
 
-- (NSMutableArray *)deleteFromReader:(DBCVSReader *)reader
+- (NSMutableArray *)deleteFromReader:(DBCVSReader *)reader progressMonitor:(id<DBProgressProtocol>)p
 {
   NSMutableArray *objectsArray;
   NSMutableArray *resultArray;
@@ -304,7 +304,7 @@
 
   resultArray = nil;
   NS_DURING
-    resultArray = [db delete:objectsArray];
+    resultArray = [db delete:objectsArray progressMonitor:p];
   NS_HANDLER
     [objectsArray release];
     [localException raise];

@@ -1621,22 +1621,6 @@
   return [resultArray autorelease];
 }
 
-- (NSMutableArray *)deleteFromReader:(DBCVSReader *)reader progressMonitor:(id<DBProgressProtocol>)p
-{
-  NSMutableArray *objectsArray;
-  NSMutableArray *resultArray;
-
-  /* retrieve objects to delete */
-  // FIXME perhaps this copy is useless
-  objectsArray = [[NSMutableArray arrayWithArray:[reader readDataSet]] retain];
-  [logger log: LogDebug :@"[DBSoap deleteFromReader] objects to delete: %@\n", objectsArray];
-  NSLog(@"count of objects to delete: %u", [objectsArray count]);
-
-  resultArray = [self delete:objectsArray progressMonitor:p];
-  [objectsArray release];
-  return resultArray;
-}
-
 - (NSString *)identifyObjectById:(NSString *)sfId
 {
   NSString *devName;

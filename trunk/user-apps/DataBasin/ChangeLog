@@ -1,5 +1,10 @@
 2013-04-04 Riccardo Mottola <rm@gnu.org>
 
+	* DBSoap.m
+	Remove dead code.
+
+2013-04-04 Riccardo Mottola <rm@gnu.org>
+
 	* AppController.m
 	* DBSoap.h
 	* DBSoap.m

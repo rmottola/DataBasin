@@ -45,7 +45,7 @@
 - (void)queryIdentify :(NSString *)queryString queryAll:(BOOL)all fromReader:(DBCVSReader *)reader toWriter:(DBCVSWriter *)writer withBatchSize:(int)bSize progressMonitor:(id<DBProgressProtocol>)p;
 - (void)create :(NSString *)objectName fromReader:(DBCVSReader *)reader progressMonitor:(id<DBProgressProtocol>)p;
 - (void)update :(NSString *)objectName fromReader:(DBCVSReader *)reader progressMonitor:(id<DBProgressProtocol>)p;
-- (NSMutableArray *)deleteFromReader:(DBCVSReader *)reader;
+- (NSMutableArray *)deleteFromReader:(DBCVSReader *)reader progressMonitor:(id<DBProgressProtocol>)p;
 - (void)describeSObject: (NSString *)objectType toWriter:(DBCVSWriter *)writer;
 
 

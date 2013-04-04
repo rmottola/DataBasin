@@ -1473,7 +1473,7 @@
 }
 
 
-- (NSMutableArray *)delete :(NSArray *)objectIdArray
+- (NSMutableArray *)delete :(NSArray *)objectIdArray progressMonitor:(id<DBProgressProtocol>)p;
 {
   NSMutableDictionary   *headerDict;
   NSMutableDictionary   *sessionHeaderDict;
@@ -1621,7 +1621,7 @@
   return [resultArray autorelease];
 }
 
-- (NSMutableArray *)deleteFromReader:(DBCVSReader *)reader
+- (NSMutableArray *)deleteFromReader:(DBCVSReader *)reader progressMonitor:(id<DBProgressProtocol>)p
 {
   NSMutableArray *objectsArray;
   NSMutableArray *resultArray;
@@ -1632,7 +1632,7 @@
   [logger log: LogDebug :@"[DBSoap deleteFromReader] objects to delete: %@\n", objectsArray];
   NSLog(@"count of objects to delete: %u", [objectsArray count]);
 
-  resultArray = [self delete:objectsArray];
+  resultArray = [self delete:objectsArray progressMonitor:p];
   [objectsArray release];
   return resultArray;
 }

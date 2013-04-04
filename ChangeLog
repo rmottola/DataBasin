@@ -1,3 +1,12 @@
+2013-04-04 Riccardo Mottola <rm@gnu.org>
+
+	* AppController.m
+	* DBSoap.h
+	* DBSoap.m
+	* DBSoapCSV.h
+	* DBSoapCSV.m
+	progressMonitor infrastructure for delete.
+
 2013-04-03 Riccardo Mottola <rm@gnu.org>
 
 	* AppController.m

@@ -833,7 +833,7 @@
   
   NS_DURING
     [fieldStatusQd setStringValue:@"Working..."];
-    resultArray = [db delete: idArray];
+    resultArray = [db delete: idArray progressMonitor:nil];
   NS_HANDLER
     if ([[localException name] hasPrefix:@"DB"])
       {
@@ -903,6 +903,7 @@
   NSFileManager  *fileManager;
   NSFileHandle   *resFH;
   NSUserDefaults *defaults;
+  DBProgress     *progress;
 
   defaults = [NSUserDefaults standardUserDefaults];  
   filePath = [fieldFileDelete stringValue];
@@ -910,10 +911,15 @@
 
   NSLog(@"writing results to: %@", resFilePath);
     
-  reader = [[DBCVSReader alloc] initWithPath:filePath byParsingHeaders:([checkSkipFirstLine state]==NSOnState) withLogger:logger];  
+  reader = [[DBCVSReader alloc] initWithPath:filePath byParsingHeaders:([checkSkipFirstLine state]==NSOnState) withLogger:logger];
+
+  progress = [[DBProgress alloc] init];
+  [progress setLogger:logger];
+  [progress reset];
+
   
   NS_DURING
-    results = [dbCsv deleteFromReader:reader];
+    results = [dbCsv deleteFromReader:reader progressMonitor:progress];
     [results retain];
   NS_HANDLER
     if ([[localException name] hasPrefix:@"DB"])
@@ -947,6 +953,7 @@
     }
   [results release];
   [reader release];
+  [progress release];
 }
 
 /* OBJECT INSPECTOR */

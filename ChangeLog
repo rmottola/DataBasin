@@ -1,3 +1,9 @@
+2013-04-14 Riccardo Mottola <rm@gnu.org>
+
+	* AppController.m (executeUpdate)
+	* DBSoap.m
+	Clean up and write consistent error results even with missing data.
+
 2013-04-13 Riccardo Mottola <rm@gnu.org>
 
 	* AppController.m (executeUpdate)

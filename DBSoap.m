@@ -1180,12 +1180,15 @@
 		    rowDict = [NSDictionary dictionaryWithObjectsAndKeys:
 					      successStr, @"success",
 					    objId, @"id",
+					    @"", @"message",
+					    @"", @"statusCode",
 					    nil];
 		  }
 		else
 		  {
 		    rowDict = [NSDictionary dictionaryWithObjectsAndKeys:
 					      successStr, @"success",
+					    objId, @"id",
 					    message, @"message",
 					    code, @"statusCode",
 					    nil];
@@ -1203,7 +1206,6 @@
 	batchCounter++;
       }
     totalCounter++;
-    NSLog(@"outer cycle.... %lu", totalCounter);
   } /* while: outer global object enumerator cycle */
   [logger log: LogDebug: @"[DBSoap update] outer cycle ended %lu\n", totalCounter];
 

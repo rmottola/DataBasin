@@ -597,7 +597,6 @@
 
   defaults = [NSUserDefaults standardUserDefaults];  
   filePath = [fieldFileUpdate stringValue];
-  NSLog(@"%@", filePath);
   resFilePath = [[filePath stringByDeletingLastPathComponent] stringByAppendingPathComponent: @"results.csv"];
 
   NSLog(@"writing results to: %@", resFilePath);
@@ -952,7 +951,7 @@
   [progress setLogger:logger];
   [progress reset];
 
-  
+  results = nil;  
   NS_DURING
     results = [dbCsv deleteFromReader:reader progressMonitor:progress];
     [results retain];

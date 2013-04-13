@@ -584,13 +584,23 @@
 
 - (IBAction)executeUpdate:(id)sender
 {
-  NSString      *filePath;
-  DBCVSReader   *reader;
-  NSString      *whichObject;
-  DBProgress    *progress;
-  
+  NSString       *filePath;
+  NSString       *resFilePath;
+  DBCVSReader    *reader;
+  NSString       *whichObject;
+  DBProgress     *progress;
+  NSMutableArray *results;
+  NSFileManager  *fileManager;
+  NSFileHandle   *resFH;
+  NSUserDefaults *defaults;
+  DBCVSWriter    *resWriter;
+
+  defaults = [NSUserDefaults standardUserDefaults];  
   filePath = [fieldFileUpdate stringValue];
   NSLog(@"%@", filePath);
+  resFilePath = [[filePath stringByDeletingLastPathComponent] stringByAppendingPathComponent: @"results.csv"];
+
+  NSLog(@"writing results to: %@", resFilePath);
   
   progress = [[DBProgress alloc] init];
   [progress setLogger:logger];
@@ -599,10 +609,11 @@
   whichObject = [[[popupObjectsUpdate selectedItem] title] retain];
   [logger log:LogInformative :@"[AppController executeUpdate] object: %@\n", whichObject];
   
+  results = nil;
   reader = [[DBCVSReader alloc] initWithPath:filePath withLogger:logger];
-  
   NS_DURING
-    [dbCsv update:whichObject fromReader:reader progressMonitor:progress];
+    results = [dbCsv update:whichObject fromReader:reader progressMonitor:progress];
+    [results retain];
   NS_HANDLER
     if ([[localException name] hasPrefix:@"DB"])
       {
@@ -610,10 +621,34 @@
         [faultPanel makeKeyAndOrderFront:nil];
       }
   NS_ENDHANDLER
+
+  fileManager = [NSFileManager defaultManager];
+  if ([fileManager createFileAtPath:resFilePath contents:nil attributes:nil] == NO)
+    {
+      NSRunAlertPanel(@"Attention", @"Could not create File.", @"Ok", nil, nil);
+    }  
+
+  resFH = [NSFileHandle fileHandleForWritingAtPath:resFilePath];
+  if (resFH == nil)
+    {
+      NSRunAlertPanel(@"Attention", @"Cannot create File.", @"Ok", nil, nil);
+    }
+  else
+    {
+      resWriter = [[DBCVSWriter alloc] initWithHandle:resFH];
+      [resWriter setLogger:logger];
+      [resWriter setStringEncoding: [[defaults valueForKey: @"StringEncoding"] intValue]];
+      
+      [resWriter setFieldNames:[results objectAtIndex: 0] andWriteIt:YES];
+      [resWriter writeDataSet: results];
+      
+      [resWriter release];
+    }
     
   [reader release];
   [whichObject release];
   [progress release];
+  [results release];
 }
 
 /*  SELECT IDENTIFY */

@@ -191,14 +191,15 @@
   [p setEnd];
 }
 
-- (void)update :(NSString *)objectName fromReader:(DBCVSReader *)reader progressMonitor:(id<DBProgressProtocol>)p
+- (NSMutableArray *)update :(NSString *)objectName fromReader:(DBCVSReader *)reader progressMonitor:(id<DBProgressProtocol>)p
 {
-  NSEnumerator          *enumerator;
-  NSArray               *objectsArray;
-  NSArray               *fieldValues;
-  NSArray               *fieldNames;
-  int                   fieldCount;
-  NSMutableArray        *sObjectsArray;
+  NSEnumerator   *enumerator;
+  NSArray        *objectsArray;
+  NSArray        *fieldValues;
+  NSArray        *fieldNames;
+  int            fieldCount;
+  NSMutableArray *sObjectsArray;
+  NSMutableArray *resultArray;
 
   /* retrieve objects to update */
   [p reset];
@@ -227,8 +228,9 @@
     [sObj release];
   }
 
+  resultArray = nil;
   NS_DURING
-    [db update:objectName fromArray:sObjectsArray progressMonitor:p];
+    resultArray = [db update:objectName fromArray:sObjectsArray progressMonitor:p];
   NS_HANDLER
     [sObjectsArray release];
     [localException raise];
@@ -237,6 +239,7 @@
   [sObjectsArray release];
   [p setCurrentDescription:@"Done"];
   [p setEnd];
+  return resultArray;
 }
 
 - (void)describeSObject: (NSString *)objectType toWriter:(DBCVSWriter *)writer

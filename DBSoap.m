@@ -1013,7 +1013,7 @@
   </p>
   <p>The batch size sent is determined by the upBatchSize property of the class</p>
  */
-- (void)update :(NSString *)objectName fromArray:(NSMutableArray *)objects progressMonitor:(id<DBProgressProtocol>)p
+- (NSMutableArray *)update :(NSString *)objectName fromArray:(NSMutableArray *)objects progressMonitor:(id<DBProgressProtocol>)p
 {
   NSMutableDictionary   *headerDict;
   NSMutableDictionary   *sessionHeaderDict;
@@ -1025,9 +1025,10 @@
   unsigned              batchCounter;
   NSUInteger            totalCounter;
   NSMutableArray        *queryObjectsArray;
+  NSMutableArray        *resultArray;
 
   if ([objects count] == 0)
-    return;
+    return nil;
 
   [p setMaximumValue: [objects count]];
   
@@ -1050,6 +1051,7 @@
   batchCounter = 0;
   totalCounter = 1;
   queryObjectsArray = [[NSMutableArray arrayWithCapacity: upBatchSize] retain];
+  resultArray = [[NSMutableArray arrayWithCapacity:1] retain];
   while ((sObject = [enumerator nextObject]))
   {
     unsigned int i;
@@ -1156,6 +1158,7 @@
                 NSString *code;
                 NSDictionary *r;
                 NSDictionary *errors;
+		NSDictionary *rowDict;
                 
                 r = [results objectAtIndex:i];
                 objId = [r objectForKey:@"id"];
@@ -1171,7 +1174,23 @@
                     message = [errors objectForKey:@"message"];
                     code = [errors objectForKey:@"statusCode"];
                   }
-                NSLog(@"result: %@ -> %d, %@: %@", objId, success, code, message);
+                NSLog(@"result: %@ -> %d, %@: %@ (%@)", objId, success, code, message, r);
+		if (success)
+		  {
+		    rowDict = [NSDictionary dictionaryWithObjectsAndKeys:
+					      successStr, @"success",
+					    objId, @"id",
+					    nil];
+		  }
+		else
+		  {
+		    rowDict = [NSDictionary dictionaryWithObjectsAndKeys:
+					      successStr, @"success",
+					    message, @"message",
+					    code, @"statusCode",
+					    nil];
+		  }
+		[resultArray addObject:rowDict];
               }
 	  }
 
@@ -1191,6 +1210,7 @@
   [queryObjectsArray release];
   [sessionHeaderDict release];
   [headerDict release];
+  return [resultArray autorelease];
 }
 
 

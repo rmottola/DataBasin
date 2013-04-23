@@ -409,6 +409,7 @@
 
 - (IBAction)showSelect:(id)sender
 {
+  [progIndSelect setDoubleValue:0];
   [winSelect makeKeyAndOrderFront:self];
 }
 
@@ -453,6 +454,8 @@
     }
   
   progress = [[DBProgress alloc] init];
+  [progress setProgressIndicator: progIndSelect];
+  [progress setRemainingTimeField: fieldRTSelect];
   [progress setLogger:logger];
   [progress reset];
   cvsWriter = [[DBCVSWriter alloc] initWithHandle:fileHandle];

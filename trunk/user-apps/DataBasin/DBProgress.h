@@ -1,7 +1,7 @@
 /*
    Project: DataBasin
 
-   Copyright (C) 2012 Free Software Foundation
+   Copyright (C) 2012-2013 Free Software Foundation
 
    Author: Riccardo Mottola
 
@@ -27,6 +27,9 @@
 
 #import "DBProgressProtocol.h"
 
+@class NSProgressIndicator;
+@class NSTextField;
+
 @class DBLogger;
 
 @interface DBProgress : NSObject <DBProgressProtocol>
@@ -37,9 +40,15 @@
   unsigned long  maxVal;
   float          percent;
   NSDate         *startDate;
+
+  NSProgressIndicator *progInd;
+  NSTextField *fieldRemainingTime;
 }
 
 - (void)setLogger:(DBLogger *)l;
+
+- (void)setProgressIndicator:(NSProgressIndicator *)indicator;
+- (void)setRemainingTimeField:(NSTextField *)field;
 
 @end
 

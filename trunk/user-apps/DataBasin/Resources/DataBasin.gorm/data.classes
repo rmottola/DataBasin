@@ -66,6 +66,8 @@
 	    fieldQuerySelect,
 	    fieldFileSelect,
 	    queryAllSelect,
+	    progIndSelect,
+	    fieldRTSelect,
 	    winSelectIdentify,
 	    fieldQuerySelectIdentify,
 	    fieldFileSelectIdentifyIn,

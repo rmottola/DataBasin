@@ -1,7 +1,7 @@
-/* 
+/* -*- mode: objc -*-
    Project: DataBasin
 
-   Copyright (C) 2008-2012 Free Software Foundation
+   Copyright (C) 2008-2013 Free Software Foundation
 
    Author: Riccardo Mottola
 
@@ -81,6 +81,8 @@
   IBOutlet NSTextView    *fieldQuerySelect;
   IBOutlet NSTextField   *fieldFileSelect;
   IBOutlet NSButton      *queryAllSelect;
+  IBOutlet NSProgressIndicator *progIndSelect;
+  IBOutlet NSTextField   *fieldRTSelect;
 
   /* query identify */
   IBOutlet NSWindow      *winSelectIdentify;

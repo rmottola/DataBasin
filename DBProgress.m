@@ -48,6 +48,8 @@
   currentDescription = @"";
   [startDate release];
   startDate = [[NSDate date] retain];
+  [progInd setDoubleValue: percent];
+  [fieldRemainingTime setStringValue:@""];
 }
 
 -(void)setMaximumValue:(unsigned long)max
@@ -72,6 +74,7 @@
 
   [logger log:LogDebug :@"[DBProgress] current: %lu\n", currVal];
   percent = (double)(currVal * 100) / (double)maxVal;
+  [progInd setDoubleValue: percent];
   remainingTime = 0;
   if (currVal > 0)
     {
@@ -96,6 +99,7 @@
 -(void)setEnd
 {
   percent = 100.0;
+  [progInd setDoubleValue: percent];
   [logger log:LogDebug :@"[DBProgress]: %f, %lu\n", percent, currVal];
 }
 
@@ -104,6 +108,16 @@
 {
   currentDescription = desc;
   [logger log:LogStandard :@"[DBProgress]:[%@]\n", currentDescription];
+}
+
+- (void)setProgressIndicator:(NSProgressIndicator *)indicator
+{
+  progInd = indicator;
+}
+
+- (void)setRemainingTimeField:(NSTextField *)field
+{
+  fieldRemainingTime = field;
 }
 
 @end

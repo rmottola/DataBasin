@@ -36,6 +36,7 @@
   NSMutableArray      *fieldNames;
   NSMutableDictionary *fieldProperties;
   NSMutableDictionary *objectProperties;
+  NSMutableArray      *recordTypes;
 }
 
 /** returns the 18-char version of the 15-char id */
@@ -71,6 +72,11 @@
 - (NSArray *)fieldNames;
 - (id)fieldValue: (NSString *)field;
 - (void)setValue: (id)value forField:(NSString *)field;
+
+- (void)setRecordTypes: (NSArray *)rtInfo;
+
+/** returns information about the Object RecordTypes */
+- (NSArray *)recordTypes;
 
 /** <p>Loads or refreshes the value of all known fields to the object.</p>
  *  <p>If the object is instantiated as a result of a describe, it will load all values.</p>

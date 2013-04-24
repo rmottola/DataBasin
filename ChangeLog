@@ -1,3 +1,9 @@
+2013-04-24 Riccardo Mottola <rm@gnu.org>
+
+	* DBSObject.h
+	* DBSObject.m
+	RecordTypes accessors.
+
 2013-04-23 Riccardo Mottola <rm@gnu.org>
 
 	* DBProgress.h

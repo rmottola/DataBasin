@@ -78,6 +78,7 @@
   [fieldProperties release];
   [recordValues release];
   [objectProperties release];
+  [recordTypes release];
   [super dealloc];
 }
 
@@ -191,6 +192,18 @@ converting it if necessary.</p>
   
   [recordValues setObject: value forKey: field];
 }
+
+- (void)setRecordTypes: (NSArray *)rtInfo
+{
+  [recordTypes release];
+  recordTypes = [rtInfo retain];
+}
+
+- (NSArray *)recordTypes
+{
+  return recordTypes;
+}
+
 
 - (void)loadFieldValues
 {

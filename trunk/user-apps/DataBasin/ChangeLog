@@ -4,6 +4,9 @@
 	* DBSObject.m
 	RecordTypes accessors.
 
+	* DBSoap.m (describeSObject)
+	Extend to interpret RecordTypes and execute a query on RecordTypes to get the developer names.
+
 2013-04-23 Riccardo Mottola <rm@gnu.org>
 
 	* DBProgress.h

@@ -1418,7 +1418,9 @@
   NSMutableArray        *keys;
   DBSObject             *object;
   NSMutableDictionary   *propDict;
-
+  NSMutableArray        *rtArray;
+  NSMutableArray        *rtArray2;
+  NSMutableString       *queryString;
 
   /* prepare the header */
   sessionHeaderDict = [NSMutableDictionary dictionaryWithCapacity: 2];
@@ -1463,6 +1465,7 @@
   queryResult = [resultDict objectForKey:@"GWSCoderParameters"];
   result = [queryResult objectForKey:@"result"];
 
+  /* Extract Fields */
   records = [result objectForKey:@"fields"];
   size = [records count];
 
@@ -1491,7 +1494,74 @@
       fieldName = [props objectForKey: @"name"];
       [object setProperties:[NSDictionary dictionaryWithDictionary: props] forField: fieldName];
     }
-    return [object autorelease];
+
+
+  /* Extract Record Types */
+  records = [result objectForKey:@"recordTypeInfos"];
+  size = [records count];
+  [records retain]; // we retain, since executing another query would otherwise clean the result
+
+  /* query record-type developer names with a subquery to RecordTypes */
+  queryString = [[NSMutableString alloc] init];
+  [queryString appendString:@"select Name, DeveloperName, Id from RecordType where SObjectType='"];
+  [queryString appendString: objectType];
+  [queryString appendString: @"'"];
+  NS_DURING
+    rtArray2 = [self queryFull:queryString queryAll:NO progressMonitor:nil];
+  NS_HANDLER
+    NSLog(@"Exception during record-type sub-query, %@", queryString);
+    rtArray2 = nil;
+  NS_ENDHANDLER
+  [queryString release];
+ 
+  /* if we have only one element, put it in an array */
+  if (size == 1)
+    records = [NSArray arrayWithObject:records];
+  record = [records objectAtIndex:0];
+
+  rtArray = [NSMutableArray arrayWithCapacity: size];
+  for (i = 0; i < size; i++)
+    {
+      NSMutableDictionary *mDict;
+      NSString *devName;
+
+      record = [records objectAtIndex:i];
+      mDict = [NSMutableDictionary dictionaryWithDictionary: record];
+      [mDict removeObjectForKey:@"GWSCoderOrder"];
+      NSLog(@"record-type from object: %@", mDict);
+      devName = nil;
+      if ([[mDict objectForKey:@"name"] isEqualToString:@"Master"])
+        {
+          devName = @"Master";
+        }
+      else
+        {
+          NSUInteger j;
+          NSString *rtId;
+
+          rtId = [mDict objectForKey:@"recordTypeId"];
+          for (j = 0; j < [rtArray2 count]; j++)
+            {
+              DBSObject *so;
+
+              so = [rtArray2 objectAtIndex: j];
+              if ([[so sfId] isEqualToString:rtId])
+                {
+                  devName = [so fieldValue:@"DeveloperName"];
+                  NSLog(@"found: %@", devName);
+                }
+            }
+        }
+      [rtArray addObject: mDict];
+      if (devName)
+        [mDict setObject:devName forKey:@"DeveloperName"];
+      else
+        NSLog(@"DBSoap: error, developer name for RecordTypeId %@ not found", [mDict objectForKey:@"Id"]);
+    }
+  NSLog(@"Record types: %@", rtArray);
+  [object setRecordTypes: [NSArray arrayWithArray: rtArray]];
+  [records release];
+  return [object autorelease];
 }
 
 

@@ -1,3 +1,8 @@
+2013-04-26 Riccardo Mottola <rm@gnu.org>
+
+	* DBSoap.m
+	Remove csv writer method already in DBSoapCSV, completing separation.
+
 2013-04-24 Riccardo Mottola <rm@gnu.org>
 
 	* DBSObject.h

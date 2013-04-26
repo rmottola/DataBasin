@@ -26,8 +26,6 @@
 
 #import "DBSoap.h"
 #import "DBSObject.h"
-#import "DBCVSWriter.h"
-#import "DBCVSReader.h"
 
 #import "DBProgressProtocol.h"
 
@@ -1351,55 +1349,6 @@
     [sObjectNamesList addObject: [[sObjectList objectAtIndex: i] name]];
 }
 
-- (void)describeSObject: (NSString *)objectType toWriter:(DBCVSWriter *)writer
-{
-  unsigned       i;
-  unsigned       size;
-  DBSObject      *object;
-  NSDictionary   *properties;
-  NSArray        *fields;
-  NSArray        *keys;
-  NSMutableArray *set;
-
-  
-  object = [self describeSObject: objectType];
-  fields = [object fieldNames];
-  size = [fields count];
-  
-  if (size < 1)
-    return;
-  
-  keys = [[object propertiesOfField: [fields objectAtIndex: 0]] allKeys];
-  [writer setFieldNames:[NSArray arrayWithArray:keys] andWriteIt:YES];
-  
-  set = [[NSMutableArray alloc] init];
-  
-  for (i = 0; i < size; i++)
-    {
-      NSMutableArray *values;
-      unsigned       j;
-      NSString       *field;
-      
-      field = [fields objectAtIndex: i];
-      properties = [object propertiesOfField: field];
-      values = [NSMutableArray arrayWithCapacity:[keys count]];
-      for (j = 0; j < [keys count]; j++)
-        {
-          id       obj;
-          id       value;
-          NSString *key;
-      
-          key = [keys objectAtIndex:j];
-          obj = [properties objectForKey: key];
-      
-          value = obj;
-          [values addObject:value];
-        }
-      [set addObject:values];
-    }
-  [writer writeDataSet:set];
-  [set release];
-}
 
 - (DBSObject *)describeSObject: (NSString *)objectType
 {

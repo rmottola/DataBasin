@@ -1,5 +1,10 @@
 2013-04-26 Riccardo Mottola <rm@gnu.org>
 
+	* DBSObject.m (description)
+	Return name and ID as description.
+
+2013-04-26 Riccardo Mottola <rm@gnu.org>
+
 	* DBSoap.m
 	Use hard-coded ID 012000000000000AAA to identify Master Record Type.
 

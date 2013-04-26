@@ -82,6 +82,11 @@
   [super dealloc];
 }
 
+- (NSString *)description
+{
+  return [NSString stringWithFormat: @"<DBSObject %@, %@>", [self name], [self sfId]];
+}
+
 /** <p>returns the current salesforce id, in whichever format it is currently stored.</p>
 */
 - (NSString *)sfId

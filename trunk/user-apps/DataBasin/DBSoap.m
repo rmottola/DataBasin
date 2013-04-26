@@ -1479,7 +1479,8 @@
       [mDict removeObjectForKey:@"GWSCoderOrder"];
       NSLog(@"record-type from object: %@", mDict);
       devName = nil;
-      if ([[mDict objectForKey:@"name"] isEqualToString:@"Master"])
+      /* we check for the master record type, for which the code is hardcoded by SF */
+      if ([[mDict objectForKey:@"recordTypeId"] isEqualToString:@"012000000000000AAA"])
         {
           devName = @"Master";
         }

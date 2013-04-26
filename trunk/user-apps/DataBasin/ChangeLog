@@ -1,6 +1,11 @@
 2013-04-26 Riccardo Mottola <rm@gnu.org>
 
 	* DBSoap.m
+	Use hard-coded ID 012000000000000AAA to identify Master Record Type.
+
+2013-04-26 Riccardo Mottola <rm@gnu.org>
+
+	* DBSoap.m
 	Remove csv writer method already in DBSoapCSV, completing separation.
 
 2013-04-24 Riccardo Mottola <rm@gnu.org>

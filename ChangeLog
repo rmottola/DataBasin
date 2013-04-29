@@ -1,5 +1,10 @@
 2013-04-29 Riccardo Mottola <rm@gnu.org>
 
+	* DBSoap.m
+	On query, set the type property.
+
+2013-04-29 Riccardo Mottola <rm@gnu.org>
+
 	* DBSObject.h
 	* DBSObject.m
 	Make type accessor, perfect name accessor, return better description.

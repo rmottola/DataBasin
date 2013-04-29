@@ -356,12 +356,13 @@
   
   if (sizeStr != nil)
     {
-      unsigned     i;
-      unsigned     j;
-      int    batchSize;
+      NSUInteger    i;
+      NSUInteger    j;
+      NSUInteger    batchSize;
       NSMutableArray *keys;
       NSScanner *scan;
       long long ll;
+      BOOL typePresent;
 
       scan = [NSScanner scannerWithString:sizeStr];
       if ([scan scanLongLong:&ll])
@@ -401,7 +402,9 @@
       [keys removeObject:@"GWSCoderOrder"];
       
       /* remove some fields which get added automatically by salesforce even if not asked for */
-      [keys removeObject:@"type"];
+      typePresent = [keys containsObject:@"type"];
+      if (typePresent)
+        [keys removeObject:@"type"];
       
       /* remove Id only if it is null, else an array of two populated Id is returned by SF */
       if (![[record objectForKey:@"Id"] isKindOfClass: [NSArray class]])
@@ -442,6 +445,15 @@
               else
                 value = obj;
               [sObj setValue: value forField: key];
+            }
+
+          /* we removed type, but if it is present, set it as a property */
+          if (typePresent) 
+            {
+              NSDictionary *propDict;
+
+              propDict = [NSDictionary dictionaryWithObject:[record objectForKey: @"type"] forKey:@"type"];
+              [sObj setObjectProperties: propDict];
             }
           [objects addObject:sObj];
           [sObj release];
@@ -547,10 +559,11 @@
 
   if (sizeStr != nil)
     {
-      int            i;
-      int            j;
+      NSUInteger     i;
+      NSUInteger     j;
       NSUInteger     batchSize;
       NSMutableArray *keys;
+      BOOL typePresent;
       
       /* this will be only as big as a batch anyway */
       size = (unsigned long)[sizeStr intValue];
@@ -571,7 +584,9 @@
       [keys removeObject:@"GWSCoderOrder"];
 
       /* remove some fields which get added automatically by salesforce even if not asked for */
-      [keys removeObject:@"type"];
+      typePresent = [keys containsObject:@"type"];
+      if (typePresent)
+        [keys removeObject:@"type"];
       
       /* remove Id only if it is null, else an array of two populated Id is returned by SF */
       if (![[record objectForKey:@"Id"] isKindOfClass: [NSArray class]])
@@ -602,6 +617,16 @@
                   value = obj;
               [sObj setValue: value forField: key];
             }
+
+          /* we removed type, but if it is present, set it as a property */
+          if (typePresent) 
+            {
+              NSDictionary *propDict;
+              
+              propDict = [NSDictionary dictionaryWithObject:[record objectForKey: @"type"] forKey:@"type"];
+              [sObj setObjectProperties: propDict];
+            }
+
           [objects addObject:sObj];
           [sObj release];
         }

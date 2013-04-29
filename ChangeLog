@@ -1,3 +1,9 @@
+2013-04-29 Riccardo Mottola <rm@gnu.org>
+
+	* DBSObject.h
+	* DBSObject.m
+	Make type accessor, perfect name accessor, return better description.
+
 2013-04-26 Riccardo Mottola <rm@gnu.org>
 
 	* DBSObject.m (description)

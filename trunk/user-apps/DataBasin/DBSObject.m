@@ -84,7 +84,7 @@
 
 - (NSString *)description
 {
-  return [NSString stringWithFormat: @"<DBSObject %@, %@>", [self name], [self sfId]];
+  return [NSString stringWithFormat: @"<DBSObject %@, %@, %@>", [self type], [self sfId], [self name]];
 }
 
 /** <p>returns the current salesforce id, in whichever format it is currently stored.</p>
@@ -152,7 +152,25 @@ converting it if necessary.</p>
 
 - (NSString *)name
 {
-  return [objectProperties objectForKey: @"name"];
+  NSString *name;
+
+  name = nil;
+  if ([[self type] isEqualToString:@"Contract"])
+    name = [recordValues objectForKey: @"ContractNumber"];
+  else if ([[self type] isEqualToString:@"Case"])
+    name = [recordValues objectForKey: @"CaseNumber"];
+  else
+    name = [recordValues objectForKey: @"Name"];
+
+  if (name == nil)
+    name = [objectProperties objectForKey: @"name"];
+
+  return name;
+}
+
+- (NSString *)type
+{
+  return [objectProperties objectForKey: @"type"];
 }
 
 - (void)setProperties: (NSDictionary *)properties forField: (NSString *)field

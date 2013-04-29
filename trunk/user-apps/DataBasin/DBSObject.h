@@ -60,8 +60,11 @@
 /** Set the soap database interface */
 - (void)setDBSoap: (DBSoap *)db;
 
-/** shortcut to return the property "name" */
+/** shortcut to return the value Name, CaseNumber or Contract numnber or to the property "name" */
 - (NSString *)name;
+
+/** shortcut to return the property "type" */
+- (NSString *)type;
 
 - (void)setProperties: (NSDictionary *)properties forField: (NSString *)field;
 - (NSDictionary *)propertiesOfField: (NSString *)field;

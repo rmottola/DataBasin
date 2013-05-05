@@ -841,7 +841,7 @@
   insert an array of DBSObjects.<br>
   The objects in the array shall all be of the same type.
  */
-- (void)create :(NSString *)objectName fromArray:(NSMutableArray *)objects progressMonitor:(id<DBProgressProtocol>)p
+- (NSMutableArray *)create :(NSString *)objectName fromArray:(NSMutableArray *)objects progressMonitor:(id<DBProgressProtocol>)p
 {
   NSMutableDictionary   *headerDict;
   NSMutableDictionary   *sessionHeaderDict;
@@ -854,13 +854,14 @@
   DBSObject             *sObject;
   unsigned              batchCounter;
   NSUInteger            totalCounter;
+  NSMutableArray      *resultArray;
 
   if ([objects count] == 0)
-    return;
+    return nil;
 
   [p setMaximumValue: [objects count]];
   
-  upBatchSize = 1; // FIXME ########
+  upBatchSize = 2; // FIXME ########
   
   /* prepare the header */
   sessionHeaderDict = [[NSMutableDictionary dictionaryWithCapacity: 2] retain];
@@ -877,6 +878,8 @@
   batchCounter = 0;
   totalCounter = 1;
   queryObjectsArray = [[NSMutableArray arrayWithCapacity: upBatchSize] retain];
+  resultArray = [[NSMutableArray arrayWithCapacity:1] retain];
+
   while ((sObject = [enumerator nextObject]))
   {
     unsigned            i;
@@ -891,9 +894,7 @@
     NSDictionary        *record;
     NSDictionary        *queryFault;
     NSString            *sizeStr;
-    int                 size;
-
-    
+    int                 size;    
     
     NSLog(@"inner cycle: %d", batchCounter);
     sObj = [NSMutableDictionary dictionaryWithCapacity: 2];
@@ -964,54 +965,70 @@
 	queryResult = [resultDict objectForKey:@"GWSCoderParameters"];
 	result = [queryResult objectForKey:@"result"];
 	[logger log: LogDebug: @"[DBSoap create] result: %@\n", result];
-
-	records = [result objectForKey:@"records"];
-	sizeStr = [result objectForKey:@"size"];
  
+        if (result != nil)
+          {
+            NSArray *results;
+            NSUInteger i;
 
-	if (sizeStr != nil)
-	  {
-	    int            i;
-	    int            j;
-	    int    batchSize;
-	    NSMutableArray *keys;
-	    NSMutableArray *set;
-      
-      
-	    size = [sizeStr intValue];
-	    batchSize = [records count];
-	    NSLog(@"Declared size is: %d", size);
-	    NSLog(@"records size is: %d", batchSize);
-      
-	    /* let's get the fields from the keys of the first record */
-	    record = [records objectAtIndex:0];
-	    keys = [NSMutableArray arrayWithArray:[record allKeys]];
-	    [keys removeObject:@"GWSCoderOrder"];
+            if (![result isKindOfClass:[NSArray class]])
+              {
+                NSLog(@"Single result. Repackaging into array");
+                results = [NSArray arrayWithObject:result];
+              }
+            else
+              {
+                results = (NSArray *)result;
+              }
 
-	    NSLog(@"keys: %@", keys);
-      
-	    set = [[NSMutableArray alloc] init];
-      
-	    /* now cycle all the records and read out the fields */
-	    for (i = 0; i < batchSize; i++)
-	      {
-		NSMutableArray *values;
-	  
-		record = [records objectAtIndex:i];
-		values = [NSMutableArray arrayWithCapacity:[keys count]];
-		for (j = 0; j < [keys count]; j++)
-		  {
-		    NSString *value;
-	      
-		    value = [record objectForKey:[keys objectAtIndex:j]];
-		    [values addObject:value];
-		  }
-		NSLog(@"%d: %@", i, values);
-		[set addObject:values];
-	      }
-	    /* we don't do yet anything useful with the results... */
-	    [set release];
+            for (i = 0; i < [results count]; i++)
+              {
+                NSString *objId;
+                NSString *successStr;
+                BOOL success;
+                NSString *message;
+                NSString *code;
+                NSDictionary *r;
+                NSDictionary *errors;
+                NSDictionary *rowDict;
+
+                r = [results objectAtIndex:i];
+                objId = [r objectForKey:@"id"];
+                successStr = [r objectForKey:@"success"];
+                success = NO;
+                if ([successStr isEqualToString:@"true"])
+                  success = YES;
+                code = nil;
+                message = nil;
+                errors = [r objectForKey:@"errors"];
+                if (errors != nil)
+                  {
+                    message = [errors objectForKey:@"message"];
+                    code = [errors objectForKey:@"statusCode"];
+                  }
+                NSLog(@"result: %@ -> %d, %@: %@ (%@)", objId, success, code, message, r);
+                if (success)
+                  {
+                    rowDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                              successStr, @"success",
+                                            objId, @"id",
+                                            @"", @"message",
+                                            @"", @"statusCode",
+                                            nil];
+                  }
+                else
+                  {
+                    rowDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                              successStr, @"success",
+                                            objId, @"id",
+                                            message, @"message",
+                                            code, @"statusCode",
+                                            nil];
+                  }
+                [resultArray addObject:rowDict];
+              }
 	  }
+
 	[logger log: LogDebug: @"[DBSoap create] reiniting cycle...\n"];
 	[p incrementCurrentValue: batchCounter+1];
 	[queryObjectsArray removeAllObjects];
@@ -1027,6 +1044,8 @@
   [queryObjectsArray release];
   [sessionHeaderDict release];
   [headerDict release];
+  NSLog(@"Create result array %@", resultArray);
+  return [resultArray autorelease];
 }
 
 

@@ -1,3 +1,9 @@
+2013-05-05 Riccardo Mottola <rm@gnu.org>
+
+	* DBSoap.h
+	* DBSoap.m (create)
+	Return array of results for created objects.
+
 2013-04-29 Riccardo Mottola <rm@gnu.org>
 
 	* DBSoap.m

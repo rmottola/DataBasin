@@ -146,14 +146,15 @@
   [p setEnd];
 }
 
-- (void)create :(NSString *)objectName fromReader:(DBCVSReader *)reader progressMonitor:(id<DBProgressProtocol>)p
+- (NSMutableArray *)create :(NSString *)objectName fromReader:(DBCVSReader *)reader progressMonitor:(id<DBProgressProtocol>)p
 {
-  NSEnumerator          *enumerator;
-  NSArray               *objectsArray;
-  NSArray               *fieldValues;
-  NSArray               *fieldNames;
-  int                   fieldCount;
-  NSMutableArray        *sObjectsArray;
+  NSEnumerator   *enumerator;
+  NSArray        *objectsArray;
+  NSArray        *fieldValues;
+  NSArray        *fieldNames;
+  NSUInteger     fieldCount;
+  NSMutableArray *sObjectsArray;
+  NSMutableArray *resultArray;
 
   /* retrieve objects to create */
   
@@ -180,8 +181,9 @@
     [sObj release];
   }
 
+  resultArray = nil;
   NS_DURING
-    [db create:objectName fromArray:sObjectsArray progressMonitor:p];
+    resultArray = [db create:objectName fromArray:sObjectsArray progressMonitor:p];
   NS_HANDLER
     [sObjectsArray release];
     [localException raise];
@@ -189,6 +191,7 @@
   [sObjectsArray release];
   [p setCurrentDescription:@"Done"];
   [p setEnd];
+  return resultArray;
 }
 
 - (NSMutableArray *)update :(NSString *)objectName fromReader:(DBCVSReader *)reader progressMonitor:(id<DBProgressProtocol>)p
@@ -197,7 +200,7 @@
   NSArray        *objectsArray;
   NSArray        *fieldValues;
   NSArray        *fieldNames;
-  int            fieldCount;
+  NSUInteger     fieldCount;
   NSMutableArray *sObjectsArray;
   NSMutableArray *resultArray;
 

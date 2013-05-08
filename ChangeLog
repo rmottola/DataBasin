@@ -1,5 +1,11 @@
 2013-05-08 Riccardo Mottola <rm@gnu.org>
 
+	* DBProgress.h
+	* DBProgress.m
+	Show remaining time in time field.
+
+2013-05-08 Riccardo Mottola <rm@gnu.org>
+
 	* AppController.m (executeInsert)
 	Fix: read correct field
 

@@ -527,7 +527,7 @@
   DBCVSWriter    *resWriter;
   
   defaults = [NSUserDefaults standardUserDefaults];  
-  filePath = [fieldFileUpdate stringValue];
+  filePath = [fieldFileInsert stringValue];
   resFilePath = [[filePath stringByDeletingLastPathComponent] stringByAppendingPathComponent: @"results.csv"];
 
   NSLog(@"writing results to: %@", resFilePath);

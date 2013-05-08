@@ -74,7 +74,6 @@
   IBOutlet NSTextField   *fieldUserId;
   IBOutlet NSTextField   *fieldProfileId;
   IBOutlet NSTextField   *fieldRoleId;
-  
 
   /* query */
   IBOutlet NSWindow      *winSelect;
@@ -91,16 +90,22 @@
   IBOutlet NSTextField   *fieldFileSelectIdentifyOut;
   IBOutlet NSButton      *queryAllSelectIdentify;
   IBOutlet NSPopUpButton *popupBatchSizeIdentify;
+  IBOutlet NSProgressIndicator *progIndSelectIdent;
+  IBOutlet NSTextField   *fieldRTSelectIdent;
   
   /* insert */
   IBOutlet NSWindow      *winInsert;
   IBOutlet NSTextField   *fieldFileInsert;
   IBOutlet NSPopUpButton *popupObjectsInsert;
+  IBOutlet NSProgressIndicator *progIndInsert;
+  IBOutlet NSTextField   *fieldRTInsert;
 
   /* update */
   IBOutlet NSWindow      *winUpdate;
   IBOutlet NSTextField   *fieldFileUpdate;
   IBOutlet NSPopUpButton *popupObjectsUpdate;
+  IBOutlet NSProgressIndicator *progIndUpdate;
+  IBOutlet NSTextField   *fieldRTUpdate;
 
   /* describe */
   IBOutlet NSWindow      *winDescribe;

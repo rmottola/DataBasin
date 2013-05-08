@@ -1,5 +1,12 @@
 2013-05-08 Riccardo Mottola <rm@gnu.org>
 
+	* AppController.m
+	* AppController.h
+	* Resources/DataBasin.gorm
+	Progress monitor for Insert
+
+2013-05-08 Riccardo Mottola <rm@gnu.org>
+
 	* DBProgress.h
 	* DBProgress.m
 	Show remaining time in time field.

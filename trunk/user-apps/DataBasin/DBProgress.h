@@ -45,6 +45,8 @@
   NSTextField *fieldRemainingTime;
 }
 
++ (NSString *)timeFormat:(NSTimeInterval)timeInterval;
+
 - (void)setLogger:(DBLogger *)l;
 
 - (void)setProgressIndicator:(NSProgressIndicator *)indicator;

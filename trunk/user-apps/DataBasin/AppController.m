@@ -482,6 +482,7 @@
 {
   NSArray *objectNames;
 
+  [progIndInsert setIndeterminate:YES];
   objectNames = nil;
   NS_DURING
     objectNames = [db sObjectNames];
@@ -494,6 +495,8 @@
   NS_ENDHANDLER
   [popupObjectsInsert removeAllItems];
   [popupObjectsInsert addItemsWithTitles: objectNames];
+  [progIndInsert setIndeterminate:NO];
+  [progIndInsert setDoubleValue:0];
 
   [winInsert makeKeyAndOrderFront:self];
 }
@@ -533,13 +536,14 @@
   NSLog(@"writing results to: %@", resFilePath);
 
   filePath = [fieldFileInsert stringValue];
-  NSLog(@"%@", filePath);
   
   intoWhichObject = [[[popupObjectsInsert selectedItem] title] retain];
   [logger log:LogInformative :@"[AppController executeInsert] object: %@\n", intoWhichObject];
 
   progress = [[DBProgress alloc] init];
   [progress setLogger:logger];
+  [progress setProgressIndicator: progIndInsert];
+  [progress setRemainingTimeField: fieldRTInsert];
   [progress reset];
   
   results = nil;
@@ -556,7 +560,7 @@
   NS_ENDHANDLER
 
 
-    fileManager = [NSFileManager defaultManager];
+  fileManager = [NSFileManager defaultManager];
   if ([fileManager createFileAtPath:resFilePath contents:nil attributes:nil] == NO)
     {
       NSRunAlertPanel(@"Attention", @"Could not create File.", @"Ok", nil, nil);

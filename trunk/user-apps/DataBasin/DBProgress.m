@@ -27,6 +27,21 @@
 
 @implementation DBProgress
 
++ (NSString *)timeFormat:(NSTimeInterval)timeInterval
+{
+  long int secInterval;
+  int hours;
+  int minutes;
+  int seconds;
+
+  secInterval = round(timeInterval);
+  hours = secInterval / 3600;
+  minutes =  (secInterval % 3600) / 60;
+  seconds = secInterval % 60;
+
+  return [NSString stringWithFormat:@"%dh %d' %d\"", hours, minutes, seconds];
+}
+
 -(void)dealloc
 {
   [currentDescription release];
@@ -83,6 +98,7 @@
       remainingTime = totalTime-timeDelta;
       endDate = [NSDate dateWithTimeIntervalSinceNow: remainingTime];
       NSLog(@"start %@ end date: %@", startDate, endDate);
+      [fieldRemainingTime setStringValue:[DBProgress timeFormat:remainingTime]];
     }
   [logger log:LogStandard :@"[DBProgress]: %f, time to completion: %lf\n", percent, remainingTime];
 }
@@ -100,6 +116,7 @@
 {
   percent = 100.0;
   [progInd setDoubleValue: percent];
+  [fieldRemainingTime setStringValue:@""];
   [logger log:LogDebug :@"[DBProgress]: %f, %lu\n", percent, currVal];
 }
 

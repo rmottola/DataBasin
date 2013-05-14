@@ -22,7 +22,8 @@
 	"DBObjectInspector.m",
 	"DBSoapCSV.m",
 	"DBLogger.m",
-	"DBProgress.m"
+	"DBProgress.m",
+	"Preferences.m"
     );
     COMPILEROPTIONS = "";
     CPPOPTIONS = "";
@@ -41,7 +42,8 @@
 	"DBSoapCSV.h",
 	"DBLogger.h",
 	"DBProgressProtocol.h",
-	"DBProgress.h"
+	"DBProgress.h",
+	"Preferences.h"
     );
     IMAGES = (
     );
@@ -49,7 +51,8 @@
     INTERFACES = (
 	"DataBasin.gorm",
 	"ObjectInspector.gorm",
-	"Log.gorm"
+	"Log.gorm",
+	"Preferences.gorm"
     );
     LANGUAGE = English;
     LIBRARIES = (

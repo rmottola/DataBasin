@@ -30,7 +30,8 @@ DataBasin_LIBRARIES_DEPEND_UPON += -lWebServices
 DataBasin_RESOURCE_FILES = \
 Resources/DataBasin.gorm \
 Resources/ObjectInspector.gorm \
-Resources/Log.gorm 
+Resources/Log.gorm \
+Resources/Preferences.gorm 
 
 
 #
@@ -46,7 +47,8 @@ DBObjectInspector.h \
 DBSoapCSV.h \
 DBLogger.h \
 DBProgressProtocol.h \
-DBProgress.h
+DBProgress.h \
+Preferences.h
 
 #
 # Class files
@@ -60,7 +62,8 @@ DBSObject.m \
 DBObjectInspector.m \
 DBSoapCSV.m \
 DBLogger.m \
-DBProgress.m
+DBProgress.m \
+Preferences.m
 
 #
 # Other sources

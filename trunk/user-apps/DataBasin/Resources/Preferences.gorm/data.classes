@@ -1,0 +1,33 @@
+{
+    "## Comment" = "Do NOT change this file, Gorm maintains it";
+    FirstResponder = {
+	Actions = (
+	    "changePrefView:",
+	    "prefPanelCancel:",
+	    "prefPanelOk:",
+	    "setAppController:",
+	    "showPrefPanel:"
+	);
+	Super = NSObject;
+    };
+    Preferences = {
+	Actions = (
+	    "setAppController:",
+	    "showPrefPanel:",
+	    "prefPanelCancel:",
+	    "prefPanelOk:",
+	    "changePrefView:"
+	);
+	Outlets = (
+	    prefPanel,
+	    viewPreferences,
+	    matrixScrollView,
+	    viewApplication,
+	    popupStrEncoding,
+	    popupLogLevel,
+	    viewConnection,
+	    buttPrefHttps
+	);
+	Super = NSObject;
+    };
+}

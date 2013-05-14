@@ -31,6 +31,7 @@
 #import "DBCVSReader.h"
 #import "DBLogger.h"
 #import "DBProgress.h"
+#import "Preferences.h"
 
 #define DB_ENVIRONMENT_PRODUCTION 0
 #define DB_ENVIRONMENT_SANDBOX    1
@@ -63,20 +64,12 @@
 {
   if ((self = [super init]))
     {
-      id logLevelObj;
       NSUserDefaults *defaults;
 
       defaults = [NSUserDefaults standardUserDefaults];
 
       logger = [[DBLogger alloc] init];
-      logLevelObj = [defaults objectForKey: @"LogLevel"];
-      /* if the log level is not set we set it to the standard level */
-      if (logLevelObj == nil)
-        {
-          logLevelObj = [NSNumber numberWithInt: LogStandard];
-          [defaults setObject:logLevelObj forKey: @"LogLevel"];
-        }
-      [logger setLogLevel: [logLevelObj intValue]];
+      [self reloadDefaults];
 
       loginDict = [defaults objectForKey: @"logins"];
       if (loginDict == nil)
@@ -90,6 +83,7 @@
 
 - (void)dealloc
 {
+  [preferences release];
   [dbCsv release];
   [db release];
   [logger release];
@@ -98,12 +92,7 @@
 }
 
 - (void)awakeFromNib
-{
-#if defined(__APPLE__) && (MAC_OS_X_VERSION_MAX_ALLOWED <= MAC_OS_X_VERSION_10_4)
-  [popupStrEncoding setAutoenablesItems: NO];
-  [[popupStrEncoding itemAtIndex: 1] setEnabled: NO];
-#endif
-  
+{  
   objInspector = [[DBObjectInspector alloc] init];
 }
 
@@ -125,100 +114,40 @@
   return NO;
 }
 
+- (void)reloadDefaults
+{
+  NSUserDefaults *defaults;
+  id logLevelObj;
+  
+  defaults = [NSUserDefaults standardUserDefaults];
+  
+  logLevelObj = [defaults objectForKey: @"LogLevel"];
+  /* if the log level is not set we set it to the standard level */
+  if (logLevelObj == nil)
+    {
+      logLevelObj = [NSNumber numberWithInt: LogStandard];
+      [defaults setObject:logLevelObj forKey: @"LogLevel"];
+    }
+
+  [logger setLogLevel: [logLevelObj intValue]];
+}
+
 - (IBAction)showPrefPanel:(id)sender
 {
   NSUserDefaults *defaults;
   int index;
-
-  defaults = [NSUserDefaults standardUserDefaults];
   
-  index = 0;
-  switch([[defaults valueForKey: @"StringEncoding"] intValue])
+  if (!preferences)
     {
-      case NSUTF8StringEncoding:
-        index = 0;
-        break;
-      case NSUTF16StringEncoding:
-        index = 1;
-        break;
-      case NSISOLatin1StringEncoding:
-        index = 2;
-        break;
-      case NSWindowsCP1252StringEncoding:
-        index = 3;
-        break;
+      preferences = [[Preferences alloc] init];
+      [preferences setAppController:self];
     }
-  [popupStrEncoding selectItemAtIndex: index];
-
-  [buttPrefHttps setState: [[defaults valueForKey: @"UseHttps"] intValue]];
-
-  index = 0;
-  switch([[defaults valueForKey: @"LogLevel"] intValue])
-    {
-      case LogStandard:
-        index = 0;
-        break;
-      case LogInformative:
-        index = 1;
-        break;
-      case LogDebug:
-        index = 2;
-        break;
-      default:
-        NSLog(@"Unexpected log level");
-        break;
-    }
-  [popupLogLevel selectItemAtIndex: index];
-
-  [prefPanel makeKeyAndOrderFront: sender];
-}
-
-- (IBAction)prefPanelCancel:(id)sender
-{
-  [prefPanel performClose: nil];
-}
-
-- (IBAction)prefPanelOk:(id)sender
-{
-  NSStringEncoding selectedEncoding;
-  DBLogLevel selectedLogLevel;
-  NSUserDefaults *defaults;
-
-  defaults = [NSUserDefaults standardUserDefaults];
   
-  selectedEncoding = NSUTF8StringEncoding;
-  switch([popupStrEncoding indexOfSelectedItem])
-    {
-      case 0: selectedEncoding = NSUTF8StringEncoding;
-        break;
-      case 1: selectedEncoding = NSUTF16StringEncoding;
-        break;
-      case 2: selectedEncoding = NSISOLatin1StringEncoding;
-        break;
-      case 3: selectedEncoding = NSWindowsCP1252StringEncoding;
-        break;
-    }
-    
-  [defaults setObject:[NSNumber numberWithInt: selectedEncoding] forKey: @"StringEncoding"];
+  [preferences showPrefPanel:sender];
 
-  [defaults setObject:[NSNumber numberWithInt: [buttPrefHttps state]] forKey: @"UseHttps"];
-
-  selectedLogLevel = LogStandard;
-  switch([popupLogLevel indexOfSelectedItem])
-    {
-      case 0: selectedLogLevel = LogStandard;
-        break;
-      case 1: selectedLogLevel = LogInformative;
-        break;
-      case 2: selectedLogLevel = LogDebug;
-        break;
-      default:
-        break;
-    }
-  [defaults setObject:[NSNumber numberWithInt: selectedLogLevel] forKey: @"LogLevel"];
-  [logger setLogLevel: selectedLogLevel];
-
-  [prefPanel performClose: nil];
+  /* Apply defaults */
+  defaults = [NSUserDefaults standardUserDefaults];
+  [logger setLogLevel: [[defaults valueForKey: @"StringEncoding"] intValue]];
 }
 
 

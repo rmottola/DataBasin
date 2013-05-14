@@ -1,0 +1,27 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {
+                changePrefView = id; 
+                prefPanelCancel = id; 
+                prefPanelOk = id; 
+                showPrefPanel = id; 
+            }; 
+            CLASS = Preferences; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                buttPrefHttps = NSButton; 
+                matrixScrollView = NSScrollView; 
+                popupLogLevel = NSPopUpButton; 
+                popupStrEncoding = NSPopUpButton; 
+                prefPanel = NSPanel; 
+                viewApplication = NSView; 
+                viewConnection = NSView; 
+                viewPreferences = NSView; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}

@@ -31,6 +31,7 @@
 @class DBSoap;
 @class DBSoapCSV;
 @class DBLogger;
+@class Preferences;
 
 @interface AppController : NSObject
 {
@@ -38,18 +39,12 @@
   DBSoapCSV *dbCsv;
   DBLogger  *logger;
   NSMutableDictionary *loginDict;
+  
+  Preferences *preferences;
 
   /* fault panel */
   IBOutlet NSPanel    *faultPanel;
   IBOutlet NSTextView *faultTextView;
-  
-  /* preferences */
-  IBOutlet NSPanel       *prefPanel;
-  IBOutlet NSPopUpButton *popupStrEncoding;
-  IBOutlet NSButton      *buttPrefCancel;
-  IBOutlet NSButton      *buttPrefOk;
-  IBOutlet NSButton      *buttPrefHttps;
-  IBOutlet NSPopUpButton *popupLogLevel;
   
   /* login */
   IBOutlet NSWindow      *winLogin;
@@ -138,9 +133,10 @@
 - (void)applicationWillTerminate:(NSNotification *)aNotif;
 - (BOOL)application:(NSApplication *)application openFile:(NSString *)fileName;
 
+/* reload defaults that are not queryied dymanically and need be reloaded on their change */
+- (void)reloadDefaults;
+
 - (IBAction)showPrefPanel:(id)sender;
-- (IBAction)prefPanelCancel:(id)sender;
-- (IBAction)prefPanelOk:(id)sender;
 
 - (IBAction)showLogin:(id)sender;
 - (IBAction)usernameFieldAction:(id)sender;

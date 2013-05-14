@@ -17,6 +17,8 @@
 		858D8E6D0F1EA3BD00CC8F4A /* DBCVSWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 858D8E670F1EA3BD00CC8F4A /* DBCVSWriter.m */; };
 		858D8E6E0F1EA3BD00CC8F4A /* DBSoap.h in Resources */ = {isa = PBXBuildFile; fileRef = 858D8E680F1EA3BD00CC8F4A /* DBSoap.h */; };
 		858D8E6F0F1EA3BD00CC8F4A /* DBSoap.m in Sources */ = {isa = PBXBuildFile; fileRef = 858D8E690F1EA3BD00CC8F4A /* DBSoap.m */; };
+		85A74F8E17419B41008D7E0B /* Preferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 85A74F8D17419B41008D7E0B /* Preferences.m */; };
+		85A74F9717419D47008D7E0B /* Preferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = 85A74F9517419D47008D7E0B /* Preferences.nib */; };
 		85ACAA8E0FF4292200CB151F /* DBCVSReader.h in Resources */ = {isa = PBXBuildFile; fileRef = 85ACAA8C0FF4292200CB151F /* DBCVSReader.h */; };
 		85ACAA8F0FF4292200CB151F /* DBCVSReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 85ACAA8D0FF4292200CB151F /* DBCVSReader.m */; };
 		85D9E3AE15AB862C0021427F /* Log.nib in Resources */ = {isa = PBXBuildFile; fileRef = 85D9E3AC15AB862C0021427F /* Log.nib */; };
@@ -51,6 +53,9 @@
 		858D8E670F1EA3BD00CC8F4A /* DBCVSWriter.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = DBCVSWriter.m; sourceTree = "<group>"; };
 		858D8E680F1EA3BD00CC8F4A /* DBSoap.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DBSoap.h; sourceTree = "<group>"; };
 		858D8E690F1EA3BD00CC8F4A /* DBSoap.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = DBSoap.m; sourceTree = "<group>"; };
+		85A74F8C17419B41008D7E0B /* Preferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Preferences.h; sourceTree = "<group>"; };
+		85A74F8D17419B41008D7E0B /* Preferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Preferences.m; sourceTree = "<group>"; };
+		85A74F9617419D47008D7E0B /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/Preferences.nib; sourceTree = "<group>"; };
 		85ACAA8C0FF4292200CB151F /* DBCVSReader.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DBCVSReader.h; sourceTree = "<group>"; };
 		85ACAA8D0FF4292200CB151F /* DBCVSReader.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = DBCVSReader.m; sourceTree = "<group>"; };
 		85D9E3AD15AB862C0021427F /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/Log.nib; sourceTree = "<group>"; };
@@ -101,6 +106,8 @@
 				85F656FA11F5F83600E5CC0D /* DBSObject.m */,
 				85F1998612B93B1D0009ED44 /* DBObjectInspector.h */,
 				85F1998712B93B1D0009ED44 /* DBObjectInspector.m */,
+				85A74F8C17419B41008D7E0B /* Preferences.h */,
+				85A74F8D17419B41008D7E0B /* Preferences.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -161,6 +168,7 @@
 				8559BB58115B6B21002EA7DD /* README.txt */,
 				85F1998B12B93C790009ED44 /* ObjectInspector.nib */,
 				85D9E3AC15AB862C0021427F /* Log.nib */,
+				85A74F9517419D47008D7E0B /* Preferences.nib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -225,6 +233,7 @@
 				85F1998D12B93C790009ED44 /* ObjectInspector.nib in Resources */,
 				85D9E3AE15AB862C0021427F /* Log.nib in Resources */,
 				855ABD961645065900FB8900 /* ChangeLog in Resources */,
+				85A74F9717419D47008D7E0B /* Preferences.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -245,6 +254,7 @@
 				856D73F614790D2900BC327D /* DBSoapCSV.m in Sources */,
 				85D9E3B215AB8B960021427F /* DBLogger.m in Sources */,
 				856B61AC1642934F00966572 /* DBProgress.m in Sources */,
+				85A74F8E17419B41008D7E0B /* Preferences.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -265,6 +275,14 @@
 				29B97319FDCFA39411CA2CEA /* English */,
 			);
 			name = MainMenu.nib;
+			sourceTree = "<group>";
+		};
+		85A74F9517419D47008D7E0B /* Preferences.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				85A74F9617419D47008D7E0B /* English */,
+			);
+			name = Preferences.nib;
 			sourceTree = "<group>";
 		};
 		85D9E3AC15AB862C0021427F /* Log.nib */ = {

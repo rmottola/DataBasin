@@ -1,3 +1,13 @@
+2013-05-15 Riccardo Mottola <rm@gnu.org>
+
+	* AppController.m
+	* AppController.h
+	* Preferences.m
+	* Preferences.h
+        * English.lproj/MainMenu.nib
+        * English.lproj/Preferences.nib
+        New Preferences panel with separate class.
+
 2013-05-08 Riccardo Mottola <rm@gnu.org>
 
 	* AppController.m

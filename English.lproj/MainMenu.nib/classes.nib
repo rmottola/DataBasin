@@ -16,8 +16,6 @@
                 executeSelect = id; 
                 executeSelectIdentify = id; 
                 executeUpdate = id; 
-                prefPanelCancel = id; 
-                prefPanelOk = id; 
                 quickDelete = id; 
                 runDescribeGlobal = id; 
                 showDelete = id; 
@@ -38,9 +36,6 @@
             CLASS = AppController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
-                buttPrefCancel = NSButton; 
-                buttPrefHttps = NSButton; 
-                buttPrefOk = NSButton; 
                 checkSkipFirstLine = NSButton; 
                 faultPanel = NSPanel; 
                 faultTextView = NSTextView; 
@@ -59,6 +54,10 @@
                 fieldPwdExpired = NSTextField; 
                 fieldQuerySelect = NSTextView; 
                 fieldQuerySelectIdentify = NSTextView; 
+                fieldRTInsert = NSTextField; 
+                fieldRTSelect = NSTextField; 
+                fieldRTSelectIdent = NSTextField; 
+                fieldRTUpdate = NSTextField; 
                 fieldRoleId = NSTextField; 
                 fieldServerUrl = NSTextField; 
                 fieldSessionId = NSTextField; 
@@ -71,12 +70,13 @@
                 fieldUserNameInsp = NSTextField; 
                 popupBatchSizeIdentify = NSPopUpButton; 
                 popupEnvironment = NSPopUpButton; 
-                popupLogLevel = NSPopUpButton; 
                 popupObjectsDescribe = NSPopUpButton; 
                 popupObjectsInsert = NSPopUpButton; 
                 popupObjectsUpdate = NSPopUpButton; 
-                popupStrEncoding = NSPopUpButton; 
-                prefPanel = NSPanel; 
+                progIndInsert = NSProgressIndicator; 
+                progIndSelect = NSProgressIndicator; 
+                progIndSelectIdent = NSProgressIndicator; 
+                progIndUpdate = NSProgressIndicator; 
                 queryAllSelect = NSButton; 
                 queryAllSelectIdentify = NSButton; 
                 winDelete = NSWindow; 

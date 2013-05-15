@@ -411,6 +411,7 @@
 {
   NSArray *objectNames;
 
+  [winInsert makeKeyAndOrderFront:self];
   [progIndInsert setIndeterminate:YES];
   objectNames = nil;
   NS_DURING
@@ -426,8 +427,6 @@
   [popupObjectsInsert addItemsWithTitles: objectNames];
   [progIndInsert setIndeterminate:NO];
   [progIndInsert setDoubleValue:0];
-
-  [winInsert makeKeyAndOrderFront:self];
 }
 
 - (IBAction)browseFileInsert:(id)sender
@@ -525,6 +524,8 @@
 {
   NSArray      *objectNames;
   
+  [winUpdate makeKeyAndOrderFront:self];
+  [progIndUpdate setIndeterminate:YES];
   objectNames  = nil;
   NS_DURING
     objectNames = [db sObjectNames];
@@ -537,8 +538,8 @@
   NS_ENDHANDLER
   [popupObjectsUpdate removeAllItems];
   [popupObjectsUpdate addItemsWithTitles: objectNames];
-    
-  [winUpdate makeKeyAndOrderFront:self];
+  [progIndUpdate setIndeterminate:NO];
+  [progIndUpdate setDoubleValue:0]; 
 }
 
 - (IBAction)browseFileUpdate:(id)sender
@@ -577,6 +578,8 @@
   
   progress = [[DBProgress alloc] init];
   [progress setLogger:logger];
+  [progress setProgressIndicator: progIndUpdate];
+  [progress setRemainingTimeField: fieldRTUpdate];
   [progress reset];
 
   whichObject = [[[popupObjectsUpdate selectedItem] title] retain];
@@ -629,6 +632,8 @@
 - (IBAction)showSelectIdentify:(id)sender
 {
   [winSelectIdentify makeKeyAndOrderFront:self];
+  [progIndSelectIdent setIndeterminate:NO];
+  [progIndSelectIdent setDoubleValue:0];
 }
 
 - (IBAction)browseFileSelectIdentifyIn:(id)sender
@@ -719,6 +724,8 @@
   [cvsWriter setLogger:logger];
   progress = [[DBProgress alloc] init];
   [progress setLogger:logger];
+  [progress setProgressIndicator: progIndSelectIdent];
+  [progress setRemainingTimeField: fieldRTSelectIdent];
   [progress reset];
 
   NS_DURING

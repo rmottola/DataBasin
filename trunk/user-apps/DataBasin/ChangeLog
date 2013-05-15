@@ -1,5 +1,10 @@
 2013-05-15 Riccardo Mottola <rm@gnu.org>
 
+	* Preferences.m
+	Fix and improve view swizzling
+
+2013-05-15 Riccardo Mottola <rm@gnu.org>
+
 	* AppController.m
 	Implement update for Select-Identify and Update.
 

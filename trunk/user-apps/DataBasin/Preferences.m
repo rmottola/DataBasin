@@ -68,9 +68,11 @@
 
   bCell = [buttonMatrix cellAtRow:0 column:0];
   [bCell setTitle:@"Application"];
+  [bCell setTag: 0];
 
   bCell = [buttonMatrix cellAtRow:0 column:1];
   [bCell setTitle:@"Connection"];
+  [bCell setTag: 1];
 
   [buttonMatrix sizeToCells];
   
@@ -178,17 +180,16 @@
 - (IBAction)changePrefView:(id)sender
 {
   NSView *view;
-  NSPoint origin;
   
   view = nil;
-  origin = [viewPreferences frame].origin;
+  
 
   if (sender == buttonMatrix)
     {
-      int col;
-    
-      col = [sender selectedColumn];
-      switch(col)
+      NSInteger tag;
+
+      tag = [[sender selectedCell] tag];
+      switch(tag)
         {
           case 0: view = viewApplication;
             break;
@@ -200,9 +201,12 @@
   if (view)
     {
       NSView *superView;
-
+      NSPoint origin;
+ 
+      origin = [viewPreferences frame].origin;
       [view setFrameOrigin:origin];
       superView = [viewPreferences superview];
+      [viewPreferences retain];
       [viewPreferences removeFromSuperview];
       [superView addSubview:view];
       viewPreferences = view;

@@ -26,7 +26,8 @@
 	    popupStrEncoding,
 	    popupLogLevel,
 	    viewConnection,
-	    buttPrefHttps
+	    buttPrefHttps,
+	    fieldUpBatchSize
 	);
 	Super = NSObject;
     };

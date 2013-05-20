@@ -82,6 +82,7 @@
 {
   NSUserDefaults *defaults;
   int index;
+  id value;
 
   defaults = [NSUserDefaults standardUserDefaults];
   
@@ -123,6 +124,15 @@
     }
   [popupLogLevel selectItemAtIndex: index];
 
+  value = [defaults valueForKey:@"UpBatchSize"];
+  if (value)
+    {
+      int upBatchSize;
+
+      upBatchSize = [value intValue];
+      [fieldUpBatchSize setIntValue:upBatchSize];
+    }
+
   [buttonMatrix selectCellAtRow:0 column:0];
   [buttonMatrix sendAction];
   [prefPanel makeKeyAndOrderFront:self];
@@ -138,6 +148,7 @@
   NSStringEncoding selectedEncoding;
   DBLogLevel selectedLogLevel;
   NSUserDefaults *defaults;
+  int upBatchSize;
 
   defaults = [NSUserDefaults standardUserDefaults];
   
@@ -171,6 +182,10 @@
         break;
     }
   [defaults setObject:[NSNumber numberWithInt: selectedLogLevel] forKey: @"LogLevel"];
+
+  upBatchSize = [fieldUpBatchSize intValue];
+  if (upBatchSize > 0)
+    [defaults setObject:[NSNumber numberWithInt:upBatchSize] forKey:@"UpBatchSize"];
 
   [prefPanel performClose: nil];
 

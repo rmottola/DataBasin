@@ -37,6 +37,7 @@
     {
       standardTimeoutSec = 60;
       queryTimeoutSec = 180;
+      upBatchSize = 1;
     }
   return self;
 }
@@ -51,6 +52,11 @@
 - (DBLogger *)logger
 {
   return logger;
+}
+
+- (void)setUpBatchSize:(unsigned)size
+{
+  upBatchSize = size;
 }
 
 /**<p>executes login</p>
@@ -861,8 +867,6 @@
 
   [p setMaximumValue: [objects count]];
   
-  upBatchSize = 2; // FIXME ########
-  
   /* prepare the header */
   sessionHeaderDict = [[NSMutableDictionary dictionaryWithCapacity: 2] retain];
   [sessionHeaderDict setObject: sessionId forKey: @"sessionId"];
@@ -1074,8 +1078,6 @@
 
   [p setMaximumValue: [objects count]];
   
-  upBatchSize = 1; // FIXME ########
-
   /* prepare the header */
   sessionHeaderDict = [[NSMutableDictionary dictionaryWithCapacity: 2] retain];
   [sessionHeaderDict setObject: sessionId forKey: @"sessionId"];

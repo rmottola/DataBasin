@@ -35,9 +35,24 @@
 {
   if ((self = [super init]))
     {
+      NSUserDefaults *defaults;
+      id obj;
+
+      defaults = [NSUserDefaults standardUserDefaults];
+      
       standardTimeoutSec = 60;
       queryTimeoutSec = 180;
+      
       upBatchSize = 1;
+      obj = [defaults objectForKey:@"UpBatchSize"];
+      if (obj)
+	{
+	  int size;
+	  
+	  size = [obj intValue];
+	  if (size > 0)
+	    upBatchSize = size;
+	}
     }
   return self;
 }

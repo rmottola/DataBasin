@@ -65,6 +65,7 @@
   if ((self = [super init]))
     {
       NSUserDefaults *defaults;
+      int upBatchSize;
 
       defaults = [NSUserDefaults standardUserDefaults];
 
@@ -77,6 +78,11 @@
       else
 	loginDict = [NSMutableDictionary dictionaryWithDictionary:loginDict];
       [loginDict retain];
+
+      /* if none found, set a reasonable default for the upload and insert batch size */
+      if (![defaults objectForKey:@"UpBatchSize"])
+	[defaults setObject:[NSNumber numberWithInt:100] forKey:@"UpBatchSize"];
+
     }
   return self;
 }
@@ -117,19 +123,29 @@
 - (void)reloadDefaults
 {
   NSUserDefaults *defaults;
-  id logLevelObj;
+  id obj;
   
   defaults = [NSUserDefaults standardUserDefaults];
   
-  logLevelObj = [defaults objectForKey: @"LogLevel"];
+  obj = [defaults objectForKey: @"LogLevel"];
   /* if the log level is not set we set it to the standard level */
-  if (logLevelObj == nil)
+  if (obj == nil)
     {
-      logLevelObj = [NSNumber numberWithInt: LogStandard];
-      [defaults setObject:logLevelObj forKey: @"LogLevel"];
+      obj = [NSNumber numberWithInt: LogStandard];
+      [defaults setObject:obj forKey: @"LogLevel"];
     }
 
-  [logger setLogLevel: [logLevelObj intValue]];
+  [logger setLogLevel: [obj intValue]];
+
+  obj = [defaults objectForKey:@"UpBatchSize"];
+  if (obj)
+    {
+      int size;
+
+      size = [obj intValue];
+      if (size > 0)
+	[db setUpBatchSize:size];
+    }
 }
 
 - (IBAction)showPrefPanel:(id)sender

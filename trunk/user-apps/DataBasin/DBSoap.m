@@ -683,8 +683,9 @@
   BOOL multiKey;
   NSString *identifier;
   NSString *queryFirstPart;
-  NSString *queryLimitPart;
+  NSString *queryOptionsPart;
   NSUInteger limitLocation;
+  NSUInteger orderByLocation;
 
   multiKey = NO;
   identifier = nil;
@@ -715,15 +716,32 @@
      batchable = YES;
   
   limitLocation = [queryString rangeOfString: @"LIMIT" options:NSCaseInsensitiveSearch].location;
-  if (limitLocation != NSNotFound)
+  orderByLocation = [queryString rangeOfString: @"ORDER BY" options:NSCaseInsensitiveSearch].location;
+  if (limitLocation != NSNotFound || orderByLocation != NSNotFound)
     {
+      NSUInteger optionsLocation;
+
       if (batchable)
         {
           [logger log: LogStandard: @"[DBSoap queryIdentify] LIMIT specifier incompatible with batch size > 1\n"];
           return;
         }
-      queryFirstPart = [queryString substringToIndex:limitLocation];
-      queryLimitPart = [queryString substringFromIndex:limitLocation];
+
+      optionsLocation = NSNotFound;
+
+      if (orderByLocation != NSNotFound)
+        optionsLocation = orderByLocation;
+
+      if (limitLocation != NSNotFound)
+        {
+          if (orderByLocation != NSNotFound && orderByLocation > limitLocation)
+            [logger log: LogStandard: @"[DBSoap queryIdentify] LIMIT specifier found before ORDER BY, ignoring\n"];
+          else
+            optionsLocation = limitLocation;
+        }
+      NSAssert(optionsLocation != NSNotFound, @"[DBSoap queryIdentify] optionsLocaion can't be NSNotFound here");
+      queryFirstPart = [queryString substringToIndex:optionsLocation];
+      queryOptionsPart = [queryString substringFromIndex:optionsLocation];
     }
   else
     {
@@ -788,11 +806,11 @@
 	      [completeQuery appendString: @" )"];
 	    }
 
-          /* append LIMIT clause if present */
+          /* append options (ORDER BY, LIMIT) to clause if present */
           if (limitLocation != NSNotFound)
             {
               [completeQuery appendString: @" "];
-              [completeQuery appendString:queryLimitPart];
+              [completeQuery appendString:queryOptionsPart];
             }
 	  i++;
 	}

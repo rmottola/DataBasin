@@ -1,3 +1,8 @@
+2013-06-03 Riccardo Mottola <rm@gnu.org>
+
+	* DBSoap.m (selectIdentify)
+	Support ORDER BY in options clause
+
 2013-05-21 Riccardo Mottola <rm@gnu.org>
 
 	* DBSoap.m

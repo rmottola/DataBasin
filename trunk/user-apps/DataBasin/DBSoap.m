@@ -686,6 +686,7 @@
   NSString *queryOptionsPart;
   NSUInteger limitLocation;
   NSUInteger orderByLocation;
+  NSUInteger optionsLocation;
 
   multiKey = NO;
   identifier = nil;
@@ -715,33 +716,41 @@
    else if (batchSize > 1)
      batchable = YES;
   
+  optionsLocation = NSNotFound;
   limitLocation = [queryString rangeOfString: @"LIMIT" options:NSCaseInsensitiveSearch].location;
   orderByLocation = [queryString rangeOfString: @"ORDER BY" options:NSCaseInsensitiveSearch].location;
   if (limitLocation != NSNotFound || orderByLocation != NSNotFound)
     {
-      NSUInteger optionsLocation;
-
       if (batchable)
         {
-          [logger log: LogStandard: @"[DBSoap queryIdentify] LIMIT specifier incompatible with batch size > 1\n"];
+          [logger log: LogStandard: @"[DBSoap queryIdentify] option specifier incompatible with batch size > 1\n"];
           return;
         }
 
-      optionsLocation = NSNotFound;
+
 
       if (orderByLocation != NSNotFound)
         optionsLocation = orderByLocation;
 
       if (limitLocation != NSNotFound)
         {
-          if (orderByLocation != NSNotFound && orderByLocation > limitLocation)
-            [logger log: LogStandard: @"[DBSoap queryIdentify] LIMIT specifier found before ORDER BY, ignoring\n"];
+          if (orderByLocation != NSNotFound)
+            {
+              if  (orderByLocation > limitLocation)
+                {
+                  [logger log: LogStandard: @"[DBSoap queryIdentify] LIMIT specifier found before ORDER BY, ignoring\n"];
+                  optionsLocation = limitLocation;
+                }  
+            }
           else
-            optionsLocation = limitLocation;
+            {
+              optionsLocation = limitLocation;
+            }
         }
-      NSAssert(optionsLocation != NSNotFound, @"[DBSoap queryIdentify] optionsLocaion can't be NSNotFound here");
+      NSAssert(optionsLocation != NSNotFound, @"[DBSoap queryIdentify] optionsLocation can't be NSNotFound here");
       queryFirstPart = [queryString substringToIndex:optionsLocation];
       queryOptionsPart = [queryString substringFromIndex:optionsLocation];
+      [logger log: LogDebug: @"[DBSoap queryIdentify] Query Options: %@\n", queryOptionsPart];
     }
   else
     {
@@ -807,7 +816,7 @@
 	    }
 
           /* append options (ORDER BY, LIMIT) to clause if present */
-          if (limitLocation != NSNotFound)
+          if (optionsLocation != NSNotFound)
             {
               [completeQuery appendString: @" "];
               [completeQuery appendString:queryOptionsPart];

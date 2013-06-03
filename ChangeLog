@@ -1,6 +1,11 @@
 2013-06-03 Riccardo Mottola <rm@gnu.org>
 
 	* DBSoap.m (selectIdentify)
+	Fix adding of the solo ORDER BY option.
+
+2013-06-03 Riccardo Mottola <rm@gnu.org>
+
+	* DBSoap.m (selectIdentify)
 	Support ORDER BY in options clause
 
 2013-05-21 Riccardo Mottola <rm@gnu.org>

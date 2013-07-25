@@ -1552,9 +1552,13 @@
   [queryString release];
  
   /* if we have only one element, put it in an array */
-  if (size == 1)
-    records = [NSArray arrayWithObject:records];
-  record = [records objectAtIndex:0];
+  if (![records isKindOfClass:[NSArray class]])
+    {
+      [records autorelease];
+      records = [NSArray arrayWithObject:records];
+      [records retain];
+    }
+  size = [records count];
 
   rtArray = [NSMutableArray arrayWithCapacity: size];
   for (i = 0; i < size; i++)

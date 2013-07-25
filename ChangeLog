@@ -1,3 +1,8 @@
+2013-07-27 Riccardo Mottola <rm@gnu.org>
+
+	* DBSoap.m
+        In a describe if only one Record Type is present, repackage it correctly by checking class and not just size.
+
 2013-06-03 Riccardo Mottola <rm@gnu.org>
 
 	* DBSoap.m (selectIdentify)

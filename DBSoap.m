@@ -936,12 +936,8 @@
     NSMutableDictionary *parmsDict;
     NSMutableDictionary *queryParmDict;
     NSDictionary        *result;
-    NSArray             *records;
-    NSDictionary        *record;
     NSDictionary        *queryFault;
-    NSString            *sizeStr;
-    int                 size;    
-    
+   
     NSLog(@"inner cycle: %d", batchCounter);
     sObj = [NSMutableDictionary dictionaryWithCapacity: 2];
     [sObj setObject: @"urn:partner.soap.sforce.com" forKey: GWSSOAPNamespaceURIKey];

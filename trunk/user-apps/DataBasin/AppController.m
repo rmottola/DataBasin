@@ -65,7 +65,6 @@
   if ((self = [super init]))
     {
       NSUserDefaults *defaults;
-      int upBatchSize;
 
       defaults = [NSUserDefaults standardUserDefaults];
 
@@ -151,7 +150,6 @@
 - (IBAction)showPrefPanel:(id)sender
 {
   NSUserDefaults *defaults;
-  int index;
   
   if (!preferences)
     {

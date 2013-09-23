@@ -1,3 +1,11 @@
+2013-09-23 Riccardo Mottola <rm@gnu.org>
+
+	* DBObjectInspector.m
+	* DBSObject.h
+	* DBSObject.m
+	* DBSoap.m
+	Change API from fieldValue to valueForField.
+
 2013-07-27 Riccardo Mottola <rm@gnu.org>
 
 	* DBSoap.m

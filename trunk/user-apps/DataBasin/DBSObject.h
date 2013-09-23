@@ -73,7 +73,7 @@
 - (void)removeField: (NSString *)field;
 
 - (NSArray *)fieldNames;
-- (id)fieldValue: (NSString *)field;
+- (id)valueForField: (NSString *)field;
 - (void)setValue: (id)value forField:(NSString *)field;
 
 - (void)setRecordTypes: (NSArray *)rtInfo;

@@ -200,7 +200,7 @@ converting it if necessary.</p>
 
 /** <p>Returns the value of field <i>field</i><p>
 */
-- (id)fieldValue: (NSString *)field
+- (id)valueForField: (NSString *)field
 {
   return [recordValues objectForKey: field];
 }
@@ -305,7 +305,7 @@ converting it if necessary.</p>
       NSString *fieldName;
 
       fieldName = [namesArray objectAtIndex: i];
-      [self setValue: [tempObj fieldValue: fieldName] forField: fieldName];
+      [self setValue: [tempObj valueForField: fieldName] forField: fieldName];
     }
 }
 

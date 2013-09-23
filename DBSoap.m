@@ -958,7 +958,7 @@
 	NSString *keyName;
 
 	keyName = [fieldNames objectAtIndex:i];
-        [sObj setObject: [sObject fieldValue:keyName] forKey:keyName];
+        [sObj setObject: [sObject valueForField:keyName] forKey:keyName];
         [sObjKeyOrder addObject:keyName];
       }
     [sObj setObject: sObjKeyOrder forKey: GWSOrderKey];
@@ -1167,7 +1167,7 @@
 	NSString *keyName;
 
 	keyName = [fieldNames objectAtIndex:i];
-	[sObj setObject: [sObject fieldValue:keyName] forKey:keyName];
+	[sObj setObject: [sObject valueForField:keyName] forKey:keyName];
 	[sObjKeyOrder addObject:keyName];
       }
     [sObj setObject: sObjKeyOrder forKey: GWSOrderKey];
@@ -1585,7 +1585,7 @@
               so = [rtArray2 objectAtIndex: j];
               if ([[so sfId] isEqualToString:rtId])
                 {
-                  devName = [so fieldValue:@"DeveloperName"];
+                  devName = [so valueForField:@"DeveloperName"];
                   NSLog(@"found: %@", devName);
                 }
             }

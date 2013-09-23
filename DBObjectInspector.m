@@ -91,7 +91,7 @@
   
   objId = [fieldObjId stringValue];
   objDevName = [dbs identifyObjectById: objId];
-  NSLog(@"object is: %@", objDevName);
+  NSLog(@"[loadObject] object is: %@", objDevName);
 
   if (objDevName == nil)
     {
@@ -100,7 +100,7 @@
       [faultPanel makeKeyAndOrderFront:nil];
       return;
     }
-
+  NSLog(@"dbs: %@, %@", [dbs class], dbs);
   sObj = [dbs describeSObject: objDevName];
   [sObj setValue: objId forField: @"Id"];
   [sObj setDBSoap: dbs];
@@ -119,6 +119,7 @@
   NSLog(@"fields loaded...");
   [arrayRows release];
   arrayDevNames = [NSMutableArray arrayWithArray: [sObj fieldNames]];
+  NSLog(@"field names are: %@", arrayDevNames);
   arrayRows = [[NSMutableArray arrayWithCapacity: [arrayDevNames count]] retain];
 
   for (i = 0; i < [arrayDevNames count]; i++)
@@ -131,7 +132,7 @@
 
       fieldDevName = [arrayDevNames objectAtIndex: i];
       fieldLabel = [[sObj propertiesOfField: fieldDevName] objectForKey: @"label"];
-      fieldValue =  [sObj fieldValue: fieldDevName];
+      fieldValue =  [sObj valueForField: fieldDevName];
       
       rowDict = [NSDictionary dictionaryWithObjectsAndKeys: 
         fieldDevName, COLID_DEVNAME,

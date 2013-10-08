@@ -1,3 +1,8 @@
+2013-10-08 Riccardo Mottola <rm@gnu.org>
+
+	* DBCVSWriter.m
+	Change API from fieldValue to valueForField.
+
 2013-09-23 Riccardo Mottola <rm@gnu.org>
 
 	* DBObjectInspector.m

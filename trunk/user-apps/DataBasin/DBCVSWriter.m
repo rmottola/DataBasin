@@ -319,7 +319,7 @@
 	      id value;
 
 	      key = [keys objectAtIndex: j];
-	      value = [obj fieldValue: key];
+	      value = [obj valueForField: key];
 	      // NSLog(@"key ---> %@ object %@", key, value);
 	      
 	      if ([value isKindOfClass: [NSString class]] ||[value isKindOfClass: [NSNumber class]] )

@@ -1531,26 +1531,26 @@
 
   /* Extract Record Types */
   recordTypeObjs = [result objectForKey:@"recordTypeInfos"];
-  size = [recordTypeObjs count];
-  [recordTypeObjs retain]; // we retain, since executing another query would otherwise clean the result
-
-  /* query record-type developer names with a subquery to RecordTypes */
-  queryString = [[NSMutableString alloc] init];
-  [queryString appendString:@"select Name, DeveloperName, Id from RecordType where SObjectType='"];
-  [queryString appendString: objectType];
-  [queryString appendString: @"'"];
-  NS_DURING
-    rtArray2 = [self queryFull:queryString queryAll:NO progressMonitor:nil];
-  NS_HANDLER
-    NSLog(@"Exception during record-type sub-query, %@", queryString);
-    rtArray2 = nil;
-  NS_ENDHANDLER
-  [queryString release];
  
-
   /* some objects don't have record-types at all, for others get additional information from RecordType */
   if (recordTypeObjs)
     {
+      size = [recordTypeObjs count];
+      [recordTypeObjs retain]; // we retain, since executing another query would otherwise clean the result
+
+      /* query record-type developer names with a subquery to RecordTypes */
+      queryString = [[NSMutableString alloc] init];
+      [queryString appendString:@"select Name, DeveloperName, Id from RecordType where SObjectType='"];
+      [queryString appendString: objectType];
+      [queryString appendString: @"'"];
+      NS_DURING
+        rtArray2 = [self queryFull:queryString queryAll:NO progressMonitor:nil];
+      NS_HANDLER
+        NSLog(@"Exception during record-type sub-query, %@", queryString);
+      rtArray2 = nil;
+      NS_ENDHANDLER
+        [queryString release];
+
       /* if we have only one element, put it in an array */
       if (![recordTypeObjs isKindOfClass:[NSArray class]])
         {

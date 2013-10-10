@@ -1,6 +1,11 @@
 2013-10-10 Riccardo Mottola <rm@gnu.org>
 
 	* DBSoap.m (describeSObject)
+	Optimize, by not executing RecordType query if none are present.
+
+2013-10-10 Riccardo Mottola <rm@gnu.org>
+
+	* DBSoap.m (describeSObject)
 	Handle objects with no record-types.
 
 2013-10-08 Riccardo Mottola <rm@gnu.org>

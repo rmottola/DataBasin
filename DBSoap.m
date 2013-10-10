@@ -1445,6 +1445,7 @@
   NSDictionary          *result;
   NSDictionary          *queryFault;
   NSArray               *records;
+  NSArray               *recordTypeObjs;
   NSDictionary          *record;
   unsigned              i;
   unsigned              size;
@@ -1528,11 +1529,10 @@
       [object setProperties:[NSDictionary dictionaryWithDictionary: props] forField: fieldName];
     }
 
-
   /* Extract Record Types */
-  records = [result objectForKey:@"recordTypeInfos"];
-  size = [records count];
-  [records retain]; // we retain, since executing another query would otherwise clean the result
+  recordTypeObjs = [result objectForKey:@"recordTypeInfos"];
+  size = [recordTypeObjs count];
+  [recordTypeObjs retain]; // we retain, since executing another query would otherwise clean the result
 
   /* query record-type developer names with a subquery to RecordTypes */
   queryString = [[NSMutableString alloc] init];
@@ -1547,58 +1547,63 @@
   NS_ENDHANDLER
   [queryString release];
  
-  /* if we have only one element, put it in an array */
-  if (![records isKindOfClass:[NSArray class]])
-    {
-      [records autorelease];
-      records = [NSArray arrayWithObject:records];
-      [records retain];
-    }
-  size = [records count];
 
-  rtArray = [NSMutableArray arrayWithCapacity: size];
-  for (i = 0; i < size; i++)
+  /* some objects don't have record-types at all, for others get additional information from RecordType */
+  if (recordTypeObjs)
     {
-      NSMutableDictionary *mDict;
-      NSString *devName;
-
-      record = [records objectAtIndex:i];
-      mDict = [NSMutableDictionary dictionaryWithDictionary: record];
-      [mDict removeObjectForKey:@"GWSCoderOrder"];
-      NSLog(@"record-type from object: %@", mDict);
-      devName = nil;
-      /* we check for the master record type, for which the code is hardcoded by SF */
-      if ([[mDict objectForKey:@"recordTypeId"] isEqualToString:@"012000000000000AAA"])
+      /* if we have only one element, put it in an array */
+      if (![recordTypeObjs isKindOfClass:[NSArray class]])
         {
-          devName = @"Master";
+          [recordTypeObjs autorelease];
+          recordTypeObjs = [NSArray arrayWithObject:records];
+          [recordTypeObjs retain];
         }
-      else
+
+      rtArray = [NSMutableArray arrayWithCapacity: size];
+      for (i = 0; i < size; i++)
         {
-          NSUInteger j;
-          NSString *rtId;
+          NSMutableDictionary *mDict;
+          NSString *devName;
 
-          rtId = [mDict objectForKey:@"recordTypeId"];
-          for (j = 0; j < [rtArray2 count]; j++)
+          record = [recordTypeObjs objectAtIndex:i];
+          mDict = [NSMutableDictionary dictionaryWithDictionary: record];
+          [mDict removeObjectForKey:@"GWSCoderOrder"];
+          NSLog(@"record-type from object: %@", mDict);
+          devName = nil;
+          /* we check for the master record type, for which the code is hardcoded by SF */
+          if ([[mDict objectForKey:@"recordTypeId"] isEqualToString:@"012000000000000AAA"])
             {
-              DBSObject *so;
+              devName = @"Master";
+            }
+          else
+            {
+              NSUInteger j;
+              NSString *rtId;
 
-              so = [rtArray2 objectAtIndex: j];
-              if ([[so sfId] isEqualToString:rtId])
+              rtId = [mDict objectForKey:@"recordTypeId"];
+              for (j = 0; j < [rtArray2 count]; j++)
                 {
-                  devName = [so valueForField:@"DeveloperName"];
-                  NSLog(@"found: %@", devName);
+                  DBSObject *so;
+
+                  so = [rtArray2 objectAtIndex: j];
+                  if ([[so sfId] isEqualToString:rtId])
+                    {
+                      devName = [so valueForField:@"DeveloperName"];
+                      NSLog(@"found: %@", devName);
+                    }
                 }
             }
+          [rtArray addObject: mDict];
+          if (devName)
+            [mDict setObject:devName forKey:@"DeveloperName"];
+          else
+            NSLog(@"DBSoap: error, developer name for RecordTypeId %@ not found", [mDict objectForKey:@"Id"]);
         }
-      [rtArray addObject: mDict];
-      if (devName)
-        [mDict setObject:devName forKey:@"DeveloperName"];
-      else
-        NSLog(@"DBSoap: error, developer name for RecordTypeId %@ not found", [mDict objectForKey:@"Id"]);
+      [recordTypeObjs release];
+      NSLog(@"Record types: %@", rtArray);
+      [object setRecordTypes: [NSArray arrayWithArray: rtArray]];
     }
-  NSLog(@"Record types: %@", rtArray);
-  [object setRecordTypes: [NSArray arrayWithArray: rtArray]];
-  [records release];
+
   return [object autorelease];
 }
 

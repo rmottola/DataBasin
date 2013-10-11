@@ -588,7 +588,7 @@
   filePath = [fieldFileUpdate stringValue];
   resFilePath = [[filePath stringByDeletingLastPathComponent] stringByAppendingPathComponent: @"results.csv"];
 
-  NSLog(@"writing results to: %@", resFilePath);
+  [logger log:LogDebug: @"[AppController executeUpdate] writing results to: %@", resFilePath];
   
   progress = [[DBProgress alloc] init];
   [progress setLogger:logger];

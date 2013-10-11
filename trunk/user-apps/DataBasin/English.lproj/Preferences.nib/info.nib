@@ -15,9 +15,9 @@
 	<string>489.0</string>
 	<key>IBOpenObjects</key>
 	<array>
-		<integer>74</integer>
-		<integer>88</integer>
 		<integer>62</integer>
+		<integer>88</integer>
+		<integer>74</integer>
 	</array>
 	<key>IBSystem Version</key>
 	<string>8S165</string>

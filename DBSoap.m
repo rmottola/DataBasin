@@ -1147,7 +1147,6 @@
     NSDictionary        *result;
     NSDictionary        *queryFault;
 
-    NSLog(@"inner cycle: %u", batchCounter);
     sObj = [NSMutableDictionary dictionaryWithCapacity: 2];
     [sObj setObject: @"urn:partner.soap.sforce.com" forKey: GWSSOAPNamespaceURIKey];
     sObjKeyOrder = [NSMutableArray arrayWithCapacity: 2];
@@ -1172,14 +1171,12 @@
       }
     [sObj setObject: sObjKeyOrder forKey: GWSOrderKey];
     [queryObjectsArray addObject: sObj];
-    NSLog(@"total counter = %lu of %lu", totalCounter, [objects count]);
+//    NSLog(@"total counter = %lu of %lu", totalCounter, [objects count]);
     if (batchCounter == upBatchSize-1 || totalCounter == [objects count])
       {
 	/* prepare the parameters */
 	queryParmDict = [NSMutableDictionary dictionaryWithCapacity: 2];
 	[queryParmDict setObject: @"urn:partner.soap.sforce.com" forKey: GWSSOAPNamespaceURIKey];
-
-	NSLog(@"queryObjectsArray count: %d of batchCounter %d", [queryObjectsArray count], batchCounter);
 
 	queryObjectsDict = [NSDictionary dictionaryWithObjectsAndKeys: queryObjectsArray, GWSSOAPValueKey, nil];
 
@@ -1203,7 +1200,6 @@
 	    NSString *faultCode;
 	    NSString *faultString;
 	    
-
 	    faultCode = [queryFault objectForKey:@"faultcode"];
 	    faultString = [queryFault objectForKey:@"faultstring"];
 	    [logger log: LogStandard: @"[DBSoap update] fault code: %@\n", faultCode];
@@ -1787,14 +1783,13 @@
       if ([[[tempObj objectProperties] objectForKey: @"keyPrefix"] isEqualToString: prefixToIdentify])
 	{
 	  name = [tempObj name];
-	  [logger log: LogDebug :@"[DBSoap identifyObjectById] we found: %@\n", name];
 	  found = YES;
 	}
     }
 
   if (found)
     {
-      [logger log: LogDebug :@"[DBSoap identifyObjectById] we found: %@\n", name];
+      [logger log: LogInformative :@"[DBSoap identifyObjectById] we found: %@\n", name];
       devName = [NSString stringWithString: name];
     }
   else

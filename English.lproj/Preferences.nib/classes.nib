@@ -12,6 +12,7 @@
             LANGUAGE = ObjC; 
             OUTLETS = {
                 buttPrefHttps = NSButton; 
+                fieldUpBatchSize = NSTextField; 
                 matrixScrollView = NSScrollView; 
                 popupLogLevel = NSPopUpButton; 
                 popupStrEncoding = NSPopUpButton; 

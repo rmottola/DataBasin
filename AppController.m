@@ -282,6 +282,7 @@
 
   NS_HANDLER
     [logger log:LogStandard :@"Login failed\n"];
+  [loginStatus setImage:[NSImage imageNamed:@"butt_red_16.tif"]];
     if ([[localException name] hasPrefix:@"DB"])
       {
         [faultTextView setString:[localException reason]];
@@ -295,6 +296,7 @@
   NS_ENDHANDLER
   [logger log:LogStandard :@"[AppController doLogin] %@ logged in succesfully\n", userName];
   
+  [loginStatus setImage:[NSImage imageNamed:@"butt_green_16.tif"]];
   loginSet = [NSMutableDictionary dictionaryWithCapacity:4];
   [loginSet retain];
   [loginSet setObject:userName forKey:@"username"];

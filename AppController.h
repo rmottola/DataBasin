@@ -52,6 +52,7 @@
   IBOutlet NSTextField   *fieldPassword;
   IBOutlet NSTextField   *fieldToken;
   IBOutlet NSPopUpButton *popupEnvironment;
+  IBOutlet NSImageView   *loginStatus;
   
   /* session status */
   IBOutlet NSWindow      *winSessionInspector;

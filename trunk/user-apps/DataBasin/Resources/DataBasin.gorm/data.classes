@@ -94,7 +94,8 @@
 	    fieldStatusQd,
 	    winDelete,
 	    fieldFileDelete,
-	    checkSkipFirstLine
+	    checkSkipFirstLine,
+	    loginStatus
 	);
 	Super = NSObject;
     };

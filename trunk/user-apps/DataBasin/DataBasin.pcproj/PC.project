@@ -46,6 +46,8 @@
 	"Preferences.h"
     );
     IMAGES = (
+	"butt_green_16.tif",
+	"butt_red_16.tif"
     );
     INSTALLDIR = "$(HOME)/GNUstep";
     INTERFACES = (
@@ -84,7 +86,7 @@
     "PROJECT_GROUP" = "No group avaliable!";
     "PROJECT_MAINTAINER" = "Riccardo Mottola,,,";
     "PROJECT_NAME" = DataBasin;
-    "PROJECT_RELEASE" = "0.7b1";
+    "PROJECT_RELEASE" = "0.7b7";
     "PROJECT_SUMMARY" = "No summary avaliable!";
     "PROJECT_TYPE" = Application;
     "PROJECT_URL" = "http://gap.nongnu.org/DataBasin/";

@@ -13,7 +13,7 @@ include $(GNUSTEP_MAKEFILES)/common.make
 #
 # Application
 #
-VERSION = 0.7b2
+VERSION = 0.7b7
 PACKAGE_NAME = DataBasin
 APP_NAME = DataBasin
 DataBasin_APPLICATION_ICON = 
@@ -31,7 +31,9 @@ DataBasin_RESOURCE_FILES = \
 Resources/DataBasin.gorm \
 Resources/ObjectInspector.gorm \
 Resources/Log.gorm \
-Resources/Preferences.gorm 
+Resources/Preferences.gorm \
+Resources/butt_green_16.tif \
+Resources/butt_red_16.tif 
 
 
 #

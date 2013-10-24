@@ -28,7 +28,7 @@
 
 @class DBSoap;
 
-@interface DBSObject : NSObject
+@interface DBSObject : NSObject <NSCopying>
 {
   DBSoap  *dbs;
 

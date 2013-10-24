@@ -76,20 +76,14 @@
 {
   DBSObject *sobj;
 
-  //  sobj = [[DBSObject allocWithZone:zone] init];
   sobj = (DBSObject *)NSCopyObject(self, 0, zone);
   if(sobj)
     {
       sobj->dbs = dbs;
-      //      [sobj->fieldNames release];
       sobj->fieldNames = [fieldNames copy];
-      //[sobj->fieldProperties release];
       sobj->fieldProperties = [fieldProperties copy];
-      //[sobj->recordValues release];
       sobj->recordValues = [recordValues copy];
-      //[sobj->objectProperties release];
       sobj->objectProperties = [objectProperties copy];
-      //[sobj->recordTypes release];
       sobj->recordTypes = [recordTypes copy];
     }
   return sobj;

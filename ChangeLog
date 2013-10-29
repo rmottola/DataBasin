@@ -1,3 +1,9 @@
+2013-10-29 Riccardo Mottola <rm@gnu.org>
+
+	* DBSObject.h
+	* DBSObject.m
+	Fix copyWithZone and no not use NSCopyObject()
+
 2013-10-24 Riccardo Mottola <rm@gnu.org>
 
 	* DBSObject.h

@@ -76,7 +76,7 @@
 {
   DBSObject *sobj;
 
-  sobj = [[DBSObject allocWithZone: zone] init];
+  sobj = [[[self class] allocWithZone: zone] init];
   if(sobj)
     {
       sobj->dbs = dbs;

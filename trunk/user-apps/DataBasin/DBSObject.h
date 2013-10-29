@@ -30,7 +30,7 @@
 
 @interface DBSObject : NSObject <NSCopying>
 {
-  DBSoap  *dbs;
+  DBSoap  *dbs; /* not retained */
 
   NSMutableDictionary *recordValues;
   NSMutableArray      *fieldNames;

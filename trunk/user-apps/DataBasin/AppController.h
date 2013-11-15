@@ -112,13 +112,15 @@
   IBOutlet NSWindow      *winQuickDelete;
   IBOutlet NSTextField   *fieldObjectIdQd;
   IBOutlet NSTextField   *fieldStatusQd;
+  IBOutlet NSProgressIndicator *progIndDelete;
+  IBOutlet NSTextField   *fieldRTDelete;  
   
   /* mass delete */
   IBOutlet NSWindow      *winDelete;
   IBOutlet NSTextField   *fieldFileDelete;
   IBOutlet NSButton      *checkSkipFirstLine;
-  
-  /* object inspector */
+
+    /* object inspector */
   DBObjectInspector *objInspector;
 }
 

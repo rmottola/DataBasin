@@ -3,8 +3,6 @@
     AppController = {
 	Actions = (
 	    "showPrefPanel:",
-	    "prefPanelCancel:",
-	    "prefPanelOk:",
 	    "showLogin:",
 	    "usernameFieldAction:",
 	    "doLogin:",
@@ -38,17 +36,12 @@
 	Outlets = (
 	    faultPanel,
 	    faultTextView,
-	    prefPanel,
-	    popupStrEncoding,
-	    buttPrefCancel,
-	    buttPrefOk,
-	    buttPrefHttps,
-	    popupLogLevel,
 	    winLogin,
 	    fieldUserName,
 	    fieldPassword,
 	    fieldToken,
 	    popupEnvironment,
+	    loginStatus,
 	    winSessionInspector,
 	    fieldSessionId,
 	    fieldServerUrl,
@@ -92,10 +85,11 @@
 	    winQuickDelete,
 	    fieldObjectIdQd,
 	    fieldStatusQd,
+	    progIndDelete,
+	    fieldRTDelete,
 	    winDelete,
 	    fieldFileDelete,
-	    checkSkipFirstLine,
-	    loginStatus
+	    checkSkipFirstLine
 	);
 	Super = NSObject;
     };

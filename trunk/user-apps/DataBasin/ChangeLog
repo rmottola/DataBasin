@@ -1,3 +1,11 @@
+2013-11-15 Riccardo Mottola <rm@gnu.org>
+
+	* AppController.h
+	* AppController.m
+	* DBSoap.m
+	* Resources/DataBasin.gorm
+	Progress indicator and remaining time for Delete op.
+
 2013-10-29 Riccardo Mottola <rm@gnu.org>
 
 	* DBSObject.h

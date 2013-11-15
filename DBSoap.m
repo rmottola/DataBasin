@@ -8,8 +8,7 @@
    Created: 2008-11-13 22:44:45 +0100 by multix
 
    This library is free software; you can redistribute it and/or
-   modify it under the terms of the GNU Lesser General Public
-   License as published by the Free Software Foundation; either
+   modify it under the terms of the GNU Lesser General Public   License as published by the Free Software Foundation; either
    version 3 of the License, or (at your option) any later version.
  
    This library is distributed in the hope that it will be useful,
@@ -1618,6 +1617,7 @@
     return nil;
 
   [logger log: LogDebug :@"[DBSoap delete] deleting %u objects...\n", [objectIdArray count]];
+  [p setMaximumValue:[objectIdArray count]];
 
   /* prepare the header */
   sessionHeaderDict = [NSMutableDictionary dictionaryWithCapacity: 2];
@@ -1652,7 +1652,7 @@
       /* did we fill a batch or did we reach the end? */
       if (batchCounter == MAX_BATCH_SIZE || !idStr)
 	{
-	  [logger log: LogDebug :@"[DBSoapNSLog delete ] batch obj-> %@\n", batchObjArray];
+          //	  [logger log: LogDebug :@"[DBSoapNSLog delete ] batch obj-> %@\n", batchObjArray];
 	  
 	  /* prepare the parameters */
 	  queryParmDict = [NSMutableDictionary dictionaryWithCapacity: 2];
@@ -1687,7 +1687,7 @@
   
 	  queryResult = [resultDict objectForKey:@"GWSCoderParameters"];
 	  result = [queryResult objectForKey:@"result"];
-	  NSLog(@"result: %@", result);
+          //	  NSLog(@"result: %@", result);
 
 	  if (result != nil)
 	    {
@@ -1739,11 +1739,10 @@
 		  [resultArray addObject:rowDict];
 		}
 	    }
-	  NSLog(@"reiniting batch....");
+          [p incrementCurrentValue:batchCounter];
 	  [batchObjArray removeAllObjects];
 	  batchCounter = 0;
 	} /* of batch */
-      NSLog(@"end of while loop...%@", idStr);
     }
   while (idStr);
 

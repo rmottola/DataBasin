@@ -891,11 +891,11 @@
       }
     else
       {
-	NSDictionary *resultDict;
-	NSString     *resultMsgStr;
+        NSDictionary *resultDict;
+        NSString     *resultMsgStr;
 
-	resultDict = [resultArray objectAtIndex:0];
-	resultMsgStr = [resultDict objectForKey:@"message"];
+        resultDict = [resultArray objectAtIndex:0];
+        resultMsgStr = [resultDict objectForKey:@"message"];
         [fieldStatusQd setStringValue:[resultDict objectForKey:@"statusCode"]];
         [faultTextView setString:resultMsgStr];
         [faultPanel makeKeyAndOrderFront:nil];
@@ -907,6 +907,8 @@
 - (IBAction)showDelete:(id)sender
 {
   [winDelete makeKeyAndOrderFront:self];
+  [progIndDelete setIndeterminate:NO];
+  [progIndDelete setDoubleValue:0];
 }
 
 - (IBAction)browseFileDelete:(id)sender
@@ -945,6 +947,8 @@
   reader = [[DBCVSReader alloc] initWithPath:filePath byParsingHeaders:([checkSkipFirstLine state]==NSOnState) withLogger:logger];
 
   progress = [[DBProgress alloc] init];
+  [progress setProgressIndicator: progIndDelete];
+  [progress setRemainingTimeField: fieldRTDelete];
   [progress setLogger:logger];
   [progress reset];
 

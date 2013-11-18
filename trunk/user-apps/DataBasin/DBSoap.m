@@ -1603,7 +1603,7 @@
 }
 
 
-- (NSMutableArray *)delete :(NSArray *)objectIdArray progressMonitor:(id<DBProgressProtocol>)p;
+- (NSMutableArray *)delete :(NSArray *)array progressMonitor:(id<DBProgressProtocol>)p;
 {
   NSMutableDictionary   *headerDict;
   NSMutableDictionary   *sessionHeaderDict;
@@ -1611,13 +1611,14 @@
   NSEnumerator          *enumerator;
   unsigned              batchCounter;
   NSMutableArray        *batchObjArray;
+  id                    objToDelete;
   NSString              *idStr;
 
-  if ([objectIdArray count] == 0)
+  if ([array count] == 0)
     return nil;
 
-  [logger log: LogDebug :@"[DBSoap delete] deleting %u objects...\n", [objectIdArray count]];
-  [p setMaximumValue:[objectIdArray count]];
+  [logger log: LogDebug :@"[DBSoap delete] deleting %u objects...\n", [array count]];
+  [p setMaximumValue:[array count]];
 
   /* prepare the header */
   sessionHeaderDict = [NSMutableDictionary dictionaryWithCapacity: 2];
@@ -1628,7 +1629,7 @@
   [headerDict setObject: sessionHeaderDict forKey: @"SessionHeader"];
   [headerDict setObject: GWSSOAPUseLiteral forKey: GWSSOAPUseKey];
 
-  enumerator = [objectIdArray objectEnumerator];
+  enumerator = [array objectEnumerator];
   batchCounter = 0;
   batchObjArray = [[NSMutableArray arrayWithCapacity: MAX_BATCH_SIZE] retain];
   resultArray = [[NSMutableArray arrayWithCapacity:1] retain];
@@ -1643,7 +1644,14 @@
       NSDictionary          *queryFault;
       NSMutableArray        *queryObjectsDict;
 
-      idStr = [enumerator nextObject];
+      objToDelete = [enumerator nextObject];
+      if ([objToDelete isKindOfClass:[DBSObject class]])
+        {
+          idStr = [(DBSObject *)objToDelete sfId];
+        }
+      else
+        idStr = objToDelete;
+
       if (idStr)
 	{
 	  [batchObjArray addObject: idStr];

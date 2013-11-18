@@ -78,7 +78,10 @@
 - (void)queryIdentify :(NSString *)queryString with: (NSArray *)identifiers queryAll:(BOOL)all fromArray:(NSArray *)fromArray toArray:(NSMutableArray *)outArray withBatchSize:(int)batchSize progressMonitor:(id<DBProgressProtocol>)p;
 - (NSMutableArray *)create :(NSString *)objectName fromArray:(NSMutableArray *)objects progressMonitor:(id<DBProgressProtocol>)p;
 - (NSMutableArray *)update :(NSString *)objectName fromArray:(NSMutableArray *)objects progressMonitor:(id<DBProgressProtocol>)p;
-- (NSMutableArray *)delete :(NSArray *)objectIdArray progressMonitor:(id<DBProgressProtocol>)p;
+
+/** Delete the contents of array, which can be either strings of IDs or DBSObjects */
+- (NSMutableArray *)delete :(NSArray *)array progressMonitor:(id<DBProgressProtocol>)p;
+
 - (NSArray *)describeGlobal;
 - (NSArray *)sObjects;
 - (NSArray *)sObjectNames;

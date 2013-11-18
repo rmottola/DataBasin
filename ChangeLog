@@ -1,5 +1,11 @@
 2013-11-18 Riccardo Mottola <rm@gnu.org>
 
+	* DBSoap.h
+	* DBSoap.m
+	delete: accept both Objects as Ids as array content.
+
+2013-11-18 Riccardo Mottola <rm@gnu.org>
+
 	* DBSoapCSV.m (describeSObject)
 	Transition indices to NSUInteger
 

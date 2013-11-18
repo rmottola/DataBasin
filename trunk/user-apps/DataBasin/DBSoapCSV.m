@@ -247,8 +247,8 @@
 
 - (void)describeSObject: (NSString *)objectType toWriter:(DBCVSWriter *)writer
 {
-  int            i;
-  int            size;
+  NSUInteger      i;
+  NSUInteger     size;
   DBSObject      *object;
   NSDictionary   *properties;
   NSArray        *fields;
@@ -271,7 +271,7 @@
   for (i = 0; i < size; i++)
     {
       NSMutableArray *values;
-      int            j;
+      NSUInteger      j;
       NSString       *field;
       
       field = [fields objectAtIndex: i];

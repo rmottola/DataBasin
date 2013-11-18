@@ -1,3 +1,8 @@
+2013-11-18 Riccardo Mottola <rm@gnu.org>
+
+	* DBSoapCSV.m (describeSObject)
+	Transition indices to NSUInteger
+
 2013-11-15 Riccardo Mottola <rm@gnu.org>
 
 	* AppController.h

@@ -1,3 +1,9 @@
+2013-12-13 Riccardo Mottola <rm@gnu.org>
+
+	* DBSObject.h
+	* DBSObject.m
+	Store recordTypes in a NSArray and not a mutable array.
+
 2013-11-18 Riccardo Mottola <rm@gnu.org>
 
 	* DBSoap.h

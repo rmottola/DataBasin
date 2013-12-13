@@ -26,6 +26,15 @@
 
 #import <Foundation/Foundation.h>
 
+#ifndef ASSIGN
+#define ASSIGN(object,value)    ({\
+  id __object = object; \
+  object = [(value) retain]; \
+  [__object release]; \
+})
+#endif
+
+
 @class DBSoap;
 
 @interface DBSObject : NSObject <NSCopying>
@@ -36,7 +45,7 @@
   NSMutableArray      *fieldNames;
   NSMutableDictionary *fieldProperties;
   NSMutableDictionary *objectProperties;
-  NSMutableArray      *recordTypes;
+  NSArray             *recordTypes;
 }
 
 /** returns the 18-char version of the 15-char id */

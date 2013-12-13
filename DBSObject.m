@@ -84,7 +84,7 @@
       sobj->fieldProperties = [fieldProperties mutableCopy];
       sobj->recordValues = [recordValues mutableCopy];
       sobj->objectProperties = [objectProperties mutableCopy];
-      sobj->recordTypes = [recordTypes mutableCopy];
+      sobj->recordTypes = [recordTypes copy];
     }
   return sobj;
 }
@@ -235,8 +235,7 @@ converting it if necessary.</p>
 
 - (void)setRecordTypes: (NSArray *)rtInfo
 {
-  [recordTypes release];
-  recordTypes = [rtInfo retain];
+  ASSIGN(recordTypes, rtInfo);
 }
 
 - (NSArray *)recordTypes

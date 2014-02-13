@@ -1,7 +1,7 @@
 /*
   Project: DataBasin
 
-  Copyright (C) 2008-2013 Free Software Foundation
+  Copyright (C) 2008-2014 Free Software Foundation
 
   Author: Riccardo Mottola
 
@@ -1491,6 +1491,7 @@
       [logger log: LogStandard :@"[DBSoap describeSObject] exception code: %@\n", [fault objectForKey:@"exceptionCode"]];
       [logger log: LogStandard :@"[DBSoap describeSObject] exception message: %@\n", [fault objectForKey:@"exceptionMessage"]];
       [[NSException exceptionWithName:@"DBException" reason:[fault objectForKey:@"exceptionMessage"] userInfo:nil] raise];
+      return nil;
     }
 
   queryResult = [resultDict objectForKey:@"GWSCoderParameters"];
@@ -1503,8 +1504,8 @@
   /* if we have only one element, put it in an array */
   if (size == 1)
     records = [NSArray arrayWithObject:records];
-  record = [records objectAtIndex:0];    
- 
+
+  record = [records objectAtIndex:0]; 
 
   keys = [NSMutableArray arrayWithArray:[record allKeys]];
   [keys removeObject:@"GWSCoderOrder"];
@@ -1552,12 +1553,12 @@
       if (![recordTypeObjs isKindOfClass:[NSArray class]])
         {
           [recordTypeObjs autorelease];
-          recordTypeObjs = [NSArray arrayWithObject:records];
+          recordTypeObjs = [NSArray arrayWithObject:recordTypeObjs];
           [recordTypeObjs retain];
         }
 
       rtArray = [NSMutableArray arrayWithCapacity: size];
-      for (i = 0; i < size; i++)
+      for (i = 0; i < [recordTypeObjs count]; i++)
         {
           NSMutableDictionary *mDict;
           NSString *devName;
@@ -1591,6 +1592,7 @@
                 }
             }
           [rtArray addObject: mDict];
+
           if (devName)
             [mDict setObject:devName forKey:@"DeveloperName"];
           else

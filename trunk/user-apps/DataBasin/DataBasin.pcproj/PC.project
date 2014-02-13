@@ -77,7 +77,7 @@
     "PROJECT_AUTHORS" = (
 	"Riccardo Mottola"
     );
-    "PROJECT_COPYRIGHT" = "Copyright (C) 2008-2013";
+    "PROJECT_COPYRIGHT" = "Copyright (C) 2008-2014";
     "PROJECT_COPYRIGHT_DESC" = "Released under GPL";
     "PROJECT_CREATOR" = "Riccardo Mottola,,,";
     "PROJECT_DESCRIPTION" = "SOAP Data Access Tool";

@@ -1,3 +1,11 @@
+2014-02-18 Riccardo Mottola <rm@gnu.org>
+
+	* DBSObject.h
+	* DBSObject.m
+	* DBSoap.m
+	Get name, type, label and prefix from the object properties.
+	Add and uniform accessors for them.
+
 2014-02-13 Riccardo Mottola <rm@gnu.org>
 
 	* DBSoap.m (describeSObject)

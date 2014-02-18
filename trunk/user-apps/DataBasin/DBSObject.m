@@ -2,7 +2,7 @@
  Project: DataBasin
  DBSobject.m
  
- Copyright (C) 2010-2013 Free Software Foundation
+ Copyright (C) 2010-2014 Free Software Foundation
  
  Author: Riccardo Mottola
  
@@ -171,6 +171,7 @@ converting it if necessary.</p>
 
 - (NSString *)name
 {
+  /*
   NSString *name;
 
   name = nil;
@@ -185,12 +186,25 @@ converting it if necessary.</p>
     name = [objectProperties objectForKey: @"name"];
 
   return name;
+  */
+  return [objectProperties objectForKey: @"name"];
 }
 
 - (NSString *)type
 {
   return [objectProperties objectForKey: @"type"];
 }
+
+- (NSString *)label
+{
+  return [objectProperties objectForKey: @"label"];
+}
+
+- (NSString *)keyPrefix
+{
+  return [objectProperties objectForKey: @"keyPrefix"];
+}
+
 
 - (void)setProperties: (NSDictionary *)properties forField: (NSString *)field
 {

@@ -1445,7 +1445,6 @@
   NSArray               *recordTypeObjs;
   NSDictionary          *record;
   unsigned              i;
-  unsigned              size;
   NSMutableArray        *keys;
   DBSObject             *object;
   NSMutableDictionary   *propDict;
@@ -1497,12 +1496,21 @@
   queryResult = [resultDict objectForKey:@"GWSCoderParameters"];
   result = [queryResult objectForKey:@"result"];
 
+  object = [[DBSObject alloc] init];
+
+  /* Extract Object Properties */
+  propDict = [NSMutableDictionary dictionaryWithCapacity: 1];
+  [propDict setValue:[result objectForKey:@"name"] forKey: @"name"];
+  [propDict setValue:[result objectForKey:@"label"] forKey: @"label"];
+  [propDict setValue:[result objectForKey:@"keyPrefix"] forKey: @"keyPrefix"];
+  [object setObjectProperties: propDict];
+
+
   /* Extract Fields */
   records = [result objectForKey:@"fields"];
-  size = [records count];
 
   /* if we have only one element, put it in an array */
-  if (size == 1)
+  if ([records count] == 1)
     records = [NSArray arrayWithObject:records];
 
   record = [records objectAtIndex:0]; 
@@ -1510,12 +1518,8 @@
   keys = [NSMutableArray arrayWithArray:[record allKeys]];
   [keys removeObject:@"GWSCoderOrder"];
 
-  object = [[DBSObject alloc] init];
-  propDict = [NSMutableDictionary dictionaryWithCapacity: 1];
-  [propDict setValue: objectType forKey: @"name"];
-  [object setObjectProperties: propDict];
 
-  for (i = 0; i < size; i++)
+  for (i = 0; i < [records count]; i++)
     {
       NSMutableDictionary *props;
       NSString *fieldName;
@@ -1533,7 +1537,6 @@
   /* some objects don't have record-types at all, for others get additional information from RecordType */
   if (recordTypeObjs)
     {
-      size = [recordTypeObjs count];
       [recordTypeObjs retain]; // we retain, since executing another query would otherwise clean the result
 
       /* query record-type developer names with a subquery to RecordTypes */
@@ -1557,7 +1560,7 @@
           [recordTypeObjs retain];
         }
 
-      rtArray = [NSMutableArray arrayWithCapacity: size];
+      rtArray = [NSMutableArray arrayWithCapacity: [recordTypeObjs count]];
       for (i = 0; i < [recordTypeObjs count]; i++)
         {
           NSMutableDictionary *mDict;

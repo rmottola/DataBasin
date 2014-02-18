@@ -2,7 +2,7 @@
  Project: DataBasin
  DBSobject.h
  
- Copyright (C) 2010-2013 Free Software Foundation
+ Copyright (C) 2010-2014 Free Software Foundation
  
  Author: Riccardo Mottola
  
@@ -70,11 +70,14 @@
 /** Set the soap database interface */
 - (void)setDBSoap: (DBSoap *)db;
 
-/** shortcut to return the value Name, CaseNumber or Contract numnber or to the property "name" */
+/** shortcut to return the property "name" */
 - (NSString *)name;
 
-/** shortcut to return the property "type" */
-- (NSString *)type;
+/** shortcut to return the property "label" */
+- (NSString *)label;
+
+/** shortcut to return the property "" */
+- (NSString *)label;
 
 - (void)setProperties: (NSDictionary *)properties forField: (NSString *)field;
 - (NSDictionary *)propertiesOfField: (NSString *)field;

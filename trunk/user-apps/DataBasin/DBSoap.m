@@ -1087,7 +1087,6 @@
   [queryObjectsArray release];
   [sessionHeaderDict release];
   [headerDict release];
-  NSLog(@"Create result array %@", resultArray);
   return [resultArray autorelease];
 }
 
@@ -1126,7 +1125,7 @@
   [headerDict setObject: sessionHeaderDict forKey: @"SessionHeader"];
   [headerDict setObject: GWSSOAPUseLiteral forKey: GWSSOAPUseKey];
   
-  [logger log: LogDebug: @"[DBSoap update] update objects array: %@\n", objects];
+  [logger log: LogDebug: @"[DBSoap update] update objects array size: %lu\n", (unsigned long)[objects count]];
   
   [p setCurrentDescription:@"Updating"];
   
@@ -1211,7 +1210,7 @@
 
 	queryResult = [resultDict objectForKey:@"GWSCoderParameters"];
 	result = [queryResult objectForKey:@"result"];
-	NSLog(@"query result: %@", result);
+	//NSLog(@"query result: %@", result);
 
 	if (result != nil)
 	  {
@@ -1220,7 +1219,6 @@
 
             if (![result isKindOfClass:[NSArray class]])
               {
-                NSLog(@"Single result. Repackaging into array");
                 results = [NSArray arrayWithObject:result];
               }
             else
@@ -1253,7 +1251,7 @@
                     message = [errors objectForKey:@"message"];
                     code = [errors objectForKey:@"statusCode"];
                   }
-                NSLog(@"result: %@ -> %d, %@: %@ (%@)", objId, success, code, message, r);
+                //                NSLog(@"result: %@ -> %d, %@: %@ (%@)", objId, success, code, message, r);
 		if (success)
 		  {
 		    rowDict = [NSDictionary dictionaryWithObjectsAndKeys:

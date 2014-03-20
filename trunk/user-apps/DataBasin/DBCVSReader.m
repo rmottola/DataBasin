@@ -1,7 +1,7 @@
 /*
   Project: DataBasin
 
-  Copyright (C) 2009-2013 Free Software Foundation
+  Copyright (C) 2009-2014 Free Software Foundation
 
   Author: Riccardo Mottola
 
@@ -183,7 +183,7 @@
 	  if (loc == [line length]-1 && token == nil)
 	    {
 	      token = @"";
-	      NSLog(@"we reached the end... token is %@", token);
+              //	      NSLog(@"we reached the end... token is %@", token);
 	    }
 	  //NSLog(@"loc %lu", loc);
 	  if (loc > 0 && token)

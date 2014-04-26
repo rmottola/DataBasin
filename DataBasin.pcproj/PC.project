@@ -80,13 +80,13 @@
     "PROJECT_COPYRIGHT" = "Copyright (C) 2008-2014";
     "PROJECT_COPYRIGHT_DESC" = "Released under GPL";
     "PROJECT_CREATOR" = "Riccardo Mottola,,,";
-    "PROJECT_DESCRIPTION" = "SOAP Data Access Tool";
+    "PROJECT_DESCRIPTION" = "Salesforce.com Data Tool";
     "PROJECT_DOCUMENTTYPES" = (
     );
     "PROJECT_GROUP" = "No group avaliable!";
     "PROJECT_MAINTAINER" = "Riccardo Mottola,,,";
     "PROJECT_NAME" = DataBasin;
-    "PROJECT_RELEASE" = "0.7b7";
+    "PROJECT_RELEASE" = "0.7";
     "PROJECT_SUMMARY" = "No summary avaliable!";
     "PROJECT_TYPE" = Application;
     "PROJECT_URL" = "http://gap.nongnu.org/DataBasin/";

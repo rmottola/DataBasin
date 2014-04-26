@@ -54,6 +54,7 @@
                 fieldPwdExpired = NSTextField; 
                 fieldQuerySelect = NSTextView; 
                 fieldQuerySelectIdentify = NSTextView; 
+                fieldRTDelete = NSTextField; 
                 fieldRTInsert = NSTextField; 
                 fieldRTSelect = NSTextField; 
                 fieldRTSelectIdent = NSTextField; 
@@ -68,11 +69,13 @@
                 fieldUserId = NSTextField; 
                 fieldUserName = NSTextField; 
                 fieldUserNameInsp = NSTextField; 
+                loginStatus = NSImageView; 
                 popupBatchSizeIdentify = NSPopUpButton; 
                 popupEnvironment = NSPopUpButton; 
                 popupObjectsDescribe = NSPopUpButton; 
                 popupObjectsInsert = NSPopUpButton; 
                 popupObjectsUpdate = NSPopUpButton; 
+                progIndDelete = NSProgressIndicator; 
                 progIndInsert = NSProgressIndicator; 
                 progIndSelect = NSProgressIndicator; 
                 progIndSelectIdent = NSProgressIndicator; 

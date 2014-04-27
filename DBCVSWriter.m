@@ -1,7 +1,7 @@
 /*
    Project: DataBasin
 
-   Copyright (C) 2009-2013 Free Software Foundation
+   Copyright (C) 2009-2014 Free Software Foundation
 
    Author: Riccardo Mottola
 
@@ -220,14 +220,15 @@
 
 - (void)setFieldNames:(id)obj andWriteIt:(BOOL)flag
 {
-  /* if we write the header, fine, else we write at least the BOM */
+  /* if we have no data, we return */
+  if (obj == nil)
+    return;
 
+  /* if we write the header, fine, else we write at least the BOM */
   if (flag == YES)
     {
       NSString *theLine;
       NSArray *array;
-
-      NSLog(@"should write out field names to file");
 
       /* if we have just a single object, we fake an array */
       if([obj isKindOfClass: [NSArray class]])

@@ -9,10 +9,16 @@ DBSoap: classes to interact with Salesforce
 Note: The Macintosh binaries are compiled for PowerPC. If you are on Intel and do not have Rosetta installed, you need to compile both the GSWS Framework and DataBasin natively.
 
 
-Current Version: 0.6
+Current Version: 0.7
 --------------------
 
 NEWS
+
+- Save results into results.csv file
+- Progress monitor shows time remaining
+- Progress monitor for Query, Delete, Insert
+- Select identify now supports ORDER BY
+- Internal core ehanced for Delete
 - Support "." as Semi-Join
 - Select Identify works now with multiple columns (all in AND as condition)
 - Suppport LIMIT clause in Select Identify
@@ -20,7 +26,6 @@ NEWS
 - Object Inspector supports selection of items
 - Log window with selectable log level
 - Progress and estimated completion time displayed in Log
-- Remember logins
 - internal API improvemnt
 - vast 64bit and portability improvements
 - Support count and aggretate queries

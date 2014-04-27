@@ -1,3 +1,8 @@
+2014-04-27 Riccardo Mottola <rm@gnu.org>
+
+	* DBCVSWriter.m
+        Don't write the header if data is nil.
+
 2014-02-18 Riccardo Mottola <rm@gnu.org>
 
 	* DBSObject.h

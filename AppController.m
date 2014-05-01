@@ -27,8 +27,8 @@
 #import "AppController.h"
 #import "DBSoap.h"
 #import "DBSoapCSV.h"
-#import "DBCVSWriter.h"
-#import "DBCVSReader.h"
+#import "DBCSVWriter.h"
+#import "DBCSVReader.h"
 #import "DBLogger.h"
 #import "DBProgress.h"
 #import "Preferences.h"
@@ -379,7 +379,7 @@
   NSString      *filePath;
   NSFileHandle  *fileHandle;
   NSFileManager *fileManager;
-  DBCVSWriter   *cvsWriter;
+  DBCSVWriter   *CSVWriter;
   DBProgress    *progress;
   
   statement = [fieldQuerySelect string];
@@ -403,11 +403,11 @@
   [progress setRemainingTimeField: fieldRTSelect];
   [progress setLogger:logger];
   [progress reset];
-  cvsWriter = [[DBCVSWriter alloc] initWithHandle:fileHandle];
-  [cvsWriter setLogger:logger];
+  CSVWriter = [[DBCSVWriter alloc] initWithHandle:fileHandle];
+  [CSVWriter setLogger:logger];
 
   NS_DURING
-    [dbCsv query :statement queryAll:([queryAllSelect state] == NSOnState) toWriter:cvsWriter progressMonitor:progress];
+    [dbCsv query :statement queryAll:([queryAllSelect state] == NSOnState) toWriter:CSVWriter progressMonitor:progress];
   NS_HANDLER
     if ([[localException name] hasPrefix:@"DB"])
       {
@@ -415,7 +415,7 @@
         [faultPanel makeKeyAndOrderFront:nil];
       }
   NS_ENDHANDLER
-  [cvsWriter release];
+  [CSVWriter release];
   [fileHandle closeFile];
   [progress release];
 }
@@ -464,14 +464,14 @@
 {
   NSString       *filePath;
   NSString       *resFilePath;
-  DBCVSReader    *reader;
+  DBCSVReader    *reader;
   NSString       *intoWhichObject;
   DBProgress     *progress;
   NSMutableArray *results;
   NSFileManager  *fileManager;
   NSFileHandle   *resFH;
   NSUserDefaults *defaults;
-  DBCVSWriter    *resWriter;
+  DBCSVWriter    *resWriter;
   
   defaults = [NSUserDefaults standardUserDefaults];  
   filePath = [fieldFileInsert stringValue];
@@ -491,7 +491,7 @@
   [progress reset];
   
   results = nil;
-  reader = [[DBCVSReader alloc] initWithPath:filePath withLogger:logger];
+  reader = [[DBCSVReader alloc] initWithPath:filePath withLogger:logger];
   NS_DURING
     results = [dbCsv create:intoWhichObject fromReader:reader progressMonitor:progress];
     [results retain];
@@ -517,7 +517,7 @@
     }
   else
     {
-      resWriter = [[DBCVSWriter alloc] initWithHandle:resFH];
+      resWriter = [[DBCSVWriter alloc] initWithHandle:resFH];
       [resWriter setLogger:logger];
       [resWriter setStringEncoding: [[defaults valueForKey: @"StringEncoding"] intValue]];
       
@@ -577,14 +577,14 @@
 {
   NSString       *filePath;
   NSString       *resFilePath;
-  DBCVSReader    *reader;
+  DBCSVReader    *reader;
   NSString       *whichObject;
   DBProgress     *progress;
   NSMutableArray *results;
   NSFileManager  *fileManager;
   NSFileHandle   *resFH;
   NSUserDefaults *defaults;
-  DBCVSWriter    *resWriter;
+  DBCSVWriter    *resWriter;
 
   defaults = [NSUserDefaults standardUserDefaults];  
   filePath = [fieldFileUpdate stringValue];
@@ -602,7 +602,7 @@
   [logger log:LogInformative :@"[AppController executeUpdate] object: %@\n", whichObject];
   
   results = nil;
-  reader = [[DBCVSReader alloc] initWithPath:filePath withLogger:logger];
+  reader = [[DBCSVReader alloc] initWithPath:filePath withLogger:logger];
   NS_DURING
     results = [dbCsv update:whichObject fromReader:reader progressMonitor:progress];
     [results retain];
@@ -627,7 +627,7 @@
     }
   else
     {
-      resWriter = [[DBCVSWriter alloc] initWithHandle:resFH];
+      resWriter = [[DBCSVWriter alloc] initWithHandle:resFH];
       [resWriter setLogger:logger];
       [resWriter setStringEncoding: [[defaults valueForKey: @"StringEncoding"] intValue]];
       
@@ -688,8 +688,8 @@
   NSString      *filePathOut;
   NSFileHandle  *fileHandleOut;
   NSFileManager *fileManager;
-  DBCVSWriter   *cvsWriter;
-  DBCVSReader   *cvsReader;
+  DBCSVWriter   *CSVWriter;
+  DBCSVReader   *CSVReader;
   DBProgress    *progress;
   int           batchSize;
   
@@ -719,12 +719,12 @@
   
   fileManager = [NSFileManager defaultManager];
 
-  cvsReader = [[DBCVSReader alloc] initWithPath:filePathIn withLogger:logger];
+  CSVReader = [[DBCSVReader alloc] initWithPath:filePathIn withLogger:logger];
 
   if ([fileManager createFileAtPath:filePathOut contents:nil attributes:nil] == NO)
     {
       NSRunAlertPanel(@"Attention", @"Could not create File.", @"Ok", nil, nil);
-      [cvsReader release];
+      [CSVReader release];
       return;
     }  
 
@@ -732,12 +732,12 @@
   if (fileHandleOut == nil)
     {
       NSRunAlertPanel(@"Attention", @"Cannot create File.", @"Ok", nil, nil);
-      [cvsReader release];
+      [CSVReader release];
       return;
     }
 
-  cvsWriter = [[DBCVSWriter alloc] initWithHandle:fileHandleOut];
-  [cvsWriter setLogger:logger];
+  CSVWriter = [[DBCSVWriter alloc] initWithHandle:fileHandleOut];
+  [CSVWriter setLogger:logger];
   progress = [[DBProgress alloc] init];
   [progress setLogger:logger];
   [progress setProgressIndicator: progIndSelectIdent];
@@ -745,7 +745,7 @@
   [progress reset];
 
   NS_DURING
-    [dbCsv queryIdentify :statement queryAll:([queryAllSelectIdentify state] == NSOnState) fromReader:cvsReader toWriter:cvsWriter withBatchSize:batchSize progressMonitor:progress];
+    [dbCsv queryIdentify :statement queryAll:([queryAllSelectIdentify state] == NSOnState) fromReader:CSVReader toWriter:CSVWriter withBatchSize:batchSize progressMonitor:progress];
   NS_HANDLER
     if ([[localException name] hasPrefix:@"DB"])
       {
@@ -754,8 +754,8 @@
       }
   NS_ENDHANDLER
 
-  [cvsReader release];
-  [cvsWriter release];
+  [CSVReader release];
+  [CSVWriter release];
   [fileHandleOut closeFile];
   
   [progress release];
@@ -793,7 +793,7 @@
 - (IBAction)executeDescribe:(id)sender
 {
   NSString      *filePath;
-  DBCVSWriter   *writer;
+  DBCSVWriter   *writer;
   NSString      *whichObject;
   NSFileManager *fileManager;
   NSFileHandle  *fileHandle;
@@ -817,7 +817,7 @@
       NSRunAlertPanel(@"Attention", @"Cannot create File.", @"Ok", nil, nil);
     }
   
-  writer = [[DBCVSWriter alloc] initWithHandle:fileHandle];
+  writer = [[DBCSVWriter alloc] initWithHandle:fileHandle];
   [writer setLogger:logger];
   [writer setStringEncoding: [[defaults valueForKey: @"StringEncoding"] intValue]];
   
@@ -930,8 +930,8 @@
 {
   NSString       *filePath;
   NSString       *resFilePath;
-  DBCVSReader    *reader;
-  DBCVSWriter    *resWriter;
+  DBCSVReader    *reader;
+  DBCSVWriter    *resWriter;
   NSMutableArray *results;
   NSFileManager  *fileManager;
   NSFileHandle   *resFH;
@@ -944,7 +944,7 @@
 
   NSLog(@"writing results to: %@", resFilePath);
     
-  reader = [[DBCVSReader alloc] initWithPath:filePath byParsingHeaders:([checkSkipFirstLine state]==NSOnState) withLogger:logger];
+  reader = [[DBCSVReader alloc] initWithPath:filePath byParsingHeaders:([checkSkipFirstLine state]==NSOnState) withLogger:logger];
 
   progress = [[DBProgress alloc] init];
   [progress setProgressIndicator: progIndDelete];
@@ -977,7 +977,7 @@
     }
   else
     {
-      resWriter = [[DBCVSWriter alloc] initWithHandle:resFH];
+      resWriter = [[DBCSVWriter alloc] initWithHandle:resFH];
       [resWriter setLogger:logger];
       [resWriter setStringEncoding: [[defaults valueForKey: @"StringEncoding"] intValue]];
       

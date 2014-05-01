@@ -704,7 +704,7 @@
     }
   else
     {
-      NSLog(@"Unexpected identifier count: %u", [identifiers count]);
+      NSLog(@"Unexpected identifier count: %u", (unsigned int)[identifiers count]);
     }
 
   batchable = NO;
@@ -988,9 +988,6 @@
 				  timeout : standardTimeoutSec];
   
   
-
-	NSLog(@"create result dict is %u big", [resultDict count]);
-  
 	queryFault = [resultDict objectForKey:@"GWSCoderFault"];
 	if (queryFault != nil)
 	  {
@@ -1191,8 +1188,6 @@
 			       parameters : parmsDict
 				    order : nil
 				  timeout : standardTimeoutSec];
-  
-	NSLog(@"update result dict is %u big", [resultDict count]);
   
 	queryFault = [resultDict objectForKey:@"GWSCoderFault"];
 	if (queryFault != nil)
@@ -1672,7 +1667,7 @@
 	  [queryParmDict setObject: @"urn:partner.soap.sforce.com" forKey: GWSSOAPNamespaceURIKey];
 	  
 	  queryObjectsDict = [NSDictionary dictionaryWithObjectsAndKeys: batchObjArray, GWSSOAPValueKey, nil];
-	  NSLog(@"Inner delete cycle. Deleting %u objects", [batchObjArray count]);
+	  NSLog(@"Inner delete cycle. Deleting %u objects", (unsigned int)[batchObjArray count]);
 	  [queryParmDict setObject: queryObjectsDict forKey: @"ids"];
 	  
 	  parmsDict = [NSMutableDictionary dictionaryWithCapacity: 1];
@@ -1759,7 +1754,6 @@
     }
   while (idStr);
 
-  NSLog(@"%d result array: %@", [resultArray count], resultArray);
   [batchObjArray release];
   return [resultArray autorelease];
 }

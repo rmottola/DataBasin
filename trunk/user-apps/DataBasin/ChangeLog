@@ -1,3 +1,10 @@
+2014-05-01 Riccardo Mottola <rm@gnu.org>
+
+	* DBObjectInspector.h
+	* DBLogger.h
+	Updated to use the DataBasinKit instead of local files and thus
+	use DBLoggerProtocol
+
 2014-04-27 Riccardo Mottola <rm@gnu.org>
 
 	* DBCVSWriter.m

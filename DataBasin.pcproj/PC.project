@@ -15,12 +15,7 @@
     "BUILDER_VERBOSE" = NO;
     "CLASS_FILES" = (
 	"AppController.m",
-	"DBSoap.m",
-	"DBCVSWriter.m",
-	"DBCVSReader.m",
-	"DBSObject.m",
 	"DBObjectInspector.m",
-	"DBSoapCSV.m",
 	"DBLogger.m",
 	"DBProgress.m",
 	"Preferences.m"
@@ -34,14 +29,8 @@
     );
     "HEADER_FILES" = (
 	"AppController.h",
-	"DBSoap.h",
-	"DBCVSWriter.h",
-	"DBCVSReader.h",
-	"DBSObject.h",
 	"DBObjectInspector.h",
-	"DBSoapCSV.h",
 	"DBLogger.h",
-	"DBProgressProtocol.h",
 	"DBProgress.h",
 	"Preferences.h"
     );
@@ -60,7 +49,8 @@
     LIBRARIES = (
 	"gnustep-base",
 	"gnustep-gui",
-	WebServices
+	WebServices,
+	DataBasinKit
     );
     LINKEROPTIONS = "";
     "LOCALIZED_RESOURCES" = (
@@ -86,15 +76,17 @@
     "PROJECT_GROUP" = "No group avaliable!";
     "PROJECT_MAINTAINER" = "Riccardo Mottola,,,";
     "PROJECT_NAME" = DataBasin;
-    "PROJECT_RELEASE" = "0.7";
+    "PROJECT_RELEASE" = "0.8b1";
     "PROJECT_SUMMARY" = "No summary avaliable!";
     "PROJECT_TYPE" = Application;
     "PROJECT_URL" = "http://gap.nongnu.org/DataBasin/";
     "SEARCH_HEADER_DIRS" = (
-	"$(GNUSTEP_LOCAL_ROOT)/Library/Headers/WebServices"
+	"$(GNUSTEP_LOCAL_ROOT)/Library/Headers/WebServices",
+	"$(GNUSTEP_LOCAL_ROOT)/Library/Headers/DataBasinKit"
     );
     "SEARCH_LIB_DIRS" = (
-	"/usr/GNUstep/Local/Library/Libraries"
+	"/usr/GNUstep/Local/Library/Libraries",
+	"/Local/Library/Frameworks/DataBasinKit.framework"
     );
     SUBPROJECTS = (
     );

@@ -1,7 +1,7 @@
 /*
  Project: DataBasin
  
- Copyright (C) 2010-2012 Free Software Foundation
+ Copyright (C) 2010-2014 Free Software Foundation
  
  Author: Riccardo Mottola
  
@@ -26,7 +26,7 @@
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
 
-#import "DBSoap.h"
+#import <DBSoap.h>
 
 #define COLID_LABEL    @"Label"
 #define COLID_DEVNAME  @"DevName"

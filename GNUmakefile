@@ -13,7 +13,7 @@ include $(GNUSTEP_MAKEFILES)/common.make
 #
 # Application
 #
-VERSION = 0.7
+VERSION = 0.8b1
 PACKAGE_NAME = DataBasin
 APP_NAME = DataBasin
 DataBasin_APPLICATION_ICON = 
@@ -22,7 +22,7 @@ DataBasin_APPLICATION_ICON =
 #
 # Libraries
 #
-DataBasin_LIBRARIES_DEPEND_UPON += -lWebServices 
+DataBasin_LIBRARIES_DEPEND_UPON += -lWebServices -lDataBasinKit 
 
 #
 # Resource files
@@ -41,14 +41,8 @@ Resources/butt_red_16.tif
 #
 DataBasin_HEADER_FILES = \
 AppController.h \
-DBSoap.h \
-DBCVSWriter.h \
-DBCVSReader.h \
-DBSObject.h \
 DBObjectInspector.h \
-DBSoapCSV.h \
 DBLogger.h \
-DBProgressProtocol.h \
 DBProgress.h \
 Preferences.h
 
@@ -57,12 +51,7 @@ Preferences.h
 #
 DataBasin_OBJC_FILES = \
 AppController.m \
-DBSoap.m \
-DBCVSWriter.m \
-DBCVSReader.m \
-DBSObject.m \
 DBObjectInspector.m \
-DBSoapCSV.m \
 DBLogger.m \
 DBProgress.m \
 Preferences.m

@@ -1,7 +1,7 @@
 /*
    Project: DataBasin
 
-   Copyright (C) 2012 Free Software Foundation
+   Copyright (C) 2012-2014 Free Software Foundation
 
    Author: Riccardo Mottola
 
@@ -26,15 +26,10 @@
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
 
+#import <DBLoggerProtocol.h>
 
-typedef enum
-{
-  LogStandard = 1,
-  LogInformative = 2,
-  LogDebug = 3
-} DBLogLevel;
 
-@interface DBLogger : NSObject
+@interface DBLogger : NSObject<DBLoggerProtocol>
 {
   IBOutlet NSWindow   *logWin;
   IBOutlet NSTextView *logView;
@@ -42,9 +37,8 @@ typedef enum
   DBLogLevel logLevel;
 }
 
--(void)setLogLevel: (DBLogLevel)l;
+
 -(IBAction)show:(id)sender;
--(void)log: (DBLogLevel)level :(NSString* )format, ...;
 -(IBAction)clean:(id)sender;
 
 @end

@@ -25,7 +25,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "DBProgressProtocol.h"
+#import <DataBasinKit/DBProgressProtocol.h>
 
 @class NSProgressIndicator;
 @class NSTextField;

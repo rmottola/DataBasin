@@ -1,7 +1,7 @@
 /*
  Project: DataBasin
  
- Copyright (C) 2010-2013 Free Software Foundation
+ Copyright (C) 2010-2014 Free Software Foundation
  
  Author: Riccardo Mottola
  
@@ -24,7 +24,7 @@
 
 
 #import "DBObjectInspector.h"
-#import "DBSObject.h"
+#import <DataBasinKit/DBSObject.h>
 
 
 @implementation DBObjectInspector

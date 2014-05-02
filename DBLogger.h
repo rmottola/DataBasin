@@ -26,7 +26,7 @@
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
 
-#import <DBLoggerProtocol.h>
+#import <DataBasinKit/DBLoggerProtocol.h>
 
 
 @interface DBLogger : NSObject<DBLoggerProtocol>

@@ -26,7 +26,7 @@
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
 
-#import <DBSoap.h>
+#import <DataBasinKit/DBSoap.h>
 
 #define COLID_LABEL    @"Label"
 #define COLID_DEVNAME  @"DevName"

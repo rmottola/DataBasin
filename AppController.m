@@ -25,10 +25,10 @@
 */
 
 #import "AppController.h"
-#import "DBSoap.h"
-#import "DBSoapCSV.h"
-#import "DBCSVWriter.h"
-#import "DBCSVReader.h"
+#import <DataBasinKit/DBSoap.h>
+#import <DataBasinKit/DBSoapCSV.h>
+#import <DataBasinKit/DBCSVWriter.h>
+#import <DataBasinKit/DBCSVReader.h>
 #import "DBLogger.h"
 #import "DBProgress.h"
 #import "Preferences.h"

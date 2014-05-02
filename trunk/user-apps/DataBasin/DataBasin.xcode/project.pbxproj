@@ -7,15 +7,12 @@
 	objects = {
 		080E96DDFE201D6D7F000001 = {
 			children = (
-				858A152A12BA9599001783B6,
-				85ACAA8C0FF4292200CB151F,
-				85ACAA8D0FF4292200CB151F,
+				85E5B8141642A5CD0085EDD5,
+				85E5B8151642A5CD0085EDD5,
 				85E5B8121642A5CD0085EDD5,
 				85E5B8131642A5CD0085EDD5,
 				858D8E640F1EA3BD00CC8F4A,
 				858D8E650F1EA3BD00CC8F4A,
-				858D8E660F1EA3BD00CC8F4A,
-				858D8E670F1EA3BD00CC8F4A,
 				85E16E861301FBEE00D5F374,
 				85E16E871301FBEE00D5F374,
 			);
@@ -71,7 +68,7 @@
 		};
 		1058C7A2FEA54F0111CA2CBB = {
 			children = (
-				85F6CF070F223D8F00918601,
+				850A49841913209500B9303D,
 				29B97325FDCFA39411CA2CEA,
 				29B97324FDCFA39411CA2CEA,
 			);
@@ -158,6 +155,7 @@
 		};
 		29B97317FDCFA39411CA2CEA = {
 			children = (
+				850A49DE191322BB00B9303D,
 				85D0813B1642EE9600D18837,
 				8D1107310486CEB800E47090,
 				089C165CFE840E0CC02AAC07,
@@ -256,50 +254,43 @@
 //852
 //853
 //854
-		858A152612BA9588001783B6 = {
-			fileEncoding = 30;
+		850A49841913209500B9303D = {
 			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = DBSObject.h;
-			refType = 4;
-			sourceTree = "<group>";
+			lastKnownFileType = wrapper.framework;
+			name = DataBasinKit.framework;
+			path = /Library/Frameworks/DataBasinKit.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
 		};
-		858A152712BA9588001783B6 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = DBSObject.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		858A152812BA9588001783B6 = {
-			fileRef = 858A152612BA9588001783B6;
+		850A49851913209500B9303D = {
+			fileRef = 850A49841913209500B9303D;
 			isa = PBXBuildFile;
 			settings = {
 			};
 		};
-		858A152912BA9588001783B6 = {
-			fileRef = 858A152712BA9588001783B6;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		858A152A12BA9599001783B6 = {
+		850A49DE191322BB00B9303D = {
 			children = (
-				85E5B8141642A5CD0085EDD5,
-				85E5B8151642A5CD0085EDD5,
-				85E5B8161642A5CD0085EDD5,
-				85E5B8171642A5CD0085EDD5,
-				85E5B8181642A5CD0085EDD5,
-				858D8E680F1EA3BD00CC8F4A,
-				858D8E690F1EA3BD00CC8F4A,
-				858A152612BA9588001783B6,
-				858A152712BA9588001783B6,
+				850A49DF191322BB00B9303D,
 			);
-			isa = PBXGroup;
-			name = "DB Soap Core";
+			isa = PBXVariantGroup;
+			name = Preferences.nib;
+			path = "";
 			refType = 4;
 			sourceTree = "<group>";
+		};
+		850A49DF191322BB00B9303D = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = English;
+			path = English.lproj/Preferences.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		850A49E0191322BB00B9303D = {
+			fileRef = 850A49DE191322BB00B9303D;
+			isa = PBXBuildFile;
+			settings = {
+			};
 		};
 		858D8E640F1EA3BD00CC8F4A = {
 			fileEncoding = 30;
@@ -317,38 +308,6 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		858D8E660F1EA3BD00CC8F4A = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = DBCVSWriter.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		858D8E670F1EA3BD00CC8F4A = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = DBCVSWriter.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		858D8E680F1EA3BD00CC8F4A = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = DBSoap.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		858D8E690F1EA3BD00CC8F4A = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = DBSoap.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
 		858D8E6A0F1EA3BD00CC8F4A = {
 			fileRef = 858D8E640F1EA3BD00CC8F4A;
 			isa = PBXBuildFile;
@@ -357,58 +316,6 @@
 		};
 		858D8E6B0F1EA3BD00CC8F4A = {
 			fileRef = 858D8E650F1EA3BD00CC8F4A;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		858D8E6C0F1EA3BD00CC8F4A = {
-			fileRef = 858D8E660F1EA3BD00CC8F4A;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		858D8E6D0F1EA3BD00CC8F4A = {
-			fileRef = 858D8E670F1EA3BD00CC8F4A;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		858D8E6E0F1EA3BD00CC8F4A = {
-			fileRef = 858D8E680F1EA3BD00CC8F4A;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		858D8E6F0F1EA3BD00CC8F4A = {
-			fileRef = 858D8E690F1EA3BD00CC8F4A;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		85ACAA8C0FF4292200CB151F = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = DBCVSReader.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		85ACAA8D0FF4292200CB151F = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = DBCVSReader.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		85ACAA8E0FF4292200CB151F = {
-			fileRef = 85ACAA8C0FF4292200CB151F;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		85ACAA8F0FF4292200CB151F = {
-			fileRef = 85ACAA8D0FF4292200CB151F;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -521,30 +428,6 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		85E5B8161642A5CD0085EDD5 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = DBProgressProtocol.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		85E5B8171642A5CD0085EDD5 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = DBSoapCSV.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		85E5B8181642A5CD0085EDD5 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = DBSoapCSV.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
 		85E5B8191642A5CD0085EDD5 = {
 			fileRef = 85E5B8121642A5CD0085EDD5;
 			isa = PBXBuildFile;
@@ -569,38 +452,6 @@
 			settings = {
 			};
 		};
-		85E5B81D1642A5CD0085EDD5 = {
-			fileRef = 85E5B8161642A5CD0085EDD5;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		85E5B81E1642A5CD0085EDD5 = {
-			fileRef = 85E5B8171642A5CD0085EDD5;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		85E5B81F1642A5CD0085EDD5 = {
-			fileRef = 85E5B8181642A5CD0085EDD5;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		85F6CF070F223D8F00918601 = {
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.framework;
-			name = WebServices.framework;
-			path = /Library/Frameworks/WebServices.framework;
-			refType = 0;
-			sourceTree = "<absolute>";
-		};
-		85F6CF080F223D8F00918601 = {
-			fileRef = 85F6CF070F223D8F00918601;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 //850
 //851
 //852
@@ -620,6 +471,7 @@
 			buildRules = (
 			);
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = "/Users/multix/Documents/code/gap/user-apps/DataBasin";
 				GCC_ENABLE_CPP_EXCEPTIONS = NO;
 				GCC_ENABLE_CPP_RTTI = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
@@ -646,17 +498,12 @@
 				8D11072A0486CEB800E47090,
 				8D11072B0486CEB800E47090,
 				858D8E6A0F1EA3BD00CC8F4A,
-				858D8E6C0F1EA3BD00CC8F4A,
-				858D8E6E0F1EA3BD00CC8F4A,
-				85ACAA8E0FF4292200CB151F,
-				858A152812BA9588001783B6,
 				85E16E8A1301FBEE00D5F374,
 				85E16E901301FC0C00D5F374,
 				85E5B8191642A5CD0085EDD5,
 				85E5B81B1642A5CD0085EDD5,
-				85E5B81D1642A5CD0085EDD5,
-				85E5B81E1642A5CD0085EDD5,
 				85D0813D1642EE9600D18837,
+				850A49E0191322BB00B9303D,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -678,14 +525,9 @@
 			files = (
 				8D11072D0486CEB800E47090,
 				858D8E6B0F1EA3BD00CC8F4A,
-				858D8E6D0F1EA3BD00CC8F4A,
-				858D8E6F0F1EA3BD00CC8F4A,
-				85ACAA8F0FF4292200CB151F,
-				858A152912BA9588001783B6,
 				85E16E8B1301FBEE00D5F374,
 				85E5B81A1642A5CD0085EDD5,
 				85E5B81C1642A5CD0085EDD5,
-				85E5B81F1642A5CD0085EDD5,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -702,7 +544,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D11072F0486CEB800E47090,
-				85F6CF080F223D8F00918601,
+				850A49851913209500B9303D,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

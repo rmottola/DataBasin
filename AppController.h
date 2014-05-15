@@ -1,7 +1,7 @@
 /* -*- mode: objc -*-
    Project: DataBasin
 
-   Copyright (C) 2008-2013 Free Software Foundation
+   Copyright (C) 2008-2014 Free Software Foundation
 
    Author: Riccardo Mottola
 
@@ -78,6 +78,7 @@
   IBOutlet NSButton      *queryAllSelect;
   IBOutlet NSProgressIndicator *progIndSelect;
   IBOutlet NSTextField   *fieldRTSelect;
+  IBOutlet NSButton      *orderedWritingSelect;
 
   /* query identify */
   IBOutlet NSWindow      *winSelectIdentify;
@@ -88,6 +89,7 @@
   IBOutlet NSPopUpButton *popupBatchSizeIdentify;
   IBOutlet NSProgressIndicator *progIndSelectIdent;
   IBOutlet NSTextField   *fieldRTSelectIdent;
+  IBOutlet NSButton      *orderedWritingSelectIdent;
   
   /* insert */
   IBOutlet NSWindow      *winInsert;

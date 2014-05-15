@@ -1,7 +1,7 @@
 /* 
    Project: DataBasin
 
-   Copyright (C) 2008-2013 Free Software Foundation
+   Copyright (C) 2008-2014 Free Software Foundation
 
    Author: Riccardo Mottola
 
@@ -405,6 +405,7 @@
   [progress reset];
   CSVWriter = [[DBCSVWriter alloc] initWithHandle:fileHandle];
   [CSVWriter setLogger:logger];
+  [CSVWriter setWriteFieldsOrdered:([orderedWritingSelect state] == NSOnState)];
 
   NS_DURING
     [dbCsv query :statement queryAll:([queryAllSelect state] == NSOnState) toWriter:CSVWriter progressMonitor:progress];
@@ -521,7 +522,7 @@
       [resWriter setLogger:logger];
       [resWriter setStringEncoding: [[defaults valueForKey: @"StringEncoding"] intValue]];
       
-      [resWriter setFieldNames:[results objectAtIndex: 0] andWriteIt:YES];
+      [resWriter setFieldNames:[results objectAtIndex: 0] andWriteThem:YES];
       [resWriter writeDataSet: results];
       
       [resWriter release];
@@ -631,7 +632,7 @@
       [resWriter setLogger:logger];
       [resWriter setStringEncoding: [[defaults valueForKey: @"StringEncoding"] intValue]];
       
-      [resWriter setFieldNames:[results objectAtIndex: 0] andWriteIt:YES];
+      [resWriter setFieldNames:[results objectAtIndex: 0] andWriteThem:YES];
       [resWriter writeDataSet: results];
       
       [resWriter release];
@@ -738,6 +739,8 @@
 
   CSVWriter = [[DBCSVWriter alloc] initWithHandle:fileHandleOut];
   [CSVWriter setLogger:logger];
+[CSVWriter setWriteFieldsOrdered:([orderedWritingSelectIdent state] == NSOnState)];
+
   progress = [[DBProgress alloc] init];
   [progress setLogger:logger];
   [progress setProgressIndicator: progIndSelectIdent];
@@ -981,7 +984,7 @@
       [resWriter setLogger:logger];
       [resWriter setStringEncoding: [[defaults valueForKey: @"StringEncoding"] intValue]];
       
-      [resWriter setFieldNames:[results objectAtIndex: 0] andWriteIt:YES];
+      [resWriter setFieldNames:[results objectAtIndex: 0] andWriteThem:YES];
       [resWriter writeDataSet: results];
       
       [resWriter release];

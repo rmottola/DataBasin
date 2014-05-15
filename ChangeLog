@@ -1,3 +1,10 @@
+2014-05-15 Riccardo Mottola <rm@gnu.org>
+
+	* AppController.h
+	* AppController.m
+	* Resources/DataBasin.gorm
+	Update to latest API, allow setting of ordered writing for queries.
+
 2014-05-01 Riccardo Mottola <rm@gnu.org>
 
 	* DBObjectInspector.h

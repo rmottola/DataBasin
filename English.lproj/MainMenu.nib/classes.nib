@@ -70,6 +70,8 @@
                 fieldUserName = NSTextField; 
                 fieldUserNameInsp = NSTextField; 
                 loginStatus = NSImageView; 
+                orderedWritingSelect = NSButton; 
+                orderedWritingSelectIdent = NSButton; 
                 popupBatchSizeIdentify = NSPopUpButton; 
                 popupEnvironment = NSPopUpButton; 
                 popupObjectsDescribe = NSPopUpButton; 

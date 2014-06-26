@@ -1,3 +1,8 @@
+2014-06-26 Riccardo Mottola <rm@gnu.org>
+
+	* AppController.m
+	If there are no results, don't attempt to write them.
+
 2014-05-15 Riccardo Mottola <rm@gnu.org>
 
 	* AppController.h

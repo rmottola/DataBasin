@@ -518,14 +518,21 @@
     }
   else
     {
-      resWriter = [[DBCSVWriter alloc] initWithHandle:resFH];
-      [resWriter setLogger:logger];
-      [resWriter setStringEncoding: [[defaults valueForKey: @"StringEncoding"] intValue]];
-      
-      [resWriter setFieldNames:[results objectAtIndex: 0] andWriteThem:YES];
-      [resWriter writeDataSet: results];
-      
-      [resWriter release];
+      if (results != nil && [results count] > 0)
+        {
+          resWriter = [[DBCSVWriter alloc] initWithHandle:resFH];
+          [resWriter setLogger:logger];
+          [resWriter setStringEncoding: [[defaults valueForKey: @"StringEncoding"] intValue]];
+          
+          [resWriter setFieldNames:[results objectAtIndex: 0] andWriteThem:YES];
+          [resWriter writeDataSet: results];
+          
+          [resWriter release];
+        }
+      else
+        {
+          [logger log:LogStandard :@"[AppController executeInsert] No Results"];
+        }
     }
 
   [reader release];
@@ -628,14 +635,21 @@
     }
   else
     {
-      resWriter = [[DBCSVWriter alloc] initWithHandle:resFH];
-      [resWriter setLogger:logger];
-      [resWriter setStringEncoding: [[defaults valueForKey: @"StringEncoding"] intValue]];
-      
-      [resWriter setFieldNames:[results objectAtIndex: 0] andWriteThem:YES];
-      [resWriter writeDataSet: results];
-      
-      [resWriter release];
+      if (results != nil && [results count] > 0)
+        {
+          resWriter = [[DBCSVWriter alloc] initWithHandle:resFH];
+          [resWriter setLogger:logger];
+          [resWriter setStringEncoding: [[defaults valueForKey: @"StringEncoding"] intValue]];
+          
+          [resWriter setFieldNames:[results objectAtIndex: 0] andWriteThem:YES];
+          [resWriter writeDataSet: results];
+          
+          [resWriter release];
+        }
+      else
+        {
+          [logger log:LogStandard :@"[AppController executeUpdate] No Results"];
+        }
     }
     
   [reader release];

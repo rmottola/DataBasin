@@ -8,7 +8,7 @@
     );
     Copyright = "Copyright (C) 2008-2014";
     CopyrightDescription = "Released under GPL";
-    FullVersionID = "0.8b1";
+    FullVersionID = "0.8b2";
     NSExecutable = DataBasin;
     NSMainNibFile = "DataBasin.gorm";
     NSPrincipalClass = NSApplication;

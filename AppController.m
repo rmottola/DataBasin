@@ -273,14 +273,14 @@
     
     /* user inspector fields */
     uInfo = [db userInfo];
-    [fieldOrgName setStringValue: [uInfo valueForKey:@"organizationName"]];
-    [fieldOrgId setStringValue: [uInfo valueForKey:@"organizationId"]];
-    [fieldUserNameInsp setStringValue: [uInfo valueForKey:@"userName"]];
-    [fieldUserFullName setStringValue: [uInfo valueForKey:@"userFullName"]];
-    [fieldUserEmail setStringValue: [uInfo valueForKey:@"userEmail"]];
-    [fieldUserId setStringValue: [uInfo valueForKey:@"userId"]];
-    [fieldProfileId setStringValue: [uInfo valueForKey:@"profileId"]];
-    [fieldRoleId setStringValue: [uInfo valueForKey:@"roleId"]];
+    [fieldOrgName setStringValue: [uInfo objectForKey:@"organizationName"]];
+    [fieldOrgId setStringValue: [uInfo objectForKey:@"organizationId"]];
+    [fieldUserNameInsp setStringValue: [uInfo objectForKey:@"userName"]];
+    [fieldUserFullName setStringValue: [uInfo objectForKey:@"userFullName"]];
+    [fieldUserEmail setStringValue: [uInfo objectForKey:@"userEmail"]];
+    [fieldUserId setStringValue: [uInfo objectForKey:@"userId"]];
+    [fieldProfileId setStringValue: [uInfo objectForKey:@"profileId"]];
+    [fieldRoleId setStringValue: [uInfo objectForKey:@"roleId"]];
 
   NS_HANDLER
     [logger log:LogStandard :@"Login failed\n"];

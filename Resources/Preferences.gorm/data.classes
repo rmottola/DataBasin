@@ -27,7 +27,12 @@
 	    popupLogLevel,
 	    viewConnection,
 	    buttPrefHttps,
-	    fieldUpBatchSize
+	    fieldUpBatchSize,
+	    viewCSV,
+	    fieldReadQualifier,
+	    fieldReadSeparator,
+	    fieldWriteQualifier,
+	    fieldWriteSeparator
 	);
 	Super = NSObject;
     };

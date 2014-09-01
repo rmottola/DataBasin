@@ -46,6 +46,13 @@
   IBOutlet NSView        *viewConnection;
   IBOutlet NSButton      *buttPrefHttps;
   IBOutlet NSTextField   *fieldUpBatchSize;
+
+  /* CSV */
+  IBOutlet NSView        *viewCSV;
+  IBOutlet NSTextField   *fieldReadQualifier;
+  IBOutlet NSTextField   *fieldReadSeparator;
+  IBOutlet NSTextField   *fieldWriteQualifier;
+  IBOutlet NSTextField   *fieldWriteSeparator;
 }
 
 - (void)setAppController:(id)controller;

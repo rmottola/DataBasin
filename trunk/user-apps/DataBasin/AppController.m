@@ -145,6 +145,8 @@
       if (size > 0)
 	[db setUpBatchSize:size];
     }
+
+  // FIXME here we should set the defaults of the CSV reader/writers
 }
 
 - (IBAction)showPrefPanel:(id)sender
@@ -375,13 +377,16 @@
 
 - (IBAction)executeSelect:(id)sender
 {
-  NSString      *statement;
-  NSString      *filePath;
-  NSFileHandle  *fileHandle;
-  NSFileManager *fileManager;
-  DBCSVWriter   *CSVWriter;
-  DBProgress    *progress;
+  NSString       *statement;
+  NSString       *filePath;
+  NSFileHandle   *fileHandle;
+  NSFileManager  *fileManager;
+  DBCSVWriter    *CSVWriter;
+  DBProgress     *progress;
+  NSString       *str;
+  NSUserDefaults *defaults;
   
+  defaults = [NSUserDefaults standardUserDefaults];
   statement = [fieldQuerySelect string];
   filePath = [fieldFileSelect stringValue];
   
@@ -406,7 +411,13 @@
   CSVWriter = [[DBCSVWriter alloc] initWithHandle:fileHandle];
   [CSVWriter setLogger:logger];
   [CSVWriter setWriteFieldsOrdered:([orderedWritingSelect state] == NSOnState)];
-
+  str = [defaults valueForKey:@"CSVWriteQualifier"];
+  if (str)
+    [CSVWriter setQualifier:str];
+  str = [defaults valueForKey:@"CSVWriteSeparator"];
+  if (str)
+    [CSVWriter setSeparator:str];
+  
   NS_DURING
     [dbCsv query :statement queryAll:([queryAllSelect state] == NSOnState) toWriter:CSVWriter progressMonitor:progress];
   NS_HANDLER
@@ -473,6 +484,7 @@
   NSFileHandle   *resFH;
   NSUserDefaults *defaults;
   DBCSVWriter    *resWriter;
+  NSString       *str;
   
   defaults = [NSUserDefaults standardUserDefaults];  
   filePath = [fieldFileInsert stringValue];
@@ -523,6 +535,13 @@
           resWriter = [[DBCSVWriter alloc] initWithHandle:resFH];
           [resWriter setLogger:logger];
           [resWriter setStringEncoding: [[defaults valueForKey: @"StringEncoding"] intValue]];
+          str = [defaults valueForKey:@"CSVWriteQualifier"];
+          if (str)
+            [resWriter setQualifier:str];
+          str = [defaults valueForKey:@"CSVWriteSeparator"];
+          if (str)
+            [resWriter setSeparator:str];
+          
           
           [resWriter setFieldNames:[results objectAtIndex: 0] andWriteThem:YES];
           [resWriter writeDataSet: results];
@@ -593,6 +612,7 @@
   NSFileHandle   *resFH;
   NSUserDefaults *defaults;
   DBCSVWriter    *resWriter;
+  NSString       *str;
 
   defaults = [NSUserDefaults standardUserDefaults];  
   filePath = [fieldFileUpdate stringValue];
@@ -640,6 +660,13 @@
           resWriter = [[DBCSVWriter alloc] initWithHandle:resFH];
           [resWriter setLogger:logger];
           [resWriter setStringEncoding: [[defaults valueForKey: @"StringEncoding"] intValue]];
+          str = [defaults valueForKey:@"CSVWriteQualifier"];
+          if (str)
+            [resWriter setQualifier:str];
+          str = [defaults valueForKey:@"CSVWriteSeparator"];
+          if (str)
+            [resWriter setSeparator:str];
+
           
           [resWriter setFieldNames:[results objectAtIndex: 0] andWriteThem:YES];
           [resWriter writeDataSet: results];
@@ -698,15 +725,17 @@
 
 - (IBAction)executeSelectIdentify:(id)sender
 {
-  NSString      *statement;
-  NSString      *filePathIn;
-  NSString      *filePathOut;
-  NSFileHandle  *fileHandleOut;
-  NSFileManager *fileManager;
-  DBCSVWriter   *CSVWriter;
-  DBCSVReader   *CSVReader;
-  DBProgress    *progress;
-  int           batchSize;
+  NSString       *statement;
+  NSString       *filePathIn;
+  NSString       *filePathOut;
+  NSFileHandle   *fileHandleOut;
+  NSFileManager  *fileManager;
+  DBCSVWriter    *CSVWriter;
+  DBCSVReader    *CSVReader;
+  DBProgress     *progress;
+  int            batchSize;
+  NSString       *str;
+  NSUserDefaults *defaults;
   
   statement = [fieldQuerySelectIdentify string];
   filePathIn = [fieldFileSelectIdentifyIn stringValue];
@@ -753,7 +782,13 @@
 
   CSVWriter = [[DBCSVWriter alloc] initWithHandle:fileHandleOut];
   [CSVWriter setLogger:logger];
-[CSVWriter setWriteFieldsOrdered:([orderedWritingSelectIdent state] == NSOnState)];
+  [CSVWriter setWriteFieldsOrdered:([orderedWritingSelectIdent state] == NSOnState)];
+  str = [defaults valueForKey:@"CSVWriteQualifier"];
+  if (str)
+    [CSVWriter setQualifier:str];
+  str = [defaults valueForKey:@"CSVWriteSeparator"];
+  if (str)
+    [CSVWriter setSeparator:str];
 
   progress = [[DBProgress alloc] init];
   [progress setLogger:logger];
@@ -809,12 +844,13 @@
 
 - (IBAction)executeDescribe:(id)sender
 {
-  NSString      *filePath;
-  DBCSVWriter   *writer;
-  NSString      *whichObject;
-  NSFileManager *fileManager;
-  NSFileHandle  *fileHandle;
+  NSString       *filePath;
+  DBCSVWriter    *writer;
+  NSString       *whichObject;
+  NSFileManager  *fileManager;
+  NSFileHandle   *fileHandle;
   NSUserDefaults *defaults;
+  NSString       *str;
 
   defaults = [NSUserDefaults standardUserDefaults];
     
@@ -837,6 +873,12 @@
   writer = [[DBCSVWriter alloc] initWithHandle:fileHandle];
   [writer setLogger:logger];
   [writer setStringEncoding: [[defaults valueForKey: @"StringEncoding"] intValue]];
+  str = [defaults valueForKey:@"CSVWriteQualifier"];
+  if (str)
+    [writer setQualifier:str];
+  str = [defaults valueForKey:@"CSVWriteSeparator"];
+  if (str)
+    [writer setSeparator:str];
   
   whichObject = [[[popupObjectsDescribe selectedItem] title] retain];
   NSLog(@"object: %@", whichObject);
@@ -954,6 +996,7 @@
   NSFileHandle   *resFH;
   NSUserDefaults *defaults;
   DBProgress     *progress;
+  NSString       *str;
 
   defaults = [NSUserDefaults standardUserDefaults];  
   filePath = [fieldFileDelete stringValue];
@@ -997,6 +1040,12 @@
       resWriter = [[DBCSVWriter alloc] initWithHandle:resFH];
       [resWriter setLogger:logger];
       [resWriter setStringEncoding: [[defaults valueForKey: @"StringEncoding"] intValue]];
+      str = [defaults valueForKey:@"CSVWriteQualifier"];
+      if (str)
+        [resWriter setQualifier:str];
+      str = [defaults valueForKey:@"CSVWriteSeparator"];
+      if (str)
+        [resWriter setSeparator:str];
       
       [resWriter setFieldNames:[results objectAtIndex: 0] andWriteThem:YES];
       [resWriter writeDataSet: results];

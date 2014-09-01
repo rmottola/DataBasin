@@ -1,7 +1,7 @@
 /*
   Project: DataBasin
 
-  Copyright (C) 2013 Free Software Foundation
+  Copyright (C) 2013-2014 Free Software Foundation
   
   Author: Riccardo Mottola
   
@@ -58,7 +58,7 @@
 #endif
   
   bCell = [[NSButtonCell alloc] init];
-  buttonMatrix = [[NSMatrix alloc] initWithFrame:NSZeroRect mode:NSRadioModeMatrix prototype:bCell numberOfRows:1 numberOfColumns:2];
+  buttonMatrix = [[NSMatrix alloc] initWithFrame:NSZeroRect mode:NSRadioModeMatrix prototype:bCell numberOfRows:1 numberOfColumns:3];
   [buttonMatrix setTarget: self];
   [buttonMatrix setAction:@selector(changePrefView:)];
   [buttonMatrix setAllowsEmptySelection:NO];
@@ -73,6 +73,10 @@
   bCell = [buttonMatrix cellAtRow:0 column:1];
   [bCell setTitle:@"Connection"];
   [bCell setTag: 1];
+
+  bCell = [buttonMatrix cellAtRow:0 column:2];
+  [bCell setTitle:@"CSV"];
+  [bCell setTag: 2];
 
   [buttonMatrix sizeToCells];
   
@@ -133,6 +137,19 @@
       [fieldUpBatchSize setIntValue:upBatchSize];
     }
 
+  value = [defaults valueForKey:@"CSVReadQualifier"];
+  if (value)
+    [fieldReadQualifier setStringValue:value];
+  value = [defaults valueForKey:@"CSVReadSeparator"];
+  if (value)
+    [fieldReadSeparator setStringValue:value];
+  value = [defaults valueForKey:@"CSVWriteQualifier"];
+  if (value)
+    [fieldWriteQualifier setStringValue:value];
+  value = [defaults valueForKey:@"CSVWriteSeparator"];
+  if (value)
+    [fieldWriteSeparator setStringValue:value];
+
   [buttonMatrix selectCellAtRow:0 column:0];
   [buttonMatrix sendAction];
   [prefPanel makeKeyAndOrderFront:self];
@@ -149,6 +166,7 @@
   DBLogLevel selectedLogLevel;
   NSUserDefaults *defaults;
   int upBatchSize;
+  NSString *s;
 
   defaults = [NSUserDefaults standardUserDefaults];
   
@@ -187,6 +205,51 @@
   if (upBatchSize > 0)
     [defaults setObject:[NSNumber numberWithInt:upBatchSize] forKey:@"UpBatchSize"];
 
+
+  s = [fieldReadQualifier stringValue];
+  if (s && [s length] == 1)
+    {
+      [defaults setObject:s forKey:@"CSVReadQualifier"];
+    }
+  else
+    {
+      // FIXME should return warning
+      return;
+    }
+
+  s = [fieldReadSeparator stringValue];
+  if (s && [s length] == 1)
+    {
+      [defaults setObject:s forKey:@"CSVReadSeparator"];
+    }
+  else
+    {
+      // FIXME should return warning
+      return;
+    }
+
+  s = [fieldWriteQualifier stringValue];
+  if (s && [s length] == 1)
+    {
+      [defaults setObject:s forKey:@"CSVWriteQualifier"];
+    }
+  else
+    {
+      // FIXME should return warning
+      return;
+    }
+
+  s = [fieldWriteSeparator stringValue];
+  if (s && [s length] == 1)
+    {
+      [defaults setObject:s forKey:@"CSVWriteSeparator"];
+    }
+  else
+    {
+      // FIXME should return warning
+      return;
+    }
+
   [prefPanel performClose: nil];
 
   [appController reloadDefaults];
@@ -209,6 +272,8 @@
           case 0: view = viewApplication;
             break;
           case 1: view = viewConnection;
+            break;
+          case 2: view = viewCSV;
             break;
         }
     }

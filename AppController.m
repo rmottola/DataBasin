@@ -381,7 +381,7 @@
   NSString       *filePath;
   NSFileHandle   *fileHandle;
   NSFileManager  *fileManager;
-  DBCSVWriter    *CSVWriter;
+  DBCSVWriter    *csvWriter;
   DBProgress     *progress;
   NSString       *str;
   NSUserDefaults *defaults;
@@ -408,18 +408,18 @@
   [progress setRemainingTimeField: fieldRTSelect];
   [progress setLogger:logger];
   [progress reset];
-  CSVWriter = [[DBCSVWriter alloc] initWithHandle:fileHandle];
-  [CSVWriter setLogger:logger];
-  [CSVWriter setWriteFieldsOrdered:([orderedWritingSelect state] == NSOnState)];
+  csvWriter = [[DBCSVWriter alloc] initWithHandle:fileHandle];
+  [csvWriter setLogger:logger];
+  [csvWriter setWriteFieldsOrdered:([orderedWritingSelect state] == NSOnState)];
   str = [defaults valueForKey:@"CSVWriteQualifier"];
   if (str)
-    [CSVWriter setQualifier:str];
+    [csvWriter setQualifier:str];
   str = [defaults valueForKey:@"CSVWriteSeparator"];
   if (str)
-    [CSVWriter setSeparator:str];
+    [csvWriter setSeparator:str];
   
   NS_DURING
-    [dbCsv query :statement queryAll:([queryAllSelect state] == NSOnState) toWriter:CSVWriter progressMonitor:progress];
+    [dbCsv query :statement queryAll:([queryAllSelect state] == NSOnState) toWriter:csvWriter progressMonitor:progress];
   NS_HANDLER
     if ([[localException name] hasPrefix:@"DB"])
       {
@@ -427,7 +427,7 @@
         [faultPanel makeKeyAndOrderFront:nil];
       }
   NS_ENDHANDLER
-  [CSVWriter release];
+  [csvWriter release];
   [fileHandle closeFile];
   [progress release];
 }
@@ -730,8 +730,8 @@
   NSString       *filePathOut;
   NSFileHandle   *fileHandleOut;
   NSFileManager  *fileManager;
-  DBCSVWriter    *CSVWriter;
-  DBCSVReader    *CSVReader;
+  DBCSVWriter    *csvWriter;
+  DBCSVReader    *csvReader;
   DBProgress     *progress;
   int            batchSize;
   NSString       *str;
@@ -763,12 +763,12 @@
   
   fileManager = [NSFileManager defaultManager];
 
-  CSVReader = [[DBCSVReader alloc] initWithPath:filePathIn withLogger:logger];
+  csvReader = [[DBCSVReader alloc] initWithPath:filePathIn withLogger:logger];
 
   if ([fileManager createFileAtPath:filePathOut contents:nil attributes:nil] == NO)
     {
       NSRunAlertPanel(@"Attention", @"Could not create File.", @"Ok", nil, nil);
-      [CSVReader release];
+      [csvReader release];
       return;
     }  
 
@@ -776,19 +776,19 @@
   if (fileHandleOut == nil)
     {
       NSRunAlertPanel(@"Attention", @"Cannot create File.", @"Ok", nil, nil);
-      [CSVReader release];
+      [csvReader release];
       return;
     }
 
-  CSVWriter = [[DBCSVWriter alloc] initWithHandle:fileHandleOut];
-  [CSVWriter setLogger:logger];
-  [CSVWriter setWriteFieldsOrdered:([orderedWritingSelectIdent state] == NSOnState)];
+  csvWriter = [[DBCSVWriter alloc] initWithHandle:fileHandleOut];
+  [csvWriter setLogger:logger];
+  [csvWriter setWriteFieldsOrdered:([orderedWritingSelectIdent state] == NSOnState)];
   str = [defaults valueForKey:@"CSVWriteQualifier"];
   if (str)
-    [CSVWriter setQualifier:str];
+    [csvWriter setQualifier:str];
   str = [defaults valueForKey:@"CSVWriteSeparator"];
   if (str)
-    [CSVWriter setSeparator:str];
+    [csvWriter setSeparator:str];
 
   progress = [[DBProgress alloc] init];
   [progress setLogger:logger];
@@ -797,7 +797,7 @@
   [progress reset];
 
   NS_DURING
-    [dbCsv queryIdentify :statement queryAll:([queryAllSelectIdentify state] == NSOnState) fromReader:CSVReader toWriter:CSVWriter withBatchSize:batchSize progressMonitor:progress];
+    [dbCsv queryIdentify :statement queryAll:([queryAllSelectIdentify state] == NSOnState) fromReader:csvReader toWriter:csvWriter withBatchSize:batchSize progressMonitor:progress];
   NS_HANDLER
     if ([[localException name] hasPrefix:@"DB"])
       {
@@ -806,8 +806,8 @@
       }
   NS_ENDHANDLER
 
-  [CSVReader release];
-  [CSVWriter release];
+  [csvReader release];
+  [csvWriter release];
   [fileHandleOut closeFile];
   
   [progress release];

@@ -91,7 +91,7 @@
   defaults = [NSUserDefaults standardUserDefaults];
   
   index = 0;
-  switch([[defaults valueForKey: @"StringEncoding"] intValue])
+  switch([defaults integerForKey: @"StringEncoding"])
     {
       case NSUTF8StringEncoding:
         index = 0;
@@ -108,10 +108,10 @@
     }
   [popupStrEncoding selectItemAtIndex: index];
 
-  [buttPrefHttps setState: [[defaults valueForKey: @"UseHttps"] intValue]];
+  [buttPrefHttps setState: [defaults integerForKey: @"UseHttps"]];
 
   index = 0;
-  switch([[defaults valueForKey: @"LogLevel"] intValue])
+  switch([defaults integerForKey: @"LogLevel"])
     {
       case LogStandard:
         index = 0;
@@ -128,7 +128,7 @@
     }
   [popupLogLevel selectItemAtIndex: index];
 
-  value = [defaults valueForKey:@"UpBatchSize"];
+  value = [defaults stringForKey:@"UpBatchSize"];
   if (value)
     {
       int upBatchSize;
@@ -137,16 +137,16 @@
       [fieldUpBatchSize setIntValue:upBatchSize];
     }
 
-  value = [defaults valueForKey:@"CSVReadQualifier"];
+  value = [defaults stringForKey:@"CSVReadQualifier"];
   if (value)
     [fieldReadQualifier setStringValue:value];
-  value = [defaults valueForKey:@"CSVReadSeparator"];
+  value = [defaults stringForKey:@"CSVReadSeparator"];
   if (value)
     [fieldReadSeparator setStringValue:value];
-  value = [defaults valueForKey:@"CSVWriteQualifier"];
+  value = [defaults stringForKey:@"CSVWriteQualifier"];
   if (value)
     [fieldWriteQualifier setStringValue:value];
-  value = [defaults valueForKey:@"CSVWriteSeparator"];
+  value = [defaults stringForKey:@"CSVWriteSeparator"];
   if (value)
     [fieldWriteSeparator setStringValue:value];
 

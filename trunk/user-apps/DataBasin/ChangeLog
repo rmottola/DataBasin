@@ -1,6 +1,12 @@
 2014-09-02 Riccardo Mottola <rm@gnu.org>
 
 	* AppController.m
+	* Preferences.m
+	Use correct Defaults methods and not valueForKey
+
+2014-09-02 Riccardo Mottola <rm@gnu.org>
+
+	* AppController.m
 	Access dictionary in standard way.
 
 2014-09-01 Riccardo Mottola <rm@gnu.org>

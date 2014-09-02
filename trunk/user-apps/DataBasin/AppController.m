@@ -163,7 +163,7 @@
 
   /* Apply defaults */
   defaults = [NSUserDefaults standardUserDefaults];
-  [logger setLogLevel: [[defaults valueForKey: @"StringEncoding"] intValue]];
+  [logger setLogLevel: [defaults integerForKey: @"StringEncoding"]];
 }
 
 
@@ -411,10 +411,10 @@
   csvWriter = [[DBCSVWriter alloc] initWithHandle:fileHandle];
   [csvWriter setLogger:logger];
   [csvWriter setWriteFieldsOrdered:([orderedWritingSelect state] == NSOnState)];
-  str = [defaults valueForKey:@"CSVWriteQualifier"];
+  str = [defaults stringForKey:@"CSVWriteQualifier"];
   if (str)
     [csvWriter setQualifier:str];
-  str = [defaults valueForKey:@"CSVWriteSeparator"];
+  str = [defaults stringForKey:@"CSVWriteSeparator"];
   if (str)
     [csvWriter setSeparator:str];
   
@@ -534,11 +534,11 @@
         {
           resWriter = [[DBCSVWriter alloc] initWithHandle:resFH];
           [resWriter setLogger:logger];
-          [resWriter setStringEncoding: [[defaults valueForKey: @"StringEncoding"] intValue]];
-          str = [defaults valueForKey:@"CSVWriteQualifier"];
+          [resWriter setStringEncoding: [defaults integerForKey: @"StringEncoding"]];
+          str = [defaults stringForKey:@"CSVWriteQualifier"];
           if (str)
             [resWriter setQualifier:str];
-          str = [defaults valueForKey:@"CSVWriteSeparator"];
+          str = [defaults stringForKey:@"CSVWriteSeparator"];
           if (str)
             [resWriter setSeparator:str];
           
@@ -659,11 +659,11 @@
         {
           resWriter = [[DBCSVWriter alloc] initWithHandle:resFH];
           [resWriter setLogger:logger];
-          [resWriter setStringEncoding: [[defaults valueForKey: @"StringEncoding"] intValue]];
-          str = [defaults valueForKey:@"CSVWriteQualifier"];
+          [resWriter setStringEncoding: [defaults integerForKey: @"StringEncoding"]];
+          str = [defaults stringForKey:@"CSVWriteQualifier"];
           if (str)
             [resWriter setQualifier:str];
-          str = [defaults valueForKey:@"CSVWriteSeparator"];
+          str = [defaults stringForKey:@"CSVWriteSeparator"];
           if (str)
             [resWriter setSeparator:str];
 
@@ -736,7 +736,9 @@
   int            batchSize;
   NSString       *str;
   NSUserDefaults *defaults;
-  
+
+  defaults = [NSUserDefaults standardUserDefaults];
+
   statement = [fieldQuerySelectIdentify string];
   filePathIn = [fieldFileSelectIdentifyIn stringValue];
   filePathOut = [fieldFileSelectIdentifyOut stringValue];
@@ -783,10 +785,10 @@
   csvWriter = [[DBCSVWriter alloc] initWithHandle:fileHandleOut];
   [csvWriter setLogger:logger];
   [csvWriter setWriteFieldsOrdered:([orderedWritingSelectIdent state] == NSOnState)];
-  str = [defaults valueForKey:@"CSVWriteQualifier"];
+  str = [defaults stringForKey:@"CSVWriteQualifier"];
   if (str)
     [csvWriter setQualifier:str];
-  str = [defaults valueForKey:@"CSVWriteSeparator"];
+  str = [defaults stringForKey:@"CSVWriteSeparator"];
   if (str)
     [csvWriter setSeparator:str];
 
@@ -872,11 +874,11 @@
   
   writer = [[DBCSVWriter alloc] initWithHandle:fileHandle];
   [writer setLogger:logger];
-  [writer setStringEncoding: [[defaults valueForKey: @"StringEncoding"] intValue]];
-  str = [defaults valueForKey:@"CSVWriteQualifier"];
+  [writer setStringEncoding: [defaults integerForKey: @"StringEncoding"]];
+  str = [defaults stringForKey:@"CSVWriteQualifier"];
   if (str)
     [writer setQualifier:str];
-  str = [defaults valueForKey:@"CSVWriteSeparator"];
+  str = [defaults stringForKey:@"CSVWriteSeparator"];
   if (str)
     [writer setSeparator:str];
   
@@ -1039,11 +1041,11 @@
     {
       resWriter = [[DBCSVWriter alloc] initWithHandle:resFH];
       [resWriter setLogger:logger];
-      [resWriter setStringEncoding: [[defaults valueForKey: @"StringEncoding"] intValue]];
-      str = [defaults valueForKey:@"CSVWriteQualifier"];
+      [resWriter setStringEncoding: [defaults integerForKey: @"StringEncoding"]];
+      str = [defaults stringForKey:@"CSVWriteQualifier"];
       if (str)
         [resWriter setQualifier:str];
-      str = [defaults valueForKey:@"CSVWriteSeparator"];
+      str = [defaults stringForKey:@"CSVWriteSeparator"];
       if (str)
         [resWriter setSeparator:str];
       

@@ -505,6 +505,14 @@
   
   results = nil;
   reader = [[DBCSVReader alloc] initWithPath:filePath withLogger:logger];
+  str = [defaults stringForKey:@"CSVReadQualifier"];
+  if (str)
+    [reader setQualifier:str];
+  str = [defaults stringForKey:@"CSVReadSeparator"];
+  if (str)
+    [reader setSeparator:str];
+  [reader parseHeaders];
+
   NS_DURING
     results = [dbCsv create:intoWhichObject fromReader:reader progressMonitor:progress];
     [results retain];
@@ -631,6 +639,14 @@
   
   results = nil;
   reader = [[DBCSVReader alloc] initWithPath:filePath withLogger:logger];
+  str = [defaults stringForKey:@"CSVReadQualifier"];
+  if (str)
+    [reader setQualifier:str];
+  str = [defaults stringForKey:@"CSVReadSeparator"];
+  if (str)
+    [reader setSeparator:str];
+  [reader parseHeaders];
+
   NS_DURING
     results = [dbCsv update:whichObject fromReader:reader progressMonitor:progress];
     [results retain];
@@ -766,7 +782,13 @@
   fileManager = [NSFileManager defaultManager];
 
   csvReader = [[DBCSVReader alloc] initWithPath:filePathIn withLogger:logger];
-
+  str = [defaults stringForKey:@"CSVReadQualifier"];
+  if (str)
+    [csvReader setQualifier:str];
+  str = [defaults stringForKey:@"CSVReadSeparator"];
+  if (str)
+    [csvReader setSeparator:str];
+  [csvReader parseHeaders];
   if ([fileManager createFileAtPath:filePathOut contents:nil attributes:nil] == NO)
     {
       NSRunAlertPanel(@"Attention", @"Could not create File.", @"Ok", nil, nil);
@@ -1007,6 +1029,13 @@
   NSLog(@"writing results to: %@", resFilePath);
     
   reader = [[DBCSVReader alloc] initWithPath:filePath byParsingHeaders:([checkSkipFirstLine state]==NSOnState) withLogger:logger];
+  str = [defaults stringForKey:@"CSVReadQualifier"];
+  if (str)
+    [reader setQualifier:str];
+  str = [defaults stringForKey:@"CSVReadSeparator"];
+  if (str)
+    [reader setSeparator:str];
+  /* no need to reparse the headers since they are not used, just skipped */
 
   progress = [[DBProgress alloc] init];
   [progress setProgressIndicator: progIndDelete];

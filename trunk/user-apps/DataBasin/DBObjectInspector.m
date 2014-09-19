@@ -26,6 +26,7 @@
 #import "DBObjectInspector.h"
 #import <DataBasinKit/DBSObject.h>
 
+#import "DBTextFormatter.h"
 
 @implementation DBObjectInspector
 
@@ -53,6 +54,12 @@
 {
   NSTableColumn *col;
   NSCell *cell;
+  DBTextFormatter *tf;
+  
+  tf = [[DBTextFormatter alloc] init];
+  [tf setMaxLength:18];
+  [fieldObjId setFormatter:tf];
+  [tf release];
 
   col = [fieldTable tableColumnWithIdentifier:COLID_LABEL];
   cell = [col dataCell];

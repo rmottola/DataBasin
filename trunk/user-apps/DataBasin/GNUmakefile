@@ -44,7 +44,8 @@ AppController.h \
 DBObjectInspector.h \
 DBLogger.h \
 DBProgress.h \
-Preferences.h
+Preferences.h \
+DBTextFormatter.h
 
 #
 # Class files
@@ -54,7 +55,8 @@ AppController.m \
 DBObjectInspector.m \
 DBLogger.m \
 DBProgress.m \
-Preferences.m
+Preferences.m \
+DBTextFormatter.m
 
 #
 # Other sources

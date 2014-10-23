@@ -26,7 +26,6 @@
 	    popupStrEncoding,
 	    popupLogLevel,
 	    viewConnection,
-	    buttPrefHttps,
 	    fieldUpBatchSize,
 	    fieldDownBatchSize,
 	    viewCSV,

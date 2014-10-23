@@ -44,7 +44,6 @@
 
   /* Connection */
   IBOutlet NSView        *viewConnection;
-  IBOutlet NSButton      *buttPrefHttps;
   IBOutlet NSTextField   *fieldUpBatchSize;
   IBOutlet NSTextField   *fieldDownBatchSize;
 

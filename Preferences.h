@@ -1,7 +1,7 @@
 /* -*- mode: objc -*-
   Project: DataBasin
 
-  Copyright (C) 2013 Free Software Foundation
+  Copyright (C) 2013-2014 Free Software Foundation
 
   Author: Riccardo Mottola
 
@@ -46,6 +46,7 @@
   IBOutlet NSView        *viewConnection;
   IBOutlet NSButton      *buttPrefHttps;
   IBOutlet NSTextField   *fieldUpBatchSize;
+  IBOutlet NSTextField   *fieldDownBatchSize;
 
   /* CSV */
   IBOutlet NSView        *viewCSV;

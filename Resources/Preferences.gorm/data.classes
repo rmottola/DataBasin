@@ -28,6 +28,7 @@
 	    viewConnection,
 	    buttPrefHttps,
 	    fieldUpBatchSize,
+	    fieldDownBatchSize,
 	    viewCSV,
 	    fieldReadQualifier,
 	    fieldReadSeparator,

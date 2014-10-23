@@ -109,8 +109,6 @@
     }
   [popupStrEncoding selectItemAtIndex: index];
 
-  [buttPrefHttps setState: [defaults integerForKey: @"UseHttps"]];
-
   index = 0;
   switch([defaults integerForKey: @"LogLevel"])
     {
@@ -185,8 +183,6 @@
     }
     
   [defaults setObject:[NSNumber numberWithInt: selectedEncoding] forKey: @"StringEncoding"];
-
-  [defaults setObject:[NSNumber numberWithInt: [buttPrefHttps state]] forKey: @"UseHttps"];
 
   selectedLogLevel = LogStandard;
   switch([popupLogLevel indexOfSelectedItem])

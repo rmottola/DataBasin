@@ -3,6 +3,13 @@
 	* Preferences.h
 	* Preferences.m
 	* Resources/Preferences.gorm
+	Remove https preference, since it is now forced to YES always.
+
+2014-10-23 Riccardo Mottola <rm@gnu.org>
+
+	* Preferences.h
+	* Preferences.m
+	* Resources/Preferences.gorm
 	New Down Batch Size preference.
 
 	* AppController.m

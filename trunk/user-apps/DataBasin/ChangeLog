@@ -1,3 +1,13 @@
+2014-10-23 Riccardo Mottola <rm@gnu.org>
+
+	* Preferences.h
+	* Preferences.m
+	* Resources/Preferences.gorm
+	New Down Batch Size preference.
+
+	* AppController.m
+	Get login URLs from DataBasinKit (new methods) instead of hard-coding strings.
+
 2014-09-09 Riccardo Mottola <rm@gnu.org>
 
 	* AppController.m

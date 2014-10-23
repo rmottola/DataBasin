@@ -87,6 +87,7 @@
   NSUserDefaults *defaults;
   int index;
   id value;
+  int i;
 
   defaults = [NSUserDefaults standardUserDefaults];
   
@@ -128,14 +129,13 @@
     }
   [popupLogLevel selectItemAtIndex: index];
 
-  value = [defaults stringForKey:@"UpBatchSize"];
-  if (value)
-    {
-      int upBatchSize;
+  i = [defaults integerForKey:@"UpBatchSize"];
+  if (i > 0)
+    [fieldUpBatchSize setIntValue:i];
 
-      upBatchSize = [value intValue];
-      [fieldUpBatchSize setIntValue:upBatchSize];
-    }
+  i = [defaults integerForKey:@"DownBatchSize"];
+  if (i > 0)
+    [fieldDownBatchSize setIntValue:i];
 
   value = [defaults stringForKey:@"CSVReadQualifier"];
   if (value)
@@ -166,6 +166,7 @@
   DBLogLevel selectedLogLevel;
   NSUserDefaults *defaults;
   int upBatchSize;
+  int downBatchSize;
   NSString *s;
 
   defaults = [NSUserDefaults standardUserDefaults];
@@ -205,6 +206,9 @@
   if (upBatchSize > 0)
     [defaults setObject:[NSNumber numberWithInt:upBatchSize] forKey:@"UpBatchSize"];
 
+  downBatchSize = [fieldDownBatchSize intValue];
+  if (downBatchSize > 0)
+    [defaults setObject:[NSNumber numberWithInt:downBatchSize] forKey:@"DownBatchSize"];
 
   s = [fieldReadQualifier stringValue];
   if (s && [s length] == 1)

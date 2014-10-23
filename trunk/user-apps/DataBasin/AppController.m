@@ -123,6 +123,7 @@
 {
   NSUserDefaults *defaults;
   id obj;
+  int size;
   
   defaults = [NSUserDefaults standardUserDefaults];
   
@@ -135,15 +136,17 @@
     }
 
   [logger setLogLevel: [obj intValue]];
-
-  obj = [defaults objectForKey:@"UpBatchSize"];
-  if (obj)
+  
+  size = [defaults integerForKey:@"UpBatchSize"];
+  if (size > 0)
     {
-      int size;
+      [db setUpBatchSize:size];
+    }
 
-      size = [obj intValue];
-      if (size > 0)
-	[db setUpBatchSize:size];
+  size = [defaults integerForKey:@"DownBatchSize"];
+  if (size > 0)
+    {
+      [db setDownBatchSize:size];
     }
 
   // FIXME here we should set the defaults of the CSV reader/writers
@@ -222,25 +225,13 @@
   NSString *userName;
   NSString *password;
   NSString *token;
-  NSString *urlStr;
   NSURL    *url;
   NSDictionary *uInfo;
-  BOOL useHttps;
-  NSString *protocolString;
   NSMutableDictionary *loginSet;
   
   userName = [fieldUserName stringValue];
   password = [fieldPassword stringValue];
   token = [fieldToken stringValue];
-
-  useHttps = NO;
-  if ([[[NSUserDefaults standardUserDefaults] objectForKey: @"UseHttps"] intValue] == NSOnState)
-    useHttps = YES;
-
-  if (useHttps)
-    protocolString = @"https://";
-  else
-    protocolString = @"http://";
 
   /* if present, we append the security token to the password */
   if (token != nil)
@@ -251,17 +242,16 @@
   dbCsv = [[DBSoapCSV alloc] init];
   [dbCsv setDBSoap:db];
   
-  urlStr = nil;
+  url = nil;
   if ([popupEnvironment indexOfSelectedItem] == DB_ENVIRONMENT_PRODUCTION)
-    urlStr = [protocolString stringByAppendingString: @"www.salesforce.com/services/Soap/u/25.0"];
+    url = [DBSoap loginURLProduction];
   else if ([popupEnvironment indexOfSelectedItem] == DB_ENVIRONMENT_SANDBOX)
-    urlStr = [protocolString stringByAppendingString: @"test.salesforce.com/services/Soap/u/25.0"];
+    url = [DBSoap loginURLTest];
 
-  [logger log:LogStandard :@"[AppController doLogin] Url: %@\n", urlStr];  
-  url = [NSURL URLWithString:urlStr];
+  [logger log:LogStandard :@"[AppController doLogin] Url: %@\n", [url absoluteString]];  
   
   NS_DURING
-    [db login :url :userName :password :useHttps];
+    [db login :url :userName :password :YES];
     
     /* session inspector fields */
     [fieldSessionId setStringValue:[db sessionId]];

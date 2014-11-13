@@ -11,13 +11,18 @@
             CLASS = Preferences; 
             LANGUAGE = ObjC; 
             OUTLETS = {
-                buttPrefHttps = NSButton; 
+                fieldDownBatchSize = NSTextField; 
+                fieldReadQualifier = NSTextField; 
+                fieldReadSeparator = NSTextField; 
                 fieldUpBatchSize = NSTextField; 
+                fieldWriteQualifier = NSTextField; 
+                fieldWriteSeparator = NSTextField; 
                 matrixScrollView = NSScrollView; 
                 popupLogLevel = NSPopUpButton; 
                 popupStrEncoding = NSPopUpButton; 
                 prefPanel = NSPanel; 
                 viewApplication = NSView; 
+                viewCSV = NSView; 
                 viewConnection = NSView; 
                 viewPreferences = NSView; 
             }; 

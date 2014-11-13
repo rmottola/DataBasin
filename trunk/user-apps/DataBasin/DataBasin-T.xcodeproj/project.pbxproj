@@ -15,7 +15,6 @@
 		856B61AC1642934F00966572 /* DBProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = 856B61AA1642934F00966572 /* DBProgress.m */; };
 		858D8E6A0F1EA3BD00CC8F4A /* AppController.h in Resources */ = {isa = PBXBuildFile; fileRef = 858D8E640F1EA3BD00CC8F4A /* AppController.h */; };
 		858D8E6B0F1EA3BD00CC8F4A /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 858D8E650F1EA3BD00CC8F4A /* AppController.m */; };
-		8591FC3A1A1533BD00923420 /* DBTextFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 8591FC391A1533BD00923420 /* DBTextFormatter.m */; };
 		85A74F8E17419B41008D7E0B /* Preferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 85A74F8D17419B41008D7E0B /* Preferences.m */; };
 		85A74F9717419D47008D7E0B /* Preferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = 85A74F9517419D47008D7E0B /* Preferences.nib */; };
 		85D9E3AE15AB862C0021427F /* Log.nib in Resources */ = {isa = PBXBuildFile; fileRef = 85D9E3AC15AB862C0021427F /* Log.nib */; };
@@ -45,8 +44,6 @@
 		856B61AA1642934F00966572 /* DBProgress.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = DBProgress.m; sourceTree = "<group>"; };
 		858D8E640F1EA3BD00CC8F4A /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AppController.h; sourceTree = "<group>"; };
 		858D8E650F1EA3BD00CC8F4A /* AppController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = AppController.m; sourceTree = "<group>"; };
-		8591FC381A1533BD00923420 /* DBTextFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBTextFormatter.h; sourceTree = "<group>"; };
-		8591FC391A1533BD00923420 /* DBTextFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBTextFormatter.m; sourceTree = "<group>"; };
 		85A74F8C17419B41008D7E0B /* Preferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Preferences.h; sourceTree = "<group>"; };
 		85A74F8D17419B41008D7E0B /* Preferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Preferences.m; sourceTree = "<group>"; };
 		85A74F9617419D47008D7E0B /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/Preferences.nib; sourceTree = "<group>"; };
@@ -78,8 +75,6 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				8591FC381A1533BD00923420 /* DBTextFormatter.h */,
-				8591FC391A1533BD00923420 /* DBTextFormatter.m */,
 				856B61A91642934F00966572 /* DBProgress.h */,
 				856B61AA1642934F00966572 /* DBProgress.m */,
 				85D9E3B015AB8B960021427F /* DBLogger.h */,
@@ -194,18 +189,9 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 85D238C910B151E300F63353 /* Build configuration list for PBXProject "DataBasin" */;
-			compatibilityVersion = "Xcode 2.4";
-			developmentRegion = English;
 			hasScannedForEncodings = 1;
-			knownRegions = (
-				English,
-				Japanese,
-				French,
-				German,
-			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* DataBasin */;
 			projectDirPath = "";
-			projectRoot = "";
 			targets = (
 				8D1107260486CEB800E47090 /* DataBasin */,
 			);
@@ -243,7 +229,6 @@
 				85D9E3B215AB8B960021427F /* DBLogger.m in Sources */,
 				856B61AC1642934F00966572 /* DBProgress.m in Sources */,
 				85A74F8E17419B41008D7E0B /* Preferences.m in Sources */,
-				8591FC3A1A1533BD00923420 /* DBTextFormatter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -352,10 +337,6 @@
 		85D238CA10B151E300F63353 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
-				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
-				SYMROOT = "$(PROJECT_DIR)/build";
 			};
 			name = Development;
 		};

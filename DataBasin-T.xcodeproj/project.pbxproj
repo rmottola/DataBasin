@@ -13,6 +13,7 @@
 		8559BB59115B6B21002EA7DD /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8559BB58115B6B21002EA7DD /* README.txt */; };
 		855ABD961645065900FB8900 /* ChangeLog in Resources */ = {isa = PBXBuildFile; fileRef = 855ABD951645065900FB8900 /* ChangeLog */; };
 		856B61AC1642934F00966572 /* DBProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = 856B61AA1642934F00966572 /* DBProgress.m */; };
+		85764DDE1A15374400F4D3ED /* DBTextFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 85764DDD1A15374400F4D3ED /* DBTextFormatter.m */; };
 		858D8E6A0F1EA3BD00CC8F4A /* AppController.h in Resources */ = {isa = PBXBuildFile; fileRef = 858D8E640F1EA3BD00CC8F4A /* AppController.h */; };
 		858D8E6B0F1EA3BD00CC8F4A /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 858D8E650F1EA3BD00CC8F4A /* AppController.m */; };
 		85A74F8E17419B41008D7E0B /* Preferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 85A74F8D17419B41008D7E0B /* Preferences.m */; };
@@ -42,6 +43,8 @@
 		855ABD951645065900FB8900 /* ChangeLog */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = ChangeLog; sourceTree = "<group>"; };
 		856B61A91642934F00966572 /* DBProgress.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DBProgress.h; sourceTree = "<group>"; };
 		856B61AA1642934F00966572 /* DBProgress.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = DBProgress.m; sourceTree = "<group>"; };
+		85764DDC1A15374400F4D3ED /* DBTextFormatter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DBTextFormatter.h; sourceTree = "<group>"; };
+		85764DDD1A15374400F4D3ED /* DBTextFormatter.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = DBTextFormatter.m; sourceTree = "<group>"; };
 		858D8E640F1EA3BD00CC8F4A /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AppController.h; sourceTree = "<group>"; };
 		858D8E650F1EA3BD00CC8F4A /* AppController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = AppController.m; sourceTree = "<group>"; };
 		85A74F8C17419B41008D7E0B /* Preferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Preferences.h; sourceTree = "<group>"; };
@@ -75,6 +78,8 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				85764DDC1A15374400F4D3ED /* DBTextFormatter.h */,
+				85764DDD1A15374400F4D3ED /* DBTextFormatter.m */,
 				856B61A91642934F00966572 /* DBProgress.h */,
 				856B61AA1642934F00966572 /* DBProgress.m */,
 				85D9E3B015AB8B960021427F /* DBLogger.h */,
@@ -188,7 +193,7 @@
 /* Begin PBXProject section */
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
-			buildConfigurationList = 85D238C910B151E300F63353 /* Build configuration list for PBXProject "DataBasin" */;
+			buildConfigurationList = 85D238C910B151E300F63353 /* Build configuration list for PBXProject "DataBasin-T" */;
 			hasScannedForEncodings = 1;
 			mainGroup = 29B97314FDCFA39411CA2CEA /* DataBasin */;
 			projectDirPath = "";
@@ -229,6 +234,7 @@
 				85D9E3B215AB8B960021427F /* DBLogger.m in Sources */,
 				856B61AC1642934F00966572 /* DBProgress.m in Sources */,
 				85A74F8E17419B41008D7E0B /* Preferences.m in Sources */,
+				85764DDE1A15374400F4D3ED /* DBTextFormatter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -365,7 +371,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Default;
 		};
-		85D238C910B151E300F63353 /* Build configuration list for PBXProject "DataBasin" */ = {
+		85D238C910B151E300F63353 /* Build configuration list for PBXProject "DataBasin-T" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				85D238CA10B151E300F63353 /* Development */,

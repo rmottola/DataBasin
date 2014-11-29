@@ -6,32 +6,26 @@ Data Access Tool for Salesforce
 
 DBSoap: classes to interact with Salesforce
 
-Note: The Macintosh binaries are compiled for PowerPC. If you are on Intel and do not have Rosetta installed, you need to compile both the GSWS Framework and DataBasin natively.
 
-
-Current Version: 0.7
+Current Version: 0.8
 --------------------
 
 NEWS
 
-- Save results into results.csv file
-- Progress monitor shows time remaining
-- Progress monitor for Query, Delete, Insert
-- Select identify now supports ORDER BY
-- Internal core ehanced for Delete
-- Support "." as Semi-Join
-- Select Identify works now with multiple columns (all in AND as condition)
+- Query gets parsed and this allows to write fields in Query Order
+- Query parsing allows for fields to be empty and still prserve the correct number of columns in the CSV file
+- Download batch size settable
+- CVS qualifier and separator settable in both reading and writing
 - Suppport LIMIT clause in Select Identify
 - Improved Exception catching and display for Select Identify
 - Object Inspector supports selection of items
-- Log window with selectable log level
-- Progress and estimated completion time displayed in Log
-- internal API improvemnt
-- vast 64bit and portability improvements
-- Support count and aggretate queries
+s- Support count and aggregate queries
 
 
 Older news:
+- Select Identify works with multiple columns (all in AND as condition)
+- Progress monitor shows time remaining
+- Support "." as Semi-Join
 - Query Identify: run a select on each item in the list, the single column provided in the file will be used as identifier and it must point to an Id or a unique identifier
 - Http / Https login selection in the preferences
 - improved exception trapping and display

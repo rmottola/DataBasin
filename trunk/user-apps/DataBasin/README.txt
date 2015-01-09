@@ -13,13 +13,13 @@ Current Version: 0.8
 NEWS
 
 - Query gets parsed and this allows to write fields in Query Order
-- Query parsing allows for fields to be empty and still prserve the correct number of columns in the CSV file
+- Query parsing allows for fields to be empty and still preserve the correct number of columns in the CSV file
 - Download batch size settable
 - CVS qualifier and separator settable in both reading and writing
-- Suppport LIMIT clause in Select Identify
+- Support LIMIT clause in Select Identify
 - Improved Exception catching and display for Select Identify
 - Object Inspector supports selection of items
-s- Support count and aggregate queries
+- Support count and aggregate queries
 
 
 Older news:

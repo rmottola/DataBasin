@@ -94,7 +94,7 @@
   NSMutableArray *arrayDevNames;
   
   NSString *objId;
-  int i;
+  NSInteger i;
   
   objId = [fieldObjId stringValue];
   objDevName = [dbs identifyObjectById: objId];
@@ -123,7 +123,6 @@
       }
   NS_ENDHANDLER
 
-  NSLog(@"fields loaded...");
   [arrayRows release];
   arrayDevNames = [NSMutableArray arrayWithArray: [sObj fieldNames]];
   NSLog(@"field names are: %@", arrayDevNames);

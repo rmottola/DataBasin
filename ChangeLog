@@ -1,3 +1,12 @@
+2015-04-14 Riccardo Mottola <rm@gnu.org>
+
+	* DBProgress.h
+	* DBProgress.m
+	Implement stop mechanisms.
+
+	* DBLogger.m
+	Scroll text on the main thread.
+
 2014-10-23 Riccardo Mottola <rm@gnu.org>
 
 	* Preferences.h

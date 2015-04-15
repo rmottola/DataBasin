@@ -31,11 +31,17 @@
                 showSessionInspector = id; 
                 showUpdate = id; 
                 showUserInspector = id; 
+                stopSelect = id; 
+                stopSelectIdentify = id; 
                 usernameFieldAction = id; 
             }; 
             CLASS = AppController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
+                buttonSelectExec = NSButton; 
+                buttonSelectIdentExec = NSButton; 
+                buttonSelectIdentStop = NSButton; 
+                buttonSelectStop = NSButton; 
                 checkSkipFirstLine = NSButton; 
                 faultPanel = NSPanel; 
                 faultTextView = NSTextView; 

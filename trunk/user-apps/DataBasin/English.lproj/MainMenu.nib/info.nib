@@ -12,21 +12,21 @@
 	<key>IBFramework Version</key>
 	<string>489.0</string>
 	<key>IBOldestOS</key>
-	<integer>2</integer>
+	<integer>3</integer>
 	<key>IBOpenObjects</key>
 	<array>
-		<integer>21</integer>
-		<integer>326</integer>
-		<integer>291</integer>
-		<integer>29</integer>
+		<integer>254</integer>
 		<integer>358</integer>
 		<integer>302</integer>
-		<integer>285</integer>
+		<integer>326</integer>
+		<integer>379</integer>
+		<integer>29</integer>
+		<integer>21</integer>
 		<integer>265</integer>
+		<integer>291</integer>
 		<integer>221</integer>
 		<integer>425</integer>
-		<integer>254</integer>
-		<integer>379</integer>
+		<integer>285</integer>
 	</array>
 	<key>IBSystem Version</key>
 	<string>8S165</string>

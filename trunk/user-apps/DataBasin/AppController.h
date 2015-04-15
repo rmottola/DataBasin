@@ -1,7 +1,7 @@
 /* -*- mode: objc -*-
    Project: DataBasin
 
-   Copyright (C) 2008-2014 Free Software Foundation
+   Copyright (C) 2008-2015 Free Software Foundation
 
    Author: Riccardo Mottola
 
@@ -94,6 +94,9 @@
   IBOutlet NSProgressIndicator *progIndSelectIdent;
   IBOutlet NSTextField   *fieldRTSelectIdent;
   IBOutlet NSButton      *orderedWritingSelectIdent;
+  IBOutlet NSButton      *buttonSelectIdentExec;
+  IBOutlet NSButton      *buttonSelectIdentStop;
+  DBProgress *selectIdentProgress;
   
   /* insert */
   IBOutlet NSWindow      *winInsert;
@@ -166,6 +169,7 @@
 - (IBAction)browseFileSelectIdentifyIn:(id)sender;
 - (IBAction)browseFileSelectIdentifyOut:(id)sender;
 - (IBAction)executeSelectIdentify:(id)sender;
+- (IBAction)stopSelectIdentify:(id)sender;
 
 - (IBAction)showQuickDelete:(id)sender;
 - (IBAction)quickDelete:(id)sender;

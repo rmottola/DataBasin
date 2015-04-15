@@ -1,3 +1,10 @@
+2015-04-15 Riccardo Mottola <rm@gnu.org>
+
+	* AppController.h
+	* AppController.m
+	* English.lproj/MainMenu.nib
+	Execute selectIdentify in a separate thread and allow interruption
+
 2015-04-14 Riccardo Mottola <rm@gnu.org>
 
 	* DBProgress.h

@@ -65,6 +65,7 @@
   startDate = [[NSDate date] retain];
   [progInd setDoubleValue: percent];
   [fieldRemainingTime setStringValue:@""];
+  shouldStop = NO;
 }
 
 -(void)setMaximumValue:(unsigned long)max
@@ -136,5 +137,16 @@
 {
   fieldRemainingTime = field;
 }
+
+- (BOOL)shouldStop
+{
+  return shouldStop;
+}
+
+- (void)setShouldStop:(BOOL)flag
+{
+  shouldStop = flag;
+}
+
 
 @end

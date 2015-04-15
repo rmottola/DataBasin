@@ -365,17 +365,25 @@
     }
 }
 
-- (IBAction)executeSelect:(id)sender
+- (void)resetSelectUI:(id)arg
+{
+  [buttonSelectExec setEnabled:YES];
+  [buttonSelectStop setEnabled:NO];
+}
+
+- (void)performSelect:(id)arg
 {
   NSString       *statement;
   NSString       *filePath;
   NSFileHandle   *fileHandle;
   NSFileManager  *fileManager;
   DBCSVWriter    *csvWriter;
-  DBProgress     *progress;
   NSString       *str;
   NSUserDefaults *defaults;
+  NSString       *origButtTitle;
+  NSAutoreleasePool *arp;
   
+  arp = [NSAutoreleasePool new];
   defaults = [NSUserDefaults standardUserDefaults];
   statement = [fieldQuerySelect string];
   filePath = [fieldFileSelect stringValue];
@@ -392,12 +400,12 @@
     {
       NSRunAlertPanel(@"Attention", @"Cannot create File.", @"Ok", nil, nil);
     }
-  
-  progress = [[DBProgress alloc] init];
-  [progress setProgressIndicator: progIndSelect];
-  [progress setRemainingTimeField: fieldRTSelect];
-  [progress setLogger:logger];
-  [progress reset];
+
+  selectProgress = [[DBProgress alloc] init];
+  [selectProgress setProgressIndicator: progIndSelect];
+  [selectProgress setRemainingTimeField: fieldRTSelect];
+  [selectProgress setLogger:logger];
+  [selectProgress reset];
   csvWriter = [[DBCSVWriter alloc] initWithHandle:fileHandle];
   [csvWriter setLogger:logger];
   [csvWriter setWriteFieldsOrdered:([orderedWritingSelect state] == NSOnState)];
@@ -409,7 +417,7 @@
     [csvWriter setSeparator:str];
   
   NS_DURING
-    [dbCsv query :statement queryAll:([queryAllSelect state] == NSOnState) toWriter:csvWriter progressMonitor:progress];
+    [dbCsv query :statement queryAll:([queryAllSelect state] == NSOnState) toWriter:csvWriter progressMonitor:selectProgress];
   NS_HANDLER
     if ([[localException name] hasPrefix:@"DB"])
       {
@@ -419,7 +427,23 @@
   NS_ENDHANDLER
   [csvWriter release];
   [fileHandle closeFile];
-  [progress release];
+  [selectProgress release];
+  selectProgress = nil;
+  [self performSelectorOnMainThread:@selector(resetSelectUI:) withObject:self waitUntilDone:NO];
+  [arp release];
+}
+
+- (IBAction)executeSelect:(id)sender
+{
+  [buttonSelectExec setEnabled:NO];
+  [buttonSelectStop setEnabled:YES];
+  [NSThread detachNewThreadSelector:@selector(performSelect:) toTarget:self withObject:nil];
+}
+
+
+- (IBAction)stopSelect:(id)sender
+{
+  [selectProgress setShouldStop:YES];
 }
 
 /* INSERT */

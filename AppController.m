@@ -1,7 +1,7 @@
 /* 
    Project: DataBasin
 
-   Copyright (C) 2008-2014 Free Software Foundation
+   Copyright (C) 2008-2015 Free Software Foundation
 
    Author: Riccardo Mottola
 
@@ -753,7 +753,13 @@
     }
 }
 
-- (IBAction)executeSelectIdentify:(id)sender
+- (void)resetSelectIdentUI:(id)arg
+{
+  [buttonSelectIdentExec setEnabled:YES];
+  [buttonSelectIdentStop setEnabled:NO];
+}
+
+- (void)performSelectIdentify:(id)arg
 {
   NSString       *statement;
   NSString       *filePathIn;
@@ -762,11 +768,12 @@
   NSFileManager  *fileManager;
   DBCSVWriter    *csvWriter;
   DBCSVReader    *csvReader;
-  DBProgress     *progress;
   int            batchSize;
   NSString       *str;
   NSUserDefaults *defaults;
+  NSAutoreleasePool *arp;
 
+  arp = [NSAutoreleasePool new];
   defaults = [NSUserDefaults standardUserDefaults];
 
   statement = [fieldQuerySelectIdentify string];
@@ -828,14 +835,14 @@
   if (str)
     [csvWriter setSeparator:str];
 
-  progress = [[DBProgress alloc] init];
-  [progress setLogger:logger];
-  [progress setProgressIndicator: progIndSelectIdent];
-  [progress setRemainingTimeField: fieldRTSelectIdent];
-  [progress reset];
+  selectIdentProgress = [[DBProgress alloc] init];
+  [selectIdentProgress setLogger:logger];
+  [selectIdentProgress setProgressIndicator: progIndSelectIdent];
+  [selectIdentProgress setRemainingTimeField: fieldRTSelectIdent];
+  [selectIdentProgress reset];
 
   NS_DURING
-    [dbCsv queryIdentify :statement queryAll:([queryAllSelectIdentify state] == NSOnState) fromReader:csvReader toWriter:csvWriter withBatchSize:batchSize progressMonitor:progress];
+    [dbCsv queryIdentify :statement queryAll:([queryAllSelectIdentify state] == NSOnState) fromReader:csvReader toWriter:csvWriter withBatchSize:batchSize progressMonitor:selectIdentProgress];
   NS_HANDLER
     if ([[localException name] hasPrefix:@"DB"])
       {
@@ -848,7 +855,23 @@
   [csvWriter release];
   [fileHandleOut closeFile];
   
-  [progress release];
+  [selectIdentProgress release];
+  selectIdentProgress = nil;
+  [self performSelectorOnMainThread:@selector(resetSelectIdentUI:) withObject:self waitUntilDone:NO];
+  [arp release];
+}
+
+- (IBAction)executeSelectIdentify:(id)sender
+{
+  [buttonSelectIdentExec setEnabled:NO];
+  [buttonSelectIdentStop setEnabled:YES];
+  [NSThread detachNewThreadSelector:@selector(performSelectIdentify:) toTarget:self withObject:nil];
+}
+
+
+- (IBAction)stopSelectIdentify:(id)sender
+{
+  [selectIdentProgress setShouldStop:YES];
 }
 
 /* DESCRIBE */

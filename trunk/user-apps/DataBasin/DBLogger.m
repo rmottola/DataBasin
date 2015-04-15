@@ -87,16 +87,25 @@
 
       attrStr = [[NSAttributedString alloc] initWithString: formattedString
 						attributes: textAttributes];
-      [[logView textStorage] appendAttributedString: attrStr];
 
+      [self performSelectorOnMainThread:@selector(_appendStringToViewAndScroll:) withObject:attrStr waitUntilDone:YES];
 
       [attrStr release];
       [formattedString release];
-
-      /* we scroll in the next run of the event loop */
-      [[NSRunLoop currentRunLoop] runUntilDate:[NSDate distantPast]];
-      [logView scrollRangeToVisible:NSMakeRange([[logView string] length], 0)];
     }
+}
+
+- (void)_appendStringToViewAndScroll:(NSAttributedString *)str
+{
+  [str retain];
+  
+  [[logView textStorage] appendAttributedString: str];
+
+  /* we scroll in the next run of the event loop */
+  [[NSRunLoop currentRunLoop] runUntilDate:[NSDate distantPast]];
+  [logView scrollRangeToVisible:NSMakeRange([[logView string] length], 0)];
+
+  [str release];
 }
 
 @end

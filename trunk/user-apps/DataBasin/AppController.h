@@ -32,6 +32,7 @@
 @class DBSoapCSV;
 @class DBLogger;
 @class Preferences;
+@class DBProgress;
 
 @interface AppController : NSObject
 {
@@ -79,6 +80,9 @@
   IBOutlet NSProgressIndicator *progIndSelect;
   IBOutlet NSTextField   *fieldRTSelect;
   IBOutlet NSButton      *orderedWritingSelect;
+  IBOutlet NSButton      *buttonSelectExec;
+  IBOutlet NSButton      *buttonSelectStop;
+  DBProgress *selectProgress;
 
   /* query identify */
   IBOutlet NSWindow      *winSelectIdentify;
@@ -156,6 +160,7 @@
 - (IBAction)showSelect:(id)sender;
 - (IBAction)browseFileSelect:(id)sender;
 - (IBAction)executeSelect:(id)sender;
+- (IBAction)stopSelect:(id)sender;
 
 - (IBAction)showSelectIdentify:(id)sender;
 - (IBAction)browseFileSelectIdentifyIn:(id)sender;

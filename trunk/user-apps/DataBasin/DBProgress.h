@@ -40,6 +40,7 @@
   unsigned long  maxVal;
   float          percent;
   NSDate         *startDate;
+  BOOL           shouldStop;
 
   NSProgressIndicator *progInd;
   NSTextField *fieldRemainingTime;
@@ -51,6 +52,9 @@
 
 - (void)setProgressIndicator:(NSProgressIndicator *)indicator;
 - (void)setRemainingTimeField:(NSTextField *)field;
+
+- (BOOL)shouldStop;
+- (void)setShouldStop:(BOOL)flag;
 
 @end
 

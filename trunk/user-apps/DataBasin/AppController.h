@@ -123,6 +123,7 @@
   IBOutlet NSTextField   *fieldStatusQd;
   IBOutlet NSProgressIndicator *progIndDelete;
   IBOutlet NSTextField   *fieldRTDelete;  
+  IBOutlet NSButton      *buttonQuickDeleteExec;
   
   /* mass delete */
   IBOutlet NSWindow      *winDelete;

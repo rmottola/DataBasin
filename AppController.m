@@ -814,6 +814,7 @@
     {
       NSRunAlertPanel(@"Attention", @"Could not create File.", @"Ok", nil, nil);
       [csvReader release];
+      [arp release];
       return;
     }  
 
@@ -966,25 +967,42 @@
   [winQuickDelete makeKeyAndOrderFront:self];
 }
 
+- (void)resetQuickDeleteUI:(id)arg
+{
+  [buttonQuickDeleteExec setEnabled:YES];
+}
 
-- (IBAction)quickDelete:(id)sender
+
+- (void)performQuickDelete:(id)sender
 {
   NSString  *objectId;
   NSArray   *idArray;
   NSMutableArray *resultArray;
-
+  NSAutoreleasePool *arp;
+  GWSService     *serv;
+  DBSoap         *dbSoap;
+  
+  arp = [NSAutoreleasePool new];
+  
   resultArray = nil;
   [fieldStatusQd setStringValue:@""];
   objectId = [fieldObjectIdQd stringValue];
   
   if (objectId == nil || [objectId length] == 0)
     return;
+
+  /* we clone the soap instance and pass the session, so that the method can run in a separate thread */
+  dbSoap = [[DBSoap alloc] init];
+  serv = [DBSoap gwserviceForDBSoap];
+  [dbSoap setSessionId:[db sessionId]];
+  [serv setURL:[db serverUrl]];  
+  [dbSoap setService:serv];
   
   idArray = [NSArray arrayWithObject:objectId];
   
   NS_DURING
     [fieldStatusQd setStringValue:@"Working..."];
-    resultArray = [db delete: idArray progressMonitor:nil];
+    resultArray = [dbSoap delete: idArray progressMonitor:nil];
   NS_HANDLER
     if ([[localException name] hasPrefix:@"DB"])
       {
@@ -1020,6 +1038,14 @@
         [faultTextView setString:resultMsgStr];
         [faultPanel makeKeyAndOrderFront:nil];
       }
+  [self performSelectorOnMainThread:@selector(resetQuickDeleteUI:) withObject:self waitUntilDone:NO];    
+  [arp release];
+}
+
+- (IBAction)quickDelete:(id)sender
+{
+  [buttonQuickDeleteExec setEnabled:NO];
+  [NSThread detachNewThreadSelector:@selector(performQuickDelete:) toTarget:self withObject:nil];
 }
 
 /* DELETE */

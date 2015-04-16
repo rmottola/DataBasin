@@ -38,6 +38,7 @@
             CLASS = AppController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
+                buttonQuickDeleteExec = NSButton; 
                 buttonSelectExec = NSButton; 
                 buttonSelectIdentExec = NSButton; 
                 buttonSelectIdentStop = NSButton; 

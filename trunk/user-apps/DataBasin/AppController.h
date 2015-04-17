@@ -104,6 +104,9 @@
   IBOutlet NSPopUpButton *popupObjectsInsert;
   IBOutlet NSProgressIndicator *progIndInsert;
   IBOutlet NSTextField   *fieldRTInsert;
+  IBOutlet NSButton      *buttonInsertExec;
+  IBOutlet NSButton      *buttonInsertStop;
+  DBProgress *insertProgress;
 
   /* update */
   IBOutlet NSWindow      *winUpdate;
@@ -111,6 +114,8 @@
   IBOutlet NSPopUpButton *popupObjectsUpdate;
   IBOutlet NSProgressIndicator *progIndUpdate;
   IBOutlet NSTextField   *fieldRTUpdate;
+  IBOutlet NSButton      *buttonUpdateExec;
+  IBOutlet NSButton      *buttonUpdateStop;
 
   /* describe */
   IBOutlet NSWindow      *winDescribe;
@@ -129,8 +134,10 @@
   IBOutlet NSWindow      *winDelete;
   IBOutlet NSTextField   *fieldFileDelete;
   IBOutlet NSButton      *checkSkipFirstLine;
-
-    /* object inspector */
+  IBOutlet NSButton      *buttonDeleteExec;
+  IBOutlet NSButton      *buttonDeleteStop;
+  
+  /* object inspector */
   DBObjectInspector *objInspector;
 }
 
@@ -178,10 +185,12 @@
 - (IBAction)showInsert:(id)sender;
 - (IBAction)browseFileInsert:(id)sender;
 - (IBAction)executeInsert:(id)sender;
+- (IBAction)stopInsert:(id)sender;
 
 - (IBAction)showUpdate:(id)sender;
 - (IBAction)browseFileUpdate:(id)sender;
 - (IBAction)executeUpdate:(id)sender;
+- (IBAction)stopUpdate:(id)sender;
 
 - (IBAction)showDescribe:(id)sender;
 - (IBAction)browseFileDescribe:(id)sender;
@@ -190,6 +199,7 @@
 - (IBAction)showDelete:(id)sender;
 - (IBAction)browseFileDelete:(id)sender;
 - (IBAction)executeDelete:(id)sender;
+- (IBAction)stopDelete:(id)sender;
 
 - (IBAction)showObjectInspector:(id)sender;
 

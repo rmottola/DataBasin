@@ -449,6 +449,13 @@
 /* INSERT */
 
 
+- (void)resetInsertUI:(id)arg
+{
+  [buttonInsertExec setEnabled:YES];
+  [buttonInsertStop setEnabled:NO];
+}
+
+
 - (IBAction)showInsert:(id)sender
 {
   NSArray *objectNames;
@@ -486,20 +493,21 @@
     }
 }
 
-- (IBAction)executeInsert:(id)sender
+- (void)performInsert:(id)arg
 {
   NSString       *filePath;
   NSString       *resFilePath;
   DBCSVReader    *reader;
   NSString       *intoWhichObject;
-  DBProgress     *progress;
   NSMutableArray *results;
   NSFileManager  *fileManager;
   NSFileHandle   *resFH;
   NSUserDefaults *defaults;
   DBCSVWriter    *resWriter;
   NSString       *str;
+  NSAutoreleasePool *arp;
   
+  arp = [NSAutoreleasePool new];
   defaults = [NSUserDefaults standardUserDefaults];  
   filePath = [fieldFileInsert stringValue];
   resFilePath = [[filePath stringByDeletingLastPathComponent] stringByAppendingPathComponent: @"results.csv"];
@@ -511,11 +519,11 @@
   intoWhichObject = [[[popupObjectsInsert selectedItem] title] retain];
   [logger log:LogInformative :@"[AppController executeInsert] object: %@\n", intoWhichObject];
 
-  progress = [[DBProgress alloc] init];
-  [progress setLogger:logger];
-  [progress setProgressIndicator: progIndInsert];
-  [progress setRemainingTimeField: fieldRTInsert];
-  [progress reset];
+  insertProgress = [[DBProgress alloc] init];
+  [insertProgress setLogger:logger];
+  [insertProgress setProgressIndicator: progIndInsert];
+  [insertProgress setRemainingTimeField: fieldRTInsert];
+  [insertProgress reset];
   
   results = nil;
   reader = [[DBCSVReader alloc] initWithPath:filePath withLogger:logger];
@@ -528,13 +536,16 @@
   [reader parseHeaders];
 
   NS_DURING
-    results = [dbCsv create:intoWhichObject fromReader:reader progressMonitor:progress];
+    results = [dbCsv create:intoWhichObject fromReader:reader progressMonitor:insertProgress];
     [results retain];
   NS_HANDLER
     if ([[localException name] hasPrefix:@"DB"])
       {
         [faultTextView setString:[localException reason]];
         [faultPanel makeKeyAndOrderFront:nil];
+        [insertProgress release];
+        [self resetInsertUI:self];
+        [arp release];
       }
   NS_ENDHANDLER
 
@@ -578,8 +589,21 @@
 
   [reader release];
   [intoWhichObject release];
-  [progress release];
+  [insertProgress release];
   [results release];
+  [arp release];
+}
+
+- (IBAction)executeInsert:(id)sender
+{
+  [buttonInsertExec setEnabled:NO];
+  [buttonInsertStop setEnabled:YES];
+  [NSThread detachNewThreadSelector:@selector(performInsert:) toTarget:self withObject:nil];
+}
+
+- (IBAction)stopInsert:(id)sender
+{
+  [insertProgress setShouldStop:YES];
 }
 
 /* UPDATE */

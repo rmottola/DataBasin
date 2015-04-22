@@ -58,11 +58,14 @@
 #endif
   
   bCell = [[NSButtonCell alloc] init];
+#if defined(__APPLE__)
+  [bCell setBezelStyle:NSShadowlessSquareBezelStyle];
+#endif
   buttonMatrix = [[NSMatrix alloc] initWithFrame:NSZeroRect mode:NSRadioModeMatrix prototype:bCell numberOfRows:1 numberOfColumns:3];
   [buttonMatrix setTarget: self];
   [buttonMatrix setAction:@selector(changePrefView:)];
   [buttonMatrix setAllowsEmptySelection:NO];
-  [buttonMatrix setCellSize: NSMakeSize(80, 40)];
+  [buttonMatrix setCellSize: NSMakeSize(85, 40)];
   [matrixScrollView setDocumentView:buttonMatrix];
   [bCell release];
 

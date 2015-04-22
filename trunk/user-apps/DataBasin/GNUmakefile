@@ -13,7 +13,7 @@ include $(GNUSTEP_MAKEFILES)/common.make
 #
 # Application
 #
-VERSION = 0.8
+VERSION = 0.9b1
 PACKAGE_NAME = DataBasin
 APP_NAME = DataBasin
 DataBasin_APPLICATION_ICON = 
@@ -33,7 +33,8 @@ Resources/ObjectInspector.gorm \
 Resources/Log.gorm \
 Resources/Preferences.gorm \
 Resources/butt_green_16.tif \
-Resources/butt_red_16.tif 
+Resources/butt_red_16.tif \
+Resources/stop_icon_15.tiff 
 
 
 #
@@ -48,7 +49,7 @@ Preferences.h \
 DBTextFormatter.h
 
 #
-# Class files
+# Objective-C Class files
 #
 DataBasin_OBJC_FILES = \
 AppController.m \

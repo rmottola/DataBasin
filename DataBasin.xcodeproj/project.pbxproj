@@ -13,6 +13,7 @@
 		8559BB59115B6B21002EA7DD /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8559BB58115B6B21002EA7DD /* README.txt */; };
 		855ABD961645065900FB8900 /* ChangeLog in Resources */ = {isa = PBXBuildFile; fileRef = 855ABD951645065900FB8900 /* ChangeLog */; };
 		856B61AC1642934F00966572 /* DBProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = 856B61AA1642934F00966572 /* DBProgress.m */; };
+		856CA1811AE796940078B1F9 /* stop_icon_15.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 856CA1801AE796940078B1F9 /* stop_icon_15.tiff */; };
 		858D8E6A0F1EA3BD00CC8F4A /* AppController.h in Resources */ = {isa = PBXBuildFile; fileRef = 858D8E640F1EA3BD00CC8F4A /* AppController.h */; };
 		858D8E6B0F1EA3BD00CC8F4A /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 858D8E650F1EA3BD00CC8F4A /* AppController.m */; };
 		8591FC3A1A1533BD00923420 /* DBTextFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 8591FC391A1533BD00923420 /* DBTextFormatter.m */; };
@@ -43,6 +44,7 @@
 		855ABD951645065900FB8900 /* ChangeLog */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = ChangeLog; sourceTree = "<group>"; };
 		856B61A91642934F00966572 /* DBProgress.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DBProgress.h; sourceTree = "<group>"; };
 		856B61AA1642934F00966572 /* DBProgress.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = DBProgress.m; sourceTree = "<group>"; };
+		856CA1801AE796940078B1F9 /* stop_icon_15.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = stop_icon_15.tiff; path = Resources/stop_icon_15.tiff; sourceTree = "<group>"; };
 		858D8E640F1EA3BD00CC8F4A /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AppController.h; sourceTree = "<group>"; };
 		858D8E650F1EA3BD00CC8F4A /* AppController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = AppController.m; sourceTree = "<group>"; };
 		8591FC381A1533BD00923420 /* DBTextFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBTextFormatter.h; sourceTree = "<group>"; };
@@ -144,6 +146,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				856CA1801AE796940078B1F9 /* stop_icon_15.tiff */,
 				85449DA4190C25DB0022D81E /* butt_green_16.tif */,
 				85449DA5190C25DB0022D81E /* butt_red_16.tif */,
 				855ABD951645065900FB8900 /* ChangeLog */,
@@ -227,6 +230,7 @@
 				85A74F9717419D47008D7E0B /* Preferences.nib in Resources */,
 				85449DA6190C25DB0022D81E /* butt_green_16.tif in Resources */,
 				85449DA7190C25DB0022D81E /* butt_red_16.tif in Resources */,
+				856CA1811AE796940078B1F9 /* stop_icon_15.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1120,7 +1120,13 @@
     }
 }
 
-- (IBAction)executeDelete:(id)sender
+- (void)resetDeleteUI:(id)arg
+{
+  [buttonDeleteExec setEnabled:YES];
+  [buttonDeleteStop setEnabled:NO];
+}
+
+- (void)performDelete:(id)arg
 {
   NSString       *filePath;
   NSString       *resFilePath;
@@ -1130,9 +1136,10 @@
   NSFileManager  *fileManager;
   NSFileHandle   *resFH;
   NSUserDefaults *defaults;
-  DBProgress     *progress;
   NSString       *str;
+  NSAutoreleasePool *arp;
 
+  arp = [NSAutoreleasePool new];
   defaults = [NSUserDefaults standardUserDefaults];  
   filePath = [fieldFileDelete stringValue];
   resFilePath = [[filePath stringByDeletingLastPathComponent] stringByAppendingPathComponent: @"results.csv"];
@@ -1148,15 +1155,15 @@
     [reader setSeparator:str];
   /* no need to reparse the headers since they are not used, just skipped */
 
-  progress = [[DBProgress alloc] init];
-  [progress setProgressIndicator: progIndDelete];
-  [progress setRemainingTimeField: fieldRTDelete];
-  [progress setLogger:logger];
-  [progress reset];
+  deleteProgress = [[DBProgress alloc] init];
+  [deleteProgress setProgressIndicator: progIndDelete];
+  [deleteProgress setRemainingTimeField: fieldRTDelete];
+  [deleteProgress setLogger:logger];
+  [deleteProgress reset];
 
   results = nil;  
   NS_DURING
-    results = [dbCsv deleteFromReader:reader progressMonitor:progress];
+    results = [dbCsv deleteFromReader:reader progressMonitor:deleteProgress];
     [results retain];
   NS_HANDLER
     if ([[localException name] hasPrefix:@"DB"])
@@ -1196,7 +1203,22 @@
     }
   [results release];
   [reader release];
-  [progress release];
+  [deleteProgress release];
+  deleteProgress = nil;
+  [self performSelectorOnMainThread:@selector(resetDeleteUI:) withObject:self waitUntilDone:NO];
+  [arp release];
+}
+
+- (IBAction)executeDelete:(id)sender
+{
+  [buttonDeleteExec setEnabled:NO];
+  [buttonDeleteStop setEnabled:YES];
+  [NSThread detachNewThreadSelector:@selector(performDelete:) toTarget:self withObject:nil];
+}
+
+- (IBAction)stopDelete:(id)sender
+{
+  [deleteProgress setShouldStop:YES];
 }
 
 /* OBJECT INSPECTOR */

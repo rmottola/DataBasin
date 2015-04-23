@@ -137,6 +137,7 @@
   IBOutlet NSButton      *checkSkipFirstLine;
   IBOutlet NSButton      *buttonDeleteExec;
   IBOutlet NSButton      *buttonDeleteStop;
+  DBProgress *deleteProgress;
   
   /* object inspector */
   DBObjectInspector *objInspector;

@@ -1,3 +1,9 @@
+2015-04-23 Riccardo Mottola <rm@gnu.org>
+
+	* AppController.h
+	* AppController.m
+	Stop support in update.
+
 2015-04-17 Riccardo Mottola <rm@gnu.org>
 
 	* AppController.h

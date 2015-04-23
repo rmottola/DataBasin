@@ -116,6 +116,7 @@
   IBOutlet NSTextField   *fieldRTUpdate;
   IBOutlet NSButton      *buttonUpdateExec;
   IBOutlet NSButton      *buttonUpdateStop;
+  DBProgress *updateProgress;
 
   /* describe */
   IBOutlet NSWindow      *winDescribe;

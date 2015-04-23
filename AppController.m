@@ -646,31 +646,39 @@
     }
 }
 
-- (IBAction)executeUpdate:(id)sender
+- (void)resetUpdateUI:(id)arg
+{
+  [buttonUpdateExec setEnabled:YES];
+  [buttonUpdateStop setEnabled:NO];
+}
+
+- (void)performUpdate:(id)arg
 {
   NSString       *filePath;
   NSString       *resFilePath;
   DBCSVReader    *reader;
   NSString       *whichObject;
-  DBProgress     *progress;
   NSMutableArray *results;
   NSFileManager  *fileManager;
   NSFileHandle   *resFH;
   NSUserDefaults *defaults;
   DBCSVWriter    *resWriter;
   NSString       *str;
-
+  NSAutoreleasePool *arp;
+  
+  arp = [NSAutoreleasePool new];
+  
   defaults = [NSUserDefaults standardUserDefaults];  
   filePath = [fieldFileUpdate stringValue];
   resFilePath = [[filePath stringByDeletingLastPathComponent] stringByAppendingPathComponent: @"results.csv"];
 
   [logger log:LogDebug: @"[AppController executeUpdate] writing results to: %@", resFilePath];
   
-  progress = [[DBProgress alloc] init];
-  [progress setLogger:logger];
-  [progress setProgressIndicator: progIndUpdate];
-  [progress setRemainingTimeField: fieldRTUpdate];
-  [progress reset];
+  updateProgress = [[DBProgress alloc] init];
+  [updateProgress setLogger:logger];
+  [updateProgress setProgressIndicator: progIndUpdate];
+  [updateProgress setRemainingTimeField: fieldRTUpdate];
+  [updateProgress reset];
 
   whichObject = [[[popupObjectsUpdate selectedItem] title] retain];
   [logger log:LogInformative :@"[AppController executeUpdate] object: %@\n", whichObject];
@@ -686,7 +694,7 @@
   [reader parseHeaders];
 
   NS_DURING
-    results = [dbCsv update:whichObject fromReader:reader progressMonitor:progress];
+    results = [dbCsv update:whichObject fromReader:reader progressMonitor:updateProgress];
     [results retain];
   NS_HANDLER
     if ([[localException name] hasPrefix:@"DB"])
@@ -735,8 +743,24 @@
     
   [reader release];
   [whichObject release];
-  [progress release];
+  [updateProgress release];
+  updateProgress = nil;
   [results release];
+  [self performSelectorOnMainThread:@selector(resetUpdateUI:) withObject:self waitUntilDone:NO];
+  [arp release];
+}
+
+- (IBAction)executeUpdate:(id)sender
+{
+  [buttonUpdateExec setEnabled:NO];
+  [buttonUpdateStop setEnabled:YES];
+  [NSThread detachNewThreadSelector:@selector(performUpdate:) toTarget:self withObject:nil];
+}
+
+
+- (IBAction)stopUpdate:(id)sender
+{
+  [updateProgress setShouldStop:YES];
 }
 
 /*  SELECT IDENTIFY */

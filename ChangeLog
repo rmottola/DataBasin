@@ -1,6 +1,12 @@
 2015-04-28 Riccardo Mottola <rm@gnu.org>
 
 	* AppController.m
+	* English.lproj/MainMenu.nib/keyedobjects.nib
+	Add 100 and 200 sizes.
+
+2015-04-28 Riccardo Mottola <rm@gnu.org>
+
+	* AppController.m
 	Pools need to be drained, not released, since they don't get retained.
 
 2015-04-23 Riccardo Mottola <rm@gnu.org>

@@ -840,6 +840,12 @@
     case 3:
       batchSize = 50;
       break;
+    case 4:
+      batchSize = 100;
+      break;      
+    case 5:
+      batchSize = 200;
+      break;      
     case 99:
       batchSize = -1;
       break;

@@ -430,7 +430,7 @@
   [selectProgress release];
   selectProgress = nil;
   [self performSelectorOnMainThread:@selector(resetSelectUI:) withObject:self waitUntilDone:NO];
-  [arp release];
+  [arp drain];
 }
 
 - (IBAction)executeSelect:(id)sender
@@ -545,7 +545,7 @@
         [faultPanel makeKeyAndOrderFront:nil];
         [insertProgress release];
         [self resetInsertUI:self];
-        [arp release];
+        [arp drain];
       }
   NS_ENDHANDLER
 
@@ -591,7 +591,7 @@
   [intoWhichObject release];
   [insertProgress release];
   [results release];
-  [arp release];
+  [arp drain];
 }
 
 - (IBAction)executeInsert:(id)sender
@@ -747,7 +747,7 @@
   updateProgress = nil;
   [results release];
   [self performSelectorOnMainThread:@selector(resetUpdateUI:) withObject:self waitUntilDone:NO];
-  [arp release];
+  [arp drain];
 }
 
 - (IBAction)executeUpdate:(id)sender
@@ -862,7 +862,7 @@
     {
       NSRunAlertPanel(@"Attention", @"Could not create File.", @"Ok", nil, nil);
       [csvReader release];
-      [arp release];
+      [arp drain];
       return;
     }  
 
@@ -907,7 +907,7 @@
   [selectIdentProgress release];
   selectIdentProgress = nil;
   [self performSelectorOnMainThread:@selector(resetSelectIdentUI:) withObject:self waitUntilDone:NO];
-  [arp release];
+  [arp drain];
 }
 
 - (IBAction)executeSelectIdentify:(id)sender
@@ -1087,7 +1087,7 @@
         [faultPanel makeKeyAndOrderFront:nil];
       }
   [self performSelectorOnMainThread:@selector(resetQuickDeleteUI:) withObject:self waitUntilDone:NO];    
-  [arp release];
+  [arp drain];
 }
 
 - (IBAction)quickDelete:(id)sender
@@ -1206,7 +1206,7 @@
   [deleteProgress release];
   deleteProgress = nil;
   [self performSelectorOnMainThread:@selector(resetDeleteUI:) withObject:self waitUntilDone:NO];
-  [arp release];
+  [arp drain];
 }
 
 - (IBAction)executeDelete:(id)sender

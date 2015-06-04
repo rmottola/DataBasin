@@ -392,6 +392,7 @@
   if ([fileManager createFileAtPath:filePath contents:nil attributes:nil] == NO)
     {
       NSRunAlertPanel(@"Attention", @"Could not create File.", @"Ok", nil, nil);
+      [self performSelectorOnMainThread:@selector(resetSelectUI:) withObject:self waitUntilDone:NO];
       return;
     }  
 
@@ -399,6 +400,8 @@
   if (fileHandle == nil)
     {
       NSRunAlertPanel(@"Attention", @"Cannot create File.", @"Ok", nil, nil);
+      [self performSelectorOnMainThread:@selector(resetSelectUI:) withObject:self waitUntilDone:NO];
+      return;
     }
 
   selectProgress = [[DBProgress alloc] init];
@@ -869,6 +872,7 @@
       NSRunAlertPanel(@"Attention", @"Could not create File.", @"Ok", nil, nil);
       [csvReader release];
       [arp drain];
+      [self performSelectorOnMainThread:@selector(resetSelectIdentUI:) withObject:self waitUntilDone:NO];
       return;
     }  
 
@@ -877,6 +881,8 @@
     {
       NSRunAlertPanel(@"Attention", @"Cannot create File.", @"Ok", nil, nil);
       [csvReader release];
+      [arp drain];
+      [self performSelectorOnMainThread:@selector(resetSelectIdentUI:) withObject:self waitUntilDone:NO];
       return;
     }
 

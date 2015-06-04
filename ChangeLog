@@ -1,3 +1,8 @@
+2015-06-04 Riccardo Mottola <rm@gnu.org>
+
+	* AppController.m
+	Reset gui  if an file creation error occours.
+
 2015-04-28 Riccardo Mottola <rm@gnu.org>
 
 	* AppController.m

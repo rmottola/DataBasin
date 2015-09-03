@@ -169,6 +169,14 @@
   [logger setLogLevel: [defaults integerForKey: @"StringEncoding"]];
 }
 
+- (void)showException:(NSException *)e
+{
+  NSLog(@"Exception: %@ - %@", e, [e reason]);
+  [faultTextView setString:[e reason]];
+  [faultPanel makeKeyAndOrderFront:self];
+}
+
+
 
 /* SESSION INSPECTOR */
 
@@ -277,8 +285,7 @@
   [loginStatus setImage:[NSImage imageNamed:@"butt_red_16.tif"]];
     if ([[localException name] hasPrefix:@"DB"])
       {
-        [faultTextView setString:[localException reason]];
-        [faultPanel makeKeyAndOrderFront:nil];
+        [self performSelectorOnMainThread:@selector(showException:) withObject:localException waitUntilDone:YES];
 	return;
       }
     else
@@ -424,8 +431,7 @@
   NS_HANDLER
     if ([[localException name] hasPrefix:@"DB"])
       {
-        [faultTextView setString:[localException reason]];
-        [faultPanel performSelectorOnMainThread:@selector(makeKeyAndOrderFront:) withObject:self waitUntilDone:YES];
+        [self performSelectorOnMainThread:@selector(showException:) withObject:localException waitUntilDone:YES];
       }
   NS_ENDHANDLER
   [csvWriter release];
@@ -471,8 +477,7 @@
   NS_HANDLER
     if ([[localException name] hasPrefix:@"DB"])
       {
-        [faultTextView setString:[localException reason]];
-        [faultPanel performSelectorOnMainThread:@selector(makeKeyAndOrderFront:) withObject:self waitUntilDone:YES];
+        [self performSelectorOnMainThread:@selector(showException:) withObject:localException waitUntilDone:YES];
       }
   NS_ENDHANDLER
   [popupObjectsInsert removeAllItems];
@@ -544,8 +549,7 @@
   NS_HANDLER
     if ([[localException name] hasPrefix:@"DB"])
       {
-        [faultTextView setString:[localException reason]];
-        [faultPanel performSelectorOnMainThread:@selector(makeKeyAndOrderFront:) withObject:self waitUntilDone:YES];
+        [self performSelectorOnMainThread:@selector(showException:) withObject:localException waitUntilDone:YES];
         [insertProgress release];
         [self resetInsertUI:self];
         [arp drain];
@@ -624,8 +628,7 @@
   NS_HANDLER
     if ([[localException name] hasPrefix:@"DB"])
       {
-        [faultTextView setString:[localException reason]];
-        [faultPanel performSelectorOnMainThread:@selector(makeKeyAndOrderFront:) withObject:self waitUntilDone:YES];
+        [self performSelectorOnMainThread:@selector(showException:) withObject:localException waitUntilDone:YES];
       }
   NS_ENDHANDLER
   [popupObjectsUpdate removeAllItems];
@@ -702,8 +705,7 @@
   NS_HANDLER
     if ([[localException name] hasPrefix:@"DB"])
       {
-        [faultTextView setString:[localException reason]];
-        [faultPanel performSelectorOnMainThread:@selector(makeKeyAndOrderFront:) withObject:self waitUntilDone:YES];
+        [self performSelectorOnMainThread:@selector(showException:) withObject:localException waitUntilDone:YES];
       }
   NS_ENDHANDLER
 
@@ -907,8 +909,7 @@
   NS_HANDLER
     if ([[localException name] hasPrefix:@"DB"])
       {
-        [faultTextView setString:[localException reason]];
-        [faultPanel performSelectorOnMainThread:@selector(makeKeyAndOrderFront:) withObject:self waitUntilDone:YES];
+        [self performSelectorOnMainThread:@selector(showException:) withObject:localException waitUntilDone:YES];
       }
   NS_ENDHANDLER
 
@@ -1010,8 +1011,7 @@
   NS_HANDLER
     if ([[localException name] hasPrefix:@"DB"])
       {
-        [faultTextView setString:[localException reason]];
-        [faultPanel performSelectorOnMainThread:@selector(makeKeyAndOrderFront:) withObject:self waitUntilDone:YES];
+        [self performSelectorOnMainThread:@selector(showException:) withObject:localException waitUntilDone:YES];
       }
   NS_ENDHANDLER
     
@@ -1066,8 +1066,7 @@
   NS_HANDLER
     if ([[localException name] hasPrefix:@"DB"])
       {
-        [faultTextView setString:[localException reason]];
-        [faultPanel makeKeyAndOrderFront:nil];
+        [self performSelectorOnMainThread:@selector(showException:) withObject:localException waitUntilDone:YES];
       }
   NS_ENDHANDLER
 
@@ -1180,8 +1179,7 @@
   NS_HANDLER
     if ([[localException name] hasPrefix:@"DB"])
       {
-        [faultTextView setString:[localException reason]];
-        [faultPanel performSelectorOnMainThread:@selector(makeKeyAndOrderFront:) withObject:self waitUntilDone:YES];
+        [self performSelectorOnMainThread:@selector(showException:) withObject:localException waitUntilDone:YES];
       }
   NS_ENDHANDLER
 

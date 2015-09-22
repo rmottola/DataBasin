@@ -387,7 +387,6 @@
   DBCSVWriter    *csvWriter;
   NSString       *str;
   NSUserDefaults *defaults;
-  NSString       *origButtTitle;
   NSAutoreleasePool *arp;
   
   arp = [NSAutoreleasePool new];

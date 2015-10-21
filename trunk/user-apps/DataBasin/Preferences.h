@@ -28,6 +28,8 @@
 
 @class AppController;
 
+#define CSVWriteLineBreakHandling @"CSVWriteLineBreakHandling"
+
 @interface Preferences : NSObject
 {
   AppController  *appController;
@@ -53,6 +55,7 @@
   IBOutlet NSTextField   *fieldReadSeparator;
   IBOutlet NSTextField   *fieldWriteQualifier;
   IBOutlet NSTextField   *fieldWriteSeparator;
+  IBOutlet NSMatrix      *matrixWriteLineBreak;
 }
 
 - (void)setAppController:(id)controller;

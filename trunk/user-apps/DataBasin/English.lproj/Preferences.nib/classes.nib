@@ -18,6 +18,7 @@
                 fieldWriteQualifier = NSTextField; 
                 fieldWriteSeparator = NSTextField; 
                 matrixScrollView = NSScrollView; 
+                matrixWriteLineBreak = NSMatrix; 
                 popupLogLevel = NSPopUpButton; 
                 popupStrEncoding = NSPopUpButton; 
                 prefPanel = NSPanel; 

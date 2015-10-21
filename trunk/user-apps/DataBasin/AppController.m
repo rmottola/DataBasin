@@ -418,6 +418,7 @@
   csvWriter = [[DBCSVWriter alloc] initWithHandle:fileHandle];
   [csvWriter setLogger:logger];
   [csvWriter setWriteFieldsOrdered:([orderedWritingSelect state] == NSOnState)];
+  [csvWriter setLineBreakHandling:[defaults integerForKey:CSVWriteLineBreakHandling]];
   str = [defaults stringForKey:@"CSVWriteQualifier"];
   if (str)
     [csvWriter setQualifier:str];
@@ -896,7 +897,7 @@
   str = [defaults stringForKey:@"CSVWriteSeparator"];
   if (str)
     [csvWriter setSeparator:str];
-
+  [csvWriter setLineBreakHandling:[defaults integerForKey:CSVWriteLineBreakHandling]];
   selectIdentProgress = [[DBProgress alloc] init];
   [selectIdentProgress setLogger:logger];
   [selectIdentProgress setProgressIndicator: progIndSelectIdent];

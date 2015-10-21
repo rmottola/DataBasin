@@ -16,6 +16,7 @@
 		85764DDE1A15374400F4D3ED /* DBTextFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 85764DDD1A15374400F4D3ED /* DBTextFormatter.m */; };
 		858D8E6A0F1EA3BD00CC8F4A /* AppController.h in Resources */ = {isa = PBXBuildFile; fileRef = 858D8E640F1EA3BD00CC8F4A /* AppController.h */; };
 		858D8E6B0F1EA3BD00CC8F4A /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 858D8E650F1EA3BD00CC8F4A /* AppController.m */; };
+		85A180A01BD7F17200F516E9 /* stop_icon_15.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 85A1809F1BD7F17200F516E9 /* stop_icon_15.tiff */; };
 		85A74F8E17419B41008D7E0B /* Preferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 85A74F8D17419B41008D7E0B /* Preferences.m */; };
 		85A74F9717419D47008D7E0B /* Preferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = 85A74F9517419D47008D7E0B /* Preferences.nib */; };
 		85D9E3AE15AB862C0021427F /* Log.nib in Resources */ = {isa = PBXBuildFile; fileRef = 85D9E3AC15AB862C0021427F /* Log.nib */; };
@@ -47,6 +48,7 @@
 		85764DDD1A15374400F4D3ED /* DBTextFormatter.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = DBTextFormatter.m; sourceTree = "<group>"; };
 		858D8E640F1EA3BD00CC8F4A /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AppController.h; sourceTree = "<group>"; };
 		858D8E650F1EA3BD00CC8F4A /* AppController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = AppController.m; sourceTree = "<group>"; };
+		85A1809F1BD7F17200F516E9 /* stop_icon_15.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = stop_icon_15.tiff; path = Resources/stop_icon_15.tiff; sourceTree = "<group>"; };
 		85A74F8C17419B41008D7E0B /* Preferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Preferences.h; sourceTree = "<group>"; };
 		85A74F8D17419B41008D7E0B /* Preferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Preferences.m; sourceTree = "<group>"; };
 		85A74F9617419D47008D7E0B /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/Preferences.nib; sourceTree = "<group>"; };
@@ -144,6 +146,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				85A1809F1BD7F17200F516E9 /* stop_icon_15.tiff */,
 				85449DA4190C25DB0022D81E /* butt_green_16.tif */,
 				85449DA5190C25DB0022D81E /* butt_red_16.tif */,
 				855ABD951645065900FB8900 /* ChangeLog */,
@@ -218,6 +221,7 @@
 				85A74F9717419D47008D7E0B /* Preferences.nib in Resources */,
 				85449DA6190C25DB0022D81E /* butt_green_16.tif in Resources */,
 				85449DA7190C25DB0022D81E /* butt_red_16.tif in Resources */,
+				85A180A01BD7F17200F516E9 /* stop_icon_15.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

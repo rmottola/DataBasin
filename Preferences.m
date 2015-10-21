@@ -1,7 +1,7 @@
 /*
   Project: DataBasin
 
-  Copyright (C) 2013-2014 Free Software Foundation
+  Copyright (C) 2013-2015 Free Software Foundation
   
   Author: Riccardo Mottola
   
@@ -27,6 +27,8 @@
 #import "DBLogger.h"
 #import "Preferences.h"
 #import "AppController.h"
+
+#import <DataBasinKit/DBCSVWriter.h>
 
 #if defined(__APPLE__) && (MAC_OS_X_VERSION_MAX_ALLOWED <= MAC_OS_X_VERSION_10_4)
 #define NSUTF16StringEncoding 999
@@ -151,6 +153,20 @@
   if (value)
     [fieldWriteSeparator setStringValue:value];
 
+  
+  value = [defaults stringForKey:CSVWriteLineBreakHandling];
+  switch ([value intValue])
+    {
+    case DBCSVLineBreakDelete:
+      [matrixWriteLineBreak selectCellAtRow:1  column:0];
+      break;
+    case DBCSVLineBreakReplaceWithSpace:
+      [matrixWriteLineBreak selectCellAtRow:2  column:0];
+      break;
+    case DBCSVLineBreakNoChange:
+    default: /* default treated as DBCSVLineBreakNoChange */
+      [matrixWriteLineBreak selectCellAtRow:0  column:0];
+    }
   [buttonMatrix selectCellAtRow:0 column:0];
   [buttonMatrix sendAction];
   [prefPanel makeKeyAndOrderFront:self];
@@ -251,6 +267,24 @@
     {
       // FIXME should return warning
       return;
+    }
+
+  switch ([matrixWriteLineBreak selectedRow])
+    {
+    case -1:
+      NSLog(@"unselected value in matrixWriteLineBreak selection");
+      break;
+    case 0:
+      [defaults setObject:[NSNumber numberWithInt:DBCSVLineBreakNoChange] forKey:CSVWriteLineBreakHandling];
+      break;
+    case 1:
+        [defaults setObject:[NSNumber numberWithInt:DBCSVLineBreakDelete] forKey:CSVWriteLineBreakHandling];
+      break;
+    case 2:
+      [defaults setObject:[NSNumber numberWithInt:DBCSVLineBreakReplaceWithSpace] forKey:CSVWriteLineBreakHandling];
+      break;
+    default:
+      NSLog(@"unexpected value in matrixWriteLineBreak selection");
     }
 
   [prefPanel performClose: nil];

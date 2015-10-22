@@ -32,7 +32,8 @@
 	    fieldReadQualifier,
 	    fieldReadSeparator,
 	    fieldWriteQualifier,
-	    fieldWriteSeparator
+	    fieldWriteSeparator,
+	    matrixWriteLineBreak
 	);
 	Super = NSObject;
     };

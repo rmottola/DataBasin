@@ -154,8 +154,8 @@
     [fieldWriteSeparator setStringValue:value];
 
   
-  value = [defaults stringForKey:CSVWriteLineBreakHandling];
-  switch ([value intValue])
+  i = [defaults integerForKey:CSVWriteLineBreakHandling];
+  switch (i)
     {
     case DBCSVLineBreakDelete:
       [matrixWriteLineBreak selectCellAtRow:1  column:0];

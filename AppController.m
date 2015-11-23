@@ -134,20 +134,23 @@
       obj = [NSNumber numberWithInt: LogStandard];
       [defaults setObject:obj forKey: @"LogLevel"];
     }
-
   [logger setLogLevel: [obj intValue]];
   
   size = [defaults integerForKey:@"UpBatchSize"];
-  if (size > 0)
+  if (size == 0)
     {
-      [db setUpBatchSize:size];
+      size = 10;
+      [defaults setInteger:size forKey:@"UpBatchSize"];
     }
+  [db setUpBatchSize:size];
 
   size = [defaults integerForKey:@"DownBatchSize"];
-  if (size > 0)
+  if (size == 0)
     {
-      [db setDownBatchSize:size];
+      size = 100;
+      [defaults setInteger:size forKey:@"DownBatchSize"];
     }
+  [db setDownBatchSize:size];
 
   // FIXME here we should set the defaults of the CSV reader/writers
 }

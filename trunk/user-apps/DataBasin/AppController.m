@@ -135,7 +135,14 @@
       [defaults setObject:obj forKey: @"LogLevel"];
     }
   [logger setLogLevel: [obj intValue]];
-  
+
+  obj = [defaults objectForKey: @"StringEncoding"];
+  if (obj == nil)
+	{
+	  obj = [NSNumber numberWithInt: NSUTF8StringEncoding];
+	  [defaults setObject:obj forKey: @"StringEncoding"];
+    }
+	
   size = [defaults integerForKey:@"UpBatchSize"];
   if (size == 0)
     {
@@ -166,10 +173,6 @@
     }
   
   [preferences showPrefPanel:sender];
-
-  /* Apply defaults */
-  defaults = [NSUserDefaults standardUserDefaults];
-  [logger setLogLevel: [defaults integerForKey: @"StringEncoding"]];
 }
 
 - (void)showException:(NSException *)e

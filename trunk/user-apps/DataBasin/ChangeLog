@@ -1,3 +1,8 @@
+2015-12-11 Riccardo Mottola <rm@gnu.org>
+
+	* AppController.m
+	Fix Preferences defaults, do not set them wrongly on panel show.
+
 2015-09-03 Riccardo Mottola <rm@gnu.org>
 
 	* AppController.m

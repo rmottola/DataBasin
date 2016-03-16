@@ -1,7 +1,7 @@
 /* 
    Project: DataBasin
 
-   Copyright (C) 2008-2015 Free Software Foundation
+   Copyright (C) 2008-2016 Free Software Foundation
 
    Author: Riccardo Mottola
 
@@ -603,6 +603,8 @@
   [reader release];
   [intoWhichObject release];
   [insertProgress release];
+  insertProgress = nil;
+  [self performSelectorOnMainThread:@selector(resetInsertUI:) withObject:self waitUntilDone:NO];
   [results release];
   [arp drain];
 }

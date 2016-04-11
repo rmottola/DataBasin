@@ -715,6 +715,10 @@
       {
         [self performSelectorOnMainThread:@selector(showException:) withObject:localException waitUntilDone:YES];
       }
+    else
+      {
+        [localException raise];
+      }
   NS_ENDHANDLER
 
   fileManager = [NSFileManager defaultManager];

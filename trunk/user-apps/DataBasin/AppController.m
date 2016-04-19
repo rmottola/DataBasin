@@ -44,28 +44,12 @@
 
 @implementation AppController
 
-+ (void)initialize
-{
-  NSMutableDictionary *defaults = [NSMutableDictionary dictionary];
-
-  /*
-   * Register your app's defaults here by adding objects to the
-   * dictionary, eg
-   *
-   * [defaults setObject:anObject forKey:keyForThatObject];
-   *
-   */
-  
-  [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
-  [[NSUserDefaults standardUserDefaults] synchronize];
-}
-
 - (id)init
 {
   if ((self = [super init]))
     {
       NSUserDefaults *defaults;
-
+      
       defaults = [NSUserDefaults standardUserDefaults];
 
       logger = [[DBLogger alloc] init];
@@ -81,7 +65,9 @@
       /* if none found, set a reasonable default for the upload and insert batch size */
       if (![defaults objectForKey:@"UpBatchSize"])
 	[defaults setObject:[NSNumber numberWithInt:100] forKey:@"UpBatchSize"];
-
+      /* if none found, set a reasonable default for the query batch size */
+      if (![defaults objectForKey:@"DownBatchSize"])
+	[defaults setObject:[NSNumber numberWithInt:500] forKey:@"DownBatchSize"];
     }
   return self;
 }
@@ -242,17 +228,22 @@
   NSURL    *url;
   NSDictionary *uInfo;
   NSMutableDictionary *loginSet;
+  NSUserDefaults *defaults;
   
   userName = [fieldUserName stringValue];
   password = [fieldPassword stringValue];
   token = [fieldToken stringValue];
 
+  defaults = [NSUserDefaults standardUserDefaults];
+    
   /* if present, we append the security token to the password */
   if (token != nil)
     password = [password stringByAppendingString:token];
     
   db = [[DBSoap alloc] init];
   [db setLogger: logger];
+  [db setUpBatchSize:[[defaults objectForKey:@"UpBatchSize"] intValue]];
+  [db setDownBatchSize:[[defaults objectForKey:@"DownBatchSize"] intValue]];
   dbCsv = [[DBSoapCSV alloc] init];
   [dbCsv setDBSoap:db];
   

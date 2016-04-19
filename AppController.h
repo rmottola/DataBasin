@@ -1,7 +1,7 @@
 /* -*- mode: objc -*-
    Project: DataBasin
 
-   Copyright (C) 2008-2015 Free Software Foundation
+   Copyright (C) 2008-2016 Free Software Foundation
 
    Author: Riccardo Mottola
 
@@ -142,8 +142,6 @@
   /* object inspector */
   DBObjectInspector *objInspector;
 }
-
-+ (void)initialize;
 
 - (id)init;
 - (void)dealloc;

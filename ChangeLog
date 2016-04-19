@@ -1,3 +1,9 @@
+2016-04-19 Riccardo Mottola <rm@gnu.org>
+
+	* AppController.h
+	* AppController.m
+	Set batch sizes when instantiating DBSoap.
+
 2016-03-16 Riccardo Mottola <rm@gnu.org>
 
 	* AppController.m

@@ -7,11 +7,19 @@ Data Access Tool for Salesforce
 DBSoap: classes to interact with Salesforce
 
 
-Current Version: 0.8
+Current Version: 0.9
 --------------------
 
 NEWS
 
+- multi-threading: concurrent operations with interrupt
+- down batch size
+- handle multiple errors in update or create
+- filter line-breaks when writing CSV
+
+
+
+Older news:
 - Query gets parsed and this allows to write fields in Query Order
 - Query parsing allows for fields to be empty and still preserve the correct number of columns in the CSV file
 - Download batch size settable
@@ -20,18 +28,11 @@ NEWS
 - Improved Exception catching and display for Select Identify
 - Object Inspector supports selection of items
 - Support count and aggregate queries
-
-
-Older news:
 - Select Identify works with multiple columns (all in AND as condition)
-- Progress monitor shows time remaining
 - Support "." as Semi-Join
 - Query Identify: run a select on each item in the list, the single column provided in the file will be used as identifier and it must point to an Id or a unique identifier
-- Http / Https login selection in the preferences
 - improved exception trapping and display
 - support for reading quoted CSV files
-- object list queried at login and updatable later on
-- Object Inspector
 
 
 LIMITATIONS

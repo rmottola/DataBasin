@@ -13,6 +13,7 @@
 	dist
     );
     "BUILDER_VERBOSE" = NO;
+    "BUNDLE_IDENTIFIER" = "org.gap.DataBasin";
     "CLASS_FILES" = (
 	"AppController.m",
 	"DBObjectInspector.m",

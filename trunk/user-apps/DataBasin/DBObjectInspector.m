@@ -1,7 +1,7 @@
 /*
  Project: DataBasin
  
- Copyright (C) 2010-2014 Free Software Foundation
+ Copyright (C) 2010-2016 Free Software Foundation
  
  Author: Riccardo Mottola
  
@@ -35,13 +35,19 @@
   if ((self = [super init]))
     {
       winObjInspector = nil;
+      arrayRows = nil;
+      updatedRows = nil;
+      sObj = nil;
     }
   return self;
 }
 
 - (void)dealloc
 {
+  if (sObj)
+    [sObj release];
   [arrayRows release];
+  [updatedRows release];
   [super dealloc];
 }
 
@@ -76,8 +82,10 @@
   col = [fieldTable tableColumnWithIdentifier:COLID_VALUE];
   cell = [col dataCell];
   [cell setSelectable:YES];
-  [cell setEditable:NO];
+  [cell setEditable:YES];
   [col setDataCell:cell];
+  
+  [updateButton setEnabled:NO];
 }
 
 - (void)show
@@ -108,7 +116,10 @@
       return;
     }
   NSLog(@"dbs: %@, %@", [dbs class], dbs);
+  if(sObj)
+    [sObj release];
   sObj = [dbs describeSObject: objDevName];
+  [sObj retain];
   [sObj setValue: objId forField: @"Id"];
   [sObj setDBSoap: dbs];
 
@@ -123,11 +134,15 @@
       }
   NS_ENDHANDLER
 
-  [arrayRows release];
+    if (arrayRows)
+      [arrayRows release];
   arrayDevNames = [NSMutableArray arrayWithArray: [sObj fieldNames]];
   NSLog(@"field names are: %@", arrayDevNames);
   arrayRows = [[NSMutableArray arrayWithCapacity: [arrayDevNames count]] retain];
 
+  if (updatedRows)
+    [updatedRows release];
+  updatedRows = [[NSMutableArray arrayWithCapacity: 1] retain];
   for (i = 0; i < [arrayDevNames count]; i++)
     {
       NSString *fieldDevName;
@@ -151,7 +166,45 @@
   [fieldTable reloadData];
 
   [winObjInspector setTitle: objDevName];
+  [updateButton setState:NSOffState];
+}
 
+- (IBAction)updateObject:(id)sender
+{
+  NSUInteger i;
+  NSMutableArray *fieldNames;
+
+  if (!updatedRows || [updatedRows count] == 0)
+    return;
+  
+  fieldNames = [[NSMutableArray alloc] initWithCapacity:1];
+  for (i = 0; i < [updatedRows count]; i++)
+    {
+      NSDictionary *fieldDict;
+      NSString *fieldName;
+      NSString *fieldValue;
+
+      fieldDict = [updatedRows objectAtIndex:i];
+      fieldName = [fieldDict objectForKey:COLID_DEVNAME];
+      fieldValue = [fieldDict objectForKey:COLID_VALUE];
+      [sObj setValue:fieldValue forField:fieldName];
+      [fieldNames addObject:fieldName];
+    }
+
+  NS_DURING
+    [sObj storeValuesForFields: fieldNames];
+  NS_HANDLER
+    if ([[localException name] hasPrefix:@"DB"])
+      {
+        [faultTextView setString:[localException reason]];
+        [faultPanel makeKeyAndOrderFront:nil];
+        [fieldNames release];
+        return;
+      }
+  NS_ENDHANDLER
+  
+  [fieldNames release];
+  [updateButton setEnabled:NO];
 }
 
 /** --- Data Source --- **/
@@ -170,6 +223,31 @@
   row = [arrayRows objectAtIndex: rowIndex];
   retObj = [row objectForKey: [column identifier]];
   return retObj;
+}
+
+- (void) tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aCol row:(NSInteger)aRowIndex
+{
+  NSDictionary *originalRowDict;
+  NSDictionary *newRowDict;
+  
+  /* Only editing of the value of a field is supported */
+  if (![[aCol identifier] isEqualTo:COLID_VALUE])
+    {
+      return;
+    }
+
+  originalRowDict = [arrayRows objectAtIndex: aRowIndex];
+  newRowDict = [NSDictionary dictionaryWithObjectsAndKeys: 
+                            [originalRowDict objectForKey:COLID_DEVNAME], COLID_DEVNAME,
+                            [originalRowDict objectForKey:COLID_LABEL], COLID_LABEL,
+                             anObject, COLID_VALUE,
+                             NULL];
+
+  [arrayRows replaceObjectAtIndex:aRowIndex withObject:newRowDict];
+  [updatedRows addObject:newRowDict];
+  
+  if ([updatedRows count] > 0)
+    [updateButton setEnabled:YES];
 }
 
 - (void)tableView:(NSTableView *)tableView sortDescriptorsDidChange:(NSArray *)oldDescriptors

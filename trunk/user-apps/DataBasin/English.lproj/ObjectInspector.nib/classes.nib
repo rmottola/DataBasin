@@ -1,7 +1,7 @@
 {
     IBClasses = (
         {
-            ACTIONS = {loadObject = id; }; 
+            ACTIONS = {loadObject = id; updateObject = id; }; 
             CLASS = DBObjectInspector; 
             LANGUAGE = ObjC; 
             OUTLETS = {
@@ -9,6 +9,7 @@
                 faultTextView = NSTextView; 
                 fieldObjId = NSTextField; 
                 fieldTable = NSTableView; 
+                updateButton = NSButton; 
                 winObjInspector = NSWindow; 
             }; 
             SUPERCLASS = NSObject; 

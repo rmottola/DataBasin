@@ -1,3 +1,10 @@
+2016-06-13 Riccardo Mottola <rm@gnu.org>
+
+	* DBObjectInspector.h
+        * DBObjectInspector.m
+        * English.lproj/ObjectInspector.nib
+        Edit values and Update from object inspector.
+
 2016-04-19 Riccardo Mottola <rm@gnu.org>
 
 	* AppController.h

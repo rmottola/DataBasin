@@ -1,7 +1,7 @@
 /*
  Project: DataBasin
  
- Copyright (C) 2010-2014 Free Software Foundation
+ Copyright (C) 2010-2016 Free Software Foundation
  
  Author: Riccardo Mottola
  
@@ -41,15 +41,19 @@
   IBOutlet NSTableView *fieldTable;
   IBOutlet NSTextView *faultTextView;
   IBOutlet NSPanel *faultPanel;
+  IBOutlet NSButton *updateButton;
 
   /* data source objects */
   DBSObject      *sObj;
   NSMutableArray *arrayRows;
+
+  NSMutableArray *updatedRows;
 }
 
 /** sets the Soap handler class, which needs to remain valid througout the inspector existence */
 - (void)setSoapHandler:(DBSoap *)db;
 - (void)show;
 - (IBAction)loadObject:(id)sender;
+- (IBAction)updateObject:(id)sender;
 
 @end

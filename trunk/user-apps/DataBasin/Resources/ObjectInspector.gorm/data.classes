@@ -2,20 +2,23 @@
     "## Comment" = "Do NOT change this file, Gorm maintains it";
     DBObjectInspector = {
 	Actions = (
-	    "loadObject:"
+	    "loadObject:",
+	    "updateObject:"
 	);
 	Outlets = (
 	    fieldObjId,
 	    winObjInspector,
 	    fieldTable,
+	    faultTextView,
 	    faultPanel,
-	    faultTextView
+	    updateButton
 	);
 	Super = NSObject;
     };
     FirstResponder = {
 	Actions = (
-	    "loadObject:"
+	    "loadObject:",
+	    "updateObject:"
 	);
 	Super = NSObject;
     };

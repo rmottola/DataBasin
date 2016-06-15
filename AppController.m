@@ -322,7 +322,7 @@
 	    oldKey = key;
 	  currSet = [loginDict objectForKey:key];
 	  oldSet = [loginDict objectForKey:oldKey];
-	  if ([[currSet objectForKey:@"lastlogin"] compare: [oldSet objectForKey:@"lastlogin"]] == NSOrderedAscending)
+	  if ([(NSString *)[currSet objectForKey:@"lastlogin"] compare: [oldSet objectForKey:@"lastlogin"]] == NSOrderedAscending)
 	    oldKey = key;
 	}
       [logger log:LogInformative :@"[AppController doLogin] delete: %@\n", oldKey];
@@ -436,7 +436,7 @@
   [selectProgress release];
   selectProgress = nil;
   [self performSelectorOnMainThread:@selector(resetSelectUI:) withObject:self waitUntilDone:NO];
-  [arp drain];
+  [arp release];
 }
 
 - (IBAction)executeSelect:(id)sender
@@ -549,7 +549,7 @@
         [self performSelectorOnMainThread:@selector(showException:) withObject:localException waitUntilDone:YES];
         [insertProgress release];
         [self resetInsertUI:self];
-        [arp drain];
+        [arp release];
       }
   NS_ENDHANDLER
 
@@ -597,7 +597,7 @@
   insertProgress = nil;
   [self performSelectorOnMainThread:@selector(resetInsertUI:) withObject:self waitUntilDone:NO];
   [results release];
-  [arp drain];
+  [arp release];
 }
 
 - (IBAction)executeInsert:(id)sender
@@ -755,7 +755,7 @@
   updateProgress = nil;
   [results release];
   [self performSelectorOnMainThread:@selector(resetUpdateUI:) withObject:self waitUntilDone:NO];
-  [arp drain];
+  [arp release];
 }
 
 - (IBAction)executeUpdate:(id)sender
@@ -876,7 +876,7 @@
     {
       NSRunAlertPanel(@"Attention", @"Could not create File.", @"Ok", nil, nil);
       [csvReader release];
-      [arp drain];
+      [arp release];
       [self performSelectorOnMainThread:@selector(resetSelectIdentUI:) withObject:self waitUntilDone:NO];
       return;
     }  
@@ -886,7 +886,7 @@
     {
       NSRunAlertPanel(@"Attention", @"Cannot create File.", @"Ok", nil, nil);
       [csvReader release];
-      [arp drain];
+      [arp release];
       [self performSelectorOnMainThread:@selector(resetSelectIdentUI:) withObject:self waitUntilDone:NO];
       return;
     }
@@ -923,7 +923,7 @@
   [selectIdentProgress release];
   selectIdentProgress = nil;
   [self performSelectorOnMainThread:@selector(resetSelectIdentUI:) withObject:self waitUntilDone:NO];
-  [arp drain];
+  [arp release];
 }
 
 - (IBAction)executeSelectIdentify:(id)sender
@@ -1101,7 +1101,7 @@
         [faultPanel makeKeyAndOrderFront:nil];
       }
   [self performSelectorOnMainThread:@selector(resetQuickDeleteUI:) withObject:self waitUntilDone:NO];    
-  [arp drain];
+  [arp release];
 }
 
 - (IBAction)quickDelete:(id)sender
@@ -1219,7 +1219,7 @@
   [deleteProgress release];
   deleteProgress = nil;
   [self performSelectorOnMainThread:@selector(resetDeleteUI:) withObject:self waitUntilDone:NO];
-  [arp drain];
+  [arp release];
 }
 
 - (IBAction)executeDelete:(id)sender

@@ -155,6 +155,9 @@
 		};
 		29B97317FDCFA39411CA2CEA = {
 			children = (
+				859E72A41D121701003C71F8,
+				859E72A51D121701003C71F8,
+				859E72A61D121701003C71F8,
 				850A49DE191322BB00B9303D,
 				85D0813B1642EE9600D18837,
 				8D1107310486CEB800E47090,
@@ -316,6 +319,48 @@
 		};
 		858D8E6B0F1EA3BD00CC8F4A = {
 			fileRef = 858D8E650F1EA3BD00CC8F4A;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		859E72A41D121701003C71F8 = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.tiff;
+			name = butt_green_16.tif;
+			path = Resources/butt_green_16.tif;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		859E72A51D121701003C71F8 = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.tiff;
+			name = butt_red_16.tif;
+			path = Resources/butt_red_16.tif;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		859E72A61D121701003C71F8 = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.tiff;
+			name = stop_icon_15.tiff;
+			path = Resources/stop_icon_15.tiff;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		859E72A71D121701003C71F8 = {
+			fileRef = 859E72A41D121701003C71F8;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		859E72A81D121701003C71F8 = {
+			fileRef = 859E72A51D121701003C71F8;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		859E72A91D121701003C71F8 = {
+			fileRef = 859E72A61D121701003C71F8;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -504,6 +549,9 @@
 				85E5B81B1642A5CD0085EDD5,
 				85D0813D1642EE9600D18837,
 				850A49E0191322BB00B9303D,
+				859E72A71D121701003C71F8,
+				859E72A81D121701003C71F8,
+				859E72A91D121701003C71F8,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

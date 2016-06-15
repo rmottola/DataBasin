@@ -225,10 +225,21 @@
   return retObj;
 }
 
+- (BOOL) tableView:(NSTableView *)aTableView shouldEditTableColumn: (NSTableColumn *)column row: (NSInteger)rowIndex
+{
+  /* we do not block editing here, or selecting a cell fails too */
+  return YES;
+}
+
 - (void) tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aCol row:(NSInteger)aRowIndex
 {
   NSDictionary *originalRowDict;
   NSDictionary *newRowDict;
+  NSString *fieldName;
+  NSDictionary *fieldProps;
+  BOOL updateable;
+  
+  updateable = NO;
   
   /* Only editing of the value of a field is supported */
   if (![[aCol identifier] isEqualTo:COLID_VALUE])
@@ -237,6 +248,19 @@
     }
 
   originalRowDict = [arrayRows objectAtIndex: aRowIndex];
+  fieldName = [originalRowDict objectForKey:COLID_DEVNAME];
+  fieldProps = [sObj propertiesOfField:fieldName];
+  updateable = NO;
+  if ([[fieldProps objectForKey:@"updateable"] isEqualToString:@"true"])
+    updateable = YES;
+
+  if (!updateable)
+    return;
+
+  /* if we didn't change anything, don't do anything */
+  if ([[originalRowDict objectForKey:COLID_VALUE] isEqualTo:anObject])
+    return;
+  
   newRowDict = [NSDictionary dictionaryWithObjectsAndKeys: 
                             [originalRowDict objectForKey:COLID_DEVNAME], COLID_DEVNAME,
                             [originalRowDict objectForKey:COLID_LABEL], COLID_LABEL,

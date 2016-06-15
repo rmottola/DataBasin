@@ -1,3 +1,8 @@
+2016-06-15 Riccardo Mottola <rm@gnu.org>
+
+	* DBObjectInspector.m
+	Skip udpate list if value did not change, skip non-updateable fields.
+
 2016-06-13 Riccardo Mottola <rm@gnu.org>
 
 	* DBObjectInspector.h

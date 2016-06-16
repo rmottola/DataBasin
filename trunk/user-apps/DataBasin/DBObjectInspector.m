@@ -227,6 +227,30 @@
 
 - (BOOL) tableView:(NSTableView *)aTableView shouldEditTableColumn: (NSTableColumn *)column row: (NSInteger)rowIndex
 {
+  /* we we always return editable for column/row,
+    however we selectively set the cell as selectable and editable/non editable */
+  if ([[column identifier] isEqualTo:COLID_VALUE])
+    {
+      NSDictionary *originalRowDict;
+      NSDictionary *newRowDict;
+      NSString *fieldName;
+      NSDictionary *fieldProps;
+      BOOL updateable;
+      NSCell *cell;
+      
+      originalRowDict = [arrayRows objectAtIndex: rowIndex];
+      fieldName = [originalRowDict objectForKey:COLID_DEVNAME];
+      fieldProps = [sObj propertiesOfField:fieldName];
+      updateable = NO;
+      if ([[fieldProps objectForKey:@"updateable"] isEqualToString:@"true"])
+        updateable = YES;
+      
+      cell = [column dataCell];
+      [cell setSelectable:YES];
+      [cell setEditable:updateable];
+      [column setDataCell:cell];
+    }
+  
   /* we do not block editing here, or selecting a cell fails too */
   return YES;
 }
@@ -243,9 +267,7 @@
   
   /* Only editing of the value of a field is supported */
   if (![[aCol identifier] isEqualTo:COLID_VALUE])
-    {
-      return;
-    }
+    return;
 
   originalRowDict = [arrayRows objectAtIndex: aRowIndex];
   fieldName = [originalRowDict objectForKey:COLID_DEVNAME];

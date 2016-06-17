@@ -284,8 +284,7 @@
     return;
   
   newRowDict = [NSDictionary dictionaryWithObjectsAndKeys: 
-                            [originalRowDict objectForKey:COLID_DEVNAME], COLID_DEVNAME,
-                            [originalRowDict objectForKey:COLID_LABEL], COLID_LABEL,
+                            [originalRowDict objectForKey:COLID_DEVNAME], COLID_DEVNAME,                            [originalRowDict objectForKey:COLID_LABEL], COLID_LABEL,
                              anObject, COLID_VALUE,
                              NULL];
 
@@ -296,6 +295,59 @@
     [updateButton setEnabled:YES];
 }
 
+/* We override this method to visually show properties of cells.
+   - if the field is updateable
+   - if the field contains values to update
+*/
+- (void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)column row:(NSInteger)rowIndex
+{
+  NSDictionary *originalRowDict;
+  NSDictionary *newRowDict;
+  NSString *fieldName;
+  NSDictionary *fieldProps;
+  BOOL updateable;
+  BOOL updated;
+  NSFont *font;
+  NSFontManager *fm;
+  NSUInteger i;
+  
+
+  updateable = NO;
+  font = [(NSCell *)cell font];
+  fm = [NSFontManager sharedFontManager];
+  
+  originalRowDict = [arrayRows objectAtIndex: rowIndex];
+  fieldName = [originalRowDict objectForKey:COLID_DEVNAME];
+  fieldProps = [sObj propertiesOfField:fieldName];
+  updateable = NO;
+  if ([[fieldProps objectForKey:@"updateable"] isEqualToString:@"true"])
+    updateable = YES;
+
+  /* now we look if the field is among the one being updated */
+  updated = NO;
+  i = 0;
+  while (i < [updatedRows count] && !updated)
+    {
+      if ([[[updatedRows objectAtIndex:i] objectForKey:COLID_DEVNAME] isEqualToString:fieldName])
+        {
+          updated = YES;
+        }
+      i++;
+    }
+  
+  /* depeding if the row has updated values or not, we set properties */
+  if (updated && [[column identifier] isEqualTo:COLID_VALUE])
+    [cell setTextColor:[NSColor blueColor]];
+  else
+    [cell setTextColor:[NSColor blackColor]];
+
+  if (!updateable && [[column identifier] isEqualTo:COLID_VALUE])
+    [cell setFont:[fm convertFont:font toHaveTrait:NSItalicFontMask]];
+  else
+    [cell setFont:[fm convertFont:font toNotHaveTrait:NSItalicFontMask]];
+
+}
+
 - (void)tableView:(NSTableView *)tableView sortDescriptorsDidChange:(NSArray *)oldDescriptors
 {
   [arrayRows sortUsingDescriptors: [tableView sortDescriptors]];
@@ -303,3 +355,4 @@
 }
 
 @end
+

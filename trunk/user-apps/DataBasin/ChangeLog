@@ -1,6 +1,11 @@
 2016-06-17 Riccardo Mottola <rm@gnu.org>
 
 	* DBObjectInspector.m
+	Visually mark updateable and updated cells.
+
+2016-06-17 Riccardo Mottola <rm@gnu.org>
+
+	* DBObjectInspector.m
         Make cells editable/noneditable for non-updateable fiels.
 
 2016-06-15 Riccardo Mottola <rm@gnu.org>

@@ -205,6 +205,8 @@
   
   [fieldNames release];
   [updateButton setEnabled:NO];
+  [updatedRows removeAllObjects];
+  [fieldTable setNeedsDisplay:YES];
 }
 
 /** --- Data Source --- **/

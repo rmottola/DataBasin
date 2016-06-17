@@ -234,7 +234,7 @@
   if ([[column identifier] isEqualTo:COLID_VALUE])
     {
       NSDictionary *originalRowDict;
-      NSDictionary *newRowDict;
+
       NSString *fieldName;
       NSDictionary *fieldProps;
       BOOL updateable;
@@ -304,7 +304,6 @@
 - (void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)column row:(NSInteger)rowIndex
 {
   NSDictionary *originalRowDict;
-  NSDictionary *newRowDict;
   NSString *fieldName;
   NSDictionary *fieldProps;
   BOOL updateable;

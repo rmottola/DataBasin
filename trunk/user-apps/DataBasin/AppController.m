@@ -150,8 +150,6 @@
 
 - (IBAction)showPrefPanel:(id)sender
 {
-  NSUserDefaults *defaults;
-  
   if (!preferences)
     {
       preferences = [[Preferences alloc] init];

@@ -25,6 +25,8 @@
 	    viewApplication,
 	    popupStrEncoding,
 	    popupLogLevel,
+	    checkFilterShare,
+	    checkFilterHistory,
 	    viewConnection,
 	    fieldUpBatchSize,
 	    fieldDownBatchSize,

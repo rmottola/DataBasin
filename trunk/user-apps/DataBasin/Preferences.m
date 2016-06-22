@@ -1,7 +1,7 @@
 /*
   Project: DataBasin
 
-  Copyright (C) 2013-2015 Free Software Foundation
+  Copyright (C) 2013-2016 Free Software Foundation
   
   Author: Riccardo Mottola
   
@@ -95,7 +95,17 @@
   int i;
 
   defaults = [NSUserDefaults standardUserDefaults];
-  
+
+  if ([defaults boolForKey:@"FilterObjects_Share"])
+    [checkFilterShare setState:NSOnState];
+  else
+    [checkFilterShare setState:NSOffState];
+
+  if ([defaults boolForKey:@"FilterObjects_History"])
+    [checkFilterHistory setState:NSOnState];
+  else
+    [checkFilterHistory setState:NSOffState];
+    
   index = 0;
   switch([defaults integerForKey: @"StringEncoding"])
     {
@@ -167,6 +177,7 @@
     default: /* default treated as DBCSVLineBreakNoChange */
       [matrixWriteLineBreak selectCellAtRow:0  column:0];
     }
+
   [buttonMatrix selectCellAtRow:0 column:0];
   [buttonMatrix sendAction];
   [prefPanel makeKeyAndOrderFront:self];
@@ -187,6 +198,9 @@
   NSString *s;
 
   defaults = [NSUserDefaults standardUserDefaults];
+
+  [defaults setBool:[checkFilterShare state]  forKey:@"FilterObjects_Share"];
+  [defaults setBool:[checkFilterHistory state]  forKey:@"FilterObjects_History"];
   
   selectedEncoding = NSUTF8StringEncoding;
   switch([popupStrEncoding indexOfSelectedItem])

@@ -1,3 +1,11 @@
+2016-06-22 Riccardo Mottola <rm@gnu.org>
+
+	* Preferences.h
+	* Preferences.m
+	* AppController.m
+	* Resources/Preferences.gorm
+	Introduce preference tu filter out Share and History objects and use it in Insert and Update PopUps
+
 2016-06-17 Riccardo Mottola <rm@gnu.org>
 
 	* DBObjectInspector.m

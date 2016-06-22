@@ -463,7 +463,16 @@
 - (IBAction)showInsert:(id)sender
 {
   NSArray *objectNames;
+  NSMutableArray *filteredObjectNames;
+  BOOL filterShare;
+  BOOL filterHistory;
+  NSUInteger i;
+  NSUserDefaults *defaults;
 
+  defaults = [NSUserDefaults standardUserDefaults];
+  filterShare = [defaults boolForKey:@"FilterObjects_Share"];
+  filterHistory = [defaults boolForKey:@"FilterObjects_History"];
+  
   [winInsert makeKeyAndOrderFront:self];
   [progIndInsert setIndeterminate:YES];
   objectNames = nil;
@@ -475,10 +484,26 @@
         [self performSelectorOnMainThread:@selector(showException:) withObject:localException waitUntilDone:YES];
       }
   NS_ENDHANDLER
+    
+  filteredObjectNames = [[NSMutableArray alloc] initWithCapacity:1];
+  for (i = 0; i < [objectNames count]; i++)
+    {
+      NSString *name;
+
+      name = [objectNames objectAtIndex:i];
+      if (filterShare && [name hasSuffix: @"Share"])
+	name = nil;
+      if (filterHistory && [name hasSuffix: @"History"])
+	name = nil;
+
+      if (name)
+	[filteredObjectNames addObject:name];
+    }
   [popupObjectsInsert removeAllItems];
-  [popupObjectsInsert addItemsWithTitles: objectNames];
+  [popupObjectsInsert addItemsWithTitles: filteredObjectNames];
   [progIndInsert setIndeterminate:NO];
   [progIndInsert setDoubleValue:0];
+  [filteredObjectNames release];
 }
 
 - (IBAction)browseFileInsert:(id)sender
@@ -616,7 +641,16 @@
 - (IBAction)showUpdate:(id)sender
 {
   NSArray      *objectNames;
-  
+  NSMutableArray *filteredObjectNames;
+  BOOL filterShare;
+  BOOL filterHistory;
+  NSUInteger i;
+  NSUserDefaults *defaults;
+
+  defaults = [NSUserDefaults standardUserDefaults];
+  filterShare = [defaults boolForKey:@"FilterObjects_Share"];
+  filterHistory = [defaults boolForKey:@"FilterObjects_History"];
+
   [winUpdate makeKeyAndOrderFront:self];
   [progIndUpdate setIndeterminate:YES];
   objectNames  = nil;
@@ -628,10 +662,27 @@
         [self performSelectorOnMainThread:@selector(showException:) withObject:localException waitUntilDone:YES];
       }
   NS_ENDHANDLER
+
+  filteredObjectNames = [[NSMutableArray alloc] initWithCapacity:1];
+  for (i = 0; i < [objectNames count]; i++)
+    {
+      NSString *name;
+
+      name = [objectNames objectAtIndex:i];
+      if (filterShare && [name hasSuffix: @"Share"])
+	name = nil;
+      if (filterHistory && [name hasSuffix: @"History"])
+	name = nil;
+
+      if (name)
+	[filteredObjectNames addObject:name];
+    }
+  
   [popupObjectsUpdate removeAllItems];
-  [popupObjectsUpdate addItemsWithTitles: objectNames];
+  [popupObjectsUpdate addItemsWithTitles: filteredObjectNames];
   [progIndUpdate setIndeterminate:NO];
-  [progIndUpdate setDoubleValue:0]; 
+  [progIndUpdate setDoubleValue:0];
+  [filteredObjectNames release];
 }
 
 - (IBAction)browseFileUpdate:(id)sender

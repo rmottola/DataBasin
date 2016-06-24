@@ -174,6 +174,7 @@
 
   [winObjInspector setTitle: objDevName];
   [updateButton setState:NSOffState];
+  [statusField setStringValue:@"Loaded"];
 }
 
 - (IBAction)updateObject:(id)sender
@@ -206,6 +207,7 @@
         [faultTextView setString:[localException reason]];
         [faultPanel makeKeyAndOrderFront:nil];
         [fieldNames release];
+        [statusField setStringValue:@"Error"];
         return;
       }
   NS_ENDHANDLER
@@ -214,6 +216,7 @@
   [updateButton setEnabled:NO];
   [updatedRows removeAllObjects];
   [fieldTable setNeedsDisplay:YES];
+  [statusField setStringValue:@"Updated"];
 }
 
  - (IBAction)search:(id)sender
@@ -340,7 +343,13 @@
   [updatedRows addObject:newRowDict];
   
   if ([updatedRows count] > 0)
-    [updateButton setEnabled:YES];
+    {
+      NSString *str;
+
+      [updateButton setEnabled:YES];
+      str = [NSString stringWithFormat:@"Will update %lu fields", (unsigned long)[updatedRows count]];
+      [statusField setStringValue:str];
+    }
 }
 
 /* We override this method to visually show properties of cells.

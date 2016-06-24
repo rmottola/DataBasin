@@ -37,6 +37,7 @@
       winObjInspector = nil;
       arrayRows = nil;
       updatedRows = nil;
+      filteredRows = nil;
       sObj = nil;
     }
   return self;
@@ -47,6 +48,7 @@
   if (sObj)
     [sObj release];
   [arrayRows release];
+  [filteredRows release];
   [updatedRows release];
   [super dealloc];
 }
@@ -134,22 +136,26 @@
       }
   NS_ENDHANDLER
 
-    if (arrayRows)
-      [arrayRows release];
+  if (arrayRows)
+    [arrayRows release];
   arrayDevNames = [NSMutableArray arrayWithArray: [sObj fieldNames]];
-  NSLog(@"field names are: %@", arrayDevNames);
   arrayRows = [[NSMutableArray arrayWithCapacity: [arrayDevNames count]] retain];
 
   if (updatedRows)
     [updatedRows release];
   updatedRows = [[NSMutableArray arrayWithCapacity: 1] retain];
+
+  if (filteredRows)
+    [filteredRows removeAllObjects];
+  else
+    filteredRows = [[NSMutableArray alloc] init];
+
   for (i = 0; i < [arrayDevNames count]; i++)
     {
       NSString *fieldDevName;
       NSString *fieldLabel;
       NSString *fieldValue;
       NSDictionary *rowDict;
-
 
       fieldDevName = [arrayDevNames objectAtIndex: i];
       fieldLabel = [[sObj propertiesOfField: fieldDevName] objectForKey: @"label"];
@@ -161,6 +167,7 @@
         fieldValue, COLID_VALUE,
         NULL];
       [arrayRows addObject: rowDict];
+      [filteredRows addObject:[NSNumber numberWithInt:i]];
     }
  
   [fieldTable reloadData];
@@ -209,26 +216,63 @@
   [fieldTable setNeedsDisplay:YES];
 }
 
+ - (IBAction)search:(id)sender
+{
+  NSString *searchStr;
+  NSUInteger i;
+
+  searchStr = [searchField stringValue];
+  NSLog(@"search string: %@", searchStr);
+  [filteredRows removeAllObjects];
+  if (searchStr && [searchStr length])
+    {
+      for (i = 0; i < [arrayRows count]; i++)
+        {
+          BOOL include;
+          NSDictionary *row;
+
+          row = [arrayRows objectAtIndex:i];
+          include = NO;
+          include |= [[row objectForKey:COLID_DEVNAME] rangeOfString:searchStr].location != NSNotFound;
+          if (include)
+            [filteredRows addObject:[NSNumber numberWithInt:i]];
+        }
+    }
+  else
+    {
+      for (i = 0; i < [arrayRows count]; i++)
+        [filteredRows addObject:[NSNumber numberWithInt:i]];
+    }
+  NSLog(@"filteredRows: %@", filteredRows);
+  [fieldTable reloadData];
+}
+
+
 /** --- Data Source --- **/
 
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
 {
-  return [arrayRows count];
+  return [filteredRows count];
 }
 
 - (id) tableView: (NSTableView*)aTableView objectValueForTableColumn: (NSTableColumn*)column row: (NSInteger)rowIndex
 {
   id retObj;
   NSDictionary *row;
-  
-  row = [arrayRows objectAtIndex: rowIndex];
+  NSUInteger originalRowIndex;
+
+  originalRowIndex = [[filteredRows objectAtIndex:rowIndex] intValue];
+  row = [arrayRows objectAtIndex: originalRowIndex];
   retObj = [row objectForKey: [column identifier]];
   return retObj;
 }
 
 - (BOOL) tableView:(NSTableView *)aTableView shouldEditTableColumn: (NSTableColumn *)column row: (NSInteger)rowIndex
 {
+  NSUInteger originalRowIndex;
+
+  originalRowIndex = [[filteredRows objectAtIndex:rowIndex] intValue];
   /* we we always return editable for column/row,
     however we selectively set the cell as selectable and editable/non editable */
   if ([[column identifier] isEqualTo:COLID_VALUE])
@@ -240,7 +284,7 @@
       BOOL updateable;
       NSCell *cell;
       
-      originalRowDict = [arrayRows objectAtIndex: rowIndex];
+      originalRowDict = [arrayRows objectAtIndex: originalRowIndex];
       fieldName = [originalRowDict objectForKey:COLID_DEVNAME];
       fieldProps = [sObj propertiesOfField:fieldName];
       updateable = NO;
@@ -257,21 +301,23 @@
   return YES;
 }
 
-- (void) tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aCol row:(NSInteger)aRowIndex
+- (void) tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aCol row:(NSInteger)rowIndex
 {
   NSDictionary *originalRowDict;
   NSDictionary *newRowDict;
   NSString *fieldName;
   NSDictionary *fieldProps;
   BOOL updateable;
-  
+  NSUInteger originalRowIndex;
+
+  originalRowIndex = [[filteredRows objectAtIndex:rowIndex] intValue];  
   updateable = NO;
   
   /* Only editing of the value of a field is supported */
   if (![[aCol identifier] isEqualTo:COLID_VALUE])
     return;
 
-  originalRowDict = [arrayRows objectAtIndex: aRowIndex];
+  originalRowDict = [arrayRows objectAtIndex: originalRowIndex];
   fieldName = [originalRowDict objectForKey:COLID_DEVNAME];
   fieldProps = [sObj propertiesOfField:fieldName];
   updateable = NO;
@@ -290,7 +336,7 @@
                              anObject, COLID_VALUE,
                              NULL];
 
-  [arrayRows replaceObjectAtIndex:aRowIndex withObject:newRowDict];
+  [arrayRows replaceObjectAtIndex:originalRowIndex withObject:newRowDict];
   [updatedRows addObject:newRowDict];
   
   if ([updatedRows count] > 0)

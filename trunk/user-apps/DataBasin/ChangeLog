@@ -1,3 +1,10 @@
+2016-06-24 Riccardo Mottola <rm@gnu.org>
+
+	* DBObjectInspector.h
+	* DBObjectInspector.m
+        * English.lproj/ObjectInspector.nib
+        Allow filtering of columns by content - currently by developer name
+
 2016-06-22 Riccardo Mottola <rm@gnu.org>
 
 	* Preferences.h

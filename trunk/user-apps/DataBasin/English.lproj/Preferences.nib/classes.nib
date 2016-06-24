@@ -11,6 +11,8 @@
             CLASS = Preferences; 
             LANGUAGE = ObjC; 
             OUTLETS = {
+                checkFilterHistory = NSButton; 
+                checkFilterShare = NSButton; 
                 fieldDownBatchSize = NSTextField; 
                 fieldReadQualifier = NSTextField; 
                 fieldReadSeparator = NSTextField; 

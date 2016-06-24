@@ -22,7 +22,7 @@ include $(GNUSTEP_MAKEFILES)/common.make
 #
 # Application
 #
-VERSION = 0.9
+VERSION = 1.0b2
 PACKAGE_NAME = DataBasin
 APP_NAME = DataBasin
 DataBasin_APPLICATION_ICON = 

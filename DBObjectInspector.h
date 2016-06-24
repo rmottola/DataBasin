@@ -42,10 +42,13 @@
   IBOutlet NSTextView *faultTextView;
   IBOutlet NSPanel *faultPanel;
   IBOutlet NSButton *updateButton;
+  IBOutlet NSSearchField *searchField;
+  IBOutlet NSTextField *statusField;
 
   /* data source objects */
   DBSObject      *sObj;
   NSMutableArray *arrayRows;
+  NSMutableArray *filteredRows;
 
   NSMutableArray *updatedRows;
 }
@@ -53,6 +56,7 @@
 /** sets the Soap handler class, which needs to remain valid througout the inspector existence */
 - (void)setSoapHandler:(DBSoap *)db;
 - (void)show;
+- (IBAction)search:(id)sender;
 - (IBAction)loadObject:(id)sender;
 - (IBAction)updateObject:(id)sender;
 

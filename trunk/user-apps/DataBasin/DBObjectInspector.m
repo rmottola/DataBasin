@@ -236,7 +236,9 @@
 
           row = [arrayRows objectAtIndex:i];
           include = NO;
+          include |= [[row objectForKey:COLID_LABEL] rangeOfString:searchStr].location != NSNotFound;
           include |= [[row objectForKey:COLID_DEVNAME] rangeOfString:searchStr].location != NSNotFound;
+          include |= [[row objectForKey:COLID_VALUE] rangeOfString:searchStr].location != NSNotFound;
           if (include)
             [filteredRows addObject:[NSNumber numberWithInt:i]];
         }

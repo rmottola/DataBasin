@@ -315,8 +315,7 @@
   BOOL updateable;
   NSUInteger originalRowIndex;
 
-  originalRowIndex = [[filteredRows objectAtIndex:rowIndex] intValue];  
-  updateable = NO;
+  originalRowIndex = [[filteredRows objectAtIndex:rowIndex] intValue];
   
   /* Only editing of the value of a field is supported */
   if (![[aCol identifier] isEqualTo:COLID_VALUE])
@@ -397,14 +396,19 @@
   
   /* depeding if the row has updated values or not, we set properties */
   if (updated && [[column identifier] isEqualTo:COLID_VALUE])
-    [cell setTextColor:[NSColor blueColor]];
+    {
+      [cell setDrawsBackground:YES];
+      [cell setBackgroundColor:[NSColor colorWithDeviceRed:1.0 green:0.6 blue:0.6 alpha:1.0]];
+    }
+  else
+    {
+      [cell setDrawsBackground:NO];
+    }
+
+  if (!updateable)
+    [cell setTextColor:[NSColor colorWithDeviceRed:0.0 green:0.0 blue:0.8 alpha:1.0]];
   else
     [cell setTextColor:[NSColor blackColor]];
-
-  if (!updateable && [[column identifier] isEqualTo:COLID_VALUE])
-    [cell setFont:[fm convertFont:font toHaveTrait:NSItalicFontMask]];
-  else
-    [cell setFont:[fm convertFont:font toNotHaveTrait:NSItalicFontMask]];
 
 }
 

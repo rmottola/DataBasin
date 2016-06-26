@@ -364,16 +364,10 @@
   NSDictionary *fieldProps;
   BOOL updateable;
   BOOL updated;
-  NSFont *font;
-  NSFontManager *fm;
   NSUInteger i;
   NSUInteger originalRowIndex;
 
   originalRowIndex = [[filteredRows objectAtIndex:rowIndex] intValue];   
-
-  updateable = NO;
-  font = [(NSCell *)cell font];
-  fm = [NSFontManager sharedFontManager];
   
   originalRowDict = [arrayRows objectAtIndex: originalRowIndex];
   fieldName = [originalRowDict objectForKey:COLID_DEVNAME];

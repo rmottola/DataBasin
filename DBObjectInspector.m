@@ -154,17 +154,69 @@
     {
       NSString *fieldDevName;
       NSString *fieldLabel;
-      NSString *fieldValue;
+      id       fieldValueObj;
+      NSString *fieldValueStr;
       NSDictionary *rowDict;
 
+      /* We get object values.
+         Not all values are Strings.
+         Addresses are complex objects, for example */
+      
       fieldDevName = [arrayDevNames objectAtIndex: i];
       fieldLabel = [[sObj propertiesOfField: fieldDevName] objectForKey: @"label"];
-      fieldValue =  [sObj valueForField: fieldDevName];
-      
+      fieldValueObj =  [sObj valueForField: fieldDevName];
+      if ([fieldValueObj isKindOfClass:[NSString class]])
+        {
+          fieldValueStr = (NSString *)fieldValueObj;
+        }
+      else if ([fieldValueObj isKindOfClass:[NSDictionary class]])
+        {
+          NSArray *coderOrder;
+
+          coderOrder = [fieldValueObj objectForKey:GWSOrderKey];
+          if (coderOrder)
+            {
+              NSEnumerator *objEnum;
+              id mutStr;
+              NSString *key;
+              BOOL isFirst;
+
+              mutStr = [[NSMutableString alloc] init];
+              isFirst = YES;
+              objEnum = [coderOrder objectEnumerator];
+              while ((key = [objEnum nextObject]))
+                {
+                  id val;
+
+                  val = [fieldValueObj objectForKey:key];
+                  if (val && [val length])
+                    {
+                      if (!isFirst)
+                        [mutStr appendString:@", "];
+                      else
+                        isFirst = NO;
+                      [mutStr appendString:val];
+                    }
+                }
+              fieldValueStr = [NSString stringWithString:mutStr];
+              [mutStr release];
+            }
+          else
+            {
+              NSLog(@"Dictionary with no coder order in loadObject: %@", fieldValueObj);
+              fieldValueStr = [fieldValueObj className];
+            }
+        }
+      else
+        {
+          /* unknown type */
+          NSLog(@"unknown type in loadObject: %@", [fieldValueObj className]);
+          fieldValueStr = [fieldValueObj className];
+        }
       rowDict = [NSDictionary dictionaryWithObjectsAndKeys: 
         fieldDevName, COLID_DEVNAME,
         fieldLabel, COLID_LABEL,
-        fieldValue, COLID_VALUE,
+        fieldValueStr, COLID_VALUE,
         NULL];
       [arrayRows addObject: rowDict];
       [filteredRows addObject:[NSNumber numberWithInt:i]];

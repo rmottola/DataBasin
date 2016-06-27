@@ -116,6 +116,8 @@
   [searchRecentMenu insertItem:menuItem atIndex:3];
   
   [[searchField cell] setSearchMenuTemplate:searchRecentMenu];
+
+  [searchRecentMenu release];
 }
 
 - (void)show

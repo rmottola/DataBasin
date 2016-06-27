@@ -461,6 +461,10 @@
 - (void)tableView:(NSTableView *)tableView sortDescriptorsDidChange:(NSArray *)oldDescriptors
 {
   [arrayRows sortUsingDescriptors: [tableView sortDescriptors]];
+  
+  /* after sorting we need to recalculate filters */
+  [self search:nil];
+  
   [fieldTable reloadData];
 }
 

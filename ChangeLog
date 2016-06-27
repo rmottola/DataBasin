@@ -1,6 +1,11 @@
 2016-06-27 Riccardo Mottola <rm@gnu.org>
 
 	* DBObjectInspector.m
+        Enable search menu.
+
+2016-06-27 Riccardo Mottola <rm@gnu.org>
+
+	* DBObjectInspector.m
         Re-filter after sorting.
 
 2016-06-24 Riccardo Mottola <rm@gnu.org>

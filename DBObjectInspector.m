@@ -63,6 +63,8 @@
   NSTableColumn *col;
   NSCell *cell;
   DBTextFormatter *tf;
+  NSMenu *searchRecentMenu;
+  NSMenuItem *menuItem;
   
   tf = [[DBTextFormatter alloc] init];
   [tf setMaxLength:18];
@@ -88,6 +90,32 @@
   [col setDataCell:cell];
   
   [updateButton setEnabled:NO];
+  
+  /* set up Search Field and its menu */
+  [searchField  setRecentsAutosaveName:@"ObjectInspectorSearchRecents"];
+  searchRecentMenu = [[NSMenu alloc] initWithTitle:@"Search Menu"];
+  
+  menuItem = [[NSMenuItem alloc] initWithTitle:@"Clear"
+                                        action:NULL keyEquivalent:@""];
+  [menuItem setTag:NSSearchFieldClearRecentsMenuItemTag];
+  [searchRecentMenu insertItem:menuItem atIndex:0];
+  
+  menuItem = [NSMenuItem separatorItem];
+  [menuItem setTag:NSSearchFieldRecentsTitleMenuItemTag];
+  [searchRecentMenu insertItem:menuItem atIndex:1];
+  
+  menuItem = [[NSMenuItem alloc] initWithTitle:@"Recent Searches"
+                                        action:NULL keyEquivalent:@""];
+  [menuItem setTag:NSSearchFieldRecentsTitleMenuItemTag];
+  [searchRecentMenu insertItem:menuItem atIndex:2];
+  
+  
+  menuItem = [[NSMenuItem alloc] initWithTitle:@"Recents"
+                                        action:NULL keyEquivalent:@""];
+  [menuItem setTag:NSSearchFieldRecentsMenuItemTag];
+  [searchRecentMenu insertItem:menuItem atIndex:3];
+  
+  [[searchField cell] setSearchMenuTemplate:searchRecentMenu];
 }
 
 - (void)show

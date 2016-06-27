@@ -1,7 +1,7 @@
-2016-06-25 Riccardo Mottola <rm@gnu.org>
+2016-06-27 Riccardo Mottola <rm@gnu.org>
 
 	* DBObjectInspector.m
-        Full search in all Name, Developer Name and value
+        Re-filter after sorting.
 
 2016-06-24 Riccardo Mottola <rm@gnu.org>
 

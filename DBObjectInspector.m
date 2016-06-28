@@ -257,6 +257,7 @@
   [winObjInspector setTitle: objDevName];
   [updateButton setState:NSOffState];
   [statusField setStringValue:@"Loaded"];
+  [searchField setStringValue:@""];
 }
 
 - (IBAction)updateObject:(id)sender
@@ -307,7 +308,6 @@
   NSUInteger i;
 
   searchStr = [searchField stringValue];
-  NSLog(@"search string: %@", searchStr);
   [filteredRows removeAllObjects];
   if (searchStr && [searchStr length])
     {

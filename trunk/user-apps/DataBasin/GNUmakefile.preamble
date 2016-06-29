@@ -15,10 +15,10 @@ ADDITIONAL_CFLAGS +=
 ADDITIONAL_LDFLAGS +=  
 
 # Additional include directories the compiler should search
-ADDITIONAL_INCLUDE_DIRS += -I$(GNUSTEP_LOCAL_ROOT)/Library/Headers/WebServices -I$(GNUSTEP_LOCAL_ROOT)/Library/Headers/DataBasinKit 
+ADDITIONAL_INCLUDE_DIRS += 
 
 # Additional library directories the linker should search
-ADDITIONAL_LIB_DIRS += -L/usr/GNUstep/Local/Library/Libraries -L/Local/Library/Frameworks/DataBasinKit.framework 
+ADDITIONAL_LIB_DIRS += 
 
 # Additional GUI libraries to link
 ADDITIONAL_GUI_LIBS += -lWebServices -lDataBasinKit 

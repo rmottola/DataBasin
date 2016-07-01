@@ -14,7 +14,8 @@
 	    faultPanel,
 	    updateButton,
 	    searchField,
-	    statusField
+	    statusField,
+	    loadButton
 	);
 	Super = NSObject;
     };

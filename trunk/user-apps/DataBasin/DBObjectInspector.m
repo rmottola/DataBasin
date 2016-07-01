@@ -66,7 +66,7 @@ NSString * const DBOIStatusKey = @"Status";
   NSCell *cell;
   DBTextFormatter *tf;
   NSMenu *searchRecentMenu;
-  NSMenuItem *menuItem;
+  id<NSMenuItem> menuItem;
   
   tf = [[DBTextFormatter alloc] init];
   [tf setMaxLength:18];

@@ -41,6 +41,7 @@
   IBOutlet NSTableView *fieldTable;
   IBOutlet NSTextView *faultTextView;
   IBOutlet NSPanel *faultPanel;
+  IBOutlet NSButton *loadButton;
   IBOutlet NSButton *updateButton;
   IBOutlet NSSearchField *searchField;
   IBOutlet NSTextField *statusField;

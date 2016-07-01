@@ -28,6 +28,8 @@
 
 #import "DBTextFormatter.h"
 
+NSString * const DBOIStatusKey = @"Status";
+
 @implementation DBObjectInspector
 
 - (id)init
@@ -128,7 +130,19 @@
   [winObjInspector makeKeyAndOrderFront:self];
 }
 
-- (IBAction)loadObject:(id)sender
+- (void)resetUI:(NSDictionary *)statusDict
+{
+  NSString *statusMsg;
+
+  statusMsg = [statusDict objectForKey:DBOIStatusKey];
+  if (statusMsg)
+    [statusField setStringValue:statusMsg];
+  [loadButton setEnabled:YES];
+  [updateButton setEnabled:NO];
+  [searchField setStringValue:@""];
+}
+
+- (void)performLoadObject
 {
   NSString *objDevName;
   NSMutableArray *arrayDevNames;
@@ -145,6 +159,7 @@
       NSLog(@"Invalid object.");
       [faultTextView setString:@"Invalid object ID or object not found"];
       [faultPanel makeKeyAndOrderFront:nil];
+      [self resetUI:[NSDictionary dictionaryWithObjectsAndKeys:@"Invalid object", DBOIStatusKey, nil]];
       return;
     }
   NSLog(@"dbs: %@, %@", [dbs class], dbs);
@@ -162,6 +177,7 @@
       {
 	[faultTextView setString:[localException reason]];
 	[faultPanel makeKeyAndOrderFront:nil];
+        [self resetUI:[NSDictionary dictionaryWithObjectsAndKeys:@"Exception", DBOIStatusKey, nil]];
 	return;
       }
   NS_ENDHANDLER
@@ -255,9 +271,7 @@
   [fieldTable reloadData];
 
   [winObjInspector setTitle: objDevName];
-  [updateButton setState:NSOffState];
-  [statusField setStringValue:@"Loaded"];
-  [searchField setStringValue:@""];
+  [self resetUI:[NSDictionary dictionaryWithObjectsAndKeys:@"Loaded", DBOIStatusKey, nil]];
 }
 
 - (IBAction)updateObject:(id)sender
@@ -296,10 +310,16 @@
   NS_ENDHANDLER
   
   [fieldNames release];
-  [updateButton setEnabled:NO];
   [updatedRows removeAllObjects];
   [fieldTable setNeedsDisplay:YES];
-  [statusField setStringValue:@"Updated"];
+  [self resetUI:[NSDictionary dictionaryWithObjectsAndKeys:@"Updated", DBOIStatusKey, nil]];
+}
+
+- (IBAction)loadObject:(id)sender
+{
+  [loadButton setEnabled:NO];
+  [statusField setStringValue:@"Loading..."];
+  [self performLoadObject];
 }
 
  - (IBAction)search:(id)sender

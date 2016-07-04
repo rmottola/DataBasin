@@ -66,7 +66,7 @@ NSString * const DBOIStatusKey = @"Status";
   NSCell *cell;
   DBTextFormatter *tf;
   NSMenu *searchRecentMenu;
-  id<NSMenuItem> menuItem;
+  NSMenuItem <NSMenuItem> *menuItem;
   
   tf = [[DBTextFormatter alloc] init];
   [tf setMaxLength:18];
@@ -357,9 +357,9 @@ NSString * const DBOIStatusKey = @"Status";
 
           row = [arrayRows objectAtIndex:i];
           include = NO;
-          include |= [[row objectForKey:COLID_LABEL] rangeOfString:searchStr].location != NSNotFound;
-          include |= [[row objectForKey:COLID_DEVNAME] rangeOfString:searchStr].location != NSNotFound;
-          include |= [[row objectForKey:COLID_VALUE] rangeOfString:searchStr].location != NSNotFound;
+          include |= [[row objectForKey:COLID_LABEL] rangeOfString:searchStr options:NSCaseInsensitiveSearch].location != NSNotFound;
+          include |= [[row objectForKey:COLID_DEVNAME] rangeOfString:searchStr options:NSCaseInsensitiveSearch].location != NSNotFound;
+          include |= [[row objectForKey:COLID_VALUE] rangeOfString:searchStr options:NSCaseInsensitiveSearch].location != NSNotFound;
           if (include)
             [filteredRows addObject:[NSNumber numberWithInt:i]];
         }

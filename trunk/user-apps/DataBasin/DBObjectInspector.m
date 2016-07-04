@@ -142,13 +142,16 @@ NSString * const DBOIStatusKey = @"Status";
   [searchField setStringValue:@""];
 }
 
-- (void)performLoadObject
+- (void)performLoadObject:(id)argObj
 {
   NSString *objDevName;
   NSMutableArray *arrayDevNames;
+  NSAutoreleasePool *arp;
   
   NSString *objId;
   NSInteger i;
+  
+  arp = [NSAutoreleasePool new];
   
   objId = [fieldObjId stringValue];
   objDevName = [dbs identifyObjectById: objId];
@@ -160,6 +163,7 @@ NSString * const DBOIStatusKey = @"Status";
       [faultTextView setString:@"Invalid object ID or object not found"];
       [faultPanel makeKeyAndOrderFront:nil];
       [self resetUI:[NSDictionary dictionaryWithObjectsAndKeys:@"Invalid object", DBOIStatusKey, nil]];
+      [arp release];
       return;
     }
   NSLog(@"dbs: %@, %@", [dbs class], dbs);
@@ -178,6 +182,7 @@ NSString * const DBOIStatusKey = @"Status";
 	[faultTextView setString:[localException reason]];
 	[faultPanel makeKeyAndOrderFront:nil];
         [self resetUI:[NSDictionary dictionaryWithObjectsAndKeys:@"Exception", DBOIStatusKey, nil]];
+        [arp release];
 	return;
       }
   NS_ENDHANDLER
@@ -272,15 +277,19 @@ NSString * const DBOIStatusKey = @"Status";
 
   [winObjInspector setTitle: objDevName];
   [self resetUI:[NSDictionary dictionaryWithObjectsAndKeys:@"Loaded", DBOIStatusKey, nil]];
+  [arp release];
 }
 
-- (IBAction)updateObject:(id)sender
+- (void)performUpdateObject:(id)argObj
 {
   NSUInteger i;
   NSMutableArray *fieldNames;
+  NSAutoreleasePool *arp;
 
   if (!updatedRows || [updatedRows count] == 0)
     return;
+  
+  arp = [NSAutoreleasePool new];
   
   fieldNames = [[NSMutableArray alloc] initWithCapacity:1];
   for (i = 0; i < [updatedRows count]; i++)
@@ -305,6 +314,7 @@ NSString * const DBOIStatusKey = @"Status";
         [faultPanel makeKeyAndOrderFront:nil];
         [fieldNames release];
         [statusField setStringValue:@"Error"];
+        [arp release];
         return;
       }
   NS_ENDHANDLER
@@ -313,13 +323,22 @@ NSString * const DBOIStatusKey = @"Status";
   [updatedRows removeAllObjects];
   [fieldTable setNeedsDisplay:YES];
   [self resetUI:[NSDictionary dictionaryWithObjectsAndKeys:@"Updated", DBOIStatusKey, nil]];
+  [arp release];
 }
 
 - (IBAction)loadObject:(id)sender
 {
   [loadButton setEnabled:NO];
   [statusField setStringValue:@"Loading..."];
-  [self performLoadObject];
+  [NSThread detachNewThreadSelector:@selector(performLoadObject:) toTarget:self withObject:nil];
+}
+
+- (IBAction)updateObject:(id)sender
+{
+  [loadButton setEnabled:NO];
+  [updateButton setEnabled:NO];
+  [statusField setStringValue:@"Updating..."];
+  [NSThread detachNewThreadSelector:@selector(performUpdateObject:) toTarget:self withObject:nil];
 }
 
  - (IBAction)search:(id)sender

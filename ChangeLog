@@ -1,3 +1,8 @@
+2016-07-04 Riccardo Mottola <rm@gnu.org>
+
+	* DBObjectInspector.m
+        Load and update in separate thread.
+        
 2016-06-27 Riccardo Mottola <rm@gnu.org>
 
 	* DBObjectInspector.m

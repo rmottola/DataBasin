@@ -9,7 +9,7 @@
     CFBundleIdentifier = "org.gap.DataBasin";
     Copyright = "Copyright (C) 2008-2016";
     CopyrightDescription = "Released under GPL v2+";
-    FullVersionID = "1.0b3";
+    FullVersionID = "1.0b4";
     NSExecutable = DataBasin;
     NSMainNibFile = "DataBasin.gorm";
     NSPrincipalClass = NSApplication;

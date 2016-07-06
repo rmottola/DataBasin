@@ -74,6 +74,7 @@ rm -rf "$APP_DIR"/SimpleWebKit*
 rm -rf "$APP_DIR"/GNUstep/System/Library/Frameworks/SimpleWebKit.framework
 rm -rf "$APP_DIR"/GNUstep/Local/Library/Cynthiune
 rm -rf "$APP_DIR"/GNUstep/Local/Library/ApplicationSupport/GSTest
+rm -rf "$APP_DIR"/GNUstep/Local/Library/Bundles/libgmodel.bundle
 
 
 echo Removing known Application and Developer tool traces
@@ -87,14 +88,18 @@ rm -rf "$APP_DIR"/GNUstep/Local/Library/Frameworks/PreferencePanes.framework
 rm -rf "$APP_DIR"/GNUstep/System/Library/Frameworks/PreferencePanes.framework
 rm -rf "$APP_DIR"/GNUstep/Local/Library/Bundles/*.prefPane
 rm -rf "$APP_DIR"/GNUstep/System/Library/Bundles/*.prefPane
+rm "$APP_DIR"/GNUstep/System/Tools/SystemPreferences
+rm -f "$APP_DIR"/GNUstep/System/Library/Libraries/libPreferencePanes.*
 echo Removing ProjectCenter resources
 rm -rf "$APP_DIR"/GNUstep/Local/Library/Frameworks/ProjectCenter.framework
 rm -rf "$APP_DIR"/GNUstep/System/Library/Frameworks/ProjectCenter.framework
 rm -f "$APP_DIR"/GNUstep/Local/Library/Libraries/libProjectCenter*
 rm -f "$APP_DIR"/GNUstep/System/Library/Libraries/libProjectCenter*
+rm "$APP_DIR"/GNUstep/System/Tools/ProjectCenter
 echo Removing Gorm resources
 rm -f "$APP_DIR"/GNUstep/Local/Library/Libraries/libGorm*
 rm -f "$APP_DIR"/GNUstep/System/Library/Libraries/libGorm*
+rm "$APP_DIR"/GNUstep/System/Tools/Gorm
 echo Removing GWorkspace resources
 rm -f "$APP_DIR"/GNUstep/Local/Tools/fswatcher.exe
 rm -f "$APP_DIR"/GNUstep/System/Tools/fswatcher.exe
@@ -124,12 +129,29 @@ rm -rf "$APP_DIR"/GNUstep/Local/Library/Frameworks/FSNode.framework
 rm -rf "$APP_DIR"/GNUstep/System/Library/Frameworks/FSNode.framework
 rm -rf "$APP_DIR"/GNUstep/Local/Library/Frameworks/Inspector.framework
 rm -rf "$APP_DIR"/GNUstep/System/Library/Frameworks/Inspector.framework
+rm -rf "$APP_DIR"/GNUstep/System/Library/Bundles/AppViewer.inspector
+rm -rf "$APP_DIR"/GNUstep/System/Library/Bundles/FolderViewer.inspector
+rm -rf "$APP_DIR"/GNUstep/System/Library/Bundles/IBViewViewer.inspector
+rm -rf "$APP_DIR"/GNUstep/System/Library/Bundles/SoundViewer.inspector
+rm -rf "$APP_DIR"/GNUstep/System/Library/Bundles/RtfViewer.inspector
+rm -rf "$APP_DIR"/GNUstep/System/Library/Bundles/NSColorViewer.inspector
+rm -rf "$APP_DIR"/GNUstep/System/Library/Bundles/Role.extinfo
+rm -rf "$APP_DIR"/GNUstep/System/Library/Bundles/MDModuleAnnotations.mdm
 rm "$APP_DIR"/GNUstep/Local/Tools/Recycler
 rm "$APP_DIR"/GNUstep/System/Tools/Recycler
+rm "$APP_DIR"/GNUstep/System/Tools/wopen.exe
+rm "$APP_DIR"/GNUstep/System/Tools/searchtool.exe
+rm "$APP_DIR"/GNUstep/System/Tools/GWorkspace
+rm -f "$APP_DIR"/GNUstep/System/Library/Libraries/libDBKit.*
 
 echo Removing developer libraries and tools 
 rm "$APP_DIR"/libsvn*.dll
 rm -rf "$APP_DIR"/GNUstep/System/share
+rm "$APP_DIR"/GNUstep/System/Tools/debugapp
+rm "$APP_DIR"/GNUstep/System/Tools/autogsdoc.exe
+rm "$APP_DIR"/GNUstep/System/Tools/make_strings.exe
+rm "$APP_DIR"/GNUstep/System/Tools/plparse.exe
+rm "$APP_DIR"/GNUstep/System/Tools/sfparse.exe
 
 echo Removing specific libraries
 rm "$APP_DIR"/Gorm*.dll

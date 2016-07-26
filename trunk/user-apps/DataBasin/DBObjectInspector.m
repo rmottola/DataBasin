@@ -120,6 +120,9 @@ NSString * const DBOIStatusKey = @"Status";
   [[searchField cell] setSearchMenuTemplate:searchRecentMenu];
 
   [searchRecentMenu release];
+
+  /* now set the first responder */
+  [winObjInspector makeFirstResponder:fieldObjId];
 }
 
 - (void)show

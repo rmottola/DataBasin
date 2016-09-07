@@ -538,14 +538,17 @@
   arp = [NSAutoreleasePool new];
   defaults = [NSUserDefaults standardUserDefaults];  
   filePath = [fieldFileInsert stringValue];
+  if (filePath == nil)
+    {
+      [logger log:LogInformative :@"[AppController performInsert] nil file paths\n"];
+      return;
+    }
   resFilePath = [[filePath stringByDeletingLastPathComponent] stringByAppendingPathComponent: @"results.csv"];
 
   NSLog(@"writing results to: %@", resFilePath);
-
-  filePath = [fieldFileInsert stringValue];
   
   intoWhichObject = [[[popupObjectsInsert selectedItem] title] retain];
-  [logger log:LogInformative :@"[AppController executeInsert] object: %@\n", intoWhichObject];
+  [logger log:LogInformative :@"[AppController performInsert] object: %@\n", intoWhichObject];
 
   insertProgress = [[DBProgress alloc] init];
   [insertProgress setLogger:logger];

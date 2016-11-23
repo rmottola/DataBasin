@@ -892,7 +892,7 @@
   switch ([[popupBatchSizeIdentify selectedItem] tag])
     {
     case 1:
-      batchSize = 0;
+      batchSize = 1;
       break;
     case 2:
       batchSize = 10;

@@ -1,8 +1,13 @@
+2016-11-23 Riccardo Mottola <rm@gnu.org>
+
+	* AppController.m
+	Fix wrong size in popup selection.
+
 2016-07-04 Riccardo Mottola <rm@gnu.org>
 
 	* DBObjectInspector.m
         Load and update in separate thread.
-        
+
 2016-06-27 Riccardo Mottola <rm@gnu.org>
 
 	* DBObjectInspector.m

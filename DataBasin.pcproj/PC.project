@@ -80,13 +80,11 @@
     "PROJECT_GROUP" = "No group avaliable!";
     "PROJECT_MAINTAINER" = "Riccardo Mottola,,,";
     "PROJECT_NAME" = DataBasin;
-    "PROJECT_RELEASE" = "1.0b4";
+    "PROJECT_RELEASE" = "1.0b5";
     "PROJECT_SUMMARY" = "No summary avaliable!";
     "PROJECT_TYPE" = Application;
     "PROJECT_URL" = "http://gap.nongnu.org/DataBasin/";
     "SEARCH_HEADER_DIRS" = (
-	"$(GNUSTEP_LOCAL_ROOT)/Library/Headers/WebServices",
-	"$(GNUSTEP_LOCAL_ROOT)/Library/Headers/DataBasinKit"
     );
     "SEARCH_LIB_DIRS" = (
 	"/usr/GNUstep/Local/Library/Libraries",

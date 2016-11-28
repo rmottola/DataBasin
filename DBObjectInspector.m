@@ -139,7 +139,15 @@ NSString * const DBOIStatusKey = @"Status";
 
   statusMsg = [statusDict objectForKey:DBOIStatusKey];
   if (statusMsg)
-    [statusField setStringValue:statusMsg];
+    {
+      [statusField setStringValue:statusMsg];
+      if ([statusMsg isEqualToString:@"Update Error"])
+        {
+          [loadButton setEnabled:YES];
+          [updateButton setEnabled:YES];
+          return;
+        }
+    }
   [loadButton setEnabled:YES];
   [updateButton setEnabled:NO];
   [searchField setStringValue:@""];
@@ -316,7 +324,7 @@ NSString * const DBOIStatusKey = @"Status";
         [faultTextView setString:[localException reason]];
         [faultPanel makeKeyAndOrderFront:nil];
         [fieldNames release];
-        [statusField setStringValue:@"Error"];
+        [self resetUI:[NSDictionary dictionaryWithObjectsAndKeys:@"Update Error", DBOIStatusKey, nil]];
         [arp release];
         return;
       }

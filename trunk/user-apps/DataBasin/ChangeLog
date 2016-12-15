@@ -1,3 +1,9 @@
+2016-12-15 Riccardo Mottola <rm@gnu.org>
+
+	* AppController.m
+	Do not leak on fault, display fault panel only through separate
+	showException:
+
 2016-11-23 Riccardo Mottola <rm@gnu.org>
 
 	* AppController.m

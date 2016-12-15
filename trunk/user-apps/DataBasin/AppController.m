@@ -1104,7 +1104,10 @@
   objectId = [fieldObjectIdQd stringValue];
   
   if (objectId == nil || [objectId length] == 0)
-    return;
+    {
+      [arp release];
+      return;
+    }
 
   /* we clone the soap instance and pass the session, so that the method can run in a separate thread */
   dbSoap = [[DBSoap alloc] init];
@@ -1125,34 +1128,25 @@
       }
   NS_ENDHANDLER
 
-    if ([resultArray count] > 0)
-      {
-        NSDictionary *resultDict;
-        NSString     *resultMsgStr;
+  if ([resultArray count] > 0)
+    {
+      NSDictionary *resultDict;
+      NSString     *resultMsgStr;
       
-        resultDict = [resultArray objectAtIndex:0];
-        if ([[resultDict objectForKey:@"success"] isEqualToString:@"true"])
-          [fieldStatusQd setStringValue:@"Deletion completed."];
-        else
-          {
-            resultMsgStr = [resultDict objectForKey:@"message"];
-            [fieldStatusQd setStringValue:[resultDict objectForKey:@"statusCode"]];
-            [faultTextView setString:resultMsgStr];
-            [faultPanel makeKeyAndOrderFront:nil];
-          }
-      }
-    else
-      {
-        NSDictionary *resultDict;
-        NSString     *resultMsgStr;
+      resultDict = [resultArray objectAtIndex:0];
+      if ([[resultDict objectForKey:@"success"] isEqualToString:@"true"])
+        [fieldStatusQd setStringValue:@"Deletion completed."];
+      else
+        {
+          resultMsgStr = [resultDict objectForKey:@"message"];
+          [fieldStatusQd setStringValue:[resultDict objectForKey:@"statusCode"]];
+          [faultTextView setString:resultMsgStr];
+          [faultPanel makeKeyAndOrderFront:nil];
+        }
+    }
 
-        resultDict = [resultArray objectAtIndex:0];
-        resultMsgStr = [resultDict objectForKey:@"message"];
-        [fieldStatusQd setStringValue:[resultDict objectForKey:@"statusCode"]];
-        [faultTextView setString:resultMsgStr];
-        [faultPanel makeKeyAndOrderFront:nil];
-      }
-  [self performSelectorOnMainThread:@selector(resetQuickDeleteUI:) withObject:self waitUntilDone:NO];    
+  [self performSelectorOnMainThread:@selector(resetQuickDeleteUI:) withObject:self waitUntilDone:NO];
+  [dbSoap release];
   [arp release];
 }
 

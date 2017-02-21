@@ -1,7 +1,7 @@
 /*
  Project: DataBasin
  
- Copyright (C) 2010-2016 Free Software Foundation
+ Copyright (C) 2010-2017 Free Software Foundation
  
  Author: Riccardo Mottola
  
@@ -172,7 +172,7 @@ NSString * const DBOIStatusKey = @"Status";
     {
       NSLog(@"Invalid object.");
       [faultTextView setString:@"Invalid object ID or object not found"];
-      [faultPanel makeKeyAndOrderFront:nil];
+      [faultPanel performSelectorOnMainThread:@selector(makeKeyAndOrderFront:) withObject:nil waitUntilDone:NO];
       [self resetUI:[NSDictionary dictionaryWithObjectsAndKeys:@"Invalid object", DBOIStatusKey, nil]];
       [arp release];
       return;
@@ -191,7 +191,7 @@ NSString * const DBOIStatusKey = @"Status";
     if ([[localException name] hasPrefix:@"DB"])
       {
 	[faultTextView setString:[localException reason]];
-	[faultPanel makeKeyAndOrderFront:nil];
+        [faultPanel performSelectorOnMainThread:@selector(makeKeyAndOrderFront:) withObject:nil waitUntilDone:NO];
         [self resetUI:[NSDictionary dictionaryWithObjectsAndKeys:@"Exception", DBOIStatusKey, nil]];
         [arp release];
 	return;

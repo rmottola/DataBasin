@@ -1,7 +1,7 @@
 /* 
    Project: DataBasin
 
-   Copyright (C) 2008-2016 Free Software Foundation
+   Copyright (C) 2008-2017 Free Software Foundation
 
    Author: Riccardo Mottola
 
@@ -327,6 +327,9 @@
       [loginDict removeObjectForKey:oldKey];
     }
   [[NSUserDefaults standardUserDefaults] setObject:loginDict forKey: @"logins"];
+
+  /* set or update soap handlers */
+  [objInspector setSoapHandler:db];
 }
 
 /* UPDATE SOBJECT LIST */
@@ -1284,7 +1287,6 @@
 
 - (IBAction)showObjectInspector:(id)sender
 {
-  [objInspector setSoapHandler: db];
   [objInspector show];
 }
 

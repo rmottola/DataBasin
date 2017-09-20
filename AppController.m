@@ -27,7 +27,9 @@
 #import "AppController.h"
 #import <DataBasinKit/DBSoap.h>
 #import <DataBasinKit/DBSoapCSV.h>
+#import <DataBasinKit/DBFileWriter.h>
 #import <DataBasinKit/DBCSVWriter.h>
+#import <DataBasinKit/DBHTMLWriter.h>
 #import <DataBasinKit/DBCSVReader.h>
 #import "DBLogger.h"
 #import "DBProgress.h"
@@ -358,9 +360,12 @@
 - (IBAction)browseFileSelect:(id)sender
 {
   NSSavePanel *savePanel;
+  NSArray *types;
   
+  types = [NSArray arrayWithObjects:@"csv", @"xls", nil];
   savePanel = [NSSavePanel savePanel];
-  [savePanel setRequiredFileType:@"csv"];
+  [savePanel setAllowedFileTypes:types];
+  //[savePanel setRequiredFileType:@"csv"];
   if ([savePanel runModal] == NSOKButton)
     {
       NSString *fileName;
@@ -382,15 +387,19 @@
   NSString       *filePath;
   NSFileHandle   *fileHandle;
   NSFileManager  *fileManager;
-  DBCSVWriter    *csvWriter;
+  DBFileWriter   *fileWriter;
   NSString       *str;
   NSUserDefaults *defaults;
   NSAutoreleasePool *arp;
+  NSString       *fileType;
   
   arp = [NSAutoreleasePool new];
   defaults = [NSUserDefaults standardUserDefaults];
   statement = [fieldQuerySelect string];
   filePath = [fieldFileSelect stringValue];
+  fileType = @"CSV";
+  if ([[[filePath pathExtension] lowercaseString] isEqualToString:@"xls"])
+    fileType = @"EXCEL";
   
   fileManager = [NSFileManager defaultManager];
   if ([fileManager createFileAtPath:filePath contents:nil attributes:nil] == NO)
@@ -413,26 +422,34 @@
   [selectProgress setRemainingTimeField: fieldRTSelect];
   [selectProgress setLogger:logger];
   [selectProgress reset];
-  csvWriter = [[DBCSVWriter alloc] initWithHandle:fileHandle];
-  [csvWriter setLogger:logger];
-  [csvWriter setWriteFieldsOrdered:([orderedWritingSelect state] == NSOnState)];
-  [csvWriter setLineBreakHandling:[defaults integerForKey:CSVWriteLineBreakHandling]];
-  str = [defaults stringForKey:@"CSVWriteQualifier"];
-  if (str)
-    [csvWriter setQualifier:str];
-  str = [defaults stringForKey:@"CSVWriteSeparator"];
-  if (str)
-    [csvWriter setSeparator:str];
+  fileWriter = nil;
+  if (fileType == @"CSV")
+    {
+      fileWriter = [[DBCSVWriter alloc] initWithHandle:fileHandle];
+      [(DBCSVWriter *)fileWriter setWriteFieldsOrdered:([orderedWritingSelect state] == NSOnState)];
+      [(DBCSVWriter *)fileWriter setLineBreakHandling:[defaults integerForKey:CSVWriteLineBreakHandling]];
+      str = [defaults stringForKey:@"CSVWriteQualifier"];
+      if (str)
+        [fileWriter setQualifier:str];
+      str = [defaults stringForKey:@"CSVWriteSeparator"];
+      if (str)
+        [fileWriter setSeparator:str];
+    }
+  else if (fileType == @"EXCEL")
+    {
+      fileWriter = [[DBHTMLWriter alloc] initWithHandle:fileHandle];
+    }
+  [fileWriter setLogger:logger];
   
   NS_DURING
-    [dbCsv query :statement queryAll:([queryAllSelect state] == NSOnState) toWriter:csvWriter progressMonitor:selectProgress];
+    [dbCsv query :statement queryAll:([queryAllSelect state] == NSOnState) toWriter:fileWriter progressMonitor:selectProgress];
   NS_HANDLER
     if ([[localException name] hasPrefix:@"DB"])
       {
         [self performSelectorOnMainThread:@selector(showException:) withObject:localException waitUntilDone:YES];
       }
   NS_ENDHANDLER
-  [csvWriter release];
+  [fileWriter release];
   [fileHandle closeFile];
   [selectProgress release];
   selectProgress = nil;

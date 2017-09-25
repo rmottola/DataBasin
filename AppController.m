@@ -969,6 +969,7 @@
   csvWriter = [[DBCSVWriter alloc] initWithHandle:fileHandleOut];
   [csvWriter setLogger:logger];
   [csvWriter setWriteFieldsOrdered:([orderedWritingSelectIdent state] == NSOnState)];
+  [csvWriter writeStart];
   str = [defaults stringForKey:@"CSVWriteQualifier"];
   if (str)
     [csvWriter setQualifier:str];
@@ -992,6 +993,7 @@
   NS_ENDHANDLER
 
   [csvReader release];
+  [csvWriter writeEnd];
   [csvWriter release];
   [fileHandleOut closeFile];
   
@@ -1080,6 +1082,8 @@
   str = [defaults stringForKey:@"CSVWriteSeparator"];
   if (str)
     [writer setSeparator:str];
+
+  [writer writeStart];
   
   whichObject = [[[popupObjectsDescribe selectedItem] title] retain];
   NSLog(@"object: %@", whichObject);
@@ -1092,7 +1096,8 @@
         [self performSelectorOnMainThread:@selector(showException:) withObject:localException waitUntilDone:YES];
       }
   NS_ENDHANDLER
-    
+
+  [writer writeEnd];
   [writer release];
   [whichObject release];
 }

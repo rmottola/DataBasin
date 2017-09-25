@@ -1,3 +1,8 @@
+2017-09-25 Riccardo Mottola <rm@gnu.org>
+
+	* AppController.m
+	Call writeStart/writeEnd to correctly initialize the file.
+
 2017-09-20 Riccardo Mottola <rm@gnu.org>
 
 	* AppController.m

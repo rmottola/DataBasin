@@ -440,6 +440,7 @@
       fileWriter = [[DBHTMLWriter alloc] initWithHandle:fileHandle];
     }
   [fileWriter setLogger:logger];
+  [fileWriter writeStart];
   
   NS_DURING
     [dbCsv query :statement queryAll:([queryAllSelect state] == NSOnState) toWriter:fileWriter progressMonitor:selectProgress];
@@ -449,6 +450,8 @@
         [self performSelectorOnMainThread:@selector(showException:) withObject:localException waitUntilDone:YES];
       }
   NS_ENDHANDLER
+
+  [fileWriter writeEnd];
   [fileWriter release];
   [fileHandle closeFile];
   [selectProgress release];

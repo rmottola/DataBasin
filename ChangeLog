@@ -1,3 +1,8 @@
+2017-09-26 Riccardo Mottola <rm@gnu.org>
+
+	* AppController.m
+	enable XLS also for Select Identify
+
 2017-09-25 Riccardo Mottola <rm@gnu.org>
 
 	* AppController.m

@@ -430,10 +430,10 @@
       [(DBCSVWriter *)fileWriter setLineBreakHandling:[defaults integerForKey:CSVWriteLineBreakHandling]];
       str = [defaults stringForKey:@"CSVWriteQualifier"];
       if (str)
-        [fileWriter setQualifier:str];
+        [(DBCSVWriter *)fileWriter setQualifier:str];
       str = [defaults stringForKey:@"CSVWriteSeparator"];
       if (str)
-        [fileWriter setSeparator:str];
+        [(DBCSVWriter *)fileWriter setSeparator:str];
     }
   else if (fileType == @"EXCEL")
     {

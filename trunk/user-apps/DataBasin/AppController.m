@@ -365,7 +365,6 @@
   types = [NSArray arrayWithObjects:@"csv", @"xls", nil];
   savePanel = [NSSavePanel savePanel];
   [savePanel setAllowedFileTypes:types];
-  //[savePanel setRequiredFileType:@"csv"];
   if ([savePanel runModal] == NSOKButton)
     {
       NSString *fileName;
@@ -426,7 +425,6 @@
   if (fileType == @"CSV")
     {
       fileWriter = [[DBCSVWriter alloc] initWithHandle:fileHandle];
-      [(DBCSVWriter *)fileWriter setWriteFieldsOrdered:([orderedWritingSelect state] == NSOnState)];
       [(DBCSVWriter *)fileWriter setLineBreakHandling:[defaults integerForKey:CSVWriteLineBreakHandling]];
       str = [defaults stringForKey:@"CSVWriteQualifier"];
       if (str)
@@ -439,6 +437,7 @@
     {
       fileWriter = [[DBHTMLWriter alloc] initWithHandle:fileHandle];
     }
+  [fileWriter setWriteFieldsOrdered:([orderedWritingSelect state] == NSOnState)];
   [fileWriter setLogger:logger];
   [fileWriter writeStart];
   
@@ -872,9 +871,11 @@
 - (IBAction)browseFileSelectIdentifyOut:(id)sender
 {
   NSSavePanel *savePanel;
+  NSArray *types;
   
+  types = [NSArray arrayWithObjects:@"csv", @"xls", nil];  
   savePanel = [NSSavePanel savePanel];
-  [savePanel setRequiredFileType:@"csv"];
+  [savePanel setAllowedFileTypes:types];
   if ([savePanel runModal] == NSOKButton)
     {
       NSString *fileName;
@@ -897,8 +898,9 @@
   NSString       *filePathOut;
   NSFileHandle   *fileHandleOut;
   NSFileManager  *fileManager;
-  DBCSVWriter    *csvWriter;
+  DBFileWriter   *fileWriter;
   DBCSVReader    *csvReader;
+  NSString       *fileTypeOut;
   int            batchSize;
   NSString       *str;
   NSUserDefaults *defaults;
@@ -910,7 +912,10 @@
   statement = [fieldQuerySelectIdentify string];
   filePathIn = [fieldFileSelectIdentifyIn stringValue];
   filePathOut = [fieldFileSelectIdentifyOut stringValue];
-
+  fileTypeOut = @"CSV";
+  if ([[[filePathOut pathExtension] lowercaseString] isEqualToString:@"xls"])
+    fileTypeOut = @"EXCEL";
+  
   batchSize = 0;
   switch ([[popupBatchSizeIdentify selectedItem] tag])
     {
@@ -965,18 +970,28 @@
       [self performSelectorOnMainThread:@selector(resetSelectIdentUI:) withObject:self waitUntilDone:NO];
       return;
     }
+  
+  if (fileTypeOut == @"CSV")
+    {
+      fileWriter = [[DBCSVWriter alloc] initWithHandle:fileHandleOut];
+      str = [defaults stringForKey:@"CSVWriteQualifier"];
+      if (str)
+	[(DBCSVWriter *)fileWriter setQualifier:str];
+      str = [defaults stringForKey:@"CSVWriteSeparator"];
+      if (str)
+	[(DBCSVWriter *)fileWriter setSeparator:str];
+      [(DBCSVWriter *)fileWriter setLineBreakHandling:[defaults integerForKey:CSVWriteLineBreakHandling]];
+    }
+  else if (fileTypeOut == @"EXCEL")
+    {
+      fileWriter = [[DBHTMLWriter alloc] initWithHandle:fileHandleOut];
+    }
 
-  csvWriter = [[DBCSVWriter alloc] initWithHandle:fileHandleOut];
-  [csvWriter setLogger:logger];
-  [csvWriter setWriteFieldsOrdered:([orderedWritingSelectIdent state] == NSOnState)];
-  [csvWriter writeStart];
-  str = [defaults stringForKey:@"CSVWriteQualifier"];
-  if (str)
-    [csvWriter setQualifier:str];
-  str = [defaults stringForKey:@"CSVWriteSeparator"];
-  if (str)
-    [csvWriter setSeparator:str];
-  [csvWriter setLineBreakHandling:[defaults integerForKey:CSVWriteLineBreakHandling]];
+  [fileWriter setLogger:logger];
+  [fileWriter setWriteFieldsOrdered:([orderedWritingSelectIdent state] == NSOnState)];
+  [fileWriter writeStart];
+
+  
   selectIdentProgress = [[DBProgress alloc] init];
   [selectIdentProgress setLogger:logger];
   [selectIdentProgress setProgressIndicator: progIndSelectIdent];
@@ -984,7 +999,7 @@
   [selectIdentProgress reset];
 
   NS_DURING
-    [dbCsv queryIdentify :statement queryAll:([queryAllSelectIdentify state] == NSOnState) fromReader:csvReader toWriter:csvWriter withBatchSize:batchSize progressMonitor:selectIdentProgress];
+    [dbCsv queryIdentify :statement queryAll:([queryAllSelectIdentify state] == NSOnState) fromReader:csvReader toWriter:fileWriter withBatchSize:batchSize progressMonitor:selectIdentProgress];
   NS_HANDLER
     if ([[localException name] hasPrefix:@"DB"])
       {
@@ -993,8 +1008,8 @@
   NS_ENDHANDLER
 
   [csvReader release];
-  [csvWriter writeEnd];
-  [csvWriter release];
+  [fileWriter writeEnd];
+  [fileWriter release];
   [fileHandleOut closeFile];
   
   [selectIdentProgress release];

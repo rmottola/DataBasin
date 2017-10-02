@@ -970,7 +970,8 @@
       [self performSelectorOnMainThread:@selector(resetSelectIdentUI:) withObject:self waitUntilDone:NO];
       return;
     }
-  
+
+  fileWriter = nil;
   if (fileTypeOut == @"CSV")
     {
       fileWriter = [[DBCSVWriter alloc] initWithHandle:fileHandleOut];

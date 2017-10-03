@@ -1035,6 +1035,8 @@
   NSArray *objectNames;
 
   objectNames = [db sObjectNames];
+  [logger log:LogStandard :@"[AppController showDescribe] Objects: %lu", (unsigned long)[objectNames count]];
+
   [popupObjectsDescribe removeAllItems];
   [popupObjectsDescribe addItemsWithTitles: objectNames];
     
@@ -1044,9 +1046,11 @@
 - (IBAction)browseFileDescribe:(id)sender
 {
   NSSavePanel *savePanel;
-  
+  NSArray *types;
+
+  types = [NSArray arrayWithObjects:@"csv", @"xls", nil];
   savePanel = [NSSavePanel savePanel];
-  [savePanel setRequiredFileType:@"csv"];
+  [savePanel setAllowedFileTypes:types];
 
   if ([savePanel runModal] == NSOKButton)
     {
@@ -1060,17 +1064,20 @@
 - (IBAction)executeDescribe:(id)sender
 {
   NSString       *filePath;
-  DBCSVWriter    *writer;
+  DBFileWriter    *writer;
   NSString       *whichObject;
   NSFileManager  *fileManager;
   NSFileHandle   *fileHandle;
   NSUserDefaults *defaults;
   NSString       *str;
+  NSString       *fileType;
 
   defaults = [NSUserDefaults standardUserDefaults];
     
   filePath = [fieldFileDescribe stringValue];
-  NSLog(@"%@", filePath);
+  fileType = @"CSV";
+  if ([[[filePath pathExtension] lowercaseString] isEqualToString:@"xls"])
+    fileType = @"EXCEL";
 
   fileManager = [NSFileManager defaultManager];
   if ([fileManager createFileAtPath:filePath contents:nil attributes:nil] == NO)
@@ -1084,16 +1091,26 @@
     {
       NSRunAlertPanel(@"Attention", @"Cannot create File.", @"Ok", nil, nil);
     }
+
+  writer = nil;
+  if (fileType == @"CSV")
+    {
+      writer = [[DBCSVWriter alloc] initWithHandle:fileHandle];
+      [(DBCSVWriter *)writer setLineBreakHandling:[defaults integerForKey:CSVWriteLineBreakHandling]];
+      str = [defaults stringForKey:@"CSVWriteQualifier"];
+      if (str)
+        [(DBCSVWriter *)writer setQualifier:str];
+      str = [defaults stringForKey:@"CSVWriteSeparator"];
+      if (str)
+        [(DBCSVWriter *)writer setSeparator:str];
+    }
+  else if (fileType == @"EXCEL")
+    {
+      writer = [[DBHTMLWriter alloc] initWithHandle:fileHandle];
+    }
   
-  writer = [[DBCSVWriter alloc] initWithHandle:fileHandle];
   [writer setLogger:logger];
   [writer setStringEncoding: [defaults integerForKey: @"StringEncoding"]];
-  str = [defaults stringForKey:@"CSVWriteQualifier"];
-  if (str)
-    [writer setQualifier:str];
-  str = [defaults stringForKey:@"CSVWriteSeparator"];
-  if (str)
-    [writer setSeparator:str];
 
   whichObject = [[[popupObjectsDescribe selectedItem] title] retain];
   NSLog(@"object: %@", whichObject);
@@ -1108,6 +1125,7 @@
   NS_ENDHANDLER
 
   [writer release];
+  [fileHandle closeFile];
   [whichObject release];
 }
 

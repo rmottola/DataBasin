@@ -1,3 +1,8 @@
+2017-10-03 Riccardo Mottola <rm@gnu.org>
+
+	* AppController.m
+	Do not call writeStart/writeEnd on FileWriter since DBSoapCSV does it
+
 2017-09-26 Riccardo Mottola <rm@gnu.org>
 
 	* AppController.m

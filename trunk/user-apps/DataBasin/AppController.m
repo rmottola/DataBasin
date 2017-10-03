@@ -439,7 +439,6 @@
     }
   [fileWriter setWriteFieldsOrdered:([orderedWritingSelect state] == NSOnState)];
   [fileWriter setLogger:logger];
-  [fileWriter writeStart];
   
   NS_DURING
     [dbCsv query :statement queryAll:([queryAllSelect state] == NSOnState) toWriter:fileWriter progressMonitor:selectProgress];
@@ -450,7 +449,6 @@
       }
   NS_ENDHANDLER
 
-  [fileWriter writeEnd];
   [fileWriter release];
   [fileHandle closeFile];
   [selectProgress release];
@@ -990,7 +988,6 @@
 
   [fileWriter setLogger:logger];
   [fileWriter setWriteFieldsOrdered:([orderedWritingSelectIdent state] == NSOnState)];
-  [fileWriter writeStart];
 
   
   selectIdentProgress = [[DBProgress alloc] init];
@@ -1009,7 +1006,6 @@
   NS_ENDHANDLER
 
   [csvReader release];
-  [fileWriter writeEnd];
   [fileWriter release];
   [fileHandleOut closeFile];
   
@@ -1099,8 +1095,6 @@
   if (str)
     [writer setSeparator:str];
 
-  [writer writeStart];
-  
   whichObject = [[[popupObjectsDescribe selectedItem] title] retain];
   NSLog(@"object: %@", whichObject);
   
@@ -1113,7 +1107,6 @@
       }
   NS_ENDHANDLER
 
-  [writer writeEnd];
   [writer release];
   [whichObject release];
 }

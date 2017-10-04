@@ -439,6 +439,7 @@
     }
   [fileWriter setWriteFieldsOrdered:([orderedWritingSelect state] == NSOnState)];
   [fileWriter setLogger:logger];
+  [fileWriter setStringEncoding: [defaults integerForKey: @"StringEncoding"]];
   
   NS_DURING
     [dbCsv query :statement queryAll:([queryAllSelect state] == NSOnState) toWriter:fileWriter progressMonitor:selectProgress];
@@ -988,6 +989,7 @@
 
   [fileWriter setLogger:logger];
   [fileWriter setWriteFieldsOrdered:([orderedWritingSelectIdent state] == NSOnState)];
+  [fileWriter setStringEncoding: [defaults integerForKey: @"StringEncoding"]];
 
   
   selectIdentProgress = [[DBProgress alloc] init];

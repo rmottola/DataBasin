@@ -396,9 +396,9 @@
   defaults = [NSUserDefaults standardUserDefaults];
   statement = [fieldQuerySelect string];
   filePath = [fieldFileSelect stringValue];
-  fileType = @"CSV";
+  fileType = DBFileFormatCSV;
   if ([[[filePath pathExtension] lowercaseString] isEqualToString:@"xls"])
-    fileType = @"EXCEL";
+    fileType = DBFileFormatXLS;
   
   fileManager = [NSFileManager defaultManager];
   if ([fileManager createFileAtPath:filePath contents:nil attributes:nil] == NO)
@@ -422,8 +422,10 @@
   [selectProgress setLogger:logger];
   [selectProgress reset];
   fileWriter = nil;
-  if (fileType == @"CSV")
+  
+  if (fileType == DBFileFormatCSV)
     {
+      NSLog(@"initing CSV");
       fileWriter = [[DBCSVWriter alloc] initWithHandle:fileHandle];
       [(DBCSVWriter *)fileWriter setLineBreakHandling:[defaults integerForKey:CSVWriteLineBreakHandling]];
       str = [defaults stringForKey:@"CSVWriteQualifier"];
@@ -433,14 +435,15 @@
       if (str)
         [(DBCSVWriter *)fileWriter setSeparator:str];
     }
-  else if (fileType == @"EXCEL")
+  else if (fileType == DBFileFormatXLS)
     {
+      NSLog(@"initing EXCEL");
       fileWriter = [[DBHTMLWriter alloc] initWithHandle:fileHandle];
     }
   [fileWriter setWriteFieldsOrdered:([orderedWritingSelect state] == NSOnState)];
   [fileWriter setLogger:logger];
   [fileWriter setStringEncoding: [defaults integerForKey: @"StringEncoding"]];
-  
+  NSLog(@"fileType is: %@, writer: %@", fileType, fileWriter);
   NS_DURING
     [dbCsv query :statement queryAll:([queryAllSelect state] == NSOnState) toWriter:fileWriter progressMonitor:selectProgress];
   NS_HANDLER
@@ -911,9 +914,9 @@
   statement = [fieldQuerySelectIdentify string];
   filePathIn = [fieldFileSelectIdentifyIn stringValue];
   filePathOut = [fieldFileSelectIdentifyOut stringValue];
-  fileTypeOut = @"CSV";
+  fileTypeOut = DBFileFormatCSV;
   if ([[[filePathOut pathExtension] lowercaseString] isEqualToString:@"xls"])
-    fileTypeOut = @"EXCEL";
+    fileTypeOut = DBFileFormatXLS;
   
   batchSize = 0;
   switch ([[popupBatchSizeIdentify selectedItem] tag])
@@ -971,7 +974,7 @@
     }
 
   fileWriter = nil;
-  if (fileTypeOut == @"CSV")
+  if (fileTypeOut == DBFileFormatCSV)
     {
       fileWriter = [[DBCSVWriter alloc] initWithHandle:fileHandleOut];
       str = [defaults stringForKey:@"CSVWriteQualifier"];
@@ -982,7 +985,7 @@
 	[(DBCSVWriter *)fileWriter setSeparator:str];
       [(DBCSVWriter *)fileWriter setLineBreakHandling:[defaults integerForKey:CSVWriteLineBreakHandling]];
     }
-  else if (fileTypeOut == @"EXCEL")
+  else if (fileTypeOut == DBFileFormatXLS)
     {
       fileWriter = [[DBHTMLWriter alloc] initWithHandle:fileHandleOut];
     }
@@ -1077,9 +1080,9 @@
   defaults = [NSUserDefaults standardUserDefaults];
     
   filePath = [fieldFileDescribe stringValue];
-  fileType = @"CSV";
+  fileType = DBFileFormatCSV;
   if ([[[filePath pathExtension] lowercaseString] isEqualToString:@"xls"])
-    fileType = @"EXCEL";
+    fileType = DBFileFormatXLS;
 
   fileManager = [NSFileManager defaultManager];
   if ([fileManager createFileAtPath:filePath contents:nil attributes:nil] == NO)
@@ -1095,7 +1098,7 @@
     }
 
   writer = nil;
-  if (fileType == @"CSV")
+  if (fileType == DBFileFormatCSV)
     {
       writer = [[DBCSVWriter alloc] initWithHandle:fileHandle];
       [(DBCSVWriter *)writer setLineBreakHandling:[defaults integerForKey:CSVWriteLineBreakHandling]];
@@ -1106,7 +1109,7 @@
       if (str)
         [(DBCSVWriter *)writer setSeparator:str];
     }
-  else if (fileType == @"EXCEL")
+  else if (fileType == DBFileFormatXLS)
     {
       writer = [[DBHTMLWriter alloc] initWithHandle:fileHandle];
     }

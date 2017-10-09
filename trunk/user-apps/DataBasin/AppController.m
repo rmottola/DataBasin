@@ -425,7 +425,6 @@
   
   if (fileType == DBFileFormatCSV)
     {
-      NSLog(@"initing CSV");
       fileWriter = [[DBCSVWriter alloc] initWithHandle:fileHandle];
       [(DBCSVWriter *)fileWriter setLineBreakHandling:[defaults integerForKey:CSVWriteLineBreakHandling]];
       str = [defaults stringForKey:@"CSVWriteQualifier"];
@@ -437,7 +436,6 @@
     }
   else if (fileType == DBFileFormatXLS)
     {
-      NSLog(@"initing EXCEL");
       fileWriter = [[DBHTMLWriter alloc] initWithHandle:fileHandle];
     }
   [fileWriter setWriteFieldsOrdered:([orderedWritingSelect state] == NSOnState)];

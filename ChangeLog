@@ -1,3 +1,8 @@
+2017-10-10 Riccardo Mottola <rm@gnu.org>
+
+	* DBObjectInspector.m
+	Display NSNumbers
+
 2017-10-04 Riccardo Mottola <rm@gnu.org>
 
 	* AppController.m

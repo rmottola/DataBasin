@@ -269,6 +269,11 @@ NSString * const DBOIStatusKey = @"Status";
               fieldValueStr = [fieldValueObj className];
             }
         }
+      else if ([fieldValueObj isKindOfClass:[NSNumber class]])
+        {
+          // TODO handle different types of Numbers
+          fieldValueStr = [(NSNumber *)fieldValueObj stringValue];
+        }
       else
         {
           /* unknown type */

@@ -25,7 +25,7 @@
 
 #import "DBObjectInspector.h"
 #import <DataBasinKit/DBSObject.h>
-
+#import <DataBasinKit/DBSFTypeWrappers.h>
 #import "DBTextFormatter.h"
 
 NSString * const DBOIStatusKey = @"Status";
@@ -269,9 +269,12 @@ NSString * const DBOIStatusKey = @"Status";
               fieldValueStr = [fieldValueObj className];
             }
         }
+      else if ([fieldValueObj isKindOfClass:[DBSFDataType class]])
+        {
+          fieldValueStr = [(NSNumber *)fieldValueObj stringValue];
+        }
       else if ([fieldValueObj isKindOfClass:[NSNumber class]])
         {
-          // TODO handle different types of Numbers
           fieldValueStr = [(NSNumber *)fieldValueObj stringValue];
         }
       else

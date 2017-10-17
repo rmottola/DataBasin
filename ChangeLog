@@ -1,3 +1,8 @@
+2017-10-17 Riccardo Mottola <rm@gnu.org>
+
+	* DBObjectInspector.m
+	Handle DB SFTypes
+
 2017-10-10 Riccardo Mottola <rm@gnu.org>
 
 	* DBObjectInspector.m

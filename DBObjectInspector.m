@@ -280,7 +280,7 @@ NSString * const DBOIStatusKey = @"Status";
       else
         {
           /* unknown type */
-          NSLog(@"unknown type in loadObject: %@", [fieldValueObj className]);
+          NSLog(@"%@ unknown type in loadObject: %@", fieldDevName, [fieldValueObj className]);
           fieldValueStr = [fieldValueObj className];
         }
       rowDict = [NSDictionary dictionaryWithObjectsAndKeys: 

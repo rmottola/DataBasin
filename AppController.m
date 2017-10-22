@@ -279,7 +279,7 @@
 
   NS_HANDLER
     [logger log:LogStandard :@"Login failed\n"];
-  [loginStatus setImage:[NSImage imageNamed:@"butt_red_16.tif"]];
+    [loginStatus setImage:[NSImage imageNamed:@"butt_red_16.tif"]];
     if ([[localException name] hasPrefix:@"DB"])
       {
         [self performSelectorOnMainThread:@selector(showException:) withObject:localException waitUntilDone:YES];

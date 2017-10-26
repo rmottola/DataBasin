@@ -142,6 +142,13 @@
     }
   [popupLogLevel selectItemAtIndex: index];
 
+  
+  if ([defaults boolForKey:@"DescribeFieldTypesInQueries"])
+    [checkCheckFieldTypes setState:NSOnState];
+  else
+    [checkCheckFieldTypes setState:NSOffState];
+
+    
   i = [defaults integerForKey:@"UpBatchSize"];
   if (i > 0)
     [fieldUpBatchSize setIntValue:i];
@@ -149,6 +156,10 @@
   i = [defaults integerForKey:@"DownBatchSize"];
   if (i > 0)
     [fieldDownBatchSize setIntValue:i];
+
+  i = [defaults integerForKey:@"MaxSOQLQueryLength"];
+  if (i > 0)
+    [fieldMaxSOQLLength setIntValue:i];    
 
   value = [defaults stringForKey:@"CSVReadQualifier"];
   if (value)
@@ -195,12 +206,14 @@
   NSUserDefaults *defaults;
   int upBatchSize;
   int downBatchSize;
+  int maxSOQLLen;
   NSString *s;
 
   defaults = [NSUserDefaults standardUserDefaults];
 
   [defaults setBool:[checkFilterShare state]  forKey:@"FilterObjects_Share"];
   [defaults setBool:[checkFilterHistory state]  forKey:@"FilterObjects_History"];
+  [defaults setBool:[checkFilterHistory state]  forKey:@"DescribeFieldTypesInQueries"];
   
   selectedEncoding = NSUTF8StringEncoding;
   switch([popupStrEncoding indexOfSelectedItem])
@@ -238,6 +251,10 @@
   downBatchSize = [fieldDownBatchSize intValue];
   if (downBatchSize > 0)
     [defaults setObject:[NSNumber numberWithInt:downBatchSize] forKey:@"DownBatchSize"];
+  
+  maxSOQLLen = [fieldMaxSOQLLength intValue];
+  if (downBatchSize > 0)
+    [defaults setObject:[NSNumber numberWithInt: maxSOQLLen] forKey:@"MaxSOQLQueryLength"];
 
   s = [fieldReadQualifier stringValue];
   if (s && [s length] == 1)

@@ -1,3 +1,10 @@
+2017-10-26 Riccardo Mottola <rm@gnu.org>
+
+	* Preferences.h
+	* Preferences.m
+	* Resources/Preferences.gorm
+	New pref settings.
+
 2017-10-17 Riccardo Mottola <rm@gnu.org>
 
 	* DBObjectInspector.m

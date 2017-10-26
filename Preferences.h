@@ -1,7 +1,7 @@
 /* -*- mode: objc -*-
   Project: DataBasin
 
-  Copyright (C) 2013-2016 Free Software Foundation
+  Copyright (C) 2013-2017 Free Software Foundation
 
   Author: Riccardo Mottola
 
@@ -37,7 +37,7 @@
   IBOutlet NSPanel       *prefPanel;
   IBOutlet NSView        *viewPreferences;
   IBOutlet NSScrollView  *matrixScrollView;
-  NSMatrix      *buttonMatrix;
+  IBOutlet NSMatrix      *buttonMatrix;
 
   /* Application */
   IBOutlet NSView        *viewApplication;
@@ -45,11 +45,13 @@
   IBOutlet NSPopUpButton *popupLogLevel;
   IBOutlet NSButton      *checkFilterShare;
   IBOutlet NSButton      *checkFilterHistory;
+  IBOutlet NSButton      *checkCheckFieldTypes;
 
   /* Connection */
   IBOutlet NSView        *viewConnection;
   IBOutlet NSTextField   *fieldUpBatchSize;
   IBOutlet NSTextField   *fieldDownBatchSize;
+  IBOutlet NSTextField   *fieldMaxSOQLLength;
 
   /* CSV */
   IBOutlet NSView        *viewCSV;

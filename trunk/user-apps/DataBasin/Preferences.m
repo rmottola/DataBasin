@@ -213,7 +213,7 @@
 
   [defaults setBool:[checkFilterShare state]  forKey:@"FilterObjects_Share"];
   [defaults setBool:[checkFilterHistory state]  forKey:@"FilterObjects_History"];
-  [defaults setBool:[checkFilterHistory state]  forKey:@"DescribeFieldTypesInQueries"];
+  [defaults setBool:[checkCheckFieldTypes state]  forKey:@"DescribeFieldTypesInQueries"];
   
   selectedEncoding = NSUTF8StringEncoding;
   switch([popupStrEncoding indexOfSelectedItem])
@@ -246,15 +246,23 @@
 
   upBatchSize = [fieldUpBatchSize intValue];
   if (upBatchSize > 0)
-    [defaults setObject:[NSNumber numberWithInt:upBatchSize] forKey:@"UpBatchSize"];
-
+    {
+      if (upBatchSize > MAX_BATCH_SIZE)
+        upBatchSize = MAX_BATCH_SIZE;
+      [defaults setObject:[NSNumber numberWithInt:upBatchSize] forKey:@"UpBatchSize"];
+    }
+  
   downBatchSize = [fieldDownBatchSize intValue];
   if (downBatchSize > 0)
     [defaults setObject:[NSNumber numberWithInt:downBatchSize] forKey:@"DownBatchSize"];
   
   maxSOQLLen = [fieldMaxSOQLLength intValue];
-  if (downBatchSize > 0)
-    [defaults setObject:[NSNumber numberWithInt: maxSOQLLen] forKey:@"MaxSOQLQueryLength"];
+  if (maxSOQLLen > 0)
+    {
+      if (maxSOQLLen > MAX_SOQL_LENGTH)
+        maxSOQLLen = MAX_SOQL_LENGTH;
+      [defaults setObject:[NSNumber numberWithInt: maxSOQLLen] forKey:@"MaxSOQLQueryLength"];
+    }
 
   s = [fieldReadQualifier stringValue];
   if (s && [s length] == 1)

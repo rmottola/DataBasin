@@ -229,6 +229,35 @@
   NSDictionary *uInfo;
   NSMutableDictionary *loginSet;
   NSUserDefaults *defaults;
+  BOOL useHTTPS;
+  
+  useHTTPS = YES;
+  if ([[NSProcessInfo processInfo] operatingSystem] == NSMACHOperatingSystem)
+    {
+      NSString *v;
+      NSRange rangeOf10;
+    
+      v = [[NSProcessInfo processInfo] operatingSystemVersionString];
+      NSLog(@"OS Version: %@", v);
+      rangeOf10 = [v rangeOfString:@" 10."];
+      if (rangeOf10.location != NSNotFound)
+        {
+          NSRange rangeOfDot;
+        
+          rangeOfDot = [v rangeOfString:@"." options:0 range:NSMakeRange(rangeOf10.location+rangeOf10.length, [v length]-(rangeOf10.location+rangeOf10.length))];
+          if (rangeOfDot.location != NSNotFound)
+            {
+              NSString *minorStr;
+              int minor;
+              
+              minorStr = [v substringWithRange:NSMakeRange(rangeOf10.location + rangeOf10.length, rangeOfDot.location - (rangeOf10.location + rangeOf10.length))];
+              minor = [minorStr intValue];
+              if (minor > 1 && minor < 10)
+                useHTTPS = NO;
+              NSLog(@"minor version %@: %d", minorStr, minor);
+            }
+        }
+    }
   
   userName = [fieldUserName stringValue];
   password = [fieldPassword stringValue];
@@ -256,7 +285,7 @@
   [logger log:LogStandard :@"[AppController doLogin] Url: %@\n", [url absoluteString]];  
   
   NS_DURING
-    [db login :url :userName :password :YES];
+    [db login :url :userName :password :useHTTPS];
     
     /* session inspector fields */
     [fieldSessionId setStringValue:[db sessionId]];

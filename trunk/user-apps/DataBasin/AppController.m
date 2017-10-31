@@ -398,7 +398,7 @@
   NSSavePanel *savePanel;
   NSArray *types;
   
-  types = [NSArray arrayWithObjects:@"csv", @"xls", nil];
+  types = [NSArray arrayWithObjects:@"csv", @"html", @"xls", nil];
   savePanel = [NSSavePanel savePanel];
   [savePanel setAllowedFileTypes:types];
   if ([savePanel runModal] == NSOKButton)
@@ -433,7 +433,9 @@
   statement = [fieldQuerySelect string];
   filePath = [fieldFileSelect stringValue];
   fileType = DBFileFormatCSV;
-  if ([[[filePath pathExtension] lowercaseString] isEqualToString:@"xls"])
+  if ([[[filePath pathExtension] lowercaseString] isEqualToString:@"html"])
+    fileType = DBFileFormatHTML;
+  else if ([[[filePath pathExtension] lowercaseString] isEqualToString:@"xls"])
     fileType = DBFileFormatXLS;
   
   fileManager = [NSFileManager defaultManager];
@@ -470,9 +472,13 @@
       if (str)
         [(DBCSVWriter *)fileWriter setSeparator:str];
     }
-  else if (fileType == DBFileFormatXLS)
+  else if (fileType == DBFileFormatHTML || fileType == DBFileFormatXLS)
     {
       fileWriter = [[DBHTMLWriter alloc] initWithHandle:fileHandle];
+      if (fileType == DBFileFormatXLS)
+        [fileWriter setFileFormat:DBFileFormatXLS];
+      else
+        [fileWriter setFileFormat:DBFileFormatHTML];
     }
   [fileWriter setWriteFieldsOrdered:([orderedWritingSelect state] == NSOnState)];
   [fileWriter setLogger:logger];
@@ -909,7 +915,7 @@
   NSSavePanel *savePanel;
   NSArray *types;
   
-  types = [NSArray arrayWithObjects:@"csv", @"xls", nil];  
+  types = [NSArray arrayWithObjects:@"csv", @"html", @"xls", nil];  
   savePanel = [NSSavePanel savePanel];
   [savePanel setAllowedFileTypes:types];
   if ([savePanel runModal] == NSOKButton)
@@ -949,7 +955,9 @@
   filePathIn = [fieldFileSelectIdentifyIn stringValue];
   filePathOut = [fieldFileSelectIdentifyOut stringValue];
   fileTypeOut = DBFileFormatCSV;
-  if ([[[filePathOut pathExtension] lowercaseString] isEqualToString:@"xls"])
+  if ([[[filePathOut pathExtension] lowercaseString] isEqualToString:@"html"])
+    fileTypeOut = DBFileFormatHTML;
+  else if ([[[filePathOut pathExtension] lowercaseString] isEqualToString:@"xls"])
     fileTypeOut = DBFileFormatXLS;
   
   batchSize = 0;
@@ -1019,9 +1027,13 @@
 	[(DBCSVWriter *)fileWriter setSeparator:str];
       [(DBCSVWriter *)fileWriter setLineBreakHandling:[defaults integerForKey:CSVWriteLineBreakHandling]];
     }
-  else if (fileTypeOut == DBFileFormatXLS)
+  else if (fileTypeOut == DBFileFormatHTML || fileTypeOut == DBFileFormatXLS)
     {
       fileWriter = [[DBHTMLWriter alloc] initWithHandle:fileHandleOut];
+      if (fileTypeOut == DBFileFormatXLS)
+        [fileWriter setFileFormat:DBFileFormatXLS];
+      else
+        [fileWriter setFileFormat:DBFileFormatHTML];
     }
 
   [fileWriter setLogger:logger];

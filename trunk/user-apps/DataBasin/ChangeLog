@@ -1,6 +1,11 @@
 2017-10-31 Riccardo Mottola <rm@gnu.org>
 
 	* AppController.m
+        Allow HTML and XLS.
+
+2017-10-31 Riccardo Mottola <rm@gnu.org>
+
+	* AppController.m
 	Add missing preference settings and improve reloadDefaults.
 
 2017-10-26 Riccardo Mottola <rm@gnu.org>

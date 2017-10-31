@@ -63,13 +63,6 @@
       else
 	loginDict = [NSMutableDictionary dictionaryWithDictionary:loginDict];
       [loginDict retain];
-
-      /* if none found, set a reasonable default for the upload and insert batch size */
-      if (![defaults objectForKey:@"UpBatchSize"])
-	[defaults setObject:[NSNumber numberWithInt:100] forKey:@"UpBatchSize"];
-      /* if none found, set a reasonable default for the query batch size */
-      if (![defaults objectForKey:@"DownBatchSize"])
-	[defaults setObject:[NSNumber numberWithInt:500] forKey:@"DownBatchSize"];
     }
   return self;
 }
@@ -111,10 +104,10 @@
 {
   NSUserDefaults *defaults;
   id obj;
-  int size;
+  unsigned size;
   
   defaults = [NSUserDefaults standardUserDefaults];
-  
+
   obj = [defaults objectForKey: @"LogLevel"];
   /* if the log level is not set we set it to the standard level */
   if (obj == nil)
@@ -126,9 +119,9 @@
 
   obj = [defaults objectForKey: @"StringEncoding"];
   if (obj == nil)
-	{
-	  obj = [NSNumber numberWithInt: NSUTF8StringEncoding];
-	  [defaults setObject:obj forKey: @"StringEncoding"];
+    {
+      obj = [NSNumber numberWithInt: NSUTF8StringEncoding];
+      [defaults setObject:obj forKey: @"StringEncoding"];
     }
 	
   size = [defaults integerForKey:@"UpBatchSize"];
@@ -146,6 +139,18 @@
       [defaults setInteger:size forKey:@"DownBatchSize"];
     }
   [db setDownBatchSize:size];
+
+  size = [defaults integerForKey:@"MaxSOQLQueryLength"];
+  if (size == 0)
+    {
+      size = MAX_SOQL_LENGTH;
+      [defaults setInteger:size forKey:@"MaxSOQLQueryLength"];
+    }
+  [db setMaxSOQLLength:size];
+
+  [db setEnableFieldTypesDescribeForQuery:[[defaults objectForKey:@"DescribeFieldTypesInQueries"] boolValue]];
+
+  [defaults synchronize];
 
   // FIXME here we should set the defaults of the CSV reader/writers
 }
@@ -268,11 +273,13 @@
   /* if present, we append the security token to the password */
   if (token != nil)
     password = [password stringByAppendingString:token];
-    
+
   db = [[DBSoap alloc] init];
   [db setLogger: logger];
   [db setUpBatchSize:[[defaults objectForKey:@"UpBatchSize"] intValue]];
   [db setDownBatchSize:[[defaults objectForKey:@"DownBatchSize"] intValue]];
+  [db setMaxSOQLLength:[[defaults objectForKey:@"MaxSOQLQueryLength"] intValue]];
+  [db setEnableFieldTypesDescribeForQuery:[[defaults objectForKey:@"DescribeFieldTypesInQueries"] boolValue]];
   dbCsv = [[DBSoapCSV alloc] init];
   [dbCsv setDBSoap:db];
   

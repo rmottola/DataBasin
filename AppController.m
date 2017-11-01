@@ -1099,7 +1099,7 @@
   NSSavePanel *savePanel;
   NSArray *types;
 
-  types = [NSArray arrayWithObjects:@"csv", @"xls", nil];
+  types = [NSArray arrayWithObjects:@"csv", @"html", @"xls", nil];
   savePanel = [NSSavePanel savePanel];
   [savePanel setAllowedFileTypes:types];
 
@@ -1127,9 +1127,11 @@
     
   filePath = [fieldFileDescribe stringValue];
   fileType = DBFileFormatCSV;
-  if ([[[filePath pathExtension] lowercaseString] isEqualToString:@"xls"])
+  if ([[[filePath pathExtension] lowercaseString] isEqualToString:@"html"])
+    fileType = DBFileFormatHTML;
+  else if ([[[filePath pathExtension] lowercaseString] isEqualToString:@"xls"])
     fileType = DBFileFormatXLS;
-
+  
   fileManager = [NSFileManager defaultManager];
   if ([fileManager createFileAtPath:filePath contents:nil attributes:nil] == NO)
     {
@@ -1155,16 +1157,19 @@
       if (str)
         [(DBCSVWriter *)writer setSeparator:str];
     }
-  else if (fileType == DBFileFormatXLS)
+  else if (fileType == DBFileFormatHTML || fileType == DBFileFormatXLS)
     {
       writer = [[DBHTMLWriter alloc] initWithHandle:fileHandle];
+      if (fileType == DBFileFormatXLS)
+        [writer setFileFormat:DBFileFormatXLS];
+      else
+        [writer setFileFormat:DBFileFormatHTML];
     }
   
   [writer setLogger:logger];
   [writer setStringEncoding: [defaults integerForKey: @"StringEncoding"]];
 
   whichObject = [[[popupObjectsDescribe selectedItem] title] retain];
-  NSLog(@"object: %@", whichObject);
   
   NS_DURING
     [dbCsv describeSObject:whichObject toWriter:writer];

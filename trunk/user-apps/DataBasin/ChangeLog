@@ -1,3 +1,8 @@
+2017-11-10 Riccardo Mottola <rm@gnu.org>
+
+	* AppController.m
+	Better exception handling
+
 2017-10-31 Riccardo Mottola <rm@gnu.org>
 
 	* AppController.m

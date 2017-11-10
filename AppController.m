@@ -637,15 +637,13 @@
     if ([[localException name] hasPrefix:@"DB"])
       {
         [self performSelectorOnMainThread:@selector(showException:) withObject:localException waitUntilDone:YES];
-        [insertProgress release];
         [self resetInsertUI:self];
-        [arp release];
       }
   NS_ENDHANDLER
 
 
   fileManager = [NSFileManager defaultManager];
-  if ([fileManager createFileAtPath:resFilePath contents:nil attributes:nil] == NO)
+  if (results && [fileManager createFileAtPath:resFilePath contents:nil attributes:nil] == NO)
     {
       NSRunAlertPanel(@"Attention", @"Could not create File.", @"Ok", nil, nil);
     }  

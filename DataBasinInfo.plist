@@ -7,7 +7,7 @@
 	"Riccardo Mottola"
     );
     CFBundleIdentifier = "org.gap.DataBasin";
-    Copyright = "Copyright (C) 2008-2017";
+    Copyright = "Copyright (C) 2008-2018";
     CopyrightDescription = "Released under GPL v2+";
     FullVersionID = "1.0b7";
     NSExecutable = DataBasin;

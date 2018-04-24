@@ -2,7 +2,7 @@
 
 APP_NAME=DataBasin
 APP_BUNDLE=$APP_NAME.app
-DEST_DIR="/c/Users/mottola/Desktop"
+DEST_DIR=/c/Users/$LOGNAME/Desktop
 APP_DIR=$DEST_DIR/$APP_BUNDLE
 GS_CONF_MASTER=windows-GNUstep.conf
 

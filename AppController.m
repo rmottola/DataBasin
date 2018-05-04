@@ -1077,6 +1077,191 @@
   [selectIdentProgress setShouldStop:YES];
 }
 
+
+/*  RETRIEVE  */
+
+- (IBAction)showRetrieve:(id)sender
+{
+  [winRetrieve makeKeyAndOrderFront:self];
+  [progIndRetrieve setIndeterminate:NO];
+  [progIndRetrieve setDoubleValue:0];
+}
+
+- (IBAction)browseFileRetrieveIn:(id)sender
+{
+  NSOpenPanel *openPanel;
+  
+  openPanel = [NSOpenPanel openPanel];
+  if ([openPanel runModal] == NSOKButton)
+    {
+      NSString *fileName;
+      
+      fileName = [openPanel filename];
+      [fieldFileRetrieveIn setStringValue:fileName];
+    }
+}
+
+- (IBAction)browseFileRetrieveOut:(id)sender
+{
+  NSSavePanel *savePanel;
+  NSArray *types;
+  
+  types = [NSArray arrayWithObjects:@"csv", @"html", @"xls", nil];  
+  savePanel = [NSSavePanel savePanel];
+  [savePanel setAllowedFileTypes:types];
+  if ([savePanel runModal] == NSOKButton)
+    {
+      NSString *fileName;
+      
+      fileName = [savePanel filename];
+      [fieldFileRetrieveOut setStringValue:fileName];
+    }
+}
+
+- (void)resetRetrieveUI:(id)arg
+{
+  [buttonRetrieveExec setEnabled:YES];
+  [buttonRetrieveStop setEnabled:NO];
+}
+
+- (void)performRetrieve:(id)arg
+{
+  NSString       *statement;
+  NSString       *filePathIn;
+  NSString       *filePathOut;
+  NSFileHandle   *fileHandleOut;
+  NSFileManager  *fileManager;
+  DBFileWriter   *fileWriter;
+  DBCSVReader    *csvReader;
+  NSString       *fileTypeOut;
+  int            batchSize;
+  NSString       *str;
+  NSUserDefaults *defaults;
+  NSAutoreleasePool *arp;
+
+  arp = [NSAutoreleasePool new];
+  defaults = [NSUserDefaults standardUserDefaults];
+
+  statement = [fieldQueryRetrieve string];
+  filePathIn = [fieldFileRetrieveIn stringValue];
+  filePathOut = [fieldFileRetrieveOut stringValue];
+  fileTypeOut = DBFileFormatCSV;
+  if ([[[filePathOut pathExtension] lowercaseString] isEqualToString:@"html"])
+    fileTypeOut = DBFileFormatHTML;
+  else if ([[[filePathOut pathExtension] lowercaseString] isEqualToString:@"xls"])
+    fileTypeOut = DBFileFormatXLS;
+  
+  batchSize = 0;
+  switch ([[popupBatchSizeIdentify selectedItem] tag])
+    {
+    case 1:
+      batchSize = 1;
+      break;
+    case 2:
+      batchSize = 10;
+      break;     
+    case 99:
+      batchSize = -1;
+      break;
+    default:
+      [logger log:LogStandard :@"[AppController executeRetrieve] unexpected batch size\n"];
+    }
+  [logger log:LogDebug :@"[AppController executeRetrieve] batch Size: %d\n", batchSize];
+  
+  fileManager = [NSFileManager defaultManager];
+
+  csvReader = [[DBCSVReader alloc] initWithPath:filePathIn withLogger:logger];
+  str = [defaults stringForKey:@"CSVReadQualifier"];
+  if (str)
+    [csvReader setQualifier:str];
+  str = [defaults stringForKey:@"CSVReadSeparator"];
+  if (str)
+    [csvReader setSeparator:str];
+  [csvReader parseHeaders];
+  if ([fileManager createFileAtPath:filePathOut contents:nil attributes:nil] == NO)
+    {
+      NSRunAlertPanel(@"Attention", @"Could not create File.", @"Ok", nil, nil);
+      [csvReader release];
+      [arp release];
+      [self performSelectorOnMainThread:@selector(resetRetrieveUI:) withObject:self waitUntilDone:NO];
+      return;
+    }  
+
+  fileHandleOut = [NSFileHandle fileHandleForWritingAtPath:filePathOut];
+  if (fileHandleOut == nil)
+    {
+      NSRunAlertPanel(@"Attention", @"Cannot create File.", @"Ok", nil, nil);
+      [csvReader release];
+      [arp release];
+      [self performSelectorOnMainThread:@selector(resetRetrieveUI:) withObject:self waitUntilDone:NO];
+      return;
+    }
+
+  fileWriter = nil;
+  if (fileTypeOut == DBFileFormatCSV)
+    {
+      fileWriter = [[DBCSVWriter alloc] initWithHandle:fileHandleOut];
+      str = [defaults stringForKey:@"CSVWriteQualifier"];
+      if (str)
+	[(DBCSVWriter *)fileWriter setQualifier:str];
+      str = [defaults stringForKey:@"CSVWriteSeparator"];
+      if (str)
+	[(DBCSVWriter *)fileWriter setSeparator:str];
+      [(DBCSVWriter *)fileWriter setLineBreakHandling:[defaults integerForKey:CSVWriteLineBreakHandling]];
+    }
+  else if (fileTypeOut == DBFileFormatHTML || fileTypeOut == DBFileFormatXLS)
+    {
+      fileWriter = [[DBHTMLWriter alloc] initWithHandle:fileHandleOut];
+      if (fileTypeOut == DBFileFormatXLS)
+        [fileWriter setFileFormat:DBFileFormatXLS];
+      else
+        [fileWriter setFileFormat:DBFileFormatHTML];
+    }
+
+  [fileWriter setLogger:logger];
+  [fileWriter setWriteFieldsOrdered:([orderedWritingRetrieve state] == NSOnState)];
+  [fileWriter setStringEncoding: [defaults integerForKey: @"StringEncoding"]];
+
+  
+  retrieveProgress = [[DBProgress alloc] init];
+  [retrieveProgress setLogger:logger];
+  [retrieveProgress setProgressIndicator: progIndRetrieve];
+  [retrieveProgress setRemainingTimeField: fieldRTRetrieve];
+  [retrieveProgress reset];
+
+  NS_DURING
+    [dbCsv retrieve :statement fromReader:csvReader toWriter:fileWriter withBatchSize:batchSize progressMonitor:retrieveProgress];
+  NS_HANDLER
+    if ([[localException name] hasPrefix:@"DB"])
+      {
+        [self performSelectorOnMainThread:@selector(showException:) withObject:localException waitUntilDone:YES];
+      }
+  NS_ENDHANDLER
+
+  [csvReader release];
+  [fileWriter release];
+  [fileHandleOut closeFile];
+  
+  [retrieveProgress release];
+  retrieveProgress = nil;
+  [self performSelectorOnMainThread:@selector(resetRetrieveUI:) withObject:self waitUntilDone:NO];
+  [arp release];
+}
+
+- (IBAction)executeRetrieve:(id)sender
+{
+  [buttonRetrieveExec setEnabled:NO];
+  [buttonRetrieveStop setEnabled:YES];
+  [NSThread detachNewThreadSelector:@selector(performRetrieve:) toTarget:self withObject:nil];
+}
+
+
+- (IBAction)stopRetrieve:(id)sender
+{
+  [retrieveProgress setShouldStop:YES];
+}
+
+
 /* DESCRIBE */
 
 - (IBAction)showDescribe:(id)sender

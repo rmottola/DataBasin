@@ -1152,7 +1152,7 @@
     fileTypeOut = DBFileFormatXLS;
   
   batchSize = 0;
-  switch ([[popupBatchSizeIdentify selectedItem] tag])
+  switch ([[popupBatchSizeRetrieve selectedItem] tag])
     {
     case 1:
       batchSize = 1;

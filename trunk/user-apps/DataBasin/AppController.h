@@ -1,7 +1,7 @@
 /* -*- mode: objc -*-
    Project: DataBasin
 
-   Copyright (C) 2008-2016 Free Software Foundation
+   Copyright (C) 2008-2018 Free Software Foundation
 
    Author: Riccardo Mottola
 
@@ -97,6 +97,19 @@
   IBOutlet NSButton      *buttonSelectIdentExec;
   IBOutlet NSButton      *buttonSelectIdentStop;
   DBProgress *selectIdentProgress;
+
+  /* query retrieve */
+  IBOutlet NSWindow      *winRetrieve;
+  IBOutlet NSTextView    *fieldQueryRetrieve;
+  IBOutlet NSTextField   *fieldFileRetrieveIn;
+  IBOutlet NSTextField   *fieldFileRetrieveOut;
+  IBOutlet NSPopUpButton *popupBatchSizeRetrieve;
+  IBOutlet NSProgressIndicator *progIndRetrieve;
+  IBOutlet NSTextField   *fieldRTRetrieve;
+  IBOutlet NSButton      *orderedWritingRetrieve;
+  IBOutlet NSButton      *buttonRetrieveExec;
+  IBOutlet NSButton      *buttonRetrieveStop;
+  DBProgress *retrieveProgress;
   
   /* insert */
   IBOutlet NSWindow      *winInsert;
@@ -178,6 +191,12 @@
 - (IBAction)browseFileSelectIdentifyOut:(id)sender;
 - (IBAction)executeSelectIdentify:(id)sender;
 - (IBAction)stopSelectIdentify:(id)sender;
+
+- (IBAction)showRetrieve:(id)sender;
+- (IBAction)browseFileRetrieveIn:(id)sender;
+- (IBAction)browseFileRetrieveOut:(id)sender;
+- (IBAction)executeRetrieve:(id)sender;
+- (IBAction)stopRetrieve:(id)sender;
 
 - (IBAction)showQuickDelete:(id)sender;
 - (IBAction)quickDelete:(id)sender;

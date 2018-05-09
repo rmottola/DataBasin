@@ -1159,7 +1159,22 @@
       break;
     case 2:
       batchSize = 10;
-      break;     
+      break;
+    case 3:
+      batchSize = 50;
+      break;
+    case 4:
+      batchSize = 100;
+      break;      
+    case 5:
+      batchSize = 200;
+      break;
+    case 6:
+      batchSize = 500;
+      break;
+    case 7:
+      batchSize = 1000;
+      break;
     case 99:
       batchSize = -1;
       break;

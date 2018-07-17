@@ -110,6 +110,15 @@
   IBOutlet NSButton      *buttonRetrieveExec;
   IBOutlet NSButton      *buttonRetrieveStop;
   DBProgress *retrieveProgress;
+
+  /* getDeleted */
+  IBOutlet NSWindow      *winGetDeleted;
+  IBOutlet NSTextField   *fieldFileGetDeleted;
+  IBOutlet NSProgressIndicator *progIndGetDeleted;
+  IBOutlet NSPopUpButton *popupObjectsGetDeleted;
+  IBOutlet NSButton      *buttonGetDeletedExec;
+  IBOutlet NSButton      *buttonGetDeletedStop;
+  DBProgress *getDeletedProgress;
   
   /* insert */
   IBOutlet NSWindow      *winInsert;
@@ -151,6 +160,7 @@
   IBOutlet NSButton      *buttonDeleteExec;
   IBOutlet NSButton      *buttonDeleteStop;
   DBProgress *deleteProgress;
+
   
   /* object inspector */
   DBObjectInspector *objInspector;
@@ -197,6 +207,10 @@
 - (IBAction)browseFileRetrieveOut:(id)sender;
 - (IBAction)executeRetrieve:(id)sender;
 - (IBAction)stopRetrieve:(id)sender;
+
+- (IBAction)showGetDeleted:(id)sender;
+- (IBAction)browseFileGetDeleted:(id)sender;
+- (IBAction)executeGetDeleted:(id)sender;
 
 - (IBAction)showQuickDelete:(id)sender;
 - (IBAction)quickDelete:(id)sender;

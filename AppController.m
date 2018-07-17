@@ -1,7 +1,7 @@
 /* 
    Project: DataBasin
 
-   Copyright (C) 2008-2017 Free Software Foundation
+   Copyright (C) 2008-2018 Free Software Foundation
 
    Author: Riccardo Mottola
 
@@ -1276,6 +1276,117 @@
   [retrieveProgress setShouldStop:YES];
 }
 
+/* GET DELETED */
+
+- (IBAction)showGetDeleted:(id)sender
+{
+  NSArray *objectNames;
+
+  objectNames = [db sObjectNames];
+  [logger log:LogStandard :@"[AppController showGetDeleted] Objects: %lu", (unsigned long)[objectNames count]];
+
+  [popupObjectsGetDeleted removeAllItems];
+  [popupObjectsGetDeleted addItemsWithTitles: objectNames];
+    
+  [winGetDeleted makeKeyAndOrderFront:self];
+}
+
+- (IBAction)browseFileGetDeleted:(id)sender
+{
+  NSSavePanel *savePanel;
+  NSArray *types;
+
+  types = [NSArray arrayWithObjects:@"csv", @"html", @"xls", nil];
+  savePanel = [NSSavePanel savePanel];
+  [savePanel setAllowedFileTypes:types];
+
+  if ([savePanel runModal] == NSOKButton)
+    {
+      NSString *fileName;
+    
+      fileName = [savePanel filename];
+      [fieldFileGetDeleted setStringValue:fileName];
+    }
+}
+
+- (IBAction)executeGetDeleted:(id)sender
+{
+  NSString       *filePath;
+  DBFileWriter   *writer;
+  NSString       *whichObject;
+  NSFileManager  *fileManager;
+  NSFileHandle   *fileHandle;
+  NSUserDefaults *defaults;
+  NSString       *str;
+  NSString       *fileType;
+  NSDate         *startDate;
+  NSDate         *endDate;
+
+  defaults = [NSUserDefaults standardUserDefaults];
+    
+  filePath = [fieldFileGetDeleted stringValue];
+  fileType = DBFileFormatCSV;
+  if ([[[filePath pathExtension] lowercaseString] isEqualToString:@"html"])
+    fileType = DBFileFormatHTML;
+  else if ([[[filePath pathExtension] lowercaseString] isEqualToString:@"xls"])
+    fileType = DBFileFormatXLS;
+  
+  fileManager = [NSFileManager defaultManager];
+  if ([fileManager createFileAtPath:filePath contents:nil attributes:nil] == NO)
+    {
+      NSRunAlertPanel(@"Attention", @"Could not create File.", @"Ok", nil, nil);
+      return;
+    }  
+
+  fileHandle = [NSFileHandle fileHandleForWritingAtPath:filePath];
+  if (fileHandle == nil)
+    {
+      NSRunAlertPanel(@"Attention", @"Cannot create File.", @"Ok", nil, nil);
+    }
+
+  writer = nil;
+  if (fileType == DBFileFormatCSV)
+    {
+      writer = [[DBCSVWriter alloc] initWithHandle:fileHandle];
+      [(DBCSVWriter *)writer setLineBreakHandling:[defaults integerForKey:CSVWriteLineBreakHandling]];
+      str = [defaults stringForKey:@"CSVWriteQualifier"];
+      if (str)
+        [(DBCSVWriter *)writer setQualifier:str];
+      str = [defaults stringForKey:@"CSVWriteSeparator"];
+      if (str)
+        [(DBCSVWriter *)writer setSeparator:str];
+    }
+  else if (fileType == DBFileFormatHTML || fileType == DBFileFormatXLS)
+    {
+      writer = [[DBHTMLWriter alloc] initWithHandle:fileHandle];
+      if (fileType == DBFileFormatXLS)
+        [writer setFileFormat:DBFileFormatXLS];
+      else
+        [writer setFileFormat:DBFileFormatHTML];
+    }
+  
+  [writer setLogger:logger];
+  [writer setStringEncoding: [defaults integerForKey: @"StringEncoding"]];
+
+  whichObject = [[[popupObjectsGetDeleted selectedItem] title] retain];
+
+  startDate = [NSDate date];
+  endDate = [NSDate date];
+  startDate = [startDate addTimeInterval:-30*24*3600];
+  
+  NS_DURING
+    [dbCsv getDeleted:whichObject :startDate :endDate toWriter:writer progressMonitor:nil];
+  NS_HANDLER
+    if ([[localException name] hasPrefix:@"DB"])
+      {
+        [self performSelectorOnMainThread:@selector(showException:) withObject:localException waitUntilDone:YES];
+      }
+  NS_ENDHANDLER
+
+  [writer release];
+  [fileHandle closeFile];
+  [whichObject release];
+}
 
 /* DESCRIBE */
 

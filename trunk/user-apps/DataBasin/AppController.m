@@ -1276,6 +1276,118 @@
   [retrieveProgress setShouldStop:YES];
 }
 
+/* GET UPDATED */
+
+- (IBAction)showGetUpdated:(id)sender
+{
+  NSArray *objectNames;
+
+  objectNames = [db sObjectNames];
+  [logger log:LogStandard :@"[AppController showGetUpdated] Objects: %lu", (unsigned long)[objectNames count]];
+
+  [popupObjectsGetUpdated removeAllItems];
+  [popupObjectsGetUpdated addItemsWithTitles: objectNames];
+    
+  [winGetUpdated makeKeyAndOrderFront:self];
+}
+
+- (IBAction)browseFileGetUpdated:(id)sender
+{
+  NSSavePanel *savePanel;
+  NSArray *types;
+
+  types = [NSArray arrayWithObjects:@"csv", @"html", @"xls", nil];
+  savePanel = [NSSavePanel savePanel];
+  [savePanel setAllowedFileTypes:types];
+
+  if ([savePanel runModal] == NSOKButton)
+    {
+      NSString *fileName;
+    
+      fileName = [savePanel filename];
+      [fieldFileGetUpdated setStringValue:fileName];
+    }
+}
+
+- (IBAction)executeGetUpdated:(id)sender
+{
+  NSString       *filePath;
+  DBFileWriter   *writer;
+  NSString       *whichObject;
+  NSFileManager  *fileManager;
+  NSFileHandle   *fileHandle;
+  NSUserDefaults *defaults;
+  NSString       *str;
+  NSString       *fileType;
+  NSDate         *startDate;
+  NSDate         *endDate;
+
+  defaults = [NSUserDefaults standardUserDefaults];
+    
+  filePath = [fieldFileGetUpdated stringValue];
+  fileType = DBFileFormatCSV;
+  if ([[[filePath pathExtension] lowercaseString] isEqualToString:@"html"])
+    fileType = DBFileFormatHTML;
+  else if ([[[filePath pathExtension] lowercaseString] isEqualToString:@"xls"])
+    fileType = DBFileFormatXLS;
+  
+  fileManager = [NSFileManager defaultManager];
+  if ([fileManager createFileAtPath:filePath contents:nil attributes:nil] == NO)
+    {
+      NSRunAlertPanel(@"Attention", @"Could not create File.", @"Ok", nil, nil);
+      return;
+    }  
+
+  fileHandle = [NSFileHandle fileHandleForWritingAtPath:filePath];
+  if (fileHandle == nil)
+    {
+      NSRunAlertPanel(@"Attention", @"Cannot create File.", @"Ok", nil, nil);
+    }
+
+  writer = nil;
+  if (fileType == DBFileFormatCSV)
+    {
+      writer = [[DBCSVWriter alloc] initWithHandle:fileHandle];
+      [(DBCSVWriter *)writer setLineBreakHandling:[defaults integerForKey:CSVWriteLineBreakHandling]];
+      str = [defaults stringForKey:@"CSVWriteQualifier"];
+      if (str)
+        [(DBCSVWriter *)writer setQualifier:str];
+      str = [defaults stringForKey:@"CSVWriteSeparator"];
+      if (str)
+        [(DBCSVWriter *)writer setSeparator:str];
+    }
+  else if (fileType == DBFileFormatHTML || fileType == DBFileFormatXLS)
+    {
+      writer = [[DBHTMLWriter alloc] initWithHandle:fileHandle];
+      if (fileType == DBFileFormatXLS)
+        [writer setFileFormat:DBFileFormatXLS];
+      else
+        [writer setFileFormat:DBFileFormatHTML];
+    }
+  
+  [writer setLogger:logger];
+  [writer setStringEncoding: [defaults integerForKey: @"StringEncoding"]];
+
+  whichObject = [[[popupObjectsGetUpdated selectedItem] title] retain];
+
+  startDate = [NSDate date];
+  endDate = [NSDate date];
+  startDate = [startDate addTimeInterval:-30*24*3600];
+  
+  NS_DURING
+    [dbCsv getUpdated:whichObject :startDate :endDate toWriter:writer progressMonitor:nil];
+  NS_HANDLER
+    if ([[localException name] hasPrefix:@"DB"])
+      {
+        [self performSelectorOnMainThread:@selector(showException:) withObject:localException waitUntilDone:YES];
+      }
+  NS_ENDHANDLER
+
+  [writer release];
+  [fileHandle closeFile];
+  [whichObject release];
+}
+
 /* GET DELETED */
 
 - (IBAction)showGetDeleted:(id)sender
@@ -1623,8 +1735,6 @@
   defaults = [NSUserDefaults standardUserDefaults];  
   filePath = [fieldFileDelete stringValue];
   resFilePath = [[filePath stringByDeletingLastPathComponent] stringByAppendingPathComponent: @"results.csv"];
-
-  NSLog(@"writing results to: %@", resFilePath);
     
   reader = [[DBCSVReader alloc] initWithPath:filePath byParsingHeaders:([checkSkipFirstLine state]==NSOnState) withLogger:logger];
   str = [defaults stringForKey:@"CSVReadQualifier"];
@@ -1698,6 +1808,128 @@
 - (IBAction)stopDelete:(id)sender
 {
   [deleteProgress setShouldStop:YES];
+}
+
+/* UNDELETE */
+
+- (IBAction)showUnDelete:(id)sender
+{
+  [winUnDelete makeKeyAndOrderFront:self];
+  [progIndUnDelete setIndeterminate:NO];
+  [progIndUnDelete setDoubleValue:0];
+}
+
+- (IBAction)browseFileUnDelete:(id)sender
+{
+  NSOpenPanel *openPanel;
+  
+  openPanel = [NSOpenPanel openPanel];
+//  [openPanel setRequiredFileType:@"csv"];
+  if ([openPanel runModal] == NSOKButton)
+    {
+      NSString *fileName;
+      
+      fileName = [openPanel filename];
+      [fieldFileUnDelete setStringValue:fileName];
+    }
+}
+
+- (void)resetUnDeleteUI:(id)arg
+{
+  [buttonUnDeleteExec setEnabled:YES];
+  [buttonUnDeleteStop setEnabled:NO];
+}
+
+- (void)performUnDelete:(id)arg
+{
+  NSString       *filePath;
+  NSString       *resFilePath;
+  DBCSVReader    *reader;
+  DBCSVWriter    *resWriter;
+  NSMutableArray *results;
+  NSFileManager  *fileManager;
+  NSFileHandle   *resFH;
+  NSUserDefaults *defaults;
+  NSString       *str;
+  NSAutoreleasePool *arp;
+
+  arp = [NSAutoreleasePool new];
+  defaults = [NSUserDefaults standardUserDefaults];  
+  filePath = [fieldFileUnDelete stringValue];
+  resFilePath = [[filePath stringByDeletingLastPathComponent] stringByAppendingPathComponent: @"results.csv"];
+    
+  reader = [[DBCSVReader alloc] initWithPath:filePath byParsingHeaders:YES withLogger:logger];
+  str = [defaults stringForKey:@"CSVReadQualifier"];
+  if (str)
+    [reader setQualifier:str];
+  str = [defaults stringForKey:@"CSVReadSeparator"];
+  if (str)
+    [reader setSeparator:str];
+  /* no need to reparse the headers since they are not used, just skipped */
+
+  unDeleteProgress = [[DBProgress alloc] init];
+  [unDeleteProgress setProgressIndicator: progIndUnDelete];
+  [unDeleteProgress setRemainingTimeField: fieldRTUnDelete];
+  [unDeleteProgress setLogger:logger];
+  [unDeleteProgress reset];
+
+  results = nil;  
+  NS_DURING
+    results = [dbCsv undeleteFromReader:reader progressMonitor:unDeleteProgress];
+    [results retain];
+  NS_HANDLER
+    if ([[localException name] hasPrefix:@"DB"])
+      {
+        [self performSelectorOnMainThread:@selector(showException:) withObject:localException waitUntilDone:YES];
+      }
+  NS_ENDHANDLER
+
+  fileManager = [NSFileManager defaultManager];
+  if ([fileManager createFileAtPath:resFilePath contents:nil attributes:nil] == NO)
+    {
+      NSRunAlertPanel(@"Attention", @"Could not create File.", @"Ok", nil, nil);
+    }  
+
+  resFH = [NSFileHandle fileHandleForWritingAtPath:resFilePath];
+  if (resFH == nil)
+    {
+      NSRunAlertPanel(@"Attention", @"Cannot create File.", @"Ok", nil, nil);
+    }
+  else
+    {
+      resWriter = [[DBCSVWriter alloc] initWithHandle:resFH];
+      [resWriter setLogger:logger];
+      [resWriter setStringEncoding: [defaults integerForKey: @"StringEncoding"]];
+      str = [defaults stringForKey:@"CSVWriteQualifier"];
+      if (str)
+        [resWriter setQualifier:str];
+      str = [defaults stringForKey:@"CSVWriteSeparator"];
+      if (str)
+        [resWriter setSeparator:str];
+      
+      [resWriter setFieldNames:[results objectAtIndex: 0] andWriteThem:YES];
+      [resWriter writeDataSet: results];
+      
+      [resWriter release];
+    }
+  [results release];
+  [reader release];
+  [unDeleteProgress release];
+  unDeleteProgress = nil;
+  [self performSelectorOnMainThread:@selector(resetUnDeleteUI:) withObject:self waitUntilDone:NO];
+  [arp release];
+}
+
+- (IBAction)executeUnDelete:(id)sender
+{
+  [buttonUnDeleteExec setEnabled:NO];
+  [buttonUnDeleteStop setEnabled:YES];
+  [NSThread detachNewThreadSelector:@selector(performUnDelete:) toTarget:self withObject:nil];
+}
+
+- (IBAction)stopUnDelete:(id)sender
+{
+  [unDeleteProgress setShouldStop:YES];
 }
 
 /* OBJECT INSPECTOR */

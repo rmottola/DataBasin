@@ -111,13 +111,18 @@
   IBOutlet NSButton      *buttonRetrieveStop;
   DBProgress *retrieveProgress;
 
+  /* getUpdated */
+  IBOutlet NSWindow      *winGetUpdated;
+  IBOutlet NSTextField   *fieldFileGetUpdated;
+  IBOutlet NSPopUpButton *popupObjectsGetUpdated;
+  IBOutlet NSButton      *buttonGetUpdatedExec;
+  DBProgress *getUpdatedProgress;
+
   /* getDeleted */
   IBOutlet NSWindow      *winGetDeleted;
   IBOutlet NSTextField   *fieldFileGetDeleted;
-  IBOutlet NSProgressIndicator *progIndGetDeleted;
   IBOutlet NSPopUpButton *popupObjectsGetDeleted;
   IBOutlet NSButton      *buttonGetDeletedExec;
-  IBOutlet NSButton      *buttonGetDeletedStop;
   DBProgress *getDeletedProgress;
   
   /* insert */
@@ -149,8 +154,6 @@
   IBOutlet NSWindow      *winQuickDelete;
   IBOutlet NSTextField   *fieldObjectIdQd;
   IBOutlet NSTextField   *fieldStatusQd;
-  IBOutlet NSProgressIndicator *progIndDelete;
-  IBOutlet NSTextField   *fieldRTDelete;  
   IBOutlet NSButton      *buttonQuickDeleteExec;
   
   /* mass delete */
@@ -159,7 +162,18 @@
   IBOutlet NSButton      *checkSkipFirstLine;
   IBOutlet NSButton      *buttonDeleteExec;
   IBOutlet NSButton      *buttonDeleteStop;
+  IBOutlet NSTextField   *fieldRTDelete;
+  IBOutlet NSProgressIndicator *progIndDelete;
   DBProgress *deleteProgress;
+
+  /* mass undelete */
+  IBOutlet NSWindow      *winUnDelete;
+  IBOutlet NSTextField   *fieldFileUnDelete;
+  IBOutlet NSButton      *buttonUnDeleteExec;
+  IBOutlet NSButton      *buttonUnDeleteStop;
+  IBOutlet NSTextField   *fieldRTUnDelete;
+  IBOutlet NSProgressIndicator *progIndUnDelete;
+  DBProgress *unDeleteProgress;
 
   
   /* object inspector */
@@ -208,6 +222,10 @@
 - (IBAction)executeRetrieve:(id)sender;
 - (IBAction)stopRetrieve:(id)sender;
 
+- (IBAction)showGetUpdated:(id)sender;
+- (IBAction)browseFileGetUpdated:(id)sender;
+- (IBAction)executeGetUpdated:(id)sender;
+
 - (IBAction)showGetDeleted:(id)sender;
 - (IBAction)browseFileGetDeleted:(id)sender;
 - (IBAction)executeGetDeleted:(id)sender;
@@ -233,6 +251,11 @@
 - (IBAction)browseFileDelete:(id)sender;
 - (IBAction)executeDelete:(id)sender;
 - (IBAction)stopDelete:(id)sender;
+
+- (IBAction)showUnDelete:(id)sender;
+- (IBAction)browseFileUnDelete:(id)sender;
+- (IBAction)executeUnDelete:(id)sender;
+- (IBAction)stopUnDelete:(id)sender;
 
 - (IBAction)showObjectInspector:(id)sender;
 

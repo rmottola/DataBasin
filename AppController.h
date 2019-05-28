@@ -1,7 +1,7 @@
 /* -*- mode: objc -*-
    Project: DataBasin
 
-   Copyright (C) 2008-2018 Free Software Foundation
+   Copyright (C) 2008-2019 Free Software Foundation
 
    Author: Riccardo Mottola
 
@@ -60,6 +60,8 @@
   IBOutlet NSTextField   *fieldSessionId;
   IBOutlet NSTextField   *fieldServerUrl;
   IBOutlet NSTextField   *fieldPwdExpired;
+  IBOutlet NSButton      *buttonSessionEditEnable;
+  IBOutlet NSButton      *buttonSetSessionData;
 
   /* user and environment */
   IBOutlet NSWindow      *winUserInspector;
@@ -190,7 +192,7 @@
 - (void)applicationWillTerminate:(NSNotification *)aNotif;
 - (BOOL)application:(NSApplication *)application openFile:(NSString *)fileName;
 
-/* reload defaults that are not queryied dymanically and need be reloaded on their change */
+/* reload defaults that are not queryied dynamically and need be reloaded on their change */
 - (void)reloadDefaults;
 
 - (IBAction)showPrefPanel:(id)sender;
@@ -200,6 +202,9 @@
 - (IBAction)doLogin:(id)sender;
 
 - (IBAction)showSessionInspector:(id)sender;
+- (IBAction)setEnableSessionEditing:(id)sender;
+- (IBAction)setSessionData:(id)sender;
+
 - (IBAction)showUserInspector:(id)sender;
 - (IBAction)showLog:(id)sender;
 

@@ -189,6 +189,57 @@
   [winUserInspector makeKeyAndOrderFront:self];
 }
 
+- (IBAction)setEnableSessionEditing:(id)sender
+{
+  if ([buttonSessionEditEnable state] == NSOnState)
+    {
+      [fieldServerUrl setEditable:YES];
+      [fieldSessionId setEditable:YES];
+      [buttonSetSessionData setEnabled:YES];
+    }
+  else
+    {
+      [fieldServerUrl setEditable:NO];
+      [fieldSessionId setEditable:NO];
+      [buttonSetSessionData setEnabled:NO];
+    }
+}
+
+- (IBAction)setSessionData:(id)sender
+{
+  NSString *session;
+  NSString *URL;
+  NSUserDefaults *defaults;
+
+  session = [fieldSessionId stringValue];
+  URL = [fieldServerUrl stringValue];
+
+  defaults = [NSUserDefaults standardUserDefaults];
+  
+  NSLog(@"set!");
+
+  [db release];
+
+  db = [[DBSoap alloc] init];
+  [db setLogger: logger];
+  [db setUpBatchSize:[[defaults objectForKey:@"UpBatchSize"] intValue]];
+  [db setDownBatchSize:[[defaults objectForKey:@"DownBatchSize"] intValue]];
+  [db setMaxSOQLLength:[[defaults objectForKey:@"MaxSOQLQueryLength"] intValue]];
+  [db setEnableFieldTypesDescribeForQuery:[[defaults objectForKey:@"DescribeFieldTypesInQueries"] boolValue]];
+
+  [db setSessionId:session];
+  [db setServerUrl:URL];
+
+  [dbCsv release];
+  dbCsv = [[DBSoapCSV alloc] init];
+  [dbCsv setDBSoap:db];
+
+  [logger log:LogStandard :@"[AppController doSetSessionData] set Session Data directly\n"];
+
+  /* set or update soap handlers */
+  [objInspector setSoapHandler:db];
+}
+
 /* LOGGER */
 - (IBAction)showLog:(id)sender
 {

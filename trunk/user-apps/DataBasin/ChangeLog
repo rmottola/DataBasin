@@ -1,3 +1,10 @@
+2018-09-28 Riccardo Mottola <rm@gnu.org>
+
+	* AppController.h
+	* AppController.m
+	* Resources/DataBasin.gorm
+	Allow setting Session Info directly without login (useful for SSO)
+
 2018-07-23 Riccardo Mottola <rm@gnu.org>
 
 	* AppController.h

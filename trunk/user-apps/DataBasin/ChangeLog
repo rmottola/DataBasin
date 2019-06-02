@@ -1,4 +1,9 @@
-2018-09-28 Riccardo Mottola <rm@gnu.org>
+2019-06-02 Riccardo Mottola <rm@gnu.org>
+
+	* AppController.m
+	Update to new API using NSURL instead of NSString as service URL type.
+
+2019-05-28 Riccardo Mottola <rm@gnu.org>
 
 	* AppController.h
 	* AppController.m

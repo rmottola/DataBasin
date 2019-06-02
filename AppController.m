@@ -1,7 +1,7 @@
 /* 
    Project: DataBasin
 
-   Copyright (C) 2008-2018 Free Software Foundation
+   Copyright (C) 2008-2019 Free Software Foundation
 
    Author: Riccardo Mottola
 
@@ -208,11 +208,11 @@
 - (IBAction)setSessionData:(id)sender
 {
   NSString *session;
-  NSString *URL;
+  NSURL *URL;
   NSUserDefaults *defaults;
 
   session = [fieldSessionId stringValue];
-  URL = [fieldServerUrl stringValue];
+  URL = [[NSURL alloc] initWithString:[fieldServerUrl stringValue]];
 
   defaults = [NSUserDefaults standardUserDefaults];
   
@@ -228,7 +228,8 @@
   [db setEnableFieldTypesDescribeForQuery:[[defaults objectForKey:@"DescribeFieldTypesInQueries"] boolValue]];
 
   [db setSessionId:session];
-  [db setServerUrl:URL];
+  [db setServerURL:URL];
+  [URL release];
 
   [dbCsv release];
   dbCsv = [[DBSoapCSV alloc] init];
@@ -347,7 +348,7 @@
     
     /* session inspector fields */
     [fieldSessionId setStringValue:[db sessionId]];
-    [fieldServerUrl setStringValue:[db serverUrl]];
+    [fieldServerUrl setStringValue:[[db serverURL] absoluteString]];
     if ([db passwordExpired])
       [fieldPwdExpired setStringValue: @"YES"];
     else
@@ -1696,7 +1697,7 @@
   dbSoap = [[DBSoap alloc] init];
   serv = [DBSoap gwserviceForDBSoap];
   [dbSoap setSessionId:[db sessionId]];
-  [serv setURL:[db serverUrl]];  
+  [serv setURL:[db serverURL]];  
   [dbSoap setService:serv];
   
   idArray = [NSArray arrayWithObject:objectId];

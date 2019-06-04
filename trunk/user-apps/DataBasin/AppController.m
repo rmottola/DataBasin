@@ -216,10 +216,11 @@
 
   defaults = [NSUserDefaults standardUserDefaults];
   
-  NSLog(@"set!");
+  NSLog(@"set! URL: %@", URL);
 
   [db release];
-
+  [dbCsv release];
+  
   db = [[DBSoap alloc] init];
   [db setLogger: logger];
   [db setUpBatchSize:[[defaults objectForKey:@"UpBatchSize"] intValue]];
@@ -231,7 +232,6 @@
   [db setServerURL:URL];
   [URL release];
 
-  [dbCsv release];
   dbCsv = [[DBSoapCSV alloc] init];
   [dbCsv setDBSoap:db];
 
@@ -1698,7 +1698,6 @@
   serv = [DBSoap gwserviceForDBSoap];
   [dbSoap setSessionId:[db sessionId]];
   [serv setURL:[db serverURL]];  
-  [dbSoap setService:serv];
   
   idArray = [NSArray arrayWithObject:objectId];
   

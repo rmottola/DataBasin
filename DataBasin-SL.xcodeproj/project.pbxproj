@@ -196,7 +196,7 @@
 /* Begin PBXProject section */
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
-			buildConfigurationList = 85D238C910B151E300F63353 /* Build configuration list for PBXProject "DataBasin" */;
+			buildConfigurationList = 85D238C910B151E300F63353 /* Build configuration list for PBXProject "DataBasin-SL" */;
 			compatibilityVersion = "Xcode 2.4";
 			hasScannedForEncodings = 1;
 			knownRegions = (
@@ -388,7 +388,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Default;
 		};
-		85D238C910B151E300F63353 /* Build configuration list for PBXProject "DataBasin" */ = {
+		85D238C910B151E300F63353 /* Build configuration list for PBXProject "DataBasin-SL" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				85D238CA10B151E300F63353 /* Development */,

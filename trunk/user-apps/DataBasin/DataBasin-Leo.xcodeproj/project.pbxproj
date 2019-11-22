@@ -21,6 +21,8 @@
 		85A74F9717419D47008D7E0B /* Preferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = 85A74F9517419D47008D7E0B /* Preferences.nib */; };
 		85D9E3AE15AB862C0021427F /* Log.nib in Resources */ = {isa = PBXBuildFile; fileRef = 85D9E3AC15AB862C0021427F /* Log.nib */; };
 		85D9E3B215AB8B960021427F /* DBLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 85D9E3B115AB8B960021427F /* DBLogger.m */; };
+		85F1092E23872A2400C3F637 /* MassiveUpdater.nib in Resources */ = {isa = PBXBuildFile; fileRef = 85F1092C23872A2400C3F637 /* MassiveUpdater.nib */; };
+		85F1093723872C3000C3F637 /* DBMassiveUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = 85F1093623872C3000C3F637 /* DBMassiveUpdater.m */; };
 		85F1998812B93B1D0009ED44 /* DBObjectInspector.m in Sources */ = {isa = PBXBuildFile; fileRef = 85F1998712B93B1D0009ED44 /* DBObjectInspector.m */; };
 		85F1998D12B93C790009ED44 /* ObjectInspector.nib in Resources */ = {isa = PBXBuildFile; fileRef = 85F1998B12B93C790009ED44 /* ObjectInspector.nib */; };
 		85F6CF080F223D8F00918601 /* WebServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85F6CF070F223D8F00918601 /* WebServices.framework */; };
@@ -55,6 +57,9 @@
 		85D9E3AD15AB862C0021427F /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/Log.nib; sourceTree = "<group>"; };
 		85D9E3B015AB8B960021427F /* DBLogger.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DBLogger.h; sourceTree = "<group>"; };
 		85D9E3B115AB8B960021427F /* DBLogger.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = DBLogger.m; sourceTree = "<group>"; };
+		85F1092D23872A2400C3F637 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MassiveUpdater.nib; sourceTree = "<group>"; };
+		85F1093523872C3000C3F637 /* DBMassiveUpdater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBMassiveUpdater.h; sourceTree = "<group>"; };
+		85F1093623872C3000C3F637 /* DBMassiveUpdater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBMassiveUpdater.m; sourceTree = "<group>"; };
 		85F1998612B93B1D0009ED44 /* DBObjectInspector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBObjectInspector.h; sourceTree = "<group>"; };
 		85F1998712B93B1D0009ED44 /* DBObjectInspector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBObjectInspector.m; sourceTree = "<group>"; };
 		85F1998C12B93C790009ED44 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/ObjectInspector.nib; sourceTree = "<group>"; };
@@ -90,6 +95,8 @@
 				858D8E650F1EA3BD00CC8F4A /* AppController.m */,
 				85F1998612B93B1D0009ED44 /* DBObjectInspector.h */,
 				85F1998712B93B1D0009ED44 /* DBObjectInspector.m */,
+				85F1093523872C3000C3F637 /* DBMassiveUpdater.h */,
+				85F1093623872C3000C3F637 /* DBMassiveUpdater.m */,
 				85A74F8C17419B41008D7E0B /* Preferences.h */,
 				85A74F8D17419B41008D7E0B /* Preferences.m */,
 			);
@@ -131,6 +138,7 @@
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
+				85F1092C23872A2400C3F637 /* MassiveUpdater.nib */,
 			);
 			name = DataBasin;
 			sourceTree = "<group>";
@@ -196,7 +204,7 @@
 /* Begin PBXProject section */
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
-			buildConfigurationList = 85D238C910B151E300F63353 /* Build configuration list for PBXProject "DataBasin-T" */;
+			buildConfigurationList = 85D238C910B151E300F63353 /* Build configuration list for PBXProject "DataBasin-Leo" */;
 			compatibilityVersion = "Xcode 2.4";
 			hasScannedForEncodings = 1;
 			mainGroup = 29B97314FDCFA39411CA2CEA /* DataBasin */;
@@ -224,6 +232,7 @@
 				85449DA6190C25DB0022D81E /* butt_green_16.tif in Resources */,
 				85449DA7190C25DB0022D81E /* butt_red_16.tif in Resources */,
 				85A180A01BD7F17200F516E9 /* stop_icon_15.tiff in Resources */,
+				85F1092E23872A2400C3F637 /* MassiveUpdater.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -241,6 +250,7 @@
 				856B61AC1642934F00966572 /* DBProgress.m in Sources */,
 				85A74F8E17419B41008D7E0B /* Preferences.m in Sources */,
 				85764DDE1A15374400F4D3ED /* DBTextFormatter.m in Sources */,
+				85F1093723872C3000C3F637 /* DBMassiveUpdater.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -277,6 +287,14 @@
 				85D9E3AD15AB862C0021427F /* English */,
 			);
 			name = Log.nib;
+			sourceTree = "<group>";
+		};
+		85F1092C23872A2400C3F637 /* MassiveUpdater.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				85F1092D23872A2400C3F637 /* English */,
+			);
+			name = MassiveUpdater.nib;
 			sourceTree = "<group>";
 		};
 		85F1998B12B93C790009ED44 /* ObjectInspector.nib */ = {
@@ -377,7 +395,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Default;
 		};
-		85D238C910B151E300F63353 /* Build configuration list for PBXProject "DataBasin-T" */ = {
+		85D238C910B151E300F63353 /* Build configuration list for PBXProject "DataBasin-Leo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				85D238CA10B151E300F63353 /* Development */,

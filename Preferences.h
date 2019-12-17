@@ -1,7 +1,7 @@
 /* -*- mode: objc -*-
   Project: DataBasin
 
-  Copyright (C) 2013-2017 Free Software Foundation
+  Copyright (C) 2013-2019 Free Software Foundation
 
   Author: Riccardo Mottola
 
@@ -52,6 +52,7 @@
   IBOutlet NSTextField   *fieldUpBatchSize;
   IBOutlet NSTextField   *fieldDownBatchSize;
   IBOutlet NSTextField   *fieldMaxSOQLLength;
+  IBOutlet NSButton      *checkAssignmentRules;
 
   /* CSV */
   IBOutlet NSView        *viewCSV;

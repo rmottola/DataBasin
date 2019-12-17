@@ -1,7 +1,7 @@
 /*
   Project: DataBasin
 
-  Copyright (C) 2013-2016 Free Software Foundation
+  Copyright (C) 2013-2019 Free Software Foundation
   
   Author: Riccardo Mottola
   
@@ -93,7 +93,7 @@
   int index;
   id value;
   int i;
-
+  BOOL b;
   defaults = [NSUserDefaults standardUserDefaults];
 
   if ([defaults boolForKey:@"FilterObjects_Share"])
@@ -160,6 +160,9 @@
   i = [defaults integerForKey:@"MaxSOQLQueryLength"];
   if (i > 0)
     [fieldMaxSOQLLength setIntValue:i];    
+  
+  b = [defaults boolForKey:@"RunAssignmentRules"];
+  [checkAssignmentRules setIntValue:b];
 
   value = [defaults stringForKey:@"CSVReadQualifier"];
   if (value)
@@ -207,6 +210,7 @@
   int upBatchSize;
   int downBatchSize;
   int maxSOQLLen;
+  BOOL runAssignmentRules;
   NSString *s;
 
   defaults = [NSUserDefaults standardUserDefaults];
@@ -263,6 +267,9 @@
         maxSOQLLen = MAX_SOQL_LENGTH;
       [defaults setObject:[NSNumber numberWithInt: maxSOQLLen] forKey:@"MaxSOQLQueryLength"];
     }
+  
+  runAssignmentRules = [checkAssignmentRules intValue];
+  [defaults setBool:runAssignmentRules forKey:@"RunAssignmentRules"];
 
   s = [fieldReadQualifier stringValue];
   if (s && [s length] == 1)

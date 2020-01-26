@@ -1,7 +1,7 @@
 /* 
    Project: DataBasin
 
-   Copyright (C) 2008-2019 Free Software Foundation
+   Copyright (C) 2008-2020 Free Software Foundation
 
    Author: Riccardo Mottola
 
@@ -1692,18 +1692,13 @@
       [arp release];
       return;
     }
-
-  /* we clone the soap instance and pass the session, so that the method can run in a separate thread */
-  dbSoap = [[DBSoap alloc] init];
-  serv = [DBSoap gwserviceForDBSoap];
-  [dbSoap setSessionId:[db sessionId]];
-  [serv setURL:[db serverURL]];  
   
   idArray = [NSArray arrayWithObject:objectId];
+  [idArray retain];
   
   NS_DURING
     [fieldStatusQd setStringValue:@"Working..."];
-    resultArray = [dbSoap delete: idArray progressMonitor:nil];
+    resultArray = [db delete: idArray progressMonitor:nil];
   NS_HANDLER
     if ([[localException name] hasPrefix:@"DB"])
       {
@@ -1711,6 +1706,7 @@
       }
   NS_ENDHANDLER
 
+  [idArray release];
   if ([resultArray count] > 0)
     {
       NSDictionary *resultDict;
@@ -1729,7 +1725,6 @@
     }
 
   [self performSelectorOnMainThread:@selector(resetQuickDeleteUI:) withObject:self waitUntilDone:NO];
-  [dbSoap release];
   [arp release];
 }
 

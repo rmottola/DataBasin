@@ -1680,8 +1680,13 @@
   NSAutoreleasePool *arp;
   GWSService     *serv;
   DBSoap         *dbSoap;
+  DBProgress     *progress;
   
   arp = [NSAutoreleasePool new];
+  
+  progress = [[DBProgress alloc] init];
+  [progress setLogger:logger];
+  [progress reset];
   
   resultArray = nil;
   [fieldStatusQd setStringValue:@""];
@@ -1698,7 +1703,7 @@
   
   NS_DURING
     [fieldStatusQd setStringValue:@"Working..."];
-    resultArray = [db delete: idArray progressMonitor:nil];
+    resultArray = [db delete: idArray progressMonitor:progress];
   NS_HANDLER
     if ([[localException name] hasPrefix:@"DB"])
       {
@@ -1725,6 +1730,7 @@
     }
 
   [self performSelectorOnMainThread:@selector(resetQuickDeleteUI:) withObject:self waitUntilDone:NO];
+  [progress release];
   [arp release];
 }
 

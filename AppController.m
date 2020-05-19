@@ -1678,8 +1678,6 @@
   NSArray   *idArray;
   NSMutableArray *resultArray;
   NSAutoreleasePool *arp;
-  GWSService     *serv;
-  DBSoap         *dbSoap;
   DBProgress     *progress;
   
   arp = [NSAutoreleasePool new];

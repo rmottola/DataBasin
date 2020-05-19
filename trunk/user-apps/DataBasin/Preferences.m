@@ -1,7 +1,7 @@
 /*
   Project: DataBasin
 
-  Copyright (C) 2013-2019 Free Software Foundation
+  Copyright (C) 2013-2020 Free Software Foundation
   
   Author: Riccardo Mottola
   
@@ -105,6 +105,16 @@
     [checkFilterHistory setState:NSOnState];
   else
     [checkFilterHistory setState:NSOffState];
+
+  if ([defaults boolForKey:@"FilterObjects_ChangeEvent"])
+    [checkFilterChangeEvent setState:NSOnState];
+  else
+    [checkFilterChangeEvent setState:NSOffState];
+
+  if ([defaults boolForKey:@"FilterObjects_Feed"])
+    [checkFilterFeed setState:NSOnState];
+  else
+    [checkFilterFeed setState:NSOffState];
     
   index = 0;
   switch([defaults integerForKey: @"StringEncoding"])
@@ -217,6 +227,8 @@
 
   [defaults setBool:[checkFilterShare state]  forKey:@"FilterObjects_Share"];
   [defaults setBool:[checkFilterHistory state]  forKey:@"FilterObjects_History"];
+  [defaults setBool:[checkFilterChangeEvent state]  forKey:@"FilterObjects_ChangeEvent"];
+  [defaults setBool:[checkFilterFeed state]  forKey:@"FilterObjects_Feed"];
   [defaults setBool:[checkCheckFieldTypes state]  forKey:@"DescribeFieldTypesInQueries"];
   
   selectedEncoding = NSUTF8StringEncoding;

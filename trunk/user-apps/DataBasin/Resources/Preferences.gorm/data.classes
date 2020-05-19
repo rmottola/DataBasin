@@ -28,6 +28,8 @@
 	    popupLogLevel,
 	    checkFilterShare,
 	    checkFilterHistory,
+	    checkFilterChangeEvent,
+	    checkFilterFeed,
 	    checkCheckFieldTypes,
 	    viewConnection,
 	    fieldUpBatchSize,

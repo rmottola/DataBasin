@@ -582,12 +582,16 @@
   NSMutableArray *filteredObjectNames;
   BOOL filterShare;
   BOOL filterHistory;
+  BOOL filterChangeEvent;
+  BOOL filterFeed;
   NSUInteger i;
   NSUserDefaults *defaults;
 
   defaults = [NSUserDefaults standardUserDefaults];
   filterShare = [defaults boolForKey:@"FilterObjects_Share"];
   filterHistory = [defaults boolForKey:@"FilterObjects_History"];
+  filterChangeEvent = [defaults boolForKey:@"FilterObjects_ChangeEvent"];  
+  filterFeed= [defaults boolForKey:@"FilterObjects_Feed"];
   
   [winInsert makeKeyAndOrderFront:self];
   [progIndInsert setIndeterminate:YES];
@@ -608,12 +612,16 @@
 
       name = [objectNames objectAtIndex:i];
       if (filterShare && [name hasSuffix: @"Share"])
-	name = nil;
+        name = nil;
       if (filterHistory && [name hasSuffix: @"History"])
-	name = nil;
+        name = nil;
+      if (filterChangeEvent && [name hasSuffix: @"ChangeEvent"])
+        name = nil;
+      if (filterFeed && [name hasSuffix: @"Feed"])
+        name = nil;
 
       if (name)
-	[filteredObjectNames addObject:name];
+        [filteredObjectNames addObject:name];
     }
   [popupObjectsInsert removeAllItems];
   [popupObjectsInsert addItemsWithTitles: filteredObjectNames];

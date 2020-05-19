@@ -1565,14 +1565,56 @@
 - (IBAction)showDescribe:(id)sender
 {
   NSArray *objectNames;
+  NSMutableArray *filteredObjectNames;
+  BOOL filterShare;
+  BOOL filterHistory;
+  BOOL filterChangeEvent;
+  BOOL filterFeed;
+  NSUInteger i;
+  NSUserDefaults *defaults;
 
-  objectNames = [db sObjectNames];
+  defaults = [NSUserDefaults standardUserDefaults];
+  filterShare = [defaults boolForKey:@"FilterObjects_Share"];
+  filterHistory = [defaults boolForKey:@"FilterObjects_History"];
+  filterChangeEvent = [defaults boolForKey:@"FilterObjects_ChangeEvent"];  
+  filterFeed= [defaults boolForKey:@"FilterObjects_Feed"];
+
+  [winDescribe makeKeyAndOrderFront:self];
+  objectNames = nil;
+  NS_DURING
+    objectNames = [db sObjectNames];
+  NS_HANDLER
+    if ([[localException name] hasPrefix:@"DB"])
+      {
+        [self performSelectorOnMainThread:@selector(showException:) withObject:localException waitUntilDone:YES];
+      }
+  NS_ENDHANDLER
+    
+  filteredObjectNames = [[NSMutableArray alloc] initWithCapacity:1];
+  for (i = 0; i < [objectNames count]; i++)
+    {
+      NSString *name;
+
+      name = [objectNames objectAtIndex:i];
+      if (filterShare && [name hasSuffix: @"Share"])
+        name = nil;
+      if (filterHistory && [name hasSuffix: @"History"])
+        name = nil;
+      if (filterChangeEvent && [name hasSuffix: @"ChangeEvent"])
+        name = nil;
+      if (filterFeed && [name hasSuffix: @"Feed"])
+        name = nil;
+
+      if (name)
+        [filteredObjectNames addObject:name];
+    }
+
   [logger log:LogStandard :@"[AppController showDescribe] Objects: %lu", (unsigned long)[objectNames count]];
 
   [popupObjectsDescribe removeAllItems];
-  [popupObjectsDescribe addItemsWithTitles: objectNames];
+  [popupObjectsDescribe addItemsWithTitles: filteredObjectNames];
     
-  [winDescribe makeKeyAndOrderFront:self];
+
 }
 
 - (IBAction)browseFileDescribe:(id)sender

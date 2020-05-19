@@ -1,3 +1,9 @@
+2020-05-20 Riccardo Mottola <rm@gnu.org>
+
+	* AppController.m
+	Filter specfic objects selected in preferences also in DescribeObject
+	method.
+
 2020-05-19 Riccardo Mottola <rm@gnu.org>
 
 	* AppController.m

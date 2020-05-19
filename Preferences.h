@@ -1,7 +1,7 @@
 /* -*- mode: objc -*-
   Project: DataBasin
 
-  Copyright (C) 2013-2019 Free Software Foundation
+  Copyright (C) 2013-2020 Free Software Foundation
 
   Author: Riccardo Mottola
 
@@ -45,6 +45,8 @@
   IBOutlet NSPopUpButton *popupLogLevel;
   IBOutlet NSButton      *checkFilterShare;
   IBOutlet NSButton      *checkFilterHistory;
+  IBOutlet NSButton      *checkFilterChangeEvent;
+  IBOutlet NSButton      *checkFilterFeed;
   IBOutlet NSButton      *checkCheckFieldTypes;
 
   /* Connection */

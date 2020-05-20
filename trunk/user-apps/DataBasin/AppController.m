@@ -78,8 +78,17 @@
 }
 
 - (void)awakeFromNib
-{  
+{
+  NSString *lastUsername;
+  
   objInspector = [[DBObjectInspector alloc] init];
+
+  lastUsername = [[NSUserDefaults standardUserDefaults] stringForKey: @"lastUsername"];
+  if (lastUsername != nil)
+    {
+      [fieldUserName setStringValue: lastUsername];
+      [self usernameFieldAction:fieldUserName];
+    }
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotif
@@ -418,6 +427,7 @@
     }
   [[NSUserDefaults standardUserDefaults] setObject:loginDict forKey: @"logins"];
 
+  [[NSUserDefaults standardUserDefaults] setObject:userName forKey: @"lastUsername"];
   /* set or update soap handlers */
   [objInspector setSoapHandler:db];
 }

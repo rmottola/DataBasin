@@ -1,3 +1,8 @@
+2020-05-21 Riccardo Mottola <rm@gnu.org>
+
+	* AppController.m
+	Remember last successful login username.
+
 2020-05-20 Riccardo Mottola <rm@gnu.org>
 
 	* AppController.m

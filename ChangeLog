@@ -1,3 +1,10 @@
+2020-08-21 Riccardo Mottola <rm@gnu.org>
+
+	* AppController.h
+	* AppController.m
+	* Resources/DataBasin.gorm
+	Use a ComboBox instead of PopUpButton for object list.
+
 2020-05-21 Riccardo Mottola <rm@gnu.org>
 
 	* AppController.m

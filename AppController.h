@@ -1,7 +1,7 @@
 /* -*- mode: objc -*-
    Project: DataBasin
 
-   Copyright (C) 2008-2019 Free Software Foundation
+   Copyright (C) 2008-2020 Free Software Foundation
 
    Author: Riccardo Mottola
 
@@ -116,21 +116,21 @@
   /* getUpdated */
   IBOutlet NSWindow      *winGetUpdated;
   IBOutlet NSTextField   *fieldFileGetUpdated;
-  IBOutlet NSPopUpButton *popupObjectsGetUpdated;
+  IBOutlet NSComboBox    *comboObjectsGetUpdated;
   IBOutlet NSButton      *buttonGetUpdatedExec;
   DBProgress *getUpdatedProgress;
 
   /* getDeleted */
   IBOutlet NSWindow      *winGetDeleted;
   IBOutlet NSTextField   *fieldFileGetDeleted;
-  IBOutlet NSPopUpButton *popupObjectsGetDeleted;
+  IBOutlet NSComboBox    *comboObjectsGetDeleted;
   IBOutlet NSButton      *buttonGetDeletedExec;
   DBProgress *getDeletedProgress;
   
   /* insert */
   IBOutlet NSWindow      *winInsert;
   IBOutlet NSTextField   *fieldFileInsert;
-  IBOutlet NSPopUpButton *popupObjectsInsert;
+  IBOutlet NSComboBox    *comboObjectsInsert;
   IBOutlet NSProgressIndicator *progIndInsert;
   IBOutlet NSTextField   *fieldRTInsert;
   IBOutlet NSButton      *buttonInsertExec;
@@ -140,7 +140,7 @@
   /* update */
   IBOutlet NSWindow      *winUpdate;
   IBOutlet NSTextField   *fieldFileUpdate;
-  IBOutlet NSPopUpButton *popupObjectsUpdate;
+  IBOutlet NSComboBox    *comboObjectsUpdate;
   IBOutlet NSProgressIndicator *progIndUpdate;
   IBOutlet NSTextField   *fieldRTUpdate;
   IBOutlet NSButton      *buttonUpdateExec;
@@ -150,7 +150,7 @@
   /* describe */
   IBOutlet NSWindow      *winDescribe;
   IBOutlet NSTextField   *fieldFileDescribe;
-  IBOutlet NSPopUpButton *popupObjectsDescribe;
+  IBOutlet NSComboBox    *comboObjectsDescribe;
   
   /* quick delete */
   IBOutlet NSWindow      *winQuickDelete;

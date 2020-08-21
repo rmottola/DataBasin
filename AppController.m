@@ -633,8 +633,8 @@
       if (name)
         [filteredObjectNames addObject:name];
     }
-  [popupObjectsInsert removeAllItems];
-  [popupObjectsInsert addItemsWithTitles: filteredObjectNames];
+  [comboObjectsInsert removeAllItems];
+  [comboObjectsInsert addItemsWithObjectValues: filteredObjectNames];
   [progIndInsert setIndeterminate:NO];
   [progIndInsert setDoubleValue:0];
   [filteredObjectNames release];
@@ -681,7 +681,7 @@
 
   NSLog(@"writing results to: %@", resFilePath);
   
-  intoWhichObject = [[[popupObjectsInsert selectedItem] title] retain];
+  intoWhichObject = [[comboObjectsInsert stringValue] retain];
   [logger log:LogInformative :@"[AppController performInsert] object: %@\n", intoWhichObject];
 
   insertProgress = [[DBProgress alloc] init];
@@ -813,8 +813,8 @@
 	[filteredObjectNames addObject:name];
     }
   
-  [popupObjectsUpdate removeAllItems];
-  [popupObjectsUpdate addItemsWithTitles: filteredObjectNames];
+  [comboObjectsUpdate removeAllItems];
+  [comboObjectsUpdate addItemsWithObjectValues: filteredObjectNames];
   [progIndUpdate setIndeterminate:NO];
   [progIndUpdate setDoubleValue:0];
   [filteredObjectNames release];
@@ -869,7 +869,7 @@
   [updateProgress setRemainingTimeField: fieldRTUpdate];
   [updateProgress reset];
 
-  whichObject = [[[popupObjectsUpdate selectedItem] title] retain];
+  whichObject = [[comboObjectsUpdate stringValue] retain];
   [logger log:LogInformative :@"[AppController executeUpdate] object: %@\n", whichObject];
   
   results = nil;
@@ -1355,8 +1355,8 @@
   objectNames = [db sObjectNames];
   [logger log:LogStandard :@"[AppController showGetUpdated] Objects: %lu", (unsigned long)[objectNames count]];
 
-  [popupObjectsGetUpdated removeAllItems];
-  [popupObjectsGetUpdated addItemsWithTitles: objectNames];
+  [comboObjectsGetUpdated removeAllItems];
+  [comboObjectsGetUpdated addItemsWithObjectValues: objectNames];
     
   [winGetUpdated makeKeyAndOrderFront:self];
 }
@@ -1438,7 +1438,7 @@
   [writer setLogger:logger];
   [writer setStringEncoding: [defaults integerForKey: @"StringEncoding"]];
 
-  whichObject = [[[popupObjectsGetUpdated selectedItem] title] retain];
+  whichObject = [[comboObjectsGetUpdated stringValue] retain];
 
   startDate = [NSDate date];
   endDate = [NSDate date];
@@ -1467,8 +1467,8 @@
   objectNames = [db sObjectNames];
   [logger log:LogStandard :@"[AppController showGetDeleted] Objects: %lu", (unsigned long)[objectNames count]];
 
-  [popupObjectsGetDeleted removeAllItems];
-  [popupObjectsGetDeleted addItemsWithTitles: objectNames];
+  [comboObjectsGetDeleted removeAllItems];
+  [comboObjectsGetDeleted addItemsWithObjectValues: objectNames];
     
   [winGetDeleted makeKeyAndOrderFront:self];
 }
@@ -1550,7 +1550,7 @@
   [writer setLogger:logger];
   [writer setStringEncoding: [defaults integerForKey: @"StringEncoding"]];
 
-  whichObject = [[[popupObjectsGetDeleted selectedItem] title] retain];
+  whichObject = [[comboObjectsGetDeleted stringValue] retain];
 
   startDate = [NSDate date];
   endDate = [NSDate date];
@@ -1621,10 +1621,8 @@
 
   [logger log:LogStandard :@"[AppController showDescribe] Objects: %lu", (unsigned long)[objectNames count]];
 
-  [popupObjectsDescribe removeAllItems];
-  [popupObjectsDescribe addItemsWithTitles: filteredObjectNames];
-    
-
+  [comboObjectsDescribe removeAllItems];
+  [comboObjectsDescribe addItemsWithObjectValues: filteredObjectNames];
 }
 
 - (IBAction)browseFileDescribe:(id)sender
@@ -1702,7 +1700,7 @@
   [writer setLogger:logger];
   [writer setStringEncoding: [defaults integerForKey: @"StringEncoding"]];
 
-  whichObject = [[[popupObjectsDescribe selectedItem] title] retain];
+  whichObject = [[comboObjectsDescribe stringValue] retain];
   
   NS_DURING
     [dbCsv describeSObject:whichObject toWriter:writer];

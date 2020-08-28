@@ -1,0 +1,15 @@
+#build stuff
+*.app/
+*.framework/
+derived_src/
+obj/
+
+#patches
+*.orig
+*.rej
+
+#vim
+*.sw[a-p]
+
+#emacs
+.#*

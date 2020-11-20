@@ -138,7 +138,6 @@
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
-				85F1092C23872A2400C3F637 /* MassiveUpdater.nib */,
 			);
 			name = DataBasin;
 			sourceTree = "<group>";
@@ -154,6 +153,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				85F1092C23872A2400C3F637 /* MassiveUpdater.nib */,
 				85A1809F1BD7F17200F516E9 /* stop_icon_15.tiff */,
 				85449DA4190C25DB0022D81E /* butt_green_16.tif */,
 				85449DA5190C25DB0022D81E /* butt_red_16.tif */,

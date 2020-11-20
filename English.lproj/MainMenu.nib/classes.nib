@@ -166,6 +166,16 @@
 				<string>NSButton</string>
 				<key>checkSkipFirstLine</key>
 				<string>NSButton</string>
+				<key>comboObjectsDescribe</key>
+				<string>NSComboBox</string>
+				<key>comboObjectsGetDeleted</key>
+				<string>NSComboBox</string>
+				<key>comboObjectsGetUpdated</key>
+				<string>NSComboBox</string>
+				<key>comboObjectsInsert</key>
+				<string>NSComboBox</string>
+				<key>comboObjectsUpdate</key>
+				<string>NSComboBox</string>
 				<key>faultPanel</key>
 				<string>NSPanel</string>
 				<key>faultTextView</key>

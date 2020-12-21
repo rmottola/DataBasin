@@ -80,10 +80,10 @@
     "PROJECT_GROUP" = "No group avaliable!";
     "PROJECT_MAINTAINER" = "Riccardo Mottola,,,";
     "PROJECT_NAME" = DataBasin;
-    "PROJECT_RELEASE" = "1.1b2";
+    "PROJECT_RELEASE" = "1.1 S";
     "PROJECT_SUMMARY" = "No summary avaliable!";
     "PROJECT_TYPE" = Application;
-    "PROJECT_URL" = "http://gap.nongnu.org/DataBasin/";
+    "PROJECT_URL" = "https://github.com/rmottola/DataBasin";
     "SEARCH_HEADER_DIRS" = (
     );
     "SEARCH_LIB_DIRS" = (

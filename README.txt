@@ -4,22 +4,26 @@ README
 Data Basin
 Data Access Tool for Salesforce
 
-DBSoap: classes to interact with Salesforce
+API implementation is inside DataBasinKit
 
 
-Current Version: 0.9
---------------------
+Current Version: 1.1 S
+----------------------
 
 NEWS
+- improved interface with ComboBoxes and preferences to filter out more system objects
+- remember last succesful login username
+- getUpdated / getDeleted
+- Undelete
+- Improved support for sub-objects and lists and unpacking (from DataBasinKit)
+- support for enabling Assignment Rules in create/update
 
+
+Older news:
 - multi-threading: concurrent operations with interrupt
 - down batch size
 - handle multiple errors in update or create
 - filter line-breaks when writing CSV
-
-
-
-Older news:
 - Query gets parsed and this allows to write fields in Query Order
 - Query parsing allows for fields to be empty and still preserve the correct number of columns in the CSV file
 - Download batch size settable

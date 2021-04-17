@@ -1,7 +1,7 @@
 /* 
    Project: DataBasin
 
-   Copyright (C) 2008-2020 Free Software Foundation
+   Copyright (C) 2008-2021 Free Software Foundation
 
    Author: Riccardo Mottola
 
@@ -672,6 +672,8 @@
     [reader setSeparator:str];
   [reader parseHeaders];
 
+  [dbCsv setRunAssignmentRules:[defaults boolForKey:@"RunAssignmentRules"]];
+
   NS_DURING
     results = [dbCsv create:intoWhichObject fromReader:reader progressMonitor:insertProgress];
     [results retain];
@@ -853,6 +855,8 @@
   if (str)
     [reader setSeparator:str];
   [reader parseHeaders];
+
+  [dbCsv setRunAssignmentRules:[defaults boolForKey:@"RunAssignmentRules"]];
 
   NS_DURING
     results = [dbCsv update:whichObject fromReader:reader progressMonitor:updateProgress];

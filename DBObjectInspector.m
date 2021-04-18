@@ -1,7 +1,7 @@
 /*
  Project: DataBasin
  
- Copyright (C) 2010-2017 Free Software Foundation
+ Copyright (C) 2010-2021 Free Software Foundation
  
  Author: Riccardo Mottola
  
@@ -178,7 +178,7 @@ NSString * const DBOIStatusKey = @"Status";
       [arp release];
       return;
     }
-  NSLog(@"dbs: %@, %@", [dbs class], dbs);
+
   if(sObj)
     [sObj release];
   sObj = [dbs describeSObject: objDevName];
@@ -305,12 +305,14 @@ NSString * const DBOIStatusKey = @"Status";
   NSUInteger i;
   NSMutableArray *fieldNames;
   NSAutoreleasePool *arp;
+  NSUserDefaults *defaults;
 
   if (!updatedRows || [updatedRows count] == 0)
     return;
   
   arp = [NSAutoreleasePool new];
-  
+  defaults = [NSUserDefaults standardUserDefaults];
+
   fieldNames = [[NSMutableArray alloc] initWithCapacity:1];
   for (i = 0; i < [updatedRows count]; i++)
     {
@@ -324,6 +326,8 @@ NSString * const DBOIStatusKey = @"Status";
       [sObj setValue:fieldValue forField:fieldName];
       [fieldNames addObject:fieldName];
     }
+
+  [[sObj DBSoap] setRunAssignmentRules:[defaults boolForKey:@"RunAssignmentRules"]];
 
   NS_DURING
     [sObj storeValuesForFields: fieldNames];

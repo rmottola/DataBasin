@@ -3,11 +3,10 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 42;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		85125AF21920078F000E6004 /* DataBasinKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85125AF11920078F000E6004 /* DataBasinKit.framework */; };
 		85449DA6190C25DB0022D81E /* butt_green_16.tif in Resources */ = {isa = PBXBuildFile; fileRef = 85449DA4190C25DB0022D81E /* butt_green_16.tif */; };
 		85449DA7190C25DB0022D81E /* butt_red_16.tif in Resources */ = {isa = PBXBuildFile; fileRef = 85449DA5190C25DB0022D81E /* butt_red_16.tif */; };
 		8559BB59115B6B21002EA7DD /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8559BB58115B6B21002EA7DD /* README.txt */; };
@@ -16,6 +15,7 @@
 		856CA1811AE796940078B1F9 /* stop_icon_15.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 856CA1801AE796940078B1F9 /* stop_icon_15.tiff */; };
 		858D8E6A0F1EA3BD00CC8F4A /* AppController.h in Resources */ = {isa = PBXBuildFile; fileRef = 858D8E640F1EA3BD00CC8F4A /* AppController.h */; };
 		858D8E6B0F1EA3BD00CC8F4A /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 858D8E650F1EA3BD00CC8F4A /* AppController.m */; };
+		858EE77929FAC044001851AB /* DataBasinKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 858EE77829FAC044001851AB /* DataBasinKit.framework */; };
 		8591FC3A1A1533BD00923420 /* DBTextFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 8591FC391A1533BD00923420 /* DBTextFormatter.m */; };
 		85A74F8E17419B41008D7E0B /* Preferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 85A74F8D17419B41008D7E0B /* Preferences.m */; };
 		85A74F9717419D47008D7E0B /* Preferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = 85A74F9517419D47008D7E0B /* Preferences.nib */; };
@@ -37,7 +37,6 @@
 		29B97319FDCFA39411CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
-		85125AF11920078F000E6004 /* DataBasinKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DataBasinKit.framework; path = /Library/Frameworks/DataBasinKit.framework; sourceTree = "<absolute>"; };
 		85449DA4190C25DB0022D81E /* butt_green_16.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = butt_green_16.tif; path = Resources/butt_green_16.tif; sourceTree = "<group>"; };
 		85449DA5190C25DB0022D81E /* butt_red_16.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = butt_red_16.tif; path = Resources/butt_red_16.tif; sourceTree = "<group>"; };
 		8559BB58115B6B21002EA7DD /* README.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
@@ -47,6 +46,7 @@
 		856CA1801AE796940078B1F9 /* stop_icon_15.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = stop_icon_15.tiff; path = Resources/stop_icon_15.tiff; sourceTree = "<group>"; };
 		858D8E640F1EA3BD00CC8F4A /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AppController.h; sourceTree = "<group>"; };
 		858D8E650F1EA3BD00CC8F4A /* AppController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = AppController.m; sourceTree = "<group>"; };
+		858EE77829FAC044001851AB /* DataBasinKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DataBasinKit.framework; path = /Library/Frameworks/DataBasinKit.framework; sourceTree = "<absolute>"; };
 		8591FC381A1533BD00923420 /* DBTextFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBTextFormatter.h; sourceTree = "<group>"; };
 		8591FC391A1533BD00923420 /* DBTextFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBTextFormatter.m; sourceTree = "<group>"; };
 		85A74F8C17419B41008D7E0B /* Preferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Preferences.h; sourceTree = "<group>"; };
@@ -68,9 +68,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				858EE77929FAC044001851AB /* DataBasinKit.framework in Frameworks */,
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
 				85F6CF080F223D8F00918601 /* WebServices.framework in Frameworks */,
-				85125AF21920078F000E6004 /* DataBasinKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -107,7 +107,7 @@
 		1058C7A2FEA54F0111CA2CBB /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				85125AF11920078F000E6004 /* DataBasinKit.framework */,
+				858EE77829FAC044001851AB /* DataBasinKit.framework */,
 				85F6CF070F223D8F00918601 /* WebServices.framework */,
 				29B97325FDCFA39411CA2CEA /* Foundation.framework */,
 				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
@@ -196,8 +196,11 @@
 /* Begin PBXProject section */
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+			};
 			buildConfigurationList = 85D238C910B151E300F63353 /* Build configuration list for PBXProject "DataBasin" */;
-			compatibilityVersion = "Xcode 2.4";
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				English,
@@ -300,6 +303,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_CPP_EXCEPTIONS = NO;
 				GCC_ENABLE_CPP_RTTI = NO;
@@ -321,6 +328,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+				);
 				GCC_ENABLE_CPP_EXCEPTIONS = NO;
 				GCC_ENABLE_CPP_RTTI = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
@@ -338,6 +349,10 @@
 		85D238C810B151E300F63353 /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+				);
 				GCC_ENABLE_CPP_EXCEPTIONS = NO;
 				GCC_ENABLE_CPP_RTTI = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
@@ -355,7 +370,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
-				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				SDKROOT = macosx10.11;
 				SYMROOT = "$(PROJECT_DIR)/build";
 			};
 			name = Development;
@@ -363,15 +379,17 @@
 		85D238CB10B151E300F63353 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
-				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
+				ARCHS = "$(ARCHS_STANDARD)";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				SDKROOT = macosx10.11;
 			};
 			name = Deployment;
 		};
 		85D238CC10B151E300F63353 /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				SDKROOT = macosx10.11;
 			};
 			name = Default;
 		};

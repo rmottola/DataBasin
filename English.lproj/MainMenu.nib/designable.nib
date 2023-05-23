@@ -378,7 +378,7 @@ DQ
                             <menuItem title="Get Deleted…" id="SaB-Z8-WgM">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
-                                    <action selector="showGetDeleted:" target="-1" id="8Qf-oD-qZr"/>
+                                    <action selector="showGetDeleted:" target="211" id="Z3X-nC-i4g"/>
                                 </connections>
                             </menuItem>
                             <menuItem title="Undelete…" id="5zo-Es-akZ">
@@ -486,12 +486,14 @@ DQ
                 <outlet property="buttonUpdateStop" destination="612" id="614"/>
                 <outlet property="checkSkipFirstLine" destination="305" id="310"/>
                 <outlet property="comboObjectsDescribe" destination="776" id="778"/>
+                <outlet property="comboObjectsGetDeleted" destination="Cgp-1b-Blg" id="Xwt-fh-XJI"/>
                 <outlet property="comboObjectsInsert" destination="770" id="772"/>
                 <outlet property="comboObjectsUpdate" destination="773" id="775"/>
                 <outlet property="faultPanel" destination="285" id="289"/>
                 <outlet property="faultTextView" destination="288" id="290"/>
                 <outlet property="fieldFileDelete" destination="307" id="311"/>
                 <outlet property="fieldFileDescribe" destination="381" id="396"/>
+                <outlet property="fieldFileGetDeleted" destination="1TT-NY-QFr" id="XWr-uy-c4L"/>
                 <outlet property="fieldFileInsert" destination="267" id="275"/>
                 <outlet property="fieldFileRetrieveIn" destination="691" id="714"/>
                 <outlet property="fieldFileRetrieveOut" destination="695" id="713"/>
@@ -541,6 +543,7 @@ DQ
                 <outlet property="queryAllSelectIdentify" destination="438" id="442"/>
                 <outlet property="winDelete" destination="302" id="312"/>
                 <outlet property="winDescribe" destination="379" id="394"/>
+                <outlet property="winGetDeleted" destination="nYG-ey-QbS" id="AHU-oe-3gz"/>
                 <outlet property="winInsert" destination="265" id="274"/>
                 <outlet property="winLogin" destination="21" id="247"/>
                 <outlet property="winQuickDelete" destination="291" id="295"/>
@@ -878,7 +881,7 @@ DQ
                     <comboBox verticalHuggingPriority="750" id="770">
                         <rect key="frame" x="100" y="82" width="175" height="26"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="782">
+                        <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" numberOfVisibleItems="5" id="782">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1336,7 +1339,7 @@ DQ
                     <comboBox verticalHuggingPriority="750" id="773">
                         <rect key="frame" x="83" y="90" width="196" height="26"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="783">
+                        <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" numberOfVisibleItems="5" id="783">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1409,7 +1412,7 @@ DQ
                     <comboBox verticalHuggingPriority="750" id="776">
                         <rect key="frame" x="74" y="48" width="209" height="26"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES"/>
-                        <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="784">
+                        <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" numberOfVisibleItems="5" id="784">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1489,7 +1492,7 @@ DQ
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <clipView key="contentView" id="yZQ-Z2-WdR">
                                         <rect key="frame" x="1" y="1" width="293" height="93"/>
-                                        <autoresizingMask key="autoresizingMask"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <subviews>
                                             <textView importsGraphics="NO" findStyle="panel" continuousSpellChecking="YES" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" spellingCorrection="YES" smartInsertDelete="YES" id="428">
                                                 <rect key="frame" x="0.0" y="0.0" width="293" height="93"/>
@@ -1801,6 +1804,93 @@ DQ
                 </subviews>
             </view>
         </window>
+        <window title="Get Deleted" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" hidesOnDeactivate="YES" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="nYG-ey-QbS" userLabel="GetDeletedPanel">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="131" y="158" width="371" height="143"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
+            <value key="maxSize" type="size" width="800" height="143"/>
+            <view key="contentView" id="fNP-sq-ZS9">
+                <rect key="frame" x="0.0" y="0.0" width="371" height="143"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="QP3-ZQ-Q4x">
+                        <rect key="frame" x="12" y="52" width="63" height="17"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Object:" id="bJz-1C-JhW">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <button verticalHuggingPriority="750" id="rB0-jU-SMB">
+                        <rect key="frame" x="268" y="13" width="89" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="Execute" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="AFS-Gl-D8J">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="executeGetDeleted:" target="211" id="Ixz-cK-fbV"/>
+                        </connections>
+                    </button>
+                    <box autoresizesSubviews="NO" title="Output File" borderType="line" id="K8s-3y-MGB">
+                        <rect key="frame" x="11" y="73" width="343" height="62"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                        <view key="contentView">
+                            <rect key="frame" x="1" y="1" width="341" height="46"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <subviews>
+                                <button verticalHuggingPriority="750" id="e3c-XA-QwA">
+                                    <rect key="frame" x="234" y="7" width="95" height="32"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                    <buttonCell key="cell" type="push" title="Browse…" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ZS8-g7-68d">
+                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                        <font key="font" metaFont="system"/>
+                                    </buttonCell>
+                                    <connections>
+                                        <action selector="browseFileGetDeleted:" target="211" id="7It-4H-tT0"/>
+                                    </connections>
+                                </button>
+                                <textField verticalHuggingPriority="750" id="1TT-NY-QFr">
+                                    <rect key="frame" x="18" y="14" width="214" height="22"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="w0l-oa-hX6">
+                                        <font key="font" metaFont="system"/>
+                                        <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                    </textFieldCell>
+                                </textField>
+                            </subviews>
+                        </view>
+                        <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
+                        <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </box>
+                    <comboBox verticalHuggingPriority="750" id="Cgp-1b-Blg">
+                        <rect key="frame" x="75" y="46" width="174" height="26"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" numberOfVisibleItems="5" id="zLg-eg-muP">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                            <objectValues>
+                                <string>Item 1</string>
+                                <string>Item 2</string>
+                                <string>Item 3</string>
+                            </objectValues>
+                        </comboBoxCell>
+                    </comboBox>
+                </subviews>
+            </view>
+            <point key="canvasLocation" x="859.5" y="-194.5"/>
+        </window>
+        <drawer trailingOffset="15" id="2Vd-Ng-pYc">
+            <size key="contentSize" width="100" height="100"/>
+            <size key="maxContentSize" width="10000" height="10000"/>
+            <connections>
+                <outlet property="parentWindow" destination="nYG-ey-QbS" id="uMI-62-d74"/>
+            </connections>
+        </drawer>
     </objects>
     <resources>
         <image name="stop_icon_15" width="15" height="15"/>

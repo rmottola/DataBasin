@@ -1,3 +1,9 @@
+2023-05-23 Riccardo Mottola <rm@gnu.org>
+
+	* DBObjectInspector.m:
+	Interpret entered text according to describe for DBSFDataTypes, thus
+	allowing finally edit for formatted Date/DateTime
+
 2021-04-18 Riccardo Mottola <rm@gnu.org>
 
 	* DBObjectInspector.m

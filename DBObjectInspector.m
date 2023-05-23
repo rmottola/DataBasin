@@ -1,7 +1,7 @@
 /*
  Project: DataBasin
  
- Copyright (C) 2010-2021 Free Software Foundation
+ Copyright (C) 2010-2023 Free Software Foundation
  
  Author: Riccardo Mottola
  
@@ -272,7 +272,7 @@ NSString * const DBOIStatusKey = @"Status";
         }
       else if ([fieldValueObj isKindOfClass:[DBSFDataType class]])
         {
-          fieldValueStr = [(NSNumber *)fieldValueObj stringValue];
+          fieldValueStr = [(DBSFDataType *)fieldValueObj stringValue];
         }
       else if ([fieldValueObj isKindOfClass:[NSNumber class]])
         {
@@ -318,12 +318,14 @@ NSString * const DBOIStatusKey = @"Status";
     {
       NSDictionary *fieldDict;
       NSString *fieldName;
-      NSString *fieldValue;
+      NSString *cellStr;
+      NSString *fieldValueStr;
 
       fieldDict = [updatedRows objectAtIndex:i];
       fieldName = [fieldDict objectForKey:COLID_DEVNAME];
-      fieldValue = [fieldDict objectForKey:COLID_VALUE];
-      [sObj setValue:fieldValue forField:fieldName];
+      cellStr = [fieldDict objectForKey:COLID_VALUE];
+      fieldValueStr = [dbs interpretString:cellStr forField:fieldName forObject:[sObj name]];
+      [sObj setValue:fieldValueStr forField:fieldName];
       [fieldNames addObject:fieldName];
     }
 

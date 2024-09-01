@@ -197,6 +197,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastUpgradeCheck = 0510;
 			};
 			buildConfigurationList = 85D238C910B151E300F63353 /* Build configuration list for PBXProject "DataBasin" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -302,6 +303,7 @@
 		85D238C610B151E300F63353 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -320,6 +322,7 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = DataBasin;
 				RUN_CLANG_STATIC_ANALYZER = YES;
+				SDKROOT = macosx;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Development;
@@ -327,6 +330,7 @@
 		85D238C710B151E300F63353 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -342,6 +346,7 @@
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = DataBasin;
+				SDKROOT = macosx;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Deployment;
@@ -349,6 +354,7 @@
 		85D238C810B151E300F63353 /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
@@ -362,6 +368,7 @@
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = DataBasin;
+				SDKROOT = macosx;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Default;
@@ -369,9 +376,8 @@
 		85D238CA10B151E300F63353 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
-				SDKROOT = macosx10.11;
+				SDKROOT = macosx;
 				SYMROOT = "$(PROJECT_DIR)/build";
 			};
 			name = Development;
@@ -379,9 +385,8 @@
 		85D238CB10B151E300F63353 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
-				SDKROOT = macosx10.11;
+				SDKROOT = macosx;
 			};
 			name = Deployment;
 		};
@@ -389,7 +394,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
-				SDKROOT = macosx10.11;
+				SDKROOT = macosx;
 			};
 			name = Default;
 		};

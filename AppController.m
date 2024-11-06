@@ -1,7 +1,7 @@
 /* 
    Project: DataBasin
 
-   Copyright (C) 2008-2021 Free Software Foundation
+   Copyright (C) 2008-2024 Free Software Foundation
 
    Author: Riccardo Mottola
 
@@ -218,19 +218,34 @@
 - (IBAction)setSessionData:(id)sender
 {
   NSString *session;
+  NSString *urlStr;
   NSURL *URL;
   NSUserDefaults *defaults;
 
   session = [fieldSessionId stringValue];
-  URL = [[NSURL alloc] initWithString:[fieldServerUrl stringValue]];
+  urlStr = [fieldServerUrl stringValue];
+
+  if (nil == session || [session length] < 10)
+    {
+      NSRunAlertPanel(@"Attention", @"Invalid session string.", @"Ok", nil, nil);
+      return;
+    }
+
+  if (nil == urlStr || [urlStr length] < 10)
+    {
+      NSRunAlertPanel(@"Attention", @"Invalid URL.", @"Ok", nil, nil);
+      return;
+    }
+
+  URL = [[NSURL alloc] initWithString:urlStr];
 
   defaults = [NSUserDefaults standardUserDefaults];
-  
-  NSLog(@"set! URL: %@", URL);
+
+  NSLog(@"set URL to URL: %@", URL);
 
   [db release];
   [dbCsv release];
-  
+
   db = [[DBSoap alloc] init];
   [db setLogger: logger];
   [db setUpBatchSize:[[defaults objectForKey:@"UpBatchSize"] intValue]];
@@ -245,7 +260,7 @@
   dbCsv = [[DBSoapCSV alloc] init];
   [dbCsv setDBSoap:db];
 
-  [logger log:LogStandard :@"[AppController doSetSessionData] set Session Data directly\n"];
+  [logger log:LogStandard :@"[AppController doSetSessionData] setting Session Data directly.\n"];
 
   /* set or update soap handlers */
   [objInspector setSoapHandler:db];

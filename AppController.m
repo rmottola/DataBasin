@@ -347,6 +347,7 @@
     /* session inspector fields */
     [fieldSessionId setStringValue:[db sessionId]];
     [fieldServerUrl setStringValue:[[db serverURL] absoluteString]];
+    [fieldHost setStringValue:[[db serverURL] host]];
     if ([db passwordExpired])
       [fieldPwdExpired setStringValue: @"YES"];
     else

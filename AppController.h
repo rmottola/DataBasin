@@ -1,7 +1,7 @@
 /* -*- mode: objc -*-
    Project: DataBasin
 
-   Copyright (C) 2008-2020 Free Software Foundation
+   Copyright (C) 2008-2024 Free Software Foundation
 
    Author: Riccardo Mottola
 
@@ -58,16 +58,18 @@
   
   /* session status */
   IBOutlet NSWindow      *winSessionInspector;
+  IBOutlet NSTextField   *fieldOrgId;
+  IBOutlet NSTextField   *fieldOrgName;
   IBOutlet NSTextField   *fieldSessionId;
   IBOutlet NSTextField   *fieldServerUrl;
+  IBOutlet NSTextField   *fieldHost;
   IBOutlet NSTextField   *fieldPwdExpired;
   IBOutlet NSButton      *buttonSessionEditEnable;
   IBOutlet NSButton      *buttonSetSessionData;
 
   /* user and environment */
   IBOutlet NSWindow      *winUserInspector;
-  IBOutlet NSTextField   *fieldOrgId;
-  IBOutlet NSTextField   *fieldOrgName;
+
   IBOutlet NSTextField   *fieldUserNameInsp;
   IBOutlet NSTextField   *fieldUserFullName;
   IBOutlet NSTextField   *fieldUserEmail;

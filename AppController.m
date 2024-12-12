@@ -203,13 +203,15 @@
 {
   if ([buttonSessionEditEnable state] == NSOnState)
     {
-      [fieldServerUrl setEditable:YES];
+      [fieldOrgId setEditable:YES];
+      [fieldHost setEditable:YES];
       [fieldSessionId setEditable:YES];
       [buttonSetSessionData setEnabled:YES];
     }
   else
     {
-      [fieldServerUrl setEditable:NO];
+      [fieldOrgId setEditable:NO];
+      [fieldHost setEditable:NO];
       [fieldSessionId setEditable:NO];
       [buttonSetSessionData setEnabled:NO];
     }

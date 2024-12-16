@@ -90,6 +90,9 @@
       [fieldUserName setStringValue: lastUsername];
       [self usernameFieldAction:fieldUserName];
     }
+
+  [fieldOrgName setDrawsBackground:NO];
+  [fieldServerUrl setDrawsBackground:NO];
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotif
@@ -204,15 +207,21 @@
   if ([buttonSessionEditEnable state] == NSOnState)
     {
       [fieldOrgId setEditable:YES];
+      [fieldOrgId setDrawsBackground:YES];
       [fieldHost setEditable:YES];
+      [fieldHost setDrawsBackground:YES];
       [fieldSessionId setEditable:YES];
+      [fieldSessionId setDrawsBackground:YES];
       [buttonSetSessionData setEnabled:YES];
     }
   else
     {
       [fieldOrgId setEditable:NO];
+      [fieldOrgId setDrawsBackground:NO];
       [fieldHost setEditable:NO];
+      [fieldHost setDrawsBackground:NO];
       [fieldSessionId setEditable:NO];
+      [fieldSessionId setDrawsBackground:NO];
       [buttonSetSessionData setEnabled:NO];
     }
 }
@@ -220,12 +229,15 @@
 - (IBAction)setSessionData:(id)sender
 {
   NSString *session;
+  NSString *hostStr;
   NSString *urlStr;
+  NSString *orgIdStr;
   NSURL *URL;
   NSUserDefaults *defaults;
 
   session = [fieldSessionId stringValue];
-  urlStr = [fieldServerUrl stringValue];
+  hostStr = [fieldHost stringValue];
+  orgIdStr = [fieldOrgId stringValue];
 
   if (nil == session || [session length] < 10)
     {
@@ -233,13 +245,29 @@
       return;
     }
 
-  if (nil == urlStr || [urlStr length] < 10)
+  if (nil == orgIdStr || !([orgIdStr length] == 15 || [orgIdStr length] == 18))
     {
-      NSRunAlertPanel(@"Attention", @"Invalid URL.", @"Ok", nil, nil);
+      NSRunAlertPanel(@"Attention", @"Invalid Org ID string.", @"Ok", nil, nil);
+      return;
+    }
+  if ([orgIdStr length] == 18)
+    {
+      orgIdStr = [orgIdStr substringToIndex:15];
+    }
+
+  if (nil == hostStr || [hostStr length] < 10)
+    {
+      NSRunAlertPanel(@"Attention", @"Invalid Host.", @"Ok", nil, nil);
       return;
     }
 
+  // FIXME API version string needs to be dynamic
+  urlStr = [NSString stringWithFormat: @"https://%@/services/Soap/u/61.0/%@", hostStr, orgIdStr];
+
   URL = [[NSURL alloc] initWithString:urlStr];
+
+  // we show what we calculated
+  [fieldServerUrl setStringValue:[URL absoluteString]];
 
   defaults = [NSUserDefaults standardUserDefaults];
 

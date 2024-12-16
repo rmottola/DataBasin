@@ -261,8 +261,7 @@
       return;
     }
 
-  // FIXME API version string needs to be dynamic
-  urlStr = [NSString stringWithFormat: @"https://%@/services/Soap/u/61.0/%@", hostStr, orgIdStr];
+  urlStr = [NSString stringWithFormat: @"https://%@/services/Soap/u/%@/%@", hostStr, [DBSoap apiVersion], orgIdStr];
 
   URL = [[NSURL alloc] initWithString:urlStr];
 

@@ -260,9 +260,10 @@
       return;
     }
 
-  urlStr = [NSString stringWithFormat: @"https://%@/services/Soap/u/%@/%@", hostStr, [DBSoap apiVersion], orgIdStr];
-
-  URL = [[NSURL alloc] initWithString:urlStr];
+  URL = [[NSURL alloc]
+	  initWithScheme:@"https"
+		    host:hostStr
+		    path:[NSString stringWithFormat: @"/services/Soap/u/%@/%@", [DBSoap apiVersion], orgIdStr]];
 
   // we show what we calculated
   [fieldServerUrl setStringValue:[URL absoluteString]];

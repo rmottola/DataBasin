@@ -306,7 +306,7 @@
   [objInspector setSoapHandler:db];
 
   /* refesh user information */
-  [db getUserInfo];
+  [self setUserInfo:[db getUserInfo]];
 }
 
 /* LOGGER */

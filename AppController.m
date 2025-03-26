@@ -1,7 +1,7 @@
 /* 
    Project: DataBasin
 
-   Copyright (C) 2008-2024 Free Software Foundation
+   Copyright (C) 2008-2025 Free Software Foundation
 
    Author: Riccardo Mottola
 
@@ -293,6 +293,9 @@
 
   /* set or update soap handlers */
   [objInspector setSoapHandler:db];
+
+  /* refesh user information */
+  [db getUserInfo];
 }
 
 /* LOGGER */

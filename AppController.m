@@ -255,6 +255,17 @@
       return;
     }
 
+  if (nil == orgIdStr || [orgIdStr length] == 0)
+    {
+      NSRange sessionRange;
+
+      sessionRange = [session rangeOfString:@"!"];
+      if (sessionRange.location == 15 || sessionRange.location == 18)
+        {
+          orgIdStr = [session substringToIndex:sessionRange.location];
+        }
+    }
+
   if (nil == orgIdStr || !([orgIdStr length] == 15 || [orgIdStr length] == 18))
     {
       NSRunAlertPanel(@"Attention", @"Invalid Org ID string.", @"Ok", nil, nil);

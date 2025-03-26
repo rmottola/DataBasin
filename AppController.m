@@ -185,6 +185,24 @@
   [faultPanel makeKeyAndOrderFront:self];
 }
 
+/* USER INSPECTOR */
+
+- (IBAction)showUserInspector:(id)sender
+{
+  [winUserInspector makeKeyAndOrderFront:self];
+}
+
+- (void)setUserInfo:(NSDictionary *)userInfoDict
+{
+  [fieldOrgName setStringValue: [userInfoDict objectForKey:@"organizationName"]];
+  [fieldOrgId setStringValue: [userInfoDict objectForKey:@"organizationId"]];
+  [fieldUserNameInsp setStringValue: [userInfoDict objectForKey:@"userName"]];
+  [fieldUserFullName setStringValue: [userInfoDict objectForKey:@"userFullName"]];
+  [fieldUserEmail setStringValue: [userInfoDict objectForKey:@"userEmail"]];
+  [fieldUserId setStringValue: [userInfoDict objectForKey:@"userId"]];
+  [fieldProfileId setStringValue: [userInfoDict objectForKey:@"profileId"]];
+  [fieldRoleId setStringValue: [userInfoDict objectForKey:@"roleId"]];
+}
 
 
 /* SESSION INSPECTOR */
@@ -192,13 +210,6 @@
 - (IBAction)showSessionInspector:(id)sender
 {
   [winSessionInspector makeKeyAndOrderFront:self];
-}
-
-/* USER INSPECTOR */
-
-- (IBAction)showUserInspector:(id)sender
-{
-  [winUserInspector makeKeyAndOrderFront:self];
 }
 
 - (IBAction)setEnableSessionEditing:(id)sender
@@ -384,15 +395,7 @@
       [fieldPwdExpired setStringValue: @"NO"];
     
     /* user inspector fields */
-    uInfo = [db userInfo];
-    [fieldOrgName setStringValue: [uInfo objectForKey:@"organizationName"]];
-    [fieldOrgId setStringValue: [uInfo objectForKey:@"organizationId"]];
-    [fieldUserNameInsp setStringValue: [uInfo objectForKey:@"userName"]];
-    [fieldUserFullName setStringValue: [uInfo objectForKey:@"userFullName"]];
-    [fieldUserEmail setStringValue: [uInfo objectForKey:@"userEmail"]];
-    [fieldUserId setStringValue: [uInfo objectForKey:@"userId"]];
-    [fieldProfileId setStringValue: [uInfo objectForKey:@"profileId"]];
-    [fieldRoleId setStringValue: [uInfo objectForKey:@"roleId"]];
+    [self setUserInfo:[db userInfo]];
 
   NS_HANDLER
     [logger log:LogStandard :@"Login failed\n"];

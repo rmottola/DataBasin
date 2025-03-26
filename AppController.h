@@ -1,7 +1,7 @@
 /* -*- mode: objc -*-
    Project: DataBasin
 
-   Copyright (C) 2008-2024 Free Software Foundation
+   Copyright (C) 2008-2025 Free Software Foundation
 
    Author: Riccardo Mottola
 
@@ -196,6 +196,8 @@
 
 /* reload defaults that are not queryied dynamically and need be reloaded on their change */
 - (void)reloadDefaults;
+
+- (void)setUserInfo:(NSDictionary *)userInfoDict;
 
 - (IBAction)showPrefPanel:(id)sender;
 

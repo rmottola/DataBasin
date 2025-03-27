@@ -359,6 +359,12 @@ DQ
                                     <action selector="showUpdate:" target="211" id="378"/>
                                 </connections>
                             </menuItem>
+                            <menuItem title="Get Updated…" id="eLf-j7-Crg">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="showGetUpdated:" target="211" id="ewH-l7-rng"/>
+                                </connections>
+                            </menuItem>
                             <menuItem title="Quick Delete…" id="293">
                                 <connections>
                                     <action selector="showQuickDelete:" target="211" id="301"/>
@@ -369,7 +375,19 @@ DQ
                                     <action selector="showDelete:" target="211" id="316"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Describe..." id="397">
+                            <menuItem title="Get Deleted…" id="37J-4h-QQr">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="showGetDeleted:" target="211" id="O1W-er-RCI"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Undelete…" id="58r-r3-kW0">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="browseFileUnDelete:" target="211" id="51n-ih-fUD"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Describe Object..." id="397">
                                 <connections>
                                     <action selector="showDescribe:" target="211" id="398"/>
                                 </connections>
@@ -454,6 +472,8 @@ DQ
             <connections>
                 <outlet property="buttonDeleteExec" destination="304" id="618"/>
                 <outlet property="buttonDeleteStop" destination="615" id="617"/>
+                <outlet property="buttonGetDeletedExec" destination="vLj-cy-4XK" id="NQ1-bp-ayI"/>
+                <outlet property="buttonGetUpdatedExec" destination="W6q-F7-zOW" id="rfC-MQ-CoX"/>
                 <outlet property="buttonInsertExec" destination="269" id="610"/>
                 <outlet property="buttonInsertStop" destination="606" id="609"/>
                 <outlet property="buttonQuickDeleteExec" destination="296" id="603"/>
@@ -464,22 +484,30 @@ DQ
                 <outlet property="buttonSelectIdentStop" destination="598" id="600"/>
                 <outlet property="buttonSelectStop" destination="592" id="595"/>
                 <outlet property="buttonSessionEditEnable" destination="750" id="754"/>
+                <outlet property="buttonSetSessionData" destination="748" id="6Yr-UG-ssP"/>
+                <outlet property="buttonUnDeleteExec" destination="ZSB-WA-0Cb" id="f4p-KV-LOa"/>
+                <outlet property="buttonUnDeleteStop" destination="KLc-sj-Q10" id="x3f-aU-mXo"/>
                 <outlet property="buttonUpdateExec" destination="364" id="611"/>
                 <outlet property="buttonUpdateStop" destination="612" id="614"/>
                 <outlet property="checkSkipFirstLine" destination="305" id="310"/>
                 <outlet property="comboObjectsDescribe" destination="776" id="778"/>
+                <outlet property="comboObjectsGetDeleted" destination="9oz-LJ-aSS" id="Lyk-jE-vNr"/>
+                <outlet property="comboObjectsGetUpdated" destination="9oz-LJ-aSS" id="u99-UR-gg6"/>
                 <outlet property="comboObjectsInsert" destination="770" id="772"/>
                 <outlet property="comboObjectsUpdate" destination="773" id="775"/>
                 <outlet property="faultPanel" destination="285" id="289"/>
                 <outlet property="faultTextView" destination="288" id="290"/>
                 <outlet property="fieldFileDelete" destination="307" id="311"/>
                 <outlet property="fieldFileDescribe" destination="381" id="396"/>
+                <outlet property="fieldFileGetDeleted" destination="qFk-qg-6sz" id="V8k-dS-cPg"/>
+                <outlet property="fieldFileGetUpdated" destination="qFk-qg-6sz" id="dMC-J7-I6T"/>
                 <outlet property="fieldFileInsert" destination="267" id="275"/>
                 <outlet property="fieldFileRetrieveIn" destination="691" id="714"/>
                 <outlet property="fieldFileRetrieveOut" destination="695" id="713"/>
                 <outlet property="fieldFileSelect" destination="226" id="496"/>
                 <outlet property="fieldFileSelectIdentifyIn" destination="435" id="449"/>
                 <outlet property="fieldFileSelectIdentifyOut" destination="440" id="450"/>
+                <outlet property="fieldFileUnDelete" destination="YKF-GF-gCd" id="zgg-sG-Ped"/>
                 <outlet property="fieldFileUpdate" destination="361" id="366"/>
                 <outlet property="fieldHost" destination="nMX-z4-mHf" id="f1j-DW-n1V"/>
                 <outlet property="fieldObjectIdQd" destination="298" id="300"/>
@@ -496,6 +524,7 @@ DQ
                 <outlet property="fieldRTRetrieve" destination="666" id="710"/>
                 <outlet property="fieldRTSelect" destination="472" id="495"/>
                 <outlet property="fieldRTSelectIdent" destination="478" id="489"/>
+                <outlet property="fieldRTUnDelete" destination="TnZ-Mg-pXI" id="oAf-7p-UJH"/>
                 <outlet property="fieldRTUpdate" destination="483" id="492"/>
                 <outlet property="fieldRoleId" destination="346" id="352"/>
                 <outlet property="fieldServerUrl" destination="258" id="261"/>
@@ -519,11 +548,14 @@ DQ
                 <outlet property="progIndRetrieve" destination="667" id="707"/>
                 <outlet property="progIndSelect" destination="471" id="490"/>
                 <outlet property="progIndSelectIdent" destination="477" id="480"/>
+                <outlet property="progIndUnDelete" destination="jyq-ml-GOg" id="Hne-gW-6qm"/>
                 <outlet property="progIndUpdate" destination="482" id="484"/>
                 <outlet property="queryAllSelect" destination="414" id="415"/>
                 <outlet property="queryAllSelectIdentify" destination="438" id="442"/>
                 <outlet property="winDelete" destination="302" id="312"/>
                 <outlet property="winDescribe" destination="379" id="394"/>
+                <outlet property="winGetDeleted" destination="21Z-Mt-wxd" id="fyK-27-WwK"/>
+                <outlet property="winGetUpdated" destination="21Z-Mt-wxd" id="nHj-AP-Tzw"/>
                 <outlet property="winInsert" destination="265" id="274"/>
                 <outlet property="winLogin" destination="21" id="247"/>
                 <outlet property="winQuickDelete" destination="291" id="295"/>
@@ -531,6 +563,7 @@ DQ
                 <outlet property="winSelect" destination="221" id="235"/>
                 <outlet property="winSelectIdentify" destination="425" id="441"/>
                 <outlet property="winSessionInspector" destination="254" id="262"/>
+                <outlet property="winUnDelete" destination="lmH-pY-4J8" id="q1B-uv-1oB"/>
                 <outlet property="winUpdate" destination="358" id="360"/>
                 <outlet property="winUserInspector" destination="326" id="354"/>
             </connections>
@@ -1812,6 +1845,273 @@ DQ
                             <action selector="stopRetrieve:" target="211" id="711"/>
                         </connections>
                     </button>
+                </subviews>
+            </view>
+        </window>
+        <window title="Get Updated" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="21Z-Mt-wxd" userLabel="Get Updated">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="32" y="306" width="407" height="161"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
+            <value key="minSize" type="size" width="213" height="196"/>
+            <value key="maxSize" type="size" width="9999" height="196"/>
+            <view key="contentView" id="si2-vg-59H">
+                <rect key="frame" x="0.0" y="0.0" width="407" height="161"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <button verticalHuggingPriority="750" id="W6q-F7-zOW">
+                        <rect key="frame" x="303" y="13" width="90" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
+                        <buttonCell key="cell" type="push" title="Execute" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="4iZ-8D-P1l">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="executeGetUpdated:" target="211" id="V3C-Qo-oVC"/>
+                        </connections>
+                    </button>
+                    <box title="Input File" id="Pvr-br-eIM">
+                        <rect key="frame" x="18" y="85" width="372" height="67"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
+                        <view key="contentView">
+                            <rect key="frame" x="2" y="2" width="368" height="50"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <subviews>
+                                <textField verticalHuggingPriority="750" id="qFk-qg-6sz">
+                                    <rect key="frame" x="14" y="14" width="244" height="22"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
+                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="c4F-Pi-geU">
+                                        <font key="font" metaFont="system"/>
+                                        <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                    </textFieldCell>
+                                </textField>
+                                <button verticalHuggingPriority="750" id="Gxb-i0-4fT">
+                                    <rect key="frame" x="260" y="6" width="98" height="32"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
+                                    <buttonCell key="cell" type="push" title="Browse..." bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="y2h-Ka-tz6">
+                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                        <font key="font" metaFont="system"/>
+                                    </buttonCell>
+                                    <connections>
+                                        <action selector="browseFileGetUpdated:" target="211" id="Rox-sM-wbN"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                        </view>
+                        <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
+                        <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </box>
+                    <textField verticalHuggingPriority="750" id="fAx-D5-DDR">
+                        <rect key="frame" x="18" y="59" width="79" height="17"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Object:" id="T56-6F-TxL">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField verticalHuggingPriority="750" id="vCu-Zr-ItE">
+                        <rect key="frame" x="294" y="-17" width="96" height="22"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" state="on" alignment="left" id="09j-q9-snp">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <comboBox verticalHuggingPriority="750" id="9oz-LJ-aSS">
+                        <rect key="frame" x="83" y="55" width="196" height="26"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="9F1-Ni-xGD">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </comboBoxCell>
+                    </comboBox>
+                </subviews>
+            </view>
+        </window>
+        <window title="Get Deleted" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="uVJ-TC-y6l" userLabel="Get Deleted">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="32" y="306" width="407" height="161"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
+            <value key="minSize" type="size" width="213" height="196"/>
+            <value key="maxSize" type="size" width="9999" height="196"/>
+            <view key="contentView" id="kto-yE-NdF">
+                <rect key="frame" x="0.0" y="0.0" width="407" height="161"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <button verticalHuggingPriority="750" id="vLj-cy-4XK">
+                        <rect key="frame" x="303" y="13" width="90" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
+                        <buttonCell key="cell" type="push" title="Execute" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="Zx4-68-sOA">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="executeGetDeleted:" target="211" id="qii-oM-nT5"/>
+                        </connections>
+                    </button>
+                    <box title="Input File" id="c3V-SD-MAC">
+                        <rect key="frame" x="18" y="85" width="372" height="67"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
+                        <view key="contentView">
+                            <rect key="frame" x="2" y="2" width="368" height="50"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <subviews>
+                                <textField verticalHuggingPriority="750" id="d5C-vQ-PtJ">
+                                    <rect key="frame" x="14" y="14" width="244" height="22"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
+                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="OWD-nL-ZRi">
+                                        <font key="font" metaFont="system"/>
+                                        <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                    </textFieldCell>
+                                </textField>
+                                <button verticalHuggingPriority="750" id="dh7-v5-uxT">
+                                    <rect key="frame" x="260" y="6" width="98" height="32"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
+                                    <buttonCell key="cell" type="push" title="Browse..." bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="xqh-y9-Bso">
+                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                        <font key="font" metaFont="system"/>
+                                    </buttonCell>
+                                    <connections>
+                                        <action selector="browseFileGetDeleted:" target="211" id="kaB-b3-eOl"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                        </view>
+                        <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
+                        <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </box>
+                    <textField verticalHuggingPriority="750" id="sYy-yV-Vex">
+                        <rect key="frame" x="18" y="59" width="79" height="17"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Object:" id="2WV-aZ-ibC">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField verticalHuggingPriority="750" id="0vU-TO-UNI">
+                        <rect key="frame" x="294" y="-17" width="96" height="22"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" state="on" alignment="left" id="QGf-BN-ANt">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <comboBox verticalHuggingPriority="750" id="m9p-n0-gA0">
+                        <rect key="frame" x="83" y="55" width="196" height="26"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="lWo-B4-ROw">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </comboBoxCell>
+                    </comboBox>
+                </subviews>
+            </view>
+        </window>
+        <window title="Undelete" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="lmH-pY-4J8" userLabel="UndeletePanel">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="32" y="306" width="407" height="196"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
+            <value key="minSize" type="size" width="213" height="196"/>
+            <value key="maxSize" type="size" width="9999" height="196"/>
+            <view key="contentView" id="TiD-mJ-800">
+                <rect key="frame" x="0.0" y="0.0" width="407" height="196"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <button verticalHuggingPriority="750" id="ZSB-WA-0Cb">
+                        <rect key="frame" x="303" y="48" width="90" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
+                        <buttonCell key="cell" type="push" title="Execute" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="Wwr-KY-YTc">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="executeUnDelete:" target="211" id="1um-ZJ-kkz"/>
+                        </connections>
+                    </button>
+                    <box title="Input File" id="JEx-iD-BEj">
+                        <rect key="frame" x="18" y="120" width="372" height="67"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
+                        <view key="contentView">
+                            <rect key="frame" x="2" y="2" width="368" height="50"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <subviews>
+                                <textField verticalHuggingPriority="750" id="YKF-GF-gCd">
+                                    <rect key="frame" x="14" y="14" width="244" height="22"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
+                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="SnK-MM-4Jq">
+                                        <font key="font" metaFont="system"/>
+                                        <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                    </textFieldCell>
+                                </textField>
+                                <button verticalHuggingPriority="750" id="zQ4-qj-lJ0">
+                                    <rect key="frame" x="260" y="6" width="98" height="32"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
+                                    <buttonCell key="cell" type="push" title="Browse..." bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="JeX-xh-ouj">
+                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                        <font key="font" metaFont="system"/>
+                                    </buttonCell>
+                                    <connections>
+                                        <action selector="browseFileUnDelete:" target="211" id="4eV-qH-uWE"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                        </view>
+                        <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
+                        <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </box>
+                    <textField verticalHuggingPriority="750" id="CxI-6v-e0O">
+                        <rect key="frame" x="18" y="94" width="79" height="17"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Object:" id="YCb-oT-9Mx">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <progressIndicator verticalHuggingPriority="750" maxValue="100" bezeled="NO" style="bar" id="jyq-ml-GOg">
+                        <rect key="frame" x="18" y="17" width="226" height="20"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                    </progressIndicator>
+                    <textField verticalHuggingPriority="750" id="TnZ-Mg-pXI">
+                        <rect key="frame" x="294" y="18" width="96" height="22"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" state="on" alignment="left" id="CHi-8B-7RU">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <button horizontalHuggingPriority="750" verticalHuggingPriority="750" id="KLc-sj-Q10">
+                        <rect key="frame" x="244" y="8" width="39" height="38"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                        <buttonCell key="cell" type="round" bezelStyle="circular" image="stop_icon_15" imagePosition="only" alignment="left" borderStyle="border" id="aaC-sb-g3W">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="label"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="showUnDelete:" target="211" id="9oc-1r-Apk"/>
+                        </connections>
+                    </button>
+                    <comboBox verticalHuggingPriority="750" id="LwZ-Zg-ixJ">
+                        <rect key="frame" x="83" y="90" width="196" height="26"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="oz1-hf-LRB">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </comboBoxCell>
+                    </comboBox>
                 </subviews>
             </view>
         </window>

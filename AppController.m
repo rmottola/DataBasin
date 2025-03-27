@@ -194,14 +194,47 @@
 
 - (void)setUserInfo:(NSDictionary *)userInfoDict
 {
-  [fieldOrgName setStringValue: [userInfoDict objectForKey:@"organizationName"]];
-  [fieldOrgId setStringValue: [userInfoDict objectForKey:@"organizationId"]];
-  [fieldUserNameInsp setStringValue: [userInfoDict objectForKey:@"userName"]];
-  [fieldUserFullName setStringValue: [userInfoDict objectForKey:@"userFullName"]];
-  [fieldUserEmail setStringValue: [userInfoDict objectForKey:@"userEmail"]];
-  [fieldUserId setStringValue: [userInfoDict objectForKey:@"userId"]];
-  [fieldProfileId setStringValue: [userInfoDict objectForKey:@"profileId"]];
-  [fieldRoleId setStringValue: [userInfoDict objectForKey:@"roleId"]];
+  NSString *str;
+
+  str = [userInfoDict objectForKey:@"organizationName"];
+  if (nil == str)
+    str = @"";
+  [fieldOrgName setStringValue: str];
+
+  str = [userInfoDict objectForKey:@"organizationId"];
+  if (nil == str)
+    str = @"";
+  [fieldOrgId setStringValue: str];
+
+  str = [userInfoDict objectForKey:@"userName"];
+  if (nil == str)
+    str = @"";
+  [fieldUserNameInsp setStringValue: str];
+
+  str = [userInfoDict objectForKey:@"userFullName"];
+  if (nil == str)
+    str = @"";
+  [fieldUserFullName setStringValue: str];
+
+  str = [userInfoDict objectForKey:@"userEmail"];
+  if (nil == str)
+    str = @"";
+  [fieldUserEmail setStringValue: str];
+
+  str = [userInfoDict objectForKey:@"userId"];
+  if (nil == str)
+    str = @"";
+  [fieldUserId setStringValue: str];
+
+  str = [userInfoDict objectForKey:@"profileId"];
+  if (nil == str)
+    str = @"";
+  [fieldProfileId setStringValue: str];
+
+  str = [userInfoDict objectForKey:@"roleId"];
+  if (nil == str)
+    str = @"";
+  [fieldRoleId setStringValue: str];
 }
 
 
@@ -244,6 +277,7 @@
   NSString *orgIdStr;
   NSURL *URL;
   NSUserDefaults *defaults;
+  NSDictionary *userInfoDict;
 
   session = [fieldSessionId stringValue];
   hostStr = [fieldHost stringValue];
@@ -317,7 +351,15 @@
   [objInspector setSoapHandler:db];
 
   /* refesh user information */
-  [self setUserInfo:[db getUserInfo]];
+  NS_DURING
+    userInfoDict = [db getUserInfo];
+  NS_HANDLER
+  if ([[localException name] hasPrefix:@"DB"])
+    {
+      [self performSelectorOnMainThread:@selector(showException:) withObject:localException waitUntilDone:YES];
+    }
+  NS_ENDHANDLER
+  [self setUserInfo:userInfoDict];
 }
 
 /* LOGGER */
